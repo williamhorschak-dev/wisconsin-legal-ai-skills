@@ -290,6 +290,13 @@ host or model. See [AGENTS.md](AGENTS.md),
 [September 20, 2026 assessment](docs/ASSESSMENT-2026-09-20.md), which records that
 day's corrections and is a dated, non-attorney record whose test counts are out of date.
 
+`python -I scripts/check_sources.py --report <path>` requests each URL in the
+[source register](docs/legal-sources.json) once, honoring robots.txt, writes a JSON report,
+and exits 1 if a URL is unreachable or a recorded currency line has changed; it never edits
+the register or its `legally_reviewed_at` field. The
+[Check sources workflow](.github/workflows/check-sources.yml) runs it monthly and on manual
+dispatch and uploads the report as an artifact without committing anything.
+
 ## Author and license
 
 William Horschak is a nonlawyer software maintainer in Wisconsin, with a background
