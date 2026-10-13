@@ -1,0 +1,32 @@
+name: Check sources
+# Monthly link and currency-line check of docs/legal-sources.json. It reports only:
+# it never commits, never edits the registry, and never sets legally_reviewed_at.
+on:
+  schedule:
+    - cron: '23 7 3 * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: check-sources
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified 2026-09-20
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Check registered source URLs and currency lines
+        run: python -I scripts/check_sources.py --report source-check/report.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4, verified 2026-09-20
+        if: always()
+        with:
+          name: source-check-${{ github.run_id }}
+          path: source-check/
+          if-no-files-found: warn
+          retention-days: 90

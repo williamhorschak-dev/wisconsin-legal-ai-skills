@@ -22,7 +22,29 @@ python scripts/source_registry.py due --as-of 2026-09-20
 `2` for invalid data. These are maintenance reminders, not legal-currency verdicts.
 Review before releases and when an amendment, court order, or reported defect
 affects an entry; intervals are upper bounds for routine reminders, not safe
-reliance periods. No automatic scheduler or third-party notification is enabled.
+reliance periods.
+
+Each record also carries three dates that answer different questions.
+`retrieved_at` is the day a maintainer last fetched the URL and saw it answer.
+`page_changed_at` is the publication date shown in the currency line of the page at
+`currency_url`, or null when no line is recorded. `legally_reviewed_at` stays null until a
+qualified reviewer checks the proposition against the law; no script sets it.
+`currency_line` holds the line last seen at `currency_url`.
+
+```sh
+python -I scripts/check_sources.py --report source-check/report.json
+```
+
+The check reads each host's robots.txt, requests every distinct URL once with a
+10-second timeout and a descriptive User-Agent, and prints and saves a report. It exits
+`1` when a URL is unreachable or refused by robots.txt, or when a recorded currency line
+changed or disappeared, `0` otherwise, and `2` for an unreadable register. It never
+writes the register; after reading a report, a maintainer updates `retrieved_at`,
+`page_changed_at` and `currency_line` by hand. A changed currency line is a prompt to
+review the affected files, not evidence that any proposition changed, and an unchanged
+line is not evidence that none did. The `Check sources` workflow runs the check monthly
+and on manual dispatch and uploads the report as an artifact; it has read-only
+repository permission and commits nothing. No third-party notification is enabled.
 
 For each review, retrieve the official text, establish the applicable version and
 effective date, read the proposition in context, and inspect subsequent history
