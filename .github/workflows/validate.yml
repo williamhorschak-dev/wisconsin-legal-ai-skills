@@ -21,6 +21,7 @@ jobs:
       - run: python -m pip install -r requirements-dev.txt
       - run: python scripts/skill_tools.py validate
       - run: python scripts/evaluate.py validate
+      - run: python scripts/trigger_eval.py validate
       - run: python scripts/source_registry.py validate
       - run: python -m unittest discover -s tests -v
       - run: python scripts/build_release.py --out dist/release

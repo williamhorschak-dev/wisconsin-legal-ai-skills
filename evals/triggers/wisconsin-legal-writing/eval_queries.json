@@ -1,0 +1,142 @@
+[
+  {
+    "query": "Please review my draft motion to compel in /cases/sample_v_sample/motion_draft.docx. List the specific defects first before any style changes. It's a Wisconsin circuit court case.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "positive",
+    "split": "train"
+  },
+  {
+    "query": "Check the citations in my motion before I file it: every case, quote and pincite against the opinions in my sources folder.",
+    "should_trigger": false,
+    "expected_skill": "cite-check",
+    "category": "cross-skill",
+    "split": "train"
+  },
+  {
+    "query": "My landlord kept my whole deposit. Should I sue in small claims or send a demand letter first, and how much should I ask for?",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "train"
+  },
+  {
+    "query": "Verify that Marsh v. Keene Orchard Co., 2017 WI App 8, says what footnote 6 of this brief says it says, and tell me how far you got on subsequent history.",
+    "should_trigger": false,
+    "expected_skill": "cite-check",
+    "category": "cross-skill",
+    "split": "validation"
+  },
+  {
+    "query": "My client needs a declaration to go with a motion in a Wisconsin circuit court. Prepare it, and make sure the signature block reflects that he is not a lawyer.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "positive",
+    "split": "train"
+  },
+  {
+    "query": "Is 'person' in a Wisconsin consumer protection statute broad enough to cover an LLC? Courts and parties read it differently and I need to know how Wisconsin would resolve it.",
+    "should_trigger": false,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "cross-skill",
+    "split": "train"
+  },
+  {
+    "query": "Which version of the Wisconsin summary judgment statute, 802.08, applies to a motion filed in 2012? Quote it and show me how you chose the version.",
+    "should_trigger": false,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "cross-skill",
+    "split": "validation"
+  },
+  {
+    "query": "Fix the caption and signature block on this Court of Appeals reply brief. Do not change my wording.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "positive",
+    "split": "validation"
+  },
+  {
+    "query": "Can you check the substitution of judge request I filled out for my Wisconsin civil case? I'm not sure I completed it right or served it correctly.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "positive",
+    "split": "validation"
+  },
+  {
+    "query": "Does Wis. Stat. 801.15 count weekends when the period is under 11 days? Quote exactly what it says today and where you read it.",
+    "should_trigger": false,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "cross-skill",
+    "split": "train"
+  },
+  {
+    "query": "What are the page limits and formatting rules for motions in Hennepin County District Court in Minnesota?",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "train"
+  },
+  {
+    "query": "Draft a Rule 12(b)(6) brief in support of a motion to dismiss for the Western District of Wisconsin. The facts are in the attached summary.",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "train"
+  },
+  {
+    "query": "Draft responses and objections to the plaintiff's first interrogatories and requests for admission in a Wisconsin state court case. Remind me what's different about requests for admission.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "positive",
+    "split": "train"
+  },
+  {
+    "query": "write a short letter to the Milwaukee County judge asking to reschedule the motion hearing, I'm representing myself and the other side already agreed",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "positive",
+    "split": "validation"
+  },
+  {
+    "query": "can u turn this rough outline into a brief in opposition to summary judgment? Wisconsin circuit court, Rock County, I'm pro se, outline is at ~/Documents/opp_outline.txt",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "positive",
+    "split": "train"
+  },
+  {
+    "query": "Make a proposed order for the motion in the attached PDF. Wisconsin circuit court, leave the judge's signature and the date blank.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "positive",
+    "split": "validation"
+  },
+  {
+    "query": "Help me write a cover letter and resume for a paralegal job at a Madison law firm. I have two years of office experience.",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "validation"
+  },
+  {
+    "query": "Write a last will and testament for my father. He lives in Green Bay and wants everything split equally between his three kids.",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "validation"
+  },
+  {
+    "query": "What is the Bluebook short form rule for id.? Just the format please, I have no cases in front of me.",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "train"
+  },
+  {
+    "query": "I need a motion to extend the time to respond to written discovery in Outagamie County Circuit Court. I'm the defense attorney. Draft it with a proposed order.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "positive",
+    "split": "train"
+  }
+]
