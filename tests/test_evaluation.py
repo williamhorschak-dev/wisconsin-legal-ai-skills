@@ -23,6 +23,24 @@ class EvaluationTests(unittest.TestCase):
     def prepare(self):
         return evaluate.prepare(self.run, ["C03"])
 
+    def test_validate_rejects_malformed_rubric_criteria_with_exit_2(self):
+        data = evaluate.read_json(evaluate.SUITE)
+        mutations = {
+            "missing critical": lambda c: c["rubric"][0].pop("critical"),
+            "string critical": lambda c: c["rubric"][0].__setitem__("critical", "yes"),
+            "empty criterion": lambda c: c["rubric"][0].__setitem__("criterion", "  "),
+            "missing id": lambda c: c["rubric"][0].pop("id"),
+            "string rubric": lambda c: c.__setitem__("rubric", "not a list"),
+        }
+        for label, mutate in mutations.items():
+            with self.subTest(label), tempfile.TemporaryDirectory() as folder:
+                fresh = json.loads(json.dumps(data))
+                mutate(fresh["cases"][2])
+                suite = Path(folder) / "cases.json"
+                suite.write_text(json.dumps(fresh), encoding="utf-8")
+                with mock.patch.object(evaluate, "SUITE", suite),                         mock.patch.object(sys, "argv", ["evaluate.py", "validate"]),                         mock.patch.object(sys, "stderr"):
+                    self.assertEqual(evaluate.main(), 2)
+
     def collect(self, plan):
         response = self.root / "response.txt"
         response.write_text("Synthetic harness fixture, not a model response.\n", encoding="utf-8")

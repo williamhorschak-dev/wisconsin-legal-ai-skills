@@ -94,6 +94,11 @@ missing/flagged/caution checks, `2` malformed or stale evidence, unsafe/missing 
 or another execution error. An absent log produces an entirely unverified report;
 it cannot silently pass. Reports never overwrite existing files.
 
+The log is an ordinary local file, not a signed or append-only record. The helper detects a
+changed draft, source or inventory, but it does not detect a deleted, inserted or hand-edited
+log line. Treat `RECORDED PASS` as a summary of what the log says, and keep the log under
+the same control as the draft.
+
 The report preserves evidence records verbatim as JSON and gives per-use coverage.
 The helper rechecks draft/source hashes and a canonical-JSON inventory hash on every
 operation. It binds a new entry to the current inventory and rejects any supplied hash

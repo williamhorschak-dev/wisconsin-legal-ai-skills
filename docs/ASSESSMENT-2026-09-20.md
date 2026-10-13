@@ -79,7 +79,7 @@ The review also verified the specific *Brekke*, 2026 WI 29, ¶20 passage against
 
 | Area | Original problem or gap | Implemented behavior |
 |---|---|---|
-| Citation verification | Instructions required a script-generated log/report, but the repository supplied no citation-checking script. | New standard-library helper inventories declared citation uses, records append-only evidence, conservatively matches straightforward text quotations, and generates per-use reports. Manual inventory and legal judgment remain necessary. |
+| Citation verification | Instructions required a script-generated log/report, but the repository supplied no citation-checking script. | New standard-library helper inventories declared citation uses, appends evidence records to an ordinary local log (deleted or hand-edited lines are not detected), conservatively matches straightforward text quotations, and generates per-use reports. Manual inventory and legal judgment remain necessary. |
 | Evidence integrity | A polished report could obscure missing or stale support. | Bind evidence to draft/source SHA-256 hashes and the canonical-JSON inventory hash, recheck them, reject duplicate checks, and require evidence text/locator/source for passes. Changing an inventory cannot reuse an old log. Reject quotations that normalize to empty text. Missing logs or checks remain unverified. A completed report says `RECORDED PASS`, accurately describing attestations. |
 | Source confinement | New tooling needed safe archive paths. | Reject traversal, absolute/device paths, and symlink escapes; use source-root-relative paths. Preserve reports rather than overwrite them. Document a single writer per evidence-log run. |
 | Citator claims | A name or an LLM assertion could be mistaken for an actual check. | Require a nonempty named service for a case-treatment pass, and explain that the program cannot authenticate the attestation. Free cited-by searches remain cautionary evidence, not a substitute citator result. |
@@ -89,7 +89,7 @@ The review also verified the specific *Brekke*, 2026 WI 29, ¶20 passage against
 | Memo linter | Source filenames with spaces produced false missing-file errors. | Separate safety-screen fragments from complete existence-check candidates; retain path-containment checks. |
 | Memo linter | No-citator disclosure elsewhere in the body passed formal lint without disclosure in the decision sections. | Require disclosure in both the Short Answer and Retrieval Record for the relevant formal case. |
 | Memo linter | A corrected historical FATAL quotation containing “unresolved” was treated as a live unresolved failure. | Preserve the required historical quote and check the current correction narrative separately. Live unresolved FATAL findings still fail. |
-| Maintainability | Duplicated legal exposition, a writing entrypoint over 500 lines, missing standalone licenses, and no regression suite/CI. | Shorter routed entrypoints, per-skill MIT licenses and metadata, 45 regression tests, maintenance instructions, and a Windows/Linux Python 3.10/3.12 CI matrix. |
+| Maintainability | Duplicated legal exposition, a writing entrypoint over 500 lines, missing standalone licenses, and no regression suite/CI. | Shorter routed entrypoints, per-skill MIT licenses and metadata, 45 regression tests (the count when this row was written; later releases add tests), maintenance instructions, and a Windows/Linux Python 3.10/3.12 CI matrix. |
 | Packaging | No shared build/validation/export process; cross-platform ordering and line endings could invalidate hashes. | Validate frontmatter, local links, licenses and manifests; fixed POSIX-string ordering, LF source/license bytes, fixed ZIP metadata, and complete skill packages. Selective prompt exports preserve one source of legal text. |
 
 The source ladder now distinguishes the officially maintained eCFR from a third-party reproduction and allows its available point-in-time history, while identifying when another official publication is required. See the [eCFR historical guide](https://www.ecfr.gov/reader-aids/using-ecfr/ecfr-changes-through-time) and [National Archives explanation](https://www.archives.gov/federal-register/tutorial/text). Database access instructions respect actual entitlements and existing authorized sessions rather than assuming a product-specific tool or blanket license restriction.
@@ -136,7 +136,7 @@ prominent no-legal-services notice, standalone notices in all three skills,
 technical-only issue guidance, and notice retention in packages and prompt
 exports. Corrected UPL wording that could overstate the effect of labels or
 supervision. Two additional packaging/export regressions bring the suite to
-47 tests. See [the source review and limits](PUBLICATION-SCOPE-2026-09-20.md).
+47 tests at that point in the 2026-09-20 assessment; later releases add tests. See [the source review and limits](PUBLICATION-SCOPE-2026-09-20.md).
 These changes do not constitute a professional opinion that all uses comply with
 UPL rules. Earlier template and source checks above retain their stated scope.
 

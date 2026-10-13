@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import zipfile
@@ -27,6 +28,20 @@ def zip_folder(folder, destination):
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
             archive.writestr(info, path.read_bytes())
+
+
+def release_files(folder):
+    """Relative paths to ship from folder: tracked files and untracked files that are
+    not ignored. Git-ignored files (local .env, work/ output) are never shipped.
+    Returns None when Git cannot answer, so the caller can decide."""
+    try:
+        listing = subprocess.check_output(
+            ["git", "-c", f"safe.directory={ROOT.as_posix()}", "-C", str(folder), "ls-files", "-z",
+             "--cached", "--others", "--exclude-standard"], stderr=subprocess.DEVNULL)
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    names = (name for name in listing.decode("utf-8").split("\0") if name)
+    return sorted(name for name in names if (Path(folder) / name).is_file())
 
 
 def build(destination, version, allow_dirty=False):
@@ -57,7 +72,15 @@ def build(destination, version, allow_dirty=False):
         zip_folder(prompts, assets / "prompt-packs.zip")
         # Keep the evaluation protocol/cases portable without publishing private runs.
         evaluation = temporary / "evaluation-suite"
-        shutil.copytree(ROOT / "evals", evaluation, symlinks=True)
+        shipped = release_files(ROOT / "evals")
+        if shipped is None:
+            # Without Git, only a local preview is possible (releases need a clean Git checkout above).
+            shutil.copytree(ROOT / "evals", evaluation, symlinks=True)
+        else:
+            evaluation.mkdir()
+            for name in shipped:
+                (evaluation / name).parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(ROOT / "evals" / name, evaluation / name, follow_symlinks=False)
         for name in ("LICENSE", "LEGAL_NOTICE.md"):
             shutil.copyfile(ROOT / name, evaluation / name)
         zip_folder(evaluation, assets / "evaluation-suite.zip")
