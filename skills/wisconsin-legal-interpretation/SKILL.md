@@ -12,7 +12,7 @@ description: >-
   appellate procedure, and not for routine deadline computation.
 license: MIT
 metadata:
-  version: "2026.09.20.2"
+  version: "2026.10.13.1"
 ---
 
 # Wisconsin Legal Interpretation
