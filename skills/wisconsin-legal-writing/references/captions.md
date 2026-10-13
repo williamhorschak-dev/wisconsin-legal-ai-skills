@@ -170,7 +170,7 @@ the case number.
 STATE OF WISCONSIN            CIRCUIT COURT               LA CROSSE COUNTY
 
 ┌────────────────────────────────────┬──────────────────────────┐
-│ STATE OF WISCONSIN,                │ Case No. 2024CF000321    │
+│ STATE OF WISCONSIN,                │ Case No. [CASE NO.]      │
 │              Plaintiff,            │                          │
 │      v.                            │                          │
 │ JOHN A. DOE,                       │                          │

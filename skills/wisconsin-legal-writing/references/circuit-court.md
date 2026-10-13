@@ -597,8 +597,10 @@ applied below), 1 date left [VERIFY].** The
 standing rule is unchanged — re-verify against the official PDF before relying on
 any rule in a filing; verification ages.
 
-Rules signed in **November 2025** by all five judges and approved by Chief Judge
-Horne. **[VERIFY: the day is handwritten on the signature page and obscured by a
+Rules signed in **November 2025** by all five judges; this reference does not show
+who approved them. **[VERIFY: an earlier version named Chief Judge Horne; confirm any
+approval against the official signature page or the clerk's transmittal first.]**
+**[VERIFY: the day is handwritten on the signature page and obscured by a
 signature stroke; Rule 609(1) carries an internal date of 11/18/25, which post-dates
 a November 7 signing. Confirm the operative date against a clean copy or the clerk's
 transmittal before citing it.]** Thirteen parts. **Five branches:** Br. 1 Joseph G. Veenstra; Br. 2 Elliott M.
@@ -797,8 +799,12 @@ are needed.
 - **When the period is less than 11 days, Saturdays, Sundays, and legal holidays are
   excluded from the count.** This is the rule most often missed, and it applies to
   the 5-day notice period under § 801.15(4).
-- A period ends at the close of business, except that an eFiled document is timely
-  if the submission completes by **11:59 p.m. central**. § 801.18(4)(am).
+- An eFiled document is considered filed on a particular day if the submission is
+  completed by **11:59 p.m. central time**, as recorded by the electronic filing
+  system, so long as the clerk of court later accepts it on review. That expanded
+  time to file does not affect the calculation of time under other statutes, rules,
+  and court orders. § 801.18(4)(am).
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-010: Wis. Stat. § 801.18(4)(am), https://docs.legis.wisconsin.gov/document/statutes/801.18, read 2026-10-12. The former "close of business" gloss is not in § 801.15 and was removed. -->
 
 **For an act due a prescribed period after service, check § 801.15(5):**
 - Service by mail: **+3 days**.
@@ -833,4 +839,4 @@ official statutes updated through September 4, 2026. Recheck for the live matter
 | Notice of entry (to shorten appeal clock) | within 21 days of entry | § 806.06(5) |
 | Ordinary civil notice of appeal | 90 days after entry; **45 days** if qualifying notice of entry is given within 21 days | § 808.04(1) |
 | Cross-appeal | Later of ordinary appeal deadline or 30 days after filing notice of appeal | § 809.10(2)(b) |
-| Filing deemed timely | submission complete by 11:59 p.m. CT | § 801.18(4)(am) |
+| Filing date | filed that day if the eFiling system records the submission complete by 11:59 p.m. CT and the clerk later accepts it; other time-calculation rules unchanged | § 801.18(4)(am) |

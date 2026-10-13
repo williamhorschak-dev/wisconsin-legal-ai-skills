@@ -409,7 +409,12 @@ Handling rules for any overlay content, which override normal convenience:
 - **Marker vocabulary.** If the overlay defines house markers, use them. With no overlay loaded,
   this skill uses only its own markers: `[VERIFY]` (stated, unconfirmed), `[UNVERIFIED]` (no
   primary copy retrieved), `[INFERENCE]` (reasoned from named inputs), and `[FILL-IN]` (a decision
-  or fact the requester must supply). Those four are the whole vocabulary; do not invent others.
+  or fact the requester must supply). Those four are the whole memo-output vocabulary; do not
+  invent others. Separately, `[SKILL RULE]` marks a required step in this skill's own workflow,
+  such as the citator-or-disclosure policy in `SKILL.md` rule 5. It is project policy: the marker
+  alone does not identify a requirement imposed by a statute, court rule, or professional-conduct
+  rule.
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-022: vocabulary change; no external legal source. -->
 
 With no overlay loaded — the default — the run uses the ladder in §1, the archive in §8, and
 whatever the user attaches to the conversation. That is a complete configuration, not a degraded

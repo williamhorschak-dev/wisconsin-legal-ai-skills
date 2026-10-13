@@ -51,10 +51,25 @@ grant.
 for it early and frame it narrowly: identify the records, the claimed exemption, and
 what the court should look for.
 
-**Fees and damages, § 19.37(2).** The requester who "prevails in whole or in
-substantial part" recovers reasonable attorney fees, damages of not less than $100,
-and other actual costs. § 19.37(4) adds a punitive damages exposure for arbitrary
-and capricious denial, and § 19.37(3) a forfeiture.
+**Mandamus, fees and damages, § 19.37.** If an authority withholds a record or part
+of a record, or delays granting access, after a written request for disclosure is
+made, § 19.37(1)(a) lets the requester bring an action for mandamus asking a court to
+order release of the record. In an action under § 19.37(1) relating to access under
+§ 19.35(1)(a), § 19.37(2)(a) directs the court to award reasonable attorney fees,
+damages of not less than $100, and other actual costs if the requester prevails in
+whole or in substantial part; a committed or incarcerated requester is not entitled
+to any minimum amount of damages, but the court may award damages. In an action
+relating to an individual's access under § 19.35(1)(am) to personally identifiable
+information about that individual, § 19.37(2)(b) directs the court to award the
+individual actual damages only if it finds that the authority acted in a willful or
+intentional manner. § 19.37(3) adds a punitive damages exposure where an authority
+or legal custodian arbitrarily and capriciously denied or delayed response to a
+request or charged excessive fees. The
+§ 19.37(4) forfeiture of not more than $1,000 is enforced by action on behalf of the
+state by the attorney general or the district attorney of any county where a
+violation occurs; the requester does not enforce it.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-004: Wis. Stat. § 19.37(1)(a) (mandamus), (2), (3) (punitive damages), (4) (forfeiture and its enforcement), https://docs.legis.wisconsin.gov/document/statutes/19.37, read 2026-10-12. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-13), A2-01: Wis. Stat. § 19.37(1) (intro) (written request; withholding or delay), (1)(a), (2)(a) (§ 19.35(1)(a) access actions; committed or incarcerated requester), (2)(b) (§ 19.35(1)(am); willful or intentional; actual damages), (3), https://docs.legis.wisconsin.gov/document/statutes/19.37; § 19.35(1)(a), (am), https://docs.legis.wisconsin.gov/document/statutes/19.35; read 2026-10-13. -->
 
 **The fee standard is contested and moving.** *Friends of Frame Park v. City of
 Waukesha*, 2022 WI 57, 403 Wis. 2d 1, 976 N.W.2d 263, held that a requester does not
@@ -68,17 +83,35 @@ yourself. **Check the current state of this line
 before briefing fees**: it is the most actively litigated question in the field.
 
 **Pro se and fees.** A self-represented litigant who is not a lawyer generally
-cannot recover attorney fees for his own time. Plead the § 19.37(2) damages and
-costs, and the punitive exposure under § 19.37(4), rather than resting the case on
-a fee award.
+cannot recover attorney fees for his own time. Plead whatever § 19.37(2) damages
+and costs apply, and the punitive exposure under § 19.37(3), rather than resting the
+case on a fee award.
 
 ---
 
 ## 2. Small claims, Wis. Stat. ch. 799
 
-**Two-tier limit, § 799.01(1)(cr).** $10,000 generally; **$5,000** for tort and
-personal injury claims. Eviction, replevin, and return-of-earnest-money actions have
-their own subsections and no amount cap in the same sense.
+**Amount limits, § 799.01(1).** Before January 1, 2027, § 799.01(1)(d) sets a
+$10,000 limit for the civil actions specified there, and § 799.01(1)(c) sets a
+$10,000 property-value limit for the replevin actions specified there. 2025 Wis.
+Act 105, §§ 2, 3 and 5, raises both amounts to $15,000 effective January 1, 2027,
+and Act 105, § 4(1), says the change first applies to "actions commenced or claims
+made on the effective date of this subsection," that is, January 1, 2027. [VERIFY]
+How § 4(1) applies to a claim made before January 1, 2027 in an action commenced
+after it is for qualified review. The
+**$5,000** limit for third-party complaints, personal injury claims, and actions
+based in tort, § 799.01(1)(cr), is unchanged by Act 105. These are not limits on
+every chapter 799 proceeding: covered Consumer Act replevin is conducted under
+chapter 799 notwithstanding § 799.01(1)(c) and the value of the collateral or leased
+goods, § 425.205(1). Section 799.01(1) also covers eviction regardless of the rent
+claimed, (1)(a); qualifying earnest-money actions regardless of the amount claimed,
+(1)(am); forfeiture actions except where a different procedure is prescribed,
+(1)(b); and the specified real-property arbitration matters regardless of the amount
+of the award, (1)(cm). Apply each category's own conditions. Act 105, § 1, also
+raises the § 421.202(6) Consumer Act exclusion thresholds from $25,000 to $50,000
+on the same date; that is not a small-claims limit. Read the current § 799.01, its
+effective-date notes, and Act 105 before relying on any figure.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-001: Wis. Stat. § 799.01(1)(a), (am), (b), (c), (cm), (cr), (d) and effective-date notes, https://docs.legis.wisconsin.gov/document/statutes/799.01; 2025 Wis. Act 105, §§ 1-5, https://docs.legis.wisconsin.gov/2025/related/acts/105; Wis. Stat. § 425.205(1), https://docs.legis.wisconsin.gov/document/statutes/425.205; all read 2026-10-12. Revise after 2027-01-01 (see docs/legal-sources.json, small-claims-limits). -->
 
 **Chapter 799 is the exclusive procedure** for the actions § 799.01(1) lists. It is
 not an election.
@@ -187,10 +220,32 @@ Confusing the two is the most common error in this area. Say which one you are
 invoking in the first sentence.
 
 **Substitution as of right, § 801.58 (civil).** No cause required, no showing, no
-argument. The request must be filed **before the judge has made any substantive
-ruling** and within the statutory window (§ 801.58(1) sets the timing by reference
-to the first scheduled matter). **One substitution per party.** Participating in a
-substantive proceeding waives it. § 971.20 is the criminal analogue.
+argument. The written request must be filed "preceding the hearing of any
+preliminary contested matters" and, if by the plaintiff, not later than 60 days
+after the summons and complaint are filed or, if by any other party, not later than
+60 days after service of a summons and complaint upon that party. § 801.58(1). For
+the preliminary-contested-matter condition, the request must precede the judge's
+actual hearing of a substantive issue going to the ultimate merits; a scheduled
+hearing alone is not enough. *State v. Matthews*, 2021 WI 42, ¶¶ 18, 20, 22. If a new
+judge is assigned to the trial, the request must be made within 10 days of receipt
+of notice of assignment, or within 24 hours of receipt if the notice comes less than
+10 days before trial; if notice comes less than 24 hours before trial, the action
+proceeds to trial only on the parties' stipulation that the assigned judge may
+preside. § 801.58(1). **One request per party**, and parties united in interest and
+pleading together count as a single party, § 801.58(3), except that after an
+appellate decision orders a new trial or reverses or modifies the judgment or order
+so that further trial-court proceedings are necessary, any party may file a request
+within 20 days after the remittitur is filed in the trial court, whether or not it
+filed one before the appeal, § 801.58(7). Small claims have their own section,
+§ 799.205, with a different post-appeal trigger. For initial timing, § 799.205(1)
+requires the request on the return date of the summons or within 10 days after the
+case is scheduled for trial, with 10-day, 24-hour and stipulation rules when a new
+judge is assigned to the trial. After an appellate decision that requires further
+trial-court proceedings, § 799.205(4) allows a request within 20 days after the entry
+of the appellate court's judgment or decision, not after the remittitur is filed.
+§ 971.20 is the criminal analogue.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-002: Wis. Stat. § 801.58(1), (3), (7), https://docs.legis.wisconsin.gov/document/statutes/801.58; State v. Matthews, 2021 WI 42, ¶¶ 18, 20, 22 (unanimous), https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=367180; Wis. Stat. § 799.205(1), https://docs.legis.wisconsin.gov/document/statutes/799.205; read 2026-10-12. The former unsourced waiver sentence was removed. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-13), A2-03: Wis. Stat. § 799.205(1) (initial timing; newly assigned judge), (4) (20 days after entry of the appellate judgment or decision), https://docs.legis.wisconsin.gov/document/statutes/799.205, read 2026-10-13. -->
 
 **Disqualification, § 757.19(2).** Seven grounds, (a) through (g). (a)-(f) are
 objective: prior representation, a financial interest, a relationship, prior
@@ -202,11 +257,17 @@ she cannot, or it appears he or she cannot, act in an impartial manner."
 N.W.2d 662 (1989), holds that (2)(g) is **subjective**: the question on review is
 only whether the judge made the determination, not whether an objective observer
 would think recusal warranted. *State v. Herrmann*, 2015 WI 84, 364 Wis. 2d 336, 867
-N.W.2d 772, addresses the due process overlay: the constitutional floor is objective,
-and it is where an objective argument actually lives. A motion resting on (2)(g)
+N.W.2d 772, addresses the due process overlay in a lead opinion (A.W. Bradley, J.);
+none of its three writings garnered a majority. *Miller v. Carroll*, 2020 WI 56, ¶ 23.
+The later majority in *Miller* applies the *Caperton* standard verbatim, asking
+whether there is "a serious risk of actual bias" based on objective and reasonable
+perceptions, and reserves that level for the exceptional case with extreme facts.
+*Id.* ¶ 24. The constitutional floor is objective, and it is where an objective
+argument actually lives. A motion resting on (2)(g)
 alone is asking the judge to disqualify himself and is reviewable only for whether
 he answered the question. **If the argument is objective, plead the due process
 ground, not just (2)(g).**
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-006: State v. Herrmann, 2015 WI 84, cover and ¶ 1 (lead opinion, A.W. Bradley, J.), https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=144561; Miller v. Carroll, 2020 WI 56, cover, ¶¶ 23-24 (majority, Dallet, J.), https://www.wicourts.gov/sc/opinions/17/pdf/17-2132.pdf; read 2026-10-12. Check a citator before relying on either case. -->
 
 ---
 

@@ -178,6 +178,11 @@ justification and unjust-award exceptions.
 **§ 802.05(2) applies to "an attorney or unrepresented party" by its own terms.**
 There is no pro se carve-out. The certification that legal contentions are warranted
 and factual contentions have evidentiary support is yours every time you sign.
+Subsections (1) to (3) of § 802.05 "do not apply to disclosures and discovery
+requests, responses, objections, and motions that are subject to ss. 804.01 to
+804.12." § 802.05(5). Discovery papers answer to those sections instead, including
+the § 804.12 provisions in section 4 above.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-011: Wis. Stat. § 802.05(5), https://docs.legis.wisconsin.gov/document/statutes/802.05, read 2026-10-12. -->
 
 **The asymmetry worth knowing:** § 802.05(3)(b) provides that monetary sanctions may
 not be awarded against a **represented** party for a violation of sub. (2)(b), the
@@ -192,7 +197,8 @@ nonmonetary directives are expressly authorized.
 **§ 895.044** (frivolous claims) also reaches "a party," not just attorneys, and
 authorizes **actual reasonable attorney fees**, which are uncapped, unlike the fixed
 § 814.04 schedule of $100 to $500. Three features cut in your favour: the standard is
-**clear and convincing evidence**; there is a **21-day safe harbor**; and
+**clear and convincing evidence**; a **21-day withdraw-or-correct period** (or another
+period the court prescribes) bears on the cost award, § 895.044(2)(a)-(b); and
 **§ 895.044(3) requires that a motion be served on an unrepresented party by personal
 service or registered mail only.** A § 895.044 motion served by eFiling notice or
 ordinary mail is defectively served, and that is a threshold objection.
@@ -200,10 +206,20 @@ ordinary mail is defectively served, and that is a threshold objection.
 **Do not cite § 814.025.** It was repealed effective July 1, 2005 by Supreme Court
 Order 03-06. Citing it signals stale research. The successor is § 895.044.
 
-**A served-but-unfiled sanctions motion is a 21-day gift.** Both § 802.05(3)(a)1. and
-§ 895.044(2)(a) forbid filing until 21 days after service, so that the challenged
-paper can be withdrawn or corrected. Never ignore one. Read what it says the problem
-is, and if it is right, fix it inside the window.
+**Two statutes, two different 21-day periods.** A motion under § 802.05(3)(a)1. is
+served but "shall not be filed with or presented to the court unless, within 21 days
+after service of the motion or such other period as the court may prescribe," the
+challenged paper, claim, defense, contention, allegation, or denial is not withdrawn
+or appropriately corrected. Section 895.044(2) has no such filing bar: the motion may
+be "made at any time during the proceeding or upon judgment." If the court finds by
+clear and convincing evidence that § 895.044(1)(a) or (b) applies, a withdrawal or
+appropriate correction within 21 days after service of the motion, or within another
+period the court prescribes, makes the cost award discretionary, § 895.044(2)(a); if
+the withdrawal or correction is not timely made, the award is mandatory,
+§ 895.044(2)(b). A timely correction under § 895.044 does not guarantee that no
+costs are awarded. Never ignore either kind of motion. Read what it says the problem
+is, and if it is right, fix it inside the period.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-003: Wis. Stat. § 802.05(3)(a)1., https://docs.legis.wisconsin.gov/document/statutes/802.05; Wis. Stat. § 895.044(1), (2) (intro.), (2)(a), (2)(b), https://docs.legis.wisconsin.gov/document/statutes/895.044; read 2026-10-12. -->
 
 ## 6. You are held to the same rules
 
