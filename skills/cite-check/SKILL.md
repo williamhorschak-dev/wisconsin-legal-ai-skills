@@ -3,7 +3,7 @@ name: cite-check
 description: Check legal citations, quotations, pincites, attribution, proposition support, and record references against sources the session can read. Report subsequent treatment only as far as a named citator or a disclosed search supports. Use for citation reviews and when preparing legal work that relies on authority. Scale a conversational check to the request; use archived evidence and a report for a filing review.
 license: MIT
 metadata:
-  version: "2026.09.20.2"
+  version: "2026.10.13.1"
 ---
 
 # Cite Check

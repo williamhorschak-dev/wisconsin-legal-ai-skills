@@ -4,8 +4,8 @@ message: "If you use this software, please cite it using these metadata. Citing 
 type: software
 title: "Wisconsin Legal AI Skills"
 abstract: "Agent Skills (SKILL.md folders), prompt exports, and small Python tools for Wisconsin legal research, citation checking, and court-document drafting. Published by a nonlawyer as general information and software; not legal advice or legal services."
-version: "2026.09.20.2"
-date-released: 2026-09-21
+version: "2026.10.13.1"
+date-released: 2026-10-13
 license: MIT
 authors:
   - family-names: Horschak

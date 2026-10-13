@@ -40,9 +40,9 @@ never establishes that.
 
 | Skill | Use it to | It does not | Bundled tools |
 |---|---|---|---|
-| [cite-check](skills/cite-check/SKILL.md) | Check that citations, quotations, pincites, and the propositions they support match sources you or the assistant can read. | Run a citator. Treat a failed search as proof a case does not exist. | `cite_check.py`: an evidence log tied to SHA-256 hashes of the draft and sources, a text-quotation matcher, and a report generator. Python 3.10 and 3.12 tested in CI; 3.14.5 run once in the 2026-10-11 assessment; other versions untested. Standard library only. |
-| [wisconsin-legal-writing](skills/wisconsin-legal-writing/SKILL.md) | Draft or review Wisconsin circuit court and Court of Appeals papers: motions, briefs, discovery responses, declarations, proposed orders, letters, research memos. | File, serve, sign, or confirm a paper meets today's rules. The builder makes circuit-court captions only. | `build_filing.py` (DOCX from a JSON spec), 11 JSON specifications, 14 Word templates. Python 3.10 and 3.12 tested in CI; 3.14.5 run once in the 2026-10-11 assessment; other versions untested. Needs `python-docx`. |
-| [wisconsin-legal-interpretation](skills/wisconsin-legal-interpretation/SKILL.md) | Look up what a Wisconsin provision said on a given date, analyze a contested reading with Wisconsin's own method, or produce a formal research memo. | Compute deadlines. Retrieve law without source access. | `check_memo.py`: a structural linter for formal memos, and a memo template. Python 3.10 and 3.12 tested in CI; 3.14.5 run once in the 2026-10-11 assessment; other versions untested. Standard library only. |
+| [cite-check](skills/cite-check/SKILL.md) | Check that citations, quotations, pincites, and the propositions they support match sources you or the assistant can read. | Run a citator. Treat a failed search as proof a case does not exist. | `cite_check.py`: an evidence log tied to SHA-256 hashes of the draft and sources, a text-quotation matcher, and a report generator. Python 3.10 and 3.12 tested in CI; 3.14.5 run in the 2026-10-11 assessment and again on 2026-10-13; other versions untested. Standard library only. |
+| [wisconsin-legal-writing](skills/wisconsin-legal-writing/SKILL.md) | Draft or review Wisconsin circuit court and Court of Appeals papers: motions, briefs, discovery responses, declarations, proposed orders, letters, research memos. | File, serve, sign, or confirm a paper meets today's rules. The builder makes circuit-court captions only. | `build_filing.py` (DOCX from a JSON spec), 11 JSON specifications, 14 Word templates. Python 3.10 and 3.12 tested in CI; 3.14.5 run in the 2026-10-11 assessment and again on 2026-10-13; other versions untested. Needs `python-docx`. |
+| [wisconsin-legal-interpretation](skills/wisconsin-legal-interpretation/SKILL.md) | Look up what a Wisconsin provision said on a given date, analyze a contested reading with Wisconsin's own method, or produce a formal research memo. | Compute deadlines. Retrieve law without source access. | `check_memo.py`: a structural linter for formal memos, and a memo template. Python 3.10 and 3.12 tested in CI; 3.14.5 run in the 2026-10-11 assessment and again on 2026-10-13; other versions untested. Standard library only. |
 
 ## Set up
 
@@ -126,8 +126,8 @@ Other hosts:
   one profile file plus your task. `citation-audit.md` checks citations in a draft you
   supply; `draft-review.md` reviews or edits a Wisconsin filing; `interpretation-lookup.md`
   answers what a provision says; `interpretation-analysis.md` handles a contested
-  reading; `formal-memo.md` produces a full memo. The files are about 45,000 to
-  142,000 characters, and some products limit instruction or upload size; that has not
+  reading; `formal-memo.md` produces a full memo. The files are about 49,000 to
+  147,000 characters, and some products limit instruction or upload size; that has not
   been tested. If the host has no file access or Python execution, the bundled scripts cannot
   run, so checks that need a script should be reported as not run.
 
@@ -142,8 +142,8 @@ Use `.agents/skills` in place of `.claude/skills` for Codex. `--draft` allows
 unfilled placeholders; without it the builder refuses bracketed text and runs of
 underscores. It will not overwrite an existing file unless you add `--overwrite`.
 Python 3.10 and 3.12 are what CI tests. Python 3.14.5 ran these tools in a
-2026-10-11 check, with a deprecation warning from `cite_check.py`; later versions are
-not part of CI.
+2026-10-11 check, with a deprecation warning from `cite_check.py` that this release
+removes, and ran the test suite again on 2026-10-13; later versions are not part of CI.
 
 ## Try one example
 
@@ -193,9 +193,9 @@ See [the full example](skills/wisconsin-legal-interpretation/references/syntheti
 | Claim | Status |
 |---|---|
 | The skill packages pass the repository's checks (metadata, links, legal notice, checksums) | Run by CI on every push to `main`. |
-| The Python tools have a regression test suite | 67 tests. CI ran all 67 on Ubuntu and Windows with Python 3.10 and 3.12 at release commit 097216c (run 35557426264). |
-| Release files can be rebuilt from the tagged commit | On 2026-10-11 a rebuild on CPython 3.12 matched every published asset byte for byte. A rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. |
-| Word templates build and render | The 11 JSON-backed templates rebuild in tests. The maintainer's Word review is dated 2026-09-20. A Word render on 2026-10-11 matched the 32-page figure and found the layout issues listed below; see [TEMPLATE-QA.md](docs/TEMPLATE-QA.md). |
+| The Python tools have a regression test suite | 132 tests. CI ran all 132 on Ubuntu and Windows with Python 3.10 and 3.12 at commit c9f04e7 (run 38420064917), the last change merged before the version bump for this release. |
+| Release files can be rebuilt from the tagged commit | For release 2026.09.20.2, a rebuild on CPython 3.12 on 2026-10-11 matched every published asset byte for byte. A rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. No independent rebuild of release 2026.10.13.1 has been recorded. |
+| Word templates build and render | The 11 JSON-backed templates rebuild in tests. The maintainer's Word review is dated 2026-09-20. A Word render on 2026-10-11 matched the 32-page figure and found the layout issues listed below. The appendix certification in `10-appellate-brief.docx` was edited as text on 2026-10-13 and has not been rendered; see [TEMPLATE-QA.md](docs/TEMPLATE-QA.md). |
 | Any model follows these skills | **No trial recorded by the project.** As of 2026-10-12, the project's release record (see below) lists no model or host trial. The 24-scenario [evaluation suite](evals/README.md) and its harness have no recorded results. A separate exploratory evaluation is summarized after this table; it is not a certification. |
 | Claude Code, Codex, Claude upload, or ChatGPT find and use the skills | **Not tested.** Layouts follow vendor documentation. |
 | The legal statements are correct and current | **Not established.** There has been no attorney review. See "Keeping it current". |
@@ -206,58 +206,65 @@ The full record is in [TESTED-COMPATIBILITY.md](docs/TESTED-COMPATIBILITY.md).
 assessment ran 12 fresh test cases, built on Wisconsin law or synthetic fixtures, that are not in
 the repository's 24-scenario suite. Each was answered by a new Claude Code session
 reporting the model `claude-sonnet-5-5`, once with no skill (A) and once with the text of release
-2026.09.20.2 supplied in the prompt (B). One AI scorer rated each response from 0 to 3
-for task completion against sealed expected answers. The mean was 2.00 without the
-skill and 2.58 with it; B scored higher in 6 cases, equal in 6, and lower in none, and
-no response in either condition was scored as having a material legal error, an invented
-authority or check, or a failure to resist an injected instruction. The protocol's
-improvement verdict is provisional because the second repetition was not run. The
-limits are large: one repetition, one model, one scorer, no attorney review, isolation
-and tool limits enforced by instruction rather than by the host, and the skill text
-pasted in rather than installed, so the result says nothing about whether any host finds
-or starts a skill, or about the bundled scripts. The scorer also identified the
-condition of all 24 responses, so the scoring was effectively unblinded. Read it as an
-exploratory measurement of task completion, not as evidence that the legal content is
-correct.
+2026.09.20.2 supplied in the prompt (B). Two AI scorers, the second added on 2026-10-12,
+each rated all 24 responses from 0 to 3 for task completion against sealed expected answers
+without seeing the other's scores. They gave the same primary score to 23 of the 24 responses.
+The pooled mean was 2.04 without the skill and 2.58 with it; B scored higher in 6 cases,
+equal in 6, and lower in none, and neither scorer recorded a material legal error, an
+invented authority or check, or a failure to resist an injected instruction in either
+condition. The protocol's improvement verdict is provisional because the second repetition
+was not run, and one response that the scorers rated 2 points apart on a secondary
+dimension has not been reconciled. The limits are large: one repetition, one model, AI
+scorers only, no attorney review, isolation and tool limits enforced by instruction rather
+than by the host, and the skill text pasted in rather than installed, so the result says
+nothing about whether any host finds or starts a skill, or about the bundled scripts. Both
+scorers identified the condition of all 24 responses, so the scoring was effectively
+unblinded. Read it as an exploratory measurement of task completion, not as evidence that
+the legal content is correct. It was run on release 2026.09.20.2, not on this release.
 
-## Known limits of the bundled tools (release 2026.09.20.2)
+## Known limits of the bundled tools (release 2026.10.13.1)
 
-These describe the files in the downloadable release. The first, third, and fourth items
-have candidate fixes that are not in any published release; until a corrected release
-appears on the Releases page, treat them as present.
+These describe the files in release 2026.10.13.1. Five limits of release 2026.09.20.2
+are corrected in it: quotation matching without word boundaries, a manual verbatim pass
+that was not compared with the archived text, a missed `[UNVERIFIED]` marker after a
+negation word, a crash on a non-UTF-8 memo, and the wrong cross-reference in the
+appellate template's appendix certification.
 
-- `cite_check.py` matches a quotation as a substring after light normalization with no
-  word boundaries, so "30 days" matches inside "130 days". Check short or numeric quotations by reading the source.
 - The evidence log is an ordinary file. The tool detects a changed draft or source. It
   does not detect log lines that were deleted or written by hand. `RECORDED PASS` means
   a reviewer entered passing records; it is not an independent certification.
-- A quotation recorded as a manual verbatim pass is not compared with the archived text.
-- `check_memo.py` can miss an `[UNVERIFIED]` marker that follows a negation word such as
-  "not", and a memo saved in a non-UTF-8 encoding ends with a crash and exit code 1.
 - The builder's non-draft check catches bracketed text and runs of underscores. It does
   not catch `TBD`, `XXXX`, `<DATE>`, or `{...}`.
 - In two templates a section symbol can be separated from its number by a line break,
   and the appellate template's top margin differs from the margin table in `appellate.md`.
+- The subsequent history of cited authorities was not checked exhaustively against public
+  sources where only the original opinion was read.
+- Three items in the procedure references remain marked [VERIFY]: how 2025 Wis. Act 105
+  applies to a claim made before January 1, 2027 in an action commenced after it; who
+  approved the 2025 La Crosse County local rules; and the signing date of those rules.
 
 ## Keeping it current
 
 Wisconsin law changes by Act, court order, and decision. Statements stored in the
 reference files carry the date they were checked and can be out of date. The
-[source register](docs/legal-sources.json) lists nine topics, what was checked, and
-when; six records are inherited from an earlier review and one is pending, and it does
+[source register](docs/legal-sources.json) lists eleven topics, what was checked, and
+when; six records are inherited from an earlier review and three are pending, and it does
 not yet cover every chapter the skills discuss or watch for enacted changes with later
 effective dates.
 
 An AI-assisted accuracy check of the stored legal references on 2026-10-11 (not a legal
-review and not by an attorney) found stored statements that need correction, including
-judicial substitution timing and public-records remedy subsections; those corrections
-have not been made. The check also found that the Wisconsin Supreme Court had accepted
-review of whether to modify the *Kalal* interpretive framework in *Abby Windows, LLC v.
-Labor & Industry Review Commission*, No. 2024AP1013, and that the case is scheduled
+review and not by an attorney) found stored statements that needed correction, including
+judicial substitution timing and public-records remedy subsections. Release 2026.10.13.1
+contains the corrections. Two AI reviewers checked them against public sources; no
+attorney has reviewed them. Each one is listed with its source in
+[LEGAL-TEXT-CHANGES-2026-10.md](docs/LEGAL-TEXT-CHANGES-2026-10.md). The check also
+found that the Wisconsin Supreme Court had accepted review of whether to modify the
+*Kalal* interpretive framework in *Abby Windows, LLC v. Labor & Industry Review
+Commission*, No. 2024AP1013, and that the case is scheduled
 for oral argument on November 10, 2026. Monetary limits in the references, including the
 small-claims limit, are affected by 2025 Wis. Act 105, which takes effect on
-January 1, 2027 (Act section 5). The references have not yet been updated with a dated
-note about it. Do not rely on any amount, deadline, or rule in a reference file without
+January 1, 2027 (Act section 5). The small-claims passage now carries a dated note about
+it. Do not rely on any amount, deadline, or rule in a reference file without
 reading the current primary text and its effective-date note.
 
 ## Contribute
