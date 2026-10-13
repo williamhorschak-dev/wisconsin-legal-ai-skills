@@ -1205,20 +1205,38 @@ def check_red_team(body: str, found: dict) -> None:
     # against the fatal_findings field; nothing to do here.
 
 
+def _applied_markers(line: str) -> int:
+    """Count [UNVERIFIED] tokens on a line that the memo APPLIES.
+
+    A token is exempt only when the sentence is about the marker itself: a
+    negation word shortly before it and the word "marker" right after it ("no
+    [UNVERIFIED] marker remains"), or "marker(s)/remain(s)" followed by a
+    negation after it. A negation elsewhere in the sentence ("was not retrieved
+    [UNVERIFIED]") does not exempt the token."""
+    count = 0
+    for m in UNVERIFIED.finditer(line):
+        before = line[max(0, m.start() - 60):m.start()]
+        after = line[m.end():]
+        says_none = re.search(
+            r"\b(?:no|none|zero|not|never|without)\b[^.\n]{0,40}$", before, re.IGNORECASE
+        ) and re.match(r"\s*markers?\b", after, re.IGNORECASE)
+        says_cleared = re.match(
+            r"[^.\n]{0,40}\b(?:remains?|marker)s?\b[^.\n]{0,20}\b(?:no|none|not|never)\b",
+            after, re.IGNORECASE,
+        )
+        if not (says_none or says_cleared):
+            count += 1
+    return count
+
+
 def check_markers(body: str, fm: dict) -> None:
     # Count markers the memo APPLIES, not sentences about the marker. A red
     # team explaining "HIGH because no [UNVERIFIED] marker remains" is stating
     # the rule; counting it blocked the memo on the sentence that justified it.
     n_unver = sum(
-        len(UNVERIFIED.findall(line))
+        _applied_markers(line)
         for line in body.splitlines()
         if not _is_rule_statement(line)
-        and not re.search(
-            r"\b(?:no|none|zero|not|never|without)\b[^.\n]{0,40}\[UNVERIFIED\]|"
-            r"\[UNVERIFIED\][^.\n]{0,40}\b(?:remains?|marker)s?\b[^.\n]{0,20}"
-            r"\b(?:no|none|not|never)\b",
-            line, re.IGNORECASE,
-        )
     )
     if n_unver:
         warn(
@@ -1580,6 +1598,9 @@ def check_sources(body: str, frontmatter_raw: str, sources_dir: str | None, *,
 
 
 def main() -> int:
+    # A path or name outside the console code page must not turn finished work into a failure.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="replace")
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("memo", help="path to the research memo .md")
     ap.add_argument(
@@ -1599,8 +1620,9 @@ def main() -> int:
     try:
         with open(args.memo, encoding="utf-8-sig") as fh:
             text = fh.read()
-    except OSError as exc:
-        print(f"cannot read memo: {exc}", file=sys.stderr)
+    except (OSError, ValueError) as exc:
+        # ValueError covers UnicodeDecodeError: the memo must be UTF-8.
+        print(f"cannot read memo (UTF-8 required): {exc}", file=sys.stderr)
         return 2
 
     fm, fm_raw, body = split_frontmatter(text)

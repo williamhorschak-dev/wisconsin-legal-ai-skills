@@ -597,6 +597,9 @@ EXAMPLE = {
 
 
 def main():
+    # A path or name outside the console code page must not turn finished work into a failure.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="replace")
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("spec", nargs="?", help="path to the JSON spec")

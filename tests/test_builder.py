@@ -173,6 +173,44 @@ class FilingBuilderTests(unittest.TestCase):
             builder.build(filing(), self.output, overwrite=True, draft=True)
         self.assertEqual(target.read_bytes(), b"Original linked document")
 
+    def test_output_name_outside_console_code_page_does_not_turn_success_into_failure(self):
+        # A Windows process with piped output uses cp1252; U+0141 is not in it.
+        self.output = self.root / "Brief-Łukasz.docx"
+        source = self.root / "spec.json"
+        source.write_text(json.dumps(filing()), encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), str(source), "-o", str(self.output)],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            env={**os.environ, "PYTHONIOENCODING": "cp1252"},
+        )
+        self.assertEqual((result.returncode, self.output.exists()), (0, True), result.stderr)
+
+    def test_make_templates_survives_output_directory_outside_console_code_page(self):
+        script = SCRIPT.with_name("make_templates.py")
+        target = self.root / "out-Łukasz"
+        result = subprocess.run(
+            [sys.executable, str(script), "--out-dir", str(target)],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            env={**os.environ, "PYTHONIOENCODING": "cp1252"},
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(list(target.glob("*.docx")))
+
+    def test_readme_build_command_runs_as_written(self):
+        repo = SCRIPT.parents[3]
+        commands = [line.strip() for line in (repo / "README.md").read_text(encoding="utf-8").splitlines()
+                    if line.strip().startswith("python skills/wisconsin-legal-writing/scripts/build_filing.py")]
+        self.assertTrue(commands, "README no longer shows a build_filing.py command")
+        for command in commands:
+            with self.subTest(command=command):
+                argv = [str(self.root / "motion-draft.docx") if a == "motion-draft.docx" else a
+                        for a in command.split()[1:]]
+                result = subprocess.run([sys.executable, *argv], cwd=repo, capture_output=True, text=True,
+                                        encoding="utf-8", env={**os.environ, "PYTHONIOENCODING": "utf-8"})
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertTrue((self.root / "motion-draft.docx").exists())
+                (self.root / "motion-draft.docx").unlink()
+
 
 if __name__ == "__main__":
     unittest.main()

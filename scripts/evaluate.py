@@ -52,6 +52,11 @@ def load_suite():
         if case["id"] in seen or not case["rubric"] or not case["request"].strip():
             raise ValueError("duplicate case or empty task/rubric")
         seen.add(case["id"])
+        for item in case["rubric"]:
+            if (not isinstance(item, dict) or not isinstance(item.get("id"), str) or not item["id"].strip()
+                    or not isinstance(item.get("criterion"), str) or not item["criterion"].strip()
+                    or not isinstance(item.get("critical"), bool)):
+                raise ValueError(f"malformed rubric criterion in case {case['id']}: needs id, criterion and boolean critical")
         if len(set(item["id"] for item in case["rubric"])) != len(case["rubric"]):
             raise ValueError(f"duplicate rubric criterion: {case['id']}")
         for profile in case["profiles"]:

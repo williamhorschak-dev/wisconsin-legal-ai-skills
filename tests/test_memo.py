@@ -173,6 +173,65 @@ Correction completed: the missing source was retrieved, compared, and checked ag
         self.assertEqual(result.returncode, 2, result.stdout)
         self.assertIn("red_team: none", result.stdout)
 
+    def high_confidence_memo(self, *lines):
+        today = datetime.date.today().isoformat()
+        text = memo().replace(
+            "citator: NONE\ncitator_notes: No real authorities or citator checks in this synthetic fixture.",
+            f"citator: KeyCite\ncitator_date: {today}\ncitator_signal: none\ncitator_notes: synthetic",
+        ).replace(DISCLOSURE, "").replace("MODERATE", "HIGH")
+        return text.replace("## Application\n", "## Application\n" + "".join(l + "\n" for l in lines))
+
+    def test_high_confidence_control_is_clean(self):
+        self.assert_clean(self.run_memo(self.high_confidence_memo()))
+
+    def test_unverified_marker_after_a_negation_word_still_blocks_high_confidence(self):
+        for line in ("The 2019 amendment was not retrieved [UNVERIFIED] but the answer relies on it.",
+                     "There is no copy of the 2019 amendment [UNVERIFIED]; the answer relies on its text.",
+                     "No [UNVERIFIED] marker remains on the first point, but the second is [UNVERIFIED]."):
+            with self.subTest(line=line):
+                result = self.run_memo(self.high_confidence_memo(line))
+                self.assertEqual(result.returncode, 2, result.stdout)
+                self.assertIn("UNVERIFIED", result.stdout)
+
+    def test_sentence_stating_the_marker_rule_is_not_counted(self):
+        for line in ("Confidence is HIGH because no [UNVERIFIED] marker remains.",
+                     "Zero [UNVERIFIED] markers were applied."):
+            with self.subTest(line=line):
+                self.assert_clean(self.run_memo(self.high_confidence_memo(line)))
+    def test_memo_that_is_not_utf8_is_an_error_exit_not_a_traceback(self):
+        base = memo()
+        cases = (("utf-16", base.encode("utf-16")),
+                 ("cp1252", base.replace("Synthetic", "Synthetic “quoted”", 1).encode("cp1252")))
+        for label, raw in cases:
+            with self.subTest(encoding=label), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                (root / "sources").mkdir()
+                (root / "sources" / "synthetic.md").write_text("Synthetic evidence, not law.\n", encoding="utf-8")
+                path = root / "memo.md"
+                path.write_bytes(raw)
+                result = subprocess.run(
+                    [sys.executable, str(LINTER), str(path), "--formal", "--sources", str(root / "sources")],
+                    capture_output=True, text=True, encoding="utf-8", errors="replace",
+                    env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+                )
+                self.assertNotIn("Traceback", result.stderr)
+                self.assertIn("cannot read memo", result.stderr)
+                self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+    def test_memo_name_outside_console_code_page_still_prints_the_lint_result(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root / "sources").mkdir()
+            (root / "sources" / "synthetic.md").write_text("Synthetic evidence, not law.\n", encoding="utf-8")
+            path = root / "Memo-Łukasz.md"
+            path.write_text(memo(), encoding="utf-8")
+            result = subprocess.run(
+                [sys.executable, str(LINTER), str(path), "--formal", "--sources", str(root / "sources")],
+                capture_output=True, text=True, encoding="utf-8", errors="replace",
+                env={**os.environ, "PYTHONIOENCODING": "cp1252"},
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("Structurally clean", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

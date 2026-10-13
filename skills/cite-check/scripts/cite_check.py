@@ -83,6 +83,16 @@ def normalized(text):
     return re.sub(r"\s+", " ", text.translate(translation)).strip()
 
 
+def quote_in_text(quote, text):
+    """Normalized match that does not start or end inside a word or number.
+
+    "30 days after entry" must not match "130 days after entry"."""
+    needle = normalized(quote)
+    prefix = r"(?<!\w)" if re.match(r"\w", needle) else ""
+    suffix = r"(?!\w)" if re.search(r"\w$", needle) else ""
+    return re.search(prefix + re.escape(needle) + suffix, normalized(text)) is not None
+
+
 def validate_entry(entry, inv, root):
     if not isinstance(entry, dict):
         raise ValueError("each evidence entry must be a JSON object")
@@ -127,9 +137,13 @@ def validate_entry(entry, inv, root):
         path = source_path(root, entry["file"])
         if entry["check"] != "verbatim" or path.suffix.lower() not in {".txt", ".md"}:
             raise ValueError("exact-text only supports verbatim checks against .txt/.md sources")
-        found = normalized(use["quote"]) in normalized(path.read_text(encoding="utf-8-sig"))
+        found = quote_in_text(use["quote"], path.read_text(encoding="utf-8-sig"))
         if entry["result"] != ("pass" if found else "fail") or entry.get("matched") != (use["quote"] if found else ""):
             raise ValueError("exact-text result does not match the archived text")
+    elif entry["check"] == "verbatim" and entry["result"] == "pass" and Path(entry["file"]).suffix.lower() in {".txt", ".md"}:
+        # A manual pass may not assert a quotation that the readable archived text lacks.
+        if not quote_in_text(use["quote"], source_path(root, entry["file"]).read_text(encoding="utf-8-sig")):
+            raise ValueError("verbatim pass refused: the quotation is not in the archived text; use the quote command, or record fail, caution or unverified")
     return use
 
 
@@ -194,12 +208,14 @@ def report(inv, entries):
                 detail.append(f"{name}: missing")
             else:
                 evidence = f"{entry.get('file', 'no copy')} @ {entry.get('locator', 'no locator')}"
+                if name == "verbatim":
+                    evidence += ", text compared by the tool" if entry.get("method") == "exact-text" else ", reviewer attestation, not compared by the tool"
                 detail.append(f"{name}: {entry['result']} ({evidence}); {entry['note']}")
         rows.append("| " + " | ".join(map(cell, [use["id"], use["citation"], use["proposition"], status, "; ".join(detail)])) + " |")
     text = "\n".join([
         "# Citation evidence report", "", f"Document SHA-256: `{inv['document_sha256']}`",
         f"Inventory SHA-256 (canonical JSON): `{inventory_digest(inv)}`", "",
-        "RECORDED PASS means every required check has a passing evidence record. It is not an independent finding of legal accuracy, good-law status, or filing readiness. Citation inventory completeness and manual judgments require review. Exact text matching does not verify attribution, pagination, or proposition support.", "",
+        "RECORDED PASS means every required check has a passing evidence record. It is not an independent finding of legal accuracy, good-law status, or filing readiness. Citation inventory completeness and manual judgments require review. Exact text matching does not verify attribution, pagination, or proposition support. The evidence log is an ordinary local file: this tool detects a changed draft, source or inventory, but not a deleted, inserted or hand-edited log line.", "",
         "| Use | Citation | Proposition | Status | Checks and evidence |", "|---|---|---|---|---|", *rows, "",
         "## Evidence records", "",
         "The records below preserve source hashes, locators, matched text, methods, and reviewer notes. Corrected drafts require a new inventory and log; prior runs remain unchanged.", "", "```json", json.dumps(entries, indent=2, ensure_ascii=False), "```", ""
@@ -208,6 +224,9 @@ def report(inv, entries):
 
 
 def main():
+    # A path or name outside the console code page must not turn finished work into a failure.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="replace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("record", "quote", "report"))
     parser.add_argument("--inventory", required=True, type=Path)
@@ -239,7 +258,7 @@ def main():
             path = source_path(args.sources, args.file)
             if path.suffix.lower() not in {".txt", ".md"}:
                 raise ValueError("quote requires a UTF-8 text source; archive/examine the original PDF separately")
-            found = normalized(use["quote"]) in normalized(path.read_text(encoding="utf-8-sig"))
+            found = quote_in_text(use["quote"], path.read_text(encoding="utf-8-sig"))
             append_entry(args.log, {"document_sha256": inv["document_sha256"], "use": args.use,
                 "check": "verbatim", "result": "pass" if found else "fail", "method": "exact-text",
                 "file": args.file, "sha256": digest(path), "locator": args.locator,

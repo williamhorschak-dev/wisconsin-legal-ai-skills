@@ -3,11 +3,15 @@
 import argparse
 import json
 from pathlib import Path
+import sys
 
 from build_filing import build
 
 
 def main():
+    # A path or name outside the console code page must not turn finished work into a failure.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="replace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out-dir", type=Path, required=True)
     parser.add_argument("--overwrite", action="store_true")

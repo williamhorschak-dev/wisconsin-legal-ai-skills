@@ -142,6 +142,24 @@ class PackagingTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 build_release.build(target, version, allow_dirty=True)
 
+    def test_release_files_never_include_git_ignored_files(self):
+        import build_release
+        import subprocess
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory)
+            try:
+                subprocess.run(["git", "init", "-q", str(repo)], check=True, capture_output=True)
+            except (OSError, subprocess.CalledProcessError) as exc:
+                self.skipTest(f"git unavailable: {exc}")
+            (repo / ".gitignore").write_text(".env\nwork/\n", encoding="utf-8")
+            (repo / "evals" / "fixtures").mkdir(parents=True)
+            (repo / "evals" / "work").mkdir()
+            (repo / "evals" / "cases.json").write_text("{}", encoding="utf-8")
+            (repo / "evals" / "fixtures" / "a.md").write_text("synthetic", encoding="utf-8")
+            (repo / "evals" / ".env").write_text("X=1", encoding="utf-8")
+            (repo / "evals" / "work" / "response.json").write_text("{}", encoding="utf-8")
+            self.assertEqual(build_release.release_files(repo / "evals"), ["cases.json", "fixtures/a.md"])
+
     def test_release_refuses_dirty_or_unknown_provenance(self):
         import build_release
         with tempfile.TemporaryDirectory() as directory:

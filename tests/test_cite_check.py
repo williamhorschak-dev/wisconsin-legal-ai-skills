@@ -92,6 +92,24 @@ class CitationEvidenceTests(unittest.TestCase):
         self.assertIn("proposition: missing", text)
         self.assertIn("treatment: missing", text)
 
+    def test_report_path_outside_console_code_page_does_not_report_failure(self):
+        # Piped Windows output is cp1252; U+0141 is not in it. The report is already written.
+        out = self.root / "report-Łukasz.md"
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "report", "--inventory", str(self.inventory_path),
+             "--document", str(self.document), "--sources", str(self.sources),
+             "--log", str(self.log), "--out", str(out)],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            env={**os.environ, "PYTHONIOENCODING": "cp1252"},
+        )
+        self.assertTrue(out.exists())
+        self.assertEqual(result.returncode, 1, result.stderr)  # 1 = incomplete evidence, not a crash
+    def test_report_says_the_evidence_log_is_not_tamper_evident(self):
+        self.assertEqual(self.report().returncode, 1)
+        text = " ".join(self.report_path.read_text(encoding="utf-8").split())
+        self.assertIn("ordinary local file", text)
+        self.assertIn("not a deleted, inserted or hand-edited log line", text)
+
     def test_structured_provenance_binds_original_and_survives_report(self):
         provenance = {"origin": "supplied synthetic document", "retrieved_at": "2026-09-20T14:00:00Z",
                       "version": "synthetic version 1", "extraction_method": "native text",
@@ -240,6 +258,62 @@ class CitationEvidenceTests(unittest.TestCase):
         self.assertEqual(entries[0]["result"], "fail")
         self.assertEqual(self.report().returncode, 1)
         self.assertIn("| FLAGGED |", self.report_path.read_text(encoding="utf-8"))
+
+    def test_quote_match_does_not_start_or_end_inside_a_word_or_number(self):
+        self.source.write_text("Synthetic source. The period is 130 days after entry, subject to rules.\n", encoding="utf-8")
+        for quote, expected in (("30 days after entry", "fail"), ("he period is", "fail"),
+                                ("130 days after entr", "fail"), ("130 days after entry", "pass"),
+                                ("The period is 130 days", "pass")):
+            with self.subTest(quote=quote):
+                log = self.root / f"log-{abs(hash(quote))}.jsonl"
+                self.inv["uses"][0]["quote"] = quote
+                self.save_inventory()
+                result = subprocess.run(
+                    [sys.executable, str(SCRIPT), "quote", "--inventory", str(self.inventory_path),
+                     "--document", str(self.document), "--sources", str(self.sources),
+                     "--log", str(log), "--use", "u1", "--file", self.source.name, "--locator", "s. 1"],
+                    capture_output=True, text=True, encoding="utf-8", env={**os.environ, "PYTHONIOENCODING": "utf-8"})
+                self.assertEqual(result.returncode, 0, result.stderr)
+                entries = checker.read_log(log, self.inv, self.sources)
+                self.assertEqual(entries[0]["result"], expected)
+
+    def test_exact_text_record_uses_the_same_word_boundary_rule(self):
+        self.source.write_text("Synthetic source. The period is 130 days after entry.\n", encoding="utf-8")
+        self.inv["uses"][0]["quote"] = "30 days after entry"
+        self.save_inventory()
+        pass_entry = self.evidence("verbatim", "pass", method="exact-text", matched="30 days after entry")
+        with self.assertRaises(ValueError):
+            checker.append_entry(self.log, pass_entry, self.inv, self.sources)
+    def test_manual_verbatim_pass_cannot_assert_a_quote_the_text_source_lacks(self):
+        self.inv["uses"][0]["quote"] = "A sentence that is not in the synthetic source."
+        self.save_inventory()
+        forged = self.evidence("verbatim", "pass", matched="A sentence that is not in the synthetic source.")
+        with self.assertRaisesRegex(ValueError, "verbatim pass refused"):
+            checker.append_entry(self.log, forged, self.inv, self.sources)
+        self.assertFalse(self.log.exists() and self.log.read_bytes())
+        # The reviewer can still record that the text does not support the quote.
+        checker.append_entry(self.log, self.evidence("verbatim", "caution", matched=""), self.inv, self.sources)
+
+    def test_manual_verbatim_pass_also_respects_word_boundaries(self):
+        self.source.write_text("Synthetic source. The period is 130 days after entry.\n", encoding="utf-8")
+        self.inv["uses"][0]["quote"] = "30 days after entry"
+        self.save_inventory()
+        forged = self.evidence("verbatim", "pass", matched="30 days after entry")
+        with self.assertRaisesRegex(ValueError, "verbatim pass refused"):
+            checker.append_entry(self.log, forged, self.inv, self.sources)
+
+    def test_report_distinguishes_compared_from_attested_verbatim_results(self):
+        self.inv["uses"][0]["quote"] = "The fictional rule applies only when stated."
+        self.save_inventory()
+        for check in checker.required_checks(self.inv["uses"][0]):
+            checker.append_entry(self.log, self.evidence(check, matched=self.inv["uses"][0]["quote"]) if check == "verbatim"
+                                 else self.evidence(check), self.inv, self.sources)
+        self.assertEqual(self.report().returncode, 0)
+        self.assertIn("reviewer attestation, not compared by the tool", self.report_path.read_text(encoding="utf-8"))
+        second = self.root / "second.jsonl"
+        checker.append_entry(second, self.evidence("verbatim", method="exact-text", matched=self.inv["uses"][0]["quote"]), self.inv, self.sources)
+        text, _ = checker.report(self.inv, checker.read_log(second, self.inv, self.sources))
+        self.assertIn("text compared by the tool", text)
 
     def test_source_paths_cannot_escape_archive_or_use_windows_devices(self):
         outside = self.root / "outside.txt"

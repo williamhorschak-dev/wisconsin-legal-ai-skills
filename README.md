@@ -22,7 +22,7 @@ Repository: [williamhorschak-dev/wisconsin-legal-ai-skills](https://github.com/w
 
 | Skill | Purpose | Included tools |
 |---|---|---|
-| [cite-check](skills/cite-check/SKILL.md) | Inventory citation uses; check quotations, pincites, treatment, proposition support, form, and record references against actual sources. | A hash-bound evidence log, text-quotation matcher, and report generator. A report records documented checks; it cannot perform legal judgment or a citator search itself. |
+| [cite-check](skills/cite-check/SKILL.md) | Inventory citation uses; check quotations, pincites, treatment, proposition support, form, and record references against actual sources. | An evidence log tied by SHA-256 to the draft, sources and inventory (an ordinary file; deleted or hand-edited lines are not detected), text-quotation matcher, and report generator. A report records documented checks; it cannot perform legal judgment or a citator search itself. |
 | [wisconsin-legal-writing](skills/wisconsin-legal-writing/SKILL.md) | Draft and review Wisconsin filings, correspondence, discovery responses, and research memoranda using the actual court, posture, and signer. | A **circuit-court** DOCX builder, 11 JSON specifications, and 14 Word templates. The appellate brief, letter, and memorandum templates are maintained separately. |
 | [wisconsin-legal-interpretation](skills/wisconsin-legal-interpretation/SKILL.md) | Apply Wisconsin's interpretive method, distinguish binding and persuasive authority, and test contested readings. | Three work modes, a formal-memo template, and a structural linter. A passing lint result does not establish legal accuracy. |
 
@@ -84,7 +84,7 @@ Windows and Linux with Python 3.10 and 3.12.
 Build a fill-in circuit-court template with explicit draft mode:
 
 ```sh
-python skills/wisconsin-legal-writing/scripts/build_filing.py --spec skills/wisconsin-legal-writing/assets/01-motion.json --out motion-draft.docx --draft
+python skills/wisconsin-legal-writing/scripts/build_filing.py skills/wisconsin-legal-writing/assets/01-motion.json -o motion-draft.docx --draft
 ```
 
 Existing output files are preserved unless `--overwrite` is explicitly supplied.
