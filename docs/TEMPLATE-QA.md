@@ -5,8 +5,9 @@ their visible paragraph text with the bundled documents. It checks page geometry
 ZIP integrity, and a long Unicode caption/signature fixture. All 14 supplied DOCX
 files are covered by [template-review.json](template-review.json).
 
-The current DOCX assets are unchanged from the earlier 14-document visual review
-recorded in [the assessment](ASSESSMENT-2026-09-20.md). Their content hashes bind
+With one exception, the current DOCX assets are unchanged from the earlier 14-document visual review
+recorded in [the assessment](ASSESSMENT-2026-09-20.md); the exception is the appendix certification in
+`10-appellate-brief.docx`, a text-only edit on 2026-10-13 that was read back but not rendered. Their content hashes bind
 that inherited record to these bytes. This release adds regression checks; it does
 not claim a second rendered-page review or renderer-independent layout equality.
 

@@ -47,6 +47,23 @@ def inventory_digest(inv):
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+WINDOWS_DEVICE_NAMES = frozenset(
+    {"CON", "PRN", "AUX", "NUL", "CONIN$", "CONOUT$"}
+    | {f"{device}{number}" for device in ("COM", "LPT") for number in "123456789¹²³"}
+)
+
+
+def is_windows_reserved_name(part):
+    """True for a Windows device name (CON, PRN, AUX, NUL, COM1-9, LPT1-9, ...) on any platform.
+
+    Case-insensitive, with or without an extension ("nul.txt" is reserved), as Windows
+    treats them. Local replacement for PurePath.is_reserved(), which is deprecated for
+    removal in Python 3.15 and only answers for Windows path flavours.
+    """
+    stem = part.partition(".")[0].partition(":")[0].rstrip(" ")
+    return stem.upper() in WINDOWS_DEVICE_NAMES
+
+
 def source_path(root, name):
     """Reject absolute paths, traversal, Windows device/ADS names and escaped links."""
     if not isinstance(name, str) or not name or "\\" in name or ":" in name or "\x00" in name:
@@ -54,7 +71,7 @@ def source_path(root, name):
     relative = Path(name)
     if relative.is_absolute() or PureWindowsPath(name).is_absolute() or ".." in relative.parts:
         raise ValueError(f"unsafe source path: {name}")
-    if any(PureWindowsPath(part).is_reserved() for part in relative.parts):
+    if any(is_windows_reserved_name(part) for part in relative.parts):
         raise ValueError(f"reserved source path: {name}")
     root = Path(root).resolve(strict=True)
     candidate = (root / relative).resolve(strict=True)
