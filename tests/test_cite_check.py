@@ -349,6 +349,14 @@ class CitationEvidenceTests(unittest.TestCase):
                     checker.source_path(self.sources, name)
         self.assertEqual(checker.source_path(self.sources, self.source.name), self.source.resolve())
 
+    def test_windows_reserved_names_are_detected_on_any_platform(self):
+        for name in ("CON", "con", "Prn", "AUX", "NUL", "nul.txt", "COM1", "com9.log", "LPT1", "lpt9.txt", "NUL .txt"):
+            with self.subTest(reserved=name):
+                self.assertTrue(checker.is_windows_reserved_name(name))
+        for name in ("source.txt", "console.txt", "COM0", "COM10", "LPT0", "nullify", "my.nul", "archive"):
+            with self.subTest(allowed=name):
+                self.assertFalse(checker.is_windows_reserved_name(name))
+
     def test_symlink_source_cannot_escape_archive(self):
         outside = self.root / "outside.txt"
         outside.write_text("Outside archive", encoding="utf-8")

@@ -267,7 +267,7 @@ corrections, and feature suggestions. Use fictional names and synthetic data. Fo
 correction to a general legal reference, name the passage and link the official public
 source. Do not post case files, personal details, privileged material, or financial
 records, and do not ask for advice about a matter. See
-[CONTRIBUTING.md](CONTRIBUTING.md). For security reports, use the channel described in [SECURITY.md](SECURITY.md).
+[CONTRIBUTING.md](CONTRIBUTING.md). Security reports go through GitHub's private vulnerability reporting under the Security tab (confirmed enabled 2026-10-13); see [SECURITY.md](SECURITY.md).
 
 ## For maintainers
 

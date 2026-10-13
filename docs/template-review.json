@@ -1,6 +1,6 @@
 {
   "source_commit": "073dc425c6f144525e60f47c68846475fe2c112e",
-  "scope": "Inherited visual-review record for unchanged assets; this register does not claim a new render.",
+  "scope": "Inherited visual-review record for unchanged assets, plus a text-only edit to 10-appellate-brief.docx on 2026-10-13; this register does not claim a new render.",
   "files": {
     "01-motion.docx": {
       "sha256": "7011fecce06090d7183da6d6a1f2ecfd04f58a55debaac5b51e653fe3ec7c3e4",
@@ -73,10 +73,10 @@
       "new_render_this_release": false
     },
     "10-appellate-brief.docx": {
-      "sha256": "40ed710830bcf5104ceabb43ea709a41443d6b5eaf63f73deca1b6f991262a24",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
+      "sha256": "cf87d30f99aec9c52d619570953dcc87df5995558d71f611d077f2e400d78ea2",
+      "review_status": "text-checked",
+      "review_date": "2026-10-13",
+      "review_basis": "Appendix certification (CERTIFICATION BY ATTORNEY) replaced with the full text of Wis. Stat. s. 809.19(8g)(b)1., read from the live chapter 809 PDF (2023-24 Wis. Stats., published 10-1-26) on 2026-10-13; the cross-reference reads s. 809.23(3)(a) or (b). The form text was copied from the statute and has not been reviewed by an attorney. Text read back with python-docx; no rendered-page review of this edit.",
       "new_render_this_release": false
     },
     "11-motion-attorney-signed.docx": {

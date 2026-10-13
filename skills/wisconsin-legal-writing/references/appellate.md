@@ -186,7 +186,7 @@ paragraph reads:
 > an understanding of the issues raised, including oral or written rulings or
 > decisions showing the circuit court's reasoning regarding those issues.
 
-Plus the confidentiality assurance where **Rule 809.19(2)(am)** applies.
+Plus the confidentiality assurance where **Rule 809.19(2)(am)** applies. The excerpt above is abridged; `assets/10-appellate-brief.docx` carries the complete prescribed form of s. 809.19(8g)(b)1., including its two further certifications, copied from the statute on 2026-10-13 and not attorney-reviewed.
 <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-012 (certification): Wis. Stat. § 809.19(8g)(b)1, official chapter 809 PDF, p. 18, https://docs.legis.wisconsin.gov/statutes/statutes/809.pdf, read 2026-10-12. Item (3) reads "s. 809.23 (3) (a) or (b)"; the former "(3)(a)2." was an error. -->
 
 **(8g)(c)**: the two certifications may be combined in a single document for
