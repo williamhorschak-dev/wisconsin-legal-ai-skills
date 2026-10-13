@@ -40,9 +40,9 @@ never establishes that.
 
 | Skill | Use it to | It does not | Bundled tools |
 |---|---|---|---|
-| [cite-check](skills/cite-check/SKILL.md) | Check that citations, quotations, pincites, and the propositions they support match sources you or the assistant can read. | Run a citator. Treat a failed search as proof a case does not exist. | `cite_check.py`: an evidence log tied to SHA-256 hashes of the draft and sources, a text-quotation matcher, and a report generator. Python 3.10 to 3.12 tested; later versions untested. Standard library only. |
-| [wisconsin-legal-writing](skills/wisconsin-legal-writing/SKILL.md) | Draft or review Wisconsin circuit court and Court of Appeals papers: motions, briefs, discovery responses, declarations, proposed orders, letters, research memos. | File, serve, sign, or confirm a paper meets today's rules. The builder makes circuit-court captions only. | `build_filing.py` (DOCX from a JSON spec), 11 JSON specifications, 14 Word templates. Python 3.10 to 3.12 tested; later versions untested. Needs `python-docx`. |
-| [wisconsin-legal-interpretation](skills/wisconsin-legal-interpretation/SKILL.md) | Look up what a Wisconsin provision said on a given date, analyze a contested reading with Wisconsin's own method, or produce a formal research memo. | Compute deadlines. Retrieve law without source access. | `check_memo.py`: a structural linter for formal memos, and a memo template. Python 3.10 to 3.12 tested; later versions untested. Standard library only. |
+| [cite-check](skills/cite-check/SKILL.md) | Check that citations, quotations, pincites, and the propositions they support match sources you or the assistant can read. | Run a citator. Treat a failed search as proof a case does not exist. | `cite_check.py`: an evidence log tied to SHA-256 hashes of the draft and sources, a text-quotation matcher, and a report generator. Python 3.10 and 3.12 tested in CI; 3.14.5 run once in the 2026-10-11 assessment; other versions untested. Standard library only. |
+| [wisconsin-legal-writing](skills/wisconsin-legal-writing/SKILL.md) | Draft or review Wisconsin circuit court and Court of Appeals papers: motions, briefs, discovery responses, declarations, proposed orders, letters, research memos. | File, serve, sign, or confirm a paper meets today's rules. The builder makes circuit-court captions only. | `build_filing.py` (DOCX from a JSON spec), 11 JSON specifications, 14 Word templates. Python 3.10 and 3.12 tested in CI; 3.14.5 run once in the 2026-10-11 assessment; other versions untested. Needs `python-docx`. |
+| [wisconsin-legal-interpretation](skills/wisconsin-legal-interpretation/SKILL.md) | Look up what a Wisconsin provision said on a given date, analyze a contested reading with Wisconsin's own method, or produce a formal research memo. | Compute deadlines. Retrieve law without source access. | `check_memo.py`: a structural linter for formal memos, and a memo template. Python 3.10 and 3.12 tested in CI; 3.14.5 run once in the 2026-10-11 assessment; other versions untested. Standard library only. |
 
 ## Set up
 
@@ -128,8 +128,8 @@ Other hosts:
   answers what a provision says; `interpretation-analysis.md` handles a contested
   reading; `formal-memo.md` produces a full memo. The files are about 45,000 to
   142,000 characters, and some products limit instruction or upload size; that has not
-  been tested. A chat model cannot run the bundled scripts, so checks that need a script
-  should be reported as not run.
+  been tested. If the host has no file access or Python execution, the bundled scripts cannot
+  run, so checks that need a script should be reported as not run.
 
 **6. Build a Word template (writing skill).** Needs Python and `python-docx`:
 
@@ -141,7 +141,7 @@ python .claude/skills/wisconsin-legal-writing/scripts/build_filing.py .claude/sk
 Use `.agents/skills` in place of `.claude/skills` for Codex. `--draft` allows
 unfilled placeholders; without it the builder refuses bracketed text and runs of
 underscores. It will not overwrite an existing file unless you add `--overwrite`.
-Python 3.10 to 3.12 are what CI tests. Python 3.14.5 ran these tools in a
+Python 3.10 and 3.12 are what CI tests. Python 3.14.5 ran these tools in a
 2026-10-11 check, with a deprecation warning from `cite_check.py`; later versions are
 not part of CI.
 
@@ -223,8 +223,8 @@ correct.
 ## Known limits of the bundled tools (release 2026.09.20.2)
 
 These describe the files in the downloadable release. The first, third, and fourth items
-are corrected in the repository's development branch after that release and are not
-corrected in the release files.
+have candidate fixes that are not in any published release; until a corrected release
+appears on the Releases page, treat them as present.
 
 - `cite_check.py` matches a quotation as a substring after light normalization with no
   word boundaries, so "30 days" matches inside "130 days". Check short or numeric quotations by reading the source.
@@ -267,8 +267,7 @@ corrections, and feature suggestions. Use fictional names and synthetic data. Fo
 correction to a general legal reference, name the passage and link the official public
 source. Do not post case files, personal details, privileged material, or financial
 records, and do not ask for advice about a matter. See
-[CONTRIBUTING.md](CONTRIBUTING.md). Security reports go through GitHub's private
-vulnerability reporting under the Security tab; see [SECURITY.md](SECURITY.md).
+[CONTRIBUTING.md](CONTRIBUTING.md). For security reports, use the channel described in [SECURITY.md](SECURITY.md).
 
 ## For maintainers
 
