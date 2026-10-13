@@ -309,11 +309,34 @@ class CitationEvidenceTests(unittest.TestCase):
             checker.append_entry(self.log, self.evidence(check, matched=self.inv["uses"][0]["quote"]) if check == "verbatim"
                                  else self.evidence(check), self.inv, self.sources)
         self.assertEqual(self.report().returncode, 0)
-        self.assertIn("reviewer attestation, not compared by the tool", self.report_path.read_text(encoding="utf-8"))
+        manual_text = self.report_path.read_text(encoding="utf-8")
+        self.assertIn("reviewer attestation; the tool confirmed the quotation appears in the archived text, nothing more", manual_text)
+        self.assertNotIn("not compared by the tool", manual_text)
         second = self.root / "second.jsonl"
         checker.append_entry(second, self.evidence("verbatim", method="exact-text", matched=self.inv["uses"][0]["quote"]), self.inv, self.sources)
         text, _ = checker.report(self.inv, checker.read_log(second, self.inv, self.sources))
         self.assertIn("text compared by the tool", text)
+
+    def test_report_keeps_not_compared_label_for_manual_verbatim_without_text_source(self):
+        pdf = self.sources / "Synthetic Source.pdf"
+        pdf.write_bytes(b"%PDF-1.4 synthetic placeholder, not a real document\n")
+        self.inv["uses"][0]["quote"] = "The fictional rule applies only when stated."
+        self.save_inventory()
+        quote = self.inv["uses"][0]["quote"]
+        for check in checker.required_checks(self.inv["uses"][0]):
+            extra = {"file": pdf.name, "sha256": checker.digest(pdf)} if check == "verbatim" else {}
+            checker.append_entry(self.log, self.evidence(check, matched=quote, **extra) if check == "verbatim"
+                                 else self.evidence(check), self.inv, self.sources)
+        self.assertEqual(self.report().returncode, 0)
+        text = self.report_path.read_text(encoding="utf-8")
+        self.assertIn("reviewer attestation, not compared by the tool", text)
+        self.assertNotIn("the tool confirmed the quotation appears", text)
+        # A manual verbatim caution against a text source was not confirmed either.
+        second = self.root / "second.jsonl"
+        checker.append_entry(second, self.evidence("verbatim", "caution", matched=""), self.inv, self.sources)
+        caution, _ = checker.report(self.inv, checker.read_log(second, self.inv, self.sources))
+        self.assertIn("reviewer attestation, not compared by the tool", caution)
+        self.assertNotIn("the tool confirmed the quotation appears", caution)
 
     def test_source_paths_cannot_escape_archive_or_use_windows_devices(self):
         outside = self.root / "outside.txt"

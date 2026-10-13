@@ -209,7 +209,12 @@ def report(inv, entries):
             else:
                 evidence = f"{entry.get('file', 'no copy')} @ {entry.get('locator', 'no locator')}"
                 if name == "verbatim":
-                    evidence += ", text compared by the tool" if entry.get("method") == "exact-text" else ", reviewer attestation, not compared by the tool"
+                    if entry.get("method") == "exact-text":
+                        evidence += ", text compared by the tool"
+                    elif entry["result"] == "pass" and Path(entry.get("file") or "").suffix.lower() in {".txt", ".md"}:
+                        evidence += ", reviewer attestation; the tool confirmed the quotation appears in the archived text, nothing more"
+                    else:
+                        evidence += ", reviewer attestation, not compared by the tool"
                 detail.append(f"{name}: {entry['result']} ({evidence}); {entry['note']}")
         rows.append("| " + " | ".join(map(cell, [use["id"], use["citation"], use["proposition"], status, "; ".join(detail)])) + " |")
     text = "\n".join([
