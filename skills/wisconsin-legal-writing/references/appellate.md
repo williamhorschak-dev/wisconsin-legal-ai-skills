@@ -117,8 +117,10 @@ or 15 days after it was filed.
 The appellant must file **either a reply brief or a statement that a reply brief
 will not be filed.** Silence is a rule violation.
 
-Contents: only (1)(e) argument and (1)(f) conclusion. No tables, no issues
-statement, no statement of the case.
+A reply brief must comply with § 809.19(1)(e) and (f); if it cites an unpublished
+opinion under § 809.23(3)(a) or (b), a copy must be provided in an appendix to that
+reply brief. § 809.19(4)(b).
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-012 (reply brief): Wis. Stat. § 809.19(4)(b), https://docs.legis.wisconsin.gov/document/statutes/809.19, read 2026-10-12. -->
 
 ---
 
@@ -171,16 +173,21 @@ Note the cross-reference includes **(bm)**: pagination. Any form reciting
 The word count may be the count reported by a commercially available word
 processor, and **must include words in text rendered as images**.
 
-**(8g)(b): appendix certification** (headed CERTIFICATION BY ATTORNEY):
+**(8g)(b)1: appendix certification** (headed CERTIFICATION BY ATTORNEY). Abridged
+excerpt, not a complete certification: § 809.19(8g)(b)1 supplies a three-paragraph
+form for appellant's counsel that also includes the administrative-review and
+confidentiality certifications; use the full form where required. The first
+paragraph reads:
 
 > I hereby certify that filed with this brief is an appendix that complies with
 > s. 809.19(2)(a) and that contains, at a minimum: (1) a table of contents; (2) the
 > findings or opinion of the circuit court; (3) a copy of any unpublished opinion
-> cited under s. 809.23(3)(a)2. or (b); and (4) portions of the record essential to
+> cited under s. 809.23(3)(a) or (b); and (4) portions of the record essential to
 > an understanding of the issues raised, including oral or written rulings or
 > decisions showing the circuit court's reasoning regarding those issues.
 
 Plus the confidentiality assurance where **Rule 809.19(2)(am)** applies.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-012 (certification): Wis. Stat. § 809.19(8g)(b)1, official chapter 809 PDF, p. 18, https://docs.legis.wisconsin.gov/statutes/statutes/809.pdf, read 2026-10-12. Item (3) reads "s. 809.23 (3) (a) or (b)"; the former "(3)(a)2." was an error. -->
 
 **(8g)(c)**: the two certifications may be combined in a single document for
 signature. **(8g)(d)**: electronic filers may sign electronically per
@@ -215,7 +222,7 @@ copy counts. Do not rely on it.
 |---|---|
 | Monospaced font | 10 characters per inch, **double-spaced** |
 | Proportional serif, body | **minimum 13 point** |
-| Proportional serif, block quotes and footnotes | **11 point** |
+| Proportional serif, block quotes and footnotes | **11 point**, single-spaced, § 809.19(8)(b)3.c |
 | Line spacing, proportional serif | between **1.15 and 1.5** |
 | Left and right margins | minimum **1.25″** |
 | Top and bottom margins | minimum **1″** |
@@ -294,9 +301,12 @@ proportional-serif brief runs at 1.15–1.5 under Rule 809.19(8)(b).
 
 ## Appellate eFiling, Wis. Stat. § 809.801
 
-- Mandatory for licensed Wisconsin attorneys and high-volume filing agents.
-  **Self-represented litigants may choose to eFile but are not required to.**
-  § 809.801(2)(c), (3)(a).
+- Registration is required for licensed Wisconsin attorneys, attorneys appearing
+  under SCR 10.03(4), and high-volume filing agents. § 809.801(3)(a). A party not in
+  those groups may register voluntarily, § 809.801(3)(b); except as otherwise
+  provided, one who does not files, serves, and receives paper documents by
+  traditional methods, § 809.801(3)(c).
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-012 (eFiling): Wis. Stat. § 809.801(3)(a)-(c), https://docs.legis.wisconsin.gov/document/statutes/809.801, read 2026-10-12. -->
 - **§ 809.801(8)(e):** appendices, exhibits, and affidavits in PDF; **all other
   documents, including the brief, in text-searchable PDF.** Scanning is not
   enough; convert from the word processor.
