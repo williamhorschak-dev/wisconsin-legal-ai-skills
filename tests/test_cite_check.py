@@ -4,6 +4,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -15,6 +16,7 @@ SCRIPT = (Path(__file__).resolve().parents[1] / "skills" /
 MODULE_SPEC = importlib.util.spec_from_file_location("citation_checker_test", SCRIPT)
 checker = importlib.util.module_from_spec(MODULE_SPEC)
 MODULE_SPEC.loader.exec_module(checker)
+FIXTURES = Path(__file__).resolve().parent / "fixtures" / "cite_check"
 
 
 class CitationEvidenceTests(unittest.TestCase):
@@ -374,6 +376,210 @@ class CitationEvidenceTests(unittest.TestCase):
         forged = self.evidence("verbatim", method="exact-text", matched=self.inv["uses"][0]["quote"])
         with self.assertRaisesRegex(ValueError, "does not match"):
             checker.validate_entry(forged, self.inv, self.sources)
+
+
+class QuoteLabelAndReachabilityTests(unittest.TestCase):
+    """Fictional fixtures in tests/fixtures/cite_check; none of the texts is law."""
+
+    OPINION = "opinions/smith-v-jones-2025-WI-999.txt"
+    STATUTE = "statutes/fictional-stat-999.txt"
+    IN_FORCE = "statutes/fictional-stat-998-05-in-force.txt"
+    AMENDED = "statutes/fictional-stat-998-05-amended.txt"
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        self.sources = self.root / "sources"
+        shutil.copytree(FIXTURES / "archive", self.sources)  # "sources/" is git-ignored
+        self.document = self.root / "draft.md"
+        shutil.copyfile(FIXTURES / "draft.md", self.document)
+        self.inv = {"document_sha256": checker.digest(self.document),
+                    "uses": json.loads((FIXTURES / "uses.json").read_text(encoding="utf-8"))}
+        self.inventory_path = self.root / "inventory.json"
+        self.inventory_path.write_text(json.dumps(self.inv, ensure_ascii=False), encoding="utf-8")
+        self.quotes = {use["id"]: use["quote"] for use in self.inv["uses"]}
+        self.log = self.root / "evidence.jsonl"
+        self.report_path = self.root / "report.md"
+
+    def cli(self, command, *options, log=None):
+        return subprocess.run(
+            [sys.executable, str(SCRIPT), command, "--inventory", str(self.inventory_path),
+             "--document", str(self.document), "--sources", str(self.sources),
+             "--log", str(log or self.log), *options],
+            capture_output=True, text=True, encoding="utf-8",
+            env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+        )
+
+    def quote(self, use, name, locator, *options, log=None):
+        result = self.cli("quote", "--use", use, "--file", name, "--locator", locator, *options, log=log)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        return result, checker.read_log(log or self.log, self.inv, self.sources)[-1]
+
+    def report(self, *options):
+        result = self.cli("report", "--out", str(self.report_path), *options)
+        self.assertIn(result.returncode, (0, 1), result.stderr)
+        return self.report_path.read_text(encoding="utf-8")
+
+    def manual(self, use, check="verbatim", result="caution", **changes):
+        entry = {"document_sha256": self.inv["document_sha256"], "inventory_sha256": checker.inventory_digest(self.inv),
+                 "use": use, "check": check, "result": result, "method": "manual",
+                 "note": "Synthetic test attestation only; no real legal review."}
+        entry.update(changes)
+        return entry
+
+    def test_verified_needs_exact_text_in_the_cited_locator(self):
+        result, entry = self.quote("u5", self.OPINION, "¶13")
+        self.assertEqual((entry["result"], entry["label"], entry["matched"]), ("pass", "VERIFIED", self.quotes["u5"]))
+        self.assertEqual(result.stdout.strip(), "VERIFIED: exact text found; compared marked locator ¶13")
+        # A finer locator resolves to the marked section that contains it.
+        _, entry = self.quote("u2", self.STATUTE, "s. 999.02(1)", log=self.root / "second.jsonl")
+        self.assertEqual((entry["label"], entry["compared"]), ("VERIFIED", "marked locator s. 999.02"))
+
+    def test_altered_quote_is_flagged_with_a_word_diff(self):
+        _, entry = self.quote("u1", self.OPINION, "¶12")
+        self.assertEqual((entry["result"], entry["label"]), ("fail", "QUOTE_ALTERED"))
+        self.assertEqual(entry["matched"], "A party who seeks relief from a default judgment must file a written notice within ten days")
+        diff = "A party [-seeking-]{+who seeks+} relief from a default judgment must file {+a+} written notice within ten days [-.-]"
+        self.assertEqual(entry["diff"], diff)
+        text = self.report()
+        self.assertIn("| FLAGGED |", text)
+        self.assertIn("verbatim: fail (opinions/smith-v-jones-2025-WI-999.txt @ ¶12, text compared by the tool); "
+                      "QUOTE_ALTERED: near match, wording differs; compared marked locator ¶12; "
+                      "diff ([-draft only-] {+source only+}): " + diff + "; provenance not recorded", text)
+
+    def test_quote_under_the_wrong_section_is_misattributed(self):
+        _, entry = self.quote("u2", self.STATUTE, "s. 999.01")
+        self.assertEqual((entry["result"], entry["label"], entry["matched"]), ("fail", "MISATTRIBUTED", ""))
+        self.assertEqual([(p["file"], p["locator"]) for p in entry["found_in"]], [(self.STATUTE, "s. 999.02")])
+        self.assertIn("MISATTRIBUTED: exact text not at the cited locator; compared marked locator s. 999.01; "
+                      "found at statutes/fictional-stat-999.txt @ s. 999.02", self.report())
+        # The place named must still hold the quotation; editing it breaks the log.
+        line = json.loads(self.log.read_text(encoding="utf-8"))
+        line["found_in"][0]["locator"] = "s. 999.01"
+        self.log.write_text(json.dumps(line, ensure_ascii=False) + "\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "found_in does not match"):
+            checker.read_log(self.log, self.inv, self.sources)
+
+    def test_version_in_force_entry_names_the_dated_text_compared(self):
+        in_force = "in force 2024-07-01 through 2026-12-31 (fictional)"
+        amended = "as amended by 2025 Fictional Act 999, effective 2027-01-01; not in effect on 2026-10-13 (fictional)"
+        _, entry = self.quote("u3", self.IN_FORCE, "s. 998.05")
+        self.assertEqual((entry["label"], entry["version_compared"]), ("MISATTRIBUTED", in_force))
+        self.assertEqual(entry["found_in"][0]["file"], self.AMENDED)
+        self.assertEqual(entry["found_in"][0]["version"], amended)
+        text = self.report()
+        self.assertIn(f"found at {self.AMENDED} @ s. 998.05 (version: {amended}); compared against version: {in_force}", text)
+        # The amended text holds the quotation; the entry says which version that is.
+        _, entry = self.quote("u3", self.AMENDED, "s. 998.05", log=self.root / "amended.jsonl")
+        self.assertEqual((entry["result"], entry["label"], entry["version_compared"]), ("pass", "VERIFIED", amended))
+        # A manual verbatim record against a dated text must name that version.
+        with self.assertRaisesRegex(ValueError, "version_compared"):
+            checker.validate_entry(self.manual("u3", file=self.IN_FORCE, sha256=checker.digest(self.sources / self.IN_FORCE),
+                                               locator="s. 998.05"), self.inv, self.sources)
+        checker.validate_entry(self.manual("u3", file=self.IN_FORCE, sha256=checker.digest(self.sources / self.IN_FORCE),
+                                           locator="s. 998.05", version_compared=in_force), self.inv, self.sources)
+
+    def test_unresolved_quote_reports_what_the_archive_search_covered(self):
+        _, entry = self.quote("u4", self.STATUTE, "s. 999.01")
+        self.assertEqual((entry["result"], entry["label"], entry["matched"]), ("fail", "UNRESOLVED", ""))
+        self.assertEqual(entry["note"], "Searched 4 archived text source(s) outside the compared text for the exact quotation.")
+        self.assertIn("UNRESOLVED: not found; compared marked locator s. 999.01; see the note for what the archive search covered",
+                      self.report())
+
+    def test_misattribution_falls_back_to_unresolved_when_nothing_else_is_searchable(self):
+        # The only text source is the cited one, unmarked; the original is a PDF.
+        shutil.rmtree(self.sources)
+        (self.sources / "opinions").mkdir(parents=True)
+        (self.sources / "opinions" / "extract.txt").write_text("FICTIONAL TEST TEXT. A notice may be late.\n", encoding="utf-8")
+        (self.sources / "opinions" / "original.pdf").write_bytes(b"%PDF-1.4 synthetic placeholder\n")
+        _, entry = self.quote("u2", "opinions/extract.txt", "p. 3")
+        self.assertEqual((entry["label"], entry["compared"]), ("UNRESOLVED", "whole file (no locator markers)"))
+        self.assertIn("Not searched (1, not UTF-8 .txt/.md): opinions/original.pdf.", entry["note"])
+        self.assertIn("MISATTRIBUTED was not assessed: no other archived text could be searched.", entry["note"])
+
+    def test_labels_cannot_be_forged_or_promoted(self):
+        opinion = {"file": self.OPINION, "sha256": checker.digest(self.sources / self.OPINION), "locator": "¶12"}
+        forged = self.manual("u1", result="pass", method="exact-text", label="VERIFIED", matched=self.quotes["u1"],
+                             compared="marked locator ¶12", **opinion)
+        with self.assertRaises(ValueError):
+            checker.validate_entry(forged, self.inv, self.sources)
+        for changes in ({"label": "QUOTE_ALTERED", "result": "pass", "matched": "x"}, {"label": "MISATTRIBUTED", "result": "fail"},
+                        {"label": "QUOTE_ALTERED", "result": "fail", "matched": ""}, {"label": "UNRESOLVED", "result": "pass"},
+                        {"label": "VERIFIED", "result": "caution"}, {"label": "UNRESOLVED", "check": "citation"},
+                        {"label": "PARTLY_VERIFIED"}):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                checker.validate_entry(self.manual("u1", **changes), self.inv, self.sources)
+        checker.validate_entry(self.manual("u1", result="unverified", label="UNRESOLVED"), self.inv, self.sources)
+        # A legacy record without a label stays readable and says so.
+        legacy = self.manual("u5", result="pass", method="exact-text", matched=self.quotes["u5"],
+                             **dict(opinion, locator="¶13"))
+        checker.validate_entry(legacy, self.inv, self.sources)
+        self.assertIn("quote label not recorded", checker.report(self.inv, [legacy])[0])
+
+    def test_remembered_verbatim_pass_is_refused(self):
+        result = self.cli("quote", "--use", "u5", "--file", self.OPINION, "--locator", "¶13", "--provenance-origin", "remembered")
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertIn("verbatim pass refused: remembered text is not a source", result.stderr)
+        self.assertFalse(self.log.exists())
+        remembered = self.manual("u5", result="pass", file=self.OPINION, sha256=checker.digest(self.sources / self.OPINION),
+                                 locator="¶13", matched=self.quotes["u5"], provenance_origin="remembered")
+        with self.assertRaisesRegex(ValueError, "remembered"):
+            checker.validate_entry(remembered, self.inv, self.sources)
+        checker.validate_entry(dict(remembered, result="caution"), self.inv, self.sources)
+        checker.validate_entry(dict(remembered, provenance_origin="user_supplied"), self.inv, self.sources)
+        with self.assertRaisesRegex(ValueError, "provenance_origin"):
+            checker.validate_entry(dict(remembered, provenance_origin="memory"), self.inv, self.sources)
+
+    def test_report_shows_provenance_origin_or_its_absence(self):
+        self.quote("u5", self.OPINION, "¶13", "--provenance-origin", "retrieved_this_session")
+        checker.append_entry(self.log, self.manual("u5", "citation", "unverified"), self.inv, self.sources)
+        text = self.report()
+        self.assertIn("compared marked locator ¶13; provenance: retrieved this session;", text)
+        self.assertIn("citation: unverified (no copy @ no locator); provenance not recorded;", text)
+
+    def test_sources_reachable_block_is_per_source_and_per_authority(self):
+        self.quote("u5", self.OPINION, "¶13")
+        checker.append_entry(self.log, self.manual("u4", "citation", "unverified", source_status={
+            "source": "Fictional annotated statutes service", "status": "unreachable",
+            "reason": "Synthetic test: connector not available in this session"}), self.inv, self.sources)
+        status = FIXTURES / "sources-status.json"
+        text = self.report("--sources-status", str(status))
+        for line in (
+                "## Sources reachable",
+                f"Sources-status file SHA-256: `{checker.digest(status)}`",
+                "| Fictional Legislature statutes website | unreachable | Synthetic test: HTTP 503 on 2026-10-13; archived copies were used instead | u2 Fictional Stat. § 999.01; u3 Fictional Stat. § 998.05; u4 Fictional Stat. § 999.01 | sources-status file |",
+                "| Fictional Supreme Court opinions website | reachable | Synthetic test: opinion retrieved 2026-10-13 | u1 Smith v. Jones, 2025 WI 999, ¶12; u5 Smith v. Jones, 2025 WI 999, ¶13 | sources-status file |",
+                "| Fictional citator | not attempted | Synthetic test: no citator available in this session | u1 Smith v. Jones, 2025 WI 999, ¶12 | sources-status file |",
+                "| Fictional annotated statutes service | unreachable | Synthetic test: connector not available in this session | u4 Fictional Stat. § 999.01 (citation) | evidence record |",
+                "| opinions/smith-v-jones-2025-WI-999.txt | reachable | archived copy read for the recorded check; its hash matched when this report ran | u5 Smith v. Jones, 2025 WI 999, ¶13 (verbatim) | evidence records |"):
+            with self.subTest(line=line):
+                self.assertIn(line + "\n", text)
+        self.assertNotIn("No source recorded for", text)
+        self.assertNotIn("no citation", text.lower())
+
+    def test_reachability_without_records_lists_each_authority_without_a_blanket_line(self):
+        text = self.report()
+        self.assertIn("No sources-status file was supplied.\n", text)
+        self.assertIn("No source recorded for: u1 Smith v. Jones, 2025 WI 999, ¶12; u2 Fictional Stat. § 999.01; "
+                      "u3 Fictional Stat. § 998.05; u4 Fictional Stat. § 999.01; u5 Smith v. Jones, 2025 WI 999, ¶13.\n", text)
+        self.assertNotIn("no citation", text.lower())
+
+    def test_malformed_sources_status_and_unreached_pass_are_refused(self):
+        bad = self.root / "status.json"
+        for rows in ([{"source": "Fictional site", "status": "reachable", "reason": "Synthetic", "uses": ["u9"]}],
+                     [{"source": "Fictional site", "status": "down", "reason": "Synthetic", "uses": ["u1"]}],
+                     [{"source": "Fictional site", "status": "unreachable", "reason": " ", "uses": ["u1"]}], []):
+            with self.subTest(rows=rows):
+                bad.write_text(json.dumps({"sources": rows}), encoding="utf-8")
+                result = self.cli("report", "--out", str(self.report_path), "--sources-status", str(bad))
+                self.assertEqual(result.returncode, 2, result.stderr)
+                self.assertFalse(self.report_path.exists())
+        unreached = self.manual("u5", "citation", "pass", file=self.OPINION, sha256=checker.digest(self.sources / self.OPINION),
+                                locator="¶13", matched="Smith v. Jones", source_status={
+                                    "source": "Fictional site", "status": "unreachable", "reason": "Synthetic"})
+        with self.assertRaisesRegex(ValueError, "not reached"):
+            checker.validate_entry(unreached, self.inv, self.sources)
 
 
 if __name__ == "__main__":

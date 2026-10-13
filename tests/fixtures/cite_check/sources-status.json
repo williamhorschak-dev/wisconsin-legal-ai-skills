@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {"source": "Fictional Legislature statutes website", "status": "unreachable",
+     "reason": "Synthetic test: HTTP 503 on 2026-10-13; archived copies were used instead",
+     "uses": ["u2", "u3", "u4"]},
+    {"source": "Fictional Supreme Court opinions website", "status": "reachable",
+     "reason": "Synthetic test: opinion retrieved 2026-10-13", "uses": ["u1", "u5"]},
+    {"source": "Fictional citator", "status": "not_attempted",
+     "reason": "Synthetic test: no citator available in this session", "uses": ["u1"]}
+  ]
+}

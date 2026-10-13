@@ -7,7 +7,10 @@ this project does not accept legal clients or provide individual legal services.
 Use issues for reproducible software defects, general documentation corrections,
 and feature suggestions. Use fictional names and synthetic data. For a correction
 to a general legal reference, identify the passage and link the official public
-source; do not submit an actual case for review.
+source; do not submit an actual case for review. Say when you read the source and
+what date the text takes effect. A statute page can display amended text before the
+amendment takes effect, so read any effective-date note on the page and the
+amending Act's effective-date section.
 
 Do not request selection of claims or remedies, personal deadline calculations,
 review of a proposed filing, or advice about litigation, settlement, or an appeal.

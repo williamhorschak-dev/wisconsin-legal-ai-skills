@@ -198,8 +198,12 @@ class FilingBuilderTests(unittest.TestCase):
 
     def test_readme_build_command_runs_as_written(self):
         repo = SCRIPT.parents[3]
-        commands = [line.strip() for line in (repo / "README.md").read_text(encoding="utf-8").splitlines()
-                    if line.strip().startswith("python skills/wisconsin-legal-writing/scripts/build_filing.py")]
+        # The README shows the command as run from an installed copy under .claude/skills/;
+        # the same files sit under skills/ in this repository.
+        prefix = "python .claude/skills/wisconsin-legal-writing/scripts/build_filing.py"
+        commands = [line.strip().replace(".claude/skills/", "skills/")
+                    for line in (repo / "README.md").read_text(encoding="utf-8").splitlines()
+                    if line.strip().startswith(prefix)]
         self.assertTrue(commands, "README no longer shows a build_filing.py command")
         for command in commands:
             with self.subTest(command=command):

@@ -28,11 +28,36 @@ body:
         - Feature suggestion
     validations:
       required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected skill or area
+      options:
+        - cite-check
+        - wisconsin-legal-writing
+        - wisconsin-legal-interpretation
+        - Prompt exports (prompt-packs.zip)
+        - Evaluation suite
+        - README or other documentation
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Release version
+      description: The version in the VERSION file or the release tag, for example 2026.09.20.2.
+      placeholder: "2026.09.20.2"
+  - type: input
+    id: environment
+    attributes:
+      label: Host, operating system, and Python version (if relevant)
+      description: For example, Claude Code on Windows with Python 3.12. Leave blank for a documentation correction.
   - type: textarea
     id: description
     attributes:
       label: Technical issue or general correction
-      description: Identify the affected skill or file. For a general legal-reference correction, link the official public source.
+      description: Identify the affected file and line. For a general legal-reference correction, give the official public source link, the date you read it, and the effective date of the text, including any effective-date note on the page.
     validations:
       required: true
   - type: textarea

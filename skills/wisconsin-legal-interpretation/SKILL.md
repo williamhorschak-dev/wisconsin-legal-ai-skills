@@ -1,14 +1,15 @@
 ---
 name: wisconsin-legal-interpretation
 description: >-
-  Interpret disputed questions of Wisconsin law under Wisconsin's own method:
-  statutes, the constitution, appellate decisions, the Administrative Code,
-  Supreme Court Rules, and ordinances. Determines operative date and forum,
-  classifies authority, quotes operative text with pincites, checks statutory
-  vintage and subsequent history, and researches adverse authority. Use when a
-  question turns on what a Wisconsin provision means or requires and the answer
-  is genuinely contested. Not for drafting or formatting filings, not for
-  case-specific appellate procedure, and not for routine deadline computation.
+  Interpret Wisconsin statutes, the constitution, appellate decisions, the
+  Administrative Code, Supreme Court Rules, and ordinances under Wisconsin's
+  own method. Use when a question turns on what a provision says or means as
+  of a given date, including quick lookups of current or historical text, and
+  for contested readings. Determines operative date and forum, classifies
+  authority, quotes operative text with pincites, checks statutory vintage and
+  subsequent history, and researches adverse authority when a reading is
+  contested. Not for drafting or formatting filings, not for case-specific
+  appellate procedure, and not for routine deadline computation.
 license: MIT
 metadata:
   version: "2026.09.20.2"
@@ -298,8 +299,10 @@ do not impose a new approval when that scope is already authorized (`references/
 Read [canons.md](references/canons.md) for the Wisconsin interpretive sequence and
 [authority-hierarchy.md](references/authority-hierarchy.md) for binding and persuasive
 authority. Read [sources.md](references/sources.md) for primary-source retrieval and
-confidential materials. These files are research aids; verify operative law during each
-substantive use.
+confidential materials. Read [source-behavior.md](references/source-behavior.md) for how
+Wisconsin source sites display currency lines, versions not yet in effect, permalinks
+and dates, and where those displays mislead. These files are research aids; verify
+operative law during each substantive use.
 
 ## Scope boundary
 
