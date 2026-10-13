@@ -51,15 +51,25 @@ grant.
 for it early and frame it narrowly: identify the records, the claimed exemption, and
 what the court should look for.
 
-**Mandamus, fees and damages, § 19.37.** Section 19.37(1)(a) lets the requester
-bring an action for mandamus asking a court to order release of the record. Under
-§ 19.37(2), the requester who "prevails in whole or in substantial part" recovers
-reasonable attorney fees, damages of not less than $100, and other actual costs.
-§ 19.37(3) adds a punitive damages exposure for arbitrary and capricious denial. The
+**Mandamus, fees and damages, § 19.37.** If an authority withholds a record or part
+of a record, or delays granting access, after a written request for disclosure is
+made, § 19.37(1)(a) lets the requester bring an action for mandamus asking a court to
+order release of the record. In an action under § 19.37(1) relating to access under
+§ 19.35(1)(a), § 19.37(2)(a) directs the court to award reasonable attorney fees,
+damages of not less than $100, and other actual costs if the requester prevails in
+whole or in substantial part; a committed or incarcerated requester is not entitled
+to any minimum amount of damages, but the court may award damages. In an action
+relating to an individual's access under § 19.35(1)(am) to personally identifiable
+information about that individual, § 19.37(2)(b) directs the court to award the
+individual actual damages only if it finds that the authority acted in a willful or
+intentional manner. § 19.37(3) adds a punitive damages exposure where an authority
+or legal custodian arbitrarily and capriciously denied or delayed response to a
+request or charged excessive fees. The
 § 19.37(4) forfeiture of not more than $1,000 is enforced by action on behalf of the
 state by the attorney general or the district attorney of any county where a
 violation occurs; the requester does not enforce it.
 <!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-004: Wis. Stat. § 19.37(1)(a) (mandamus), (2), (3) (punitive damages), (4) (forfeiture and its enforcement), https://docs.legis.wisconsin.gov/document/statutes/19.37, read 2026-10-12. -->
+<!-- DRAFT FOR LEGAL REVIEW (2026-10-13), A2-01: Wis. Stat. § 19.37(1) (intro) (written request; withholding or delay), (1)(a), (2)(a) (§ 19.35(1)(a) access actions; committed or incarcerated requester), (2)(b) (§ 19.35(1)(am); willful or intentional; actual damages), (3), https://docs.legis.wisconsin.gov/document/statutes/19.37; § 19.35(1)(a), (am), https://docs.legis.wisconsin.gov/document/statutes/19.35; read 2026-10-13. -->
 
 **The fee standard is contested and moving.** *Friends of Frame Park v. City of
 Waukesha*, 2022 WI 57, 403 Wis. 2d 1, 976 N.W.2d 263, held that a requester does not
@@ -73,9 +83,9 @@ yourself. **Check the current state of this line
 before briefing fees**: it is the most actively litigated question in the field.
 
 **Pro se and fees.** A self-represented litigant who is not a lawyer generally
-cannot recover attorney fees for his own time. Plead the § 19.37(2) damages and
-costs, and the punitive exposure under § 19.37(3), rather than resting the case on
-a fee award.
+cannot recover attorney fees for his own time. Plead whatever § 19.37(2) damages
+and costs apply, and the punitive exposure under § 19.37(3), rather than resting the
+case on a fee award.
 
 ---
 
@@ -226,9 +236,16 @@ pleading together count as a single party, § 801.58(3), except that after an
 appellate decision orders a new trial or reverses or modifies the judgment or order
 so that further trial-court proceedings are necessary, any party may file a request
 within 20 days after the remittitur is filed in the trial court, whether or not it
-filed one before the appeal, § 801.58(7). Small claims follow § 799.205(1) instead.
+filed one before the appeal, § 801.58(7). Small claims have their own section,
+§ 799.205, with a different post-appeal trigger. For initial timing, § 799.205(1)
+requires the request on the return date of the summons or within 10 days after the
+case is scheduled for trial, with 10-day, 24-hour and stipulation rules when a new
+judge is assigned to the trial. After an appellate decision that requires further
+trial-court proceedings, § 799.205(4) allows a request within 20 days after the entry
+of the appellate court's judgment or decision, not after the remittitur is filed.
 § 971.20 is the criminal analogue.
 <!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-002: Wis. Stat. § 801.58(1), (3), (7), https://docs.legis.wisconsin.gov/document/statutes/801.58; State v. Matthews, 2021 WI 42, ¶¶ 18, 20, 22 (unanimous), https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=367180; Wis. Stat. § 799.205(1), https://docs.legis.wisconsin.gov/document/statutes/799.205; read 2026-10-12. The former unsourced waiver sentence was removed. -->
+<!-- DRAFT FOR LEGAL REVIEW (2026-10-13), A2-03: Wis. Stat. § 799.205(1) (initial timing; newly assigned judge), (4) (20 days after entry of the appellate judgment or decision), https://docs.legis.wisconsin.gov/document/statutes/799.205, read 2026-10-13. -->
 
 **Disqualification, § 757.19(2).** Seven grounds, (a) through (g). (a)-(f) are
 objective: prior representation, a financial interest, a relationship, prior

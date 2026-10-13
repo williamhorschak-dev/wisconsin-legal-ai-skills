@@ -597,9 +597,9 @@ applied below), 1 date left [VERIFY].** The
 standing rule is unchanged — re-verify against the official PDF before relying on
 any rule in a filing; verification ages.
 
-Rules signed in **November 2025** by all five judges and approved by Chief Judge
-Horne. **[VERIFY: confirm the attribution of approval to Chief Judge Horne against the
-official signature page or the clerk's transmittal before repeating it as fact.]**
+Rules signed in **November 2025** by all five judges; this reference does not show
+who approved them. **[VERIFY: an earlier version named Chief Judge Horne; confirm any
+approval against the official signature page or the clerk's transmittal first.]**
 **[VERIFY: the day is handwritten on the signature page and obscured by a
 signature stroke; Rule 609(1) carries an internal date of 11/18/25, which post-dates
 a November 7 signing. Confirm the operative date against a clean copy or the clerk's
@@ -839,4 +839,4 @@ official statutes updated through September 4, 2026. Recheck for the live matter
 | Notice of entry (to shorten appeal clock) | within 21 days of entry | § 806.06(5) |
 | Ordinary civil notice of appeal | 90 days after entry; **45 days** if qualifying notice of entry is given within 21 days | § 808.04(1) |
 | Cross-appeal | Later of ordinary appeal deadline or 30 days after filing notice of appeal | § 809.10(2)(b) |
-| Filing deemed timely | submission complete by 11:59 p.m. CT, if the clerk later accepts it | § 801.18(4)(am) |
+| Filing date | filed that day if the eFiling system records the submission complete by 11:59 p.m. CT and the clerk later accepts it; other time-calculation rules unchanged | § 801.18(4)(am) |
