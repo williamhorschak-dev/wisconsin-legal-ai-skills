@@ -54,7 +54,7 @@ verified statewide or county
 inventory of AI disclosure requirements. Check current court rules, any effective
 orders, and the actual judge's requirements; do not infer an exemption from an
 omitted county or from the pending status of one proposal.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-009: Rule Petition 26-02 docket, https://www.wicourts.gov/scrules/pending/2602.htm (entry "Sep 30, 2026, Letter from Petitioner Withdrawing Petition"; no entry under court orders), and the letter, https://www.wicourts.gov/supreme/docs/2602petitionerletter.pdf, p. 1 (dated September 28, 2026; clerk's received stamp September 30, 2026); read 2026-10-12. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-009: Rule Petition 26-02 docket, https://www.wicourts.gov/scrules/pending/2602.htm (entry "Sep 30, 2026, Letter from Petitioner Withdrawing Petition"; no entry under court orders), and the letter, https://www.wicourts.gov/supreme/docs/2602petitionerletter.pdf, p. 1 (dated September 28, 2026; clerk's received stamp September 30, 2026); read 2026-10-12. -->
 
 **What to do:**
 
@@ -69,7 +69,7 @@ omitted county or from the pending status of one proposal.
   Subsections (1) to (3) of § 802.05 do not apply to disclosures and discovery
   requests, responses, objections, and motions that are subject to ss. 804.01 to
   804.12. § 802.05(5).
-  <!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-011: Wis. Stat. § 802.05(5), https://docs.legis.wisconsin.gov/document/statutes/802.05, read 2026-10-12. -->
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-011: Wis. Stat. § 802.05(5), https://docs.legis.wisconsin.gov/document/statutes/802.05, read 2026-10-12. -->
 - **If asked, answer honestly.** Do not construct a filing so as to make a truthful
   answer harder to give.
 

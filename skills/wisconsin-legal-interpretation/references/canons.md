@@ -204,7 +204,7 @@ Windows, LLC v. LIRC*, No. 2024AP1013, accepted 06/16/2026, with oral argument s
 November 10, 2026 on whether to revisit and modify the *Kalal* framework. Apply *Kalal* as
 explained in *SEIU* unless later controlling authority changes it, and check the case's
 current status before relying on that framework.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-008 and K-1: one identical dated status sentence in canons.md section 1.6, standards-of-review.md and the interpretation README. Sources: SEIU, 2025 WI 29, cover, ¶¶ 9-12, ¶ 65 (https://www.wicourts.gov/sc/order/DisplayDocImage.pdf?docId=977376); Clerk's Table of Pending Cases, p. 9, No. 2024AP1013 (https://www.wicourts.gov/sc/SCCASES.pdf), both read 2026-10-12. No citator content. Recheck on 2026-11-10 and on decision. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-008 and K-1: one identical dated status sentence in canons.md section 1.6, standards-of-review.md and the interpretation README. Sources: SEIU, 2025 WI 29, cover, ¶¶ 9-12, ¶ 65 (https://www.wicourts.gov/sc/order/DisplayDocImage.pdf?docId=977376); Clerk's Table of Pending Cases, p. 9, No. 2024AP1013 (https://www.wicourts.gov/sc/SCCASES.pdf), both read 2026-10-12. No citator content. Recheck on 2026-11-10 and on decision. -->
 
 **Operating rule.** *Kalal*, as clarified by *SEIU*, controls until an opinion says otherwise,
 and every memo applies it. At the start of any run that turns on interpretive method:
@@ -405,7 +405,7 @@ agency conclusions of law while giving "due weight" under § 227.57(10) to the a
 technical competence, and specialized knowledge. Paragraph 78 is lead-opinion reasoning (Kelly,
 J., joined in full only by R.G. Bradley, J.; see n.4), not a majority holding. It puts the fit
 this way:
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-005: Wis. Stat. § 227.57(10)-(11), https://docs.legis.wisconsin.gov/document/statutes/227.57; Tetra Tech EC, Inc. v. DOR, 2018 WI 75, n.4 (sections joined by a majority), ¶ 78 (Section II.A.5, lead opinion), ¶ 108 (Section III, majority), https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=214793; read 2026-10-12. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-005: Wis. Stat. § 227.57(10)-(11), https://docs.legis.wisconsin.gov/document/statutes/227.57; Tetra Tech EC, Inc. v. DOR, 2018 WI 75, n.4 (sections joined by a majority), ¶ 78 (Section II.A.5, lead opinion), ¶ 108 (Section III, majority), https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=214793; read 2026-10-12. -->
 
 > "giving 'due weight' to an agency's experience, technical competence, and specialized knowledge
 > will not 'oust the court as the ultimate authority or final arbiter' of the law. Instead, it
@@ -435,7 +435,7 @@ sessions do not violate the Wisconsin Constitution and that the December 2018 ex
 session was constitutional; the Court vacated the circuit court's order and remanded for
 dismissal (mandate). The decision addressed the session, not every challenge to a particular
 provision enacted in it.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-017 (optional): League of Women Voters of Wisconsin v. Evers, 2019 WI 75, ¶¶ 2, 42 and mandate, https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=242640, read 2026-10-12. No citator content. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-017 (optional): League of Women Voters of Wisconsin v. Evers, 2019 WI 75, ¶¶ 2, 42 and mandate, https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=242640, read 2026-10-12. No citator content. -->
 
 The statutory abolition followed *Tetra Tech EC, Inc. v. DOR*, 2018 WI 75, which ended
 great-weight deference. **Retrieve and read *Tetra Tech* before writing about how a court will

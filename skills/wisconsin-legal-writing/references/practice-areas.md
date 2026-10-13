@@ -68,8 +68,8 @@ request or charged excessive fees. The
 § 19.37(4) forfeiture of not more than $1,000 is enforced by action on behalf of the
 state by the attorney general or the district attorney of any county where a
 violation occurs; the requester does not enforce it.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-004: Wis. Stat. § 19.37(1)(a) (mandamus), (2), (3) (punitive damages), (4) (forfeiture and its enforcement), https://docs.legis.wisconsin.gov/document/statutes/19.37, read 2026-10-12. -->
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-13), A2-01: Wis. Stat. § 19.37(1) (intro) (written request; withholding or delay), (1)(a), (2)(a) (§ 19.35(1)(a) access actions; committed or incarcerated requester), (2)(b) (§ 19.35(1)(am); willful or intentional; actual damages), (3), https://docs.legis.wisconsin.gov/document/statutes/19.37; § 19.35(1)(a), (am), https://docs.legis.wisconsin.gov/document/statutes/19.35; read 2026-10-13. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-004: Wis. Stat. § 19.37(1)(a) (mandamus), (2), (3) (punitive damages), (4) (forfeiture and its enforcement), https://docs.legis.wisconsin.gov/document/statutes/19.37, read 2026-10-12. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-13), A2-01: Wis. Stat. § 19.37(1) (intro) (written request; withholding or delay), (1)(a), (2)(a) (§ 19.35(1)(a) access actions; committed or incarcerated requester), (2)(b) (§ 19.35(1)(am); willful or intentional; actual damages), (3), https://docs.legis.wisconsin.gov/document/statutes/19.37; § 19.35(1)(a), (am), https://docs.legis.wisconsin.gov/document/statutes/19.35; read 2026-10-13. -->
 
 **The fee standard is contested and moving.** *Friends of Frame Park v. City of
 Waukesha*, 2022 WI 57, 403 Wis. 2d 1, 976 N.W.2d 263, held that a requester does not
@@ -111,7 +111,7 @@ of the award, (1)(cm). Apply each category's own conditions. Act 105, § 1, also
 raises the § 421.202(6) Consumer Act exclusion thresholds from $25,000 to $50,000
 on the same date; that is not a small-claims limit. Read the current § 799.01, its
 effective-date notes, and Act 105 before relying on any figure.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-001: Wis. Stat. § 799.01(1)(a), (am), (b), (c), (cm), (cr), (d) and effective-date notes, https://docs.legis.wisconsin.gov/document/statutes/799.01; 2025 Wis. Act 105, §§ 1-5, https://docs.legis.wisconsin.gov/2025/related/acts/105; Wis. Stat. § 425.205(1), https://docs.legis.wisconsin.gov/document/statutes/425.205; all read 2026-10-12. Revise after 2027-01-01 (see docs/legal-sources.json, small-claims-limits). -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-001: Wis. Stat. § 799.01(1)(a), (am), (b), (c), (cm), (cr), (d) and effective-date notes, https://docs.legis.wisconsin.gov/document/statutes/799.01; 2025 Wis. Act 105, §§ 1-5, https://docs.legis.wisconsin.gov/2025/related/acts/105; Wis. Stat. § 425.205(1), https://docs.legis.wisconsin.gov/document/statutes/425.205; all read 2026-10-12. Revise after 2027-01-01 (see docs/legal-sources.json, small-claims-limits). -->
 
 **Chapter 799 is the exclusive procedure** for the actions § 799.01(1) lists. It is
 not an election.
@@ -244,8 +244,8 @@ judge is assigned to the trial. After an appellate decision that requires furthe
 trial-court proceedings, § 799.205(4) allows a request within 20 days after the entry
 of the appellate court's judgment or decision, not after the remittitur is filed.
 § 971.20 is the criminal analogue.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-002: Wis. Stat. § 801.58(1), (3), (7), https://docs.legis.wisconsin.gov/document/statutes/801.58; State v. Matthews, 2021 WI 42, ¶¶ 18, 20, 22 (unanimous), https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=367180; Wis. Stat. § 799.205(1), https://docs.legis.wisconsin.gov/document/statutes/799.205; read 2026-10-12. The former unsourced waiver sentence was removed. -->
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-13), A2-03: Wis. Stat. § 799.205(1) (initial timing; newly assigned judge), (4) (20 days after entry of the appellate judgment or decision), https://docs.legis.wisconsin.gov/document/statutes/799.205, read 2026-10-13. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-002: Wis. Stat. § 801.58(1), (3), (7), https://docs.legis.wisconsin.gov/document/statutes/801.58; State v. Matthews, 2021 WI 42, ¶¶ 18, 20, 22 (unanimous), https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=367180; Wis. Stat. § 799.205(1), https://docs.legis.wisconsin.gov/document/statutes/799.205; read 2026-10-12. The former unsourced waiver sentence was removed. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-13), A2-03: Wis. Stat. § 799.205(1) (initial timing; newly assigned judge), (4) (20 days after entry of the appellate judgment or decision), https://docs.legis.wisconsin.gov/document/statutes/799.205, read 2026-10-13. -->
 
 **Disqualification, § 757.19(2).** Seven grounds, (a) through (g). (a)-(f) are
 objective: prior representation, a financial interest, a relationship, prior
@@ -267,7 +267,7 @@ argument actually lives. A motion resting on (2)(g)
 alone is asking the judge to disqualify himself and is reviewable only for whether
 he answered the question. **If the argument is objective, plead the due process
 ground, not just (2)(g).**
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-006: State v. Herrmann, 2015 WI 84, cover and ¶ 1 (lead opinion, A.W. Bradley, J.), https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=144561; Miller v. Carroll, 2020 WI 56, cover, ¶¶ 23-24 (majority, Dallet, J.), https://www.wicourts.gov/sc/opinions/17/pdf/17-2132.pdf; read 2026-10-12. Check a citator before relying on either case. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-006: State v. Herrmann, 2015 WI 84, cover and ¶ 1 (lead opinion, A.W. Bradley, J.), https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=144561; Miller v. Carroll, 2020 WI 56, cover, ¶¶ 23-24 (majority, Dallet, J.), https://www.wicourts.gov/sc/opinions/17/pdf/17-2132.pdf; read 2026-10-12. Check a citator before relying on either case. -->
 
 ---
 

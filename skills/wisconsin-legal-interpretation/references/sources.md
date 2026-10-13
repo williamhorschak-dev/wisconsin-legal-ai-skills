@@ -414,7 +414,7 @@ Handling rules for any overlay content, which override normal convenience:
   such as the citator-or-disclosure policy in `SKILL.md` rule 5. It is project policy: the marker
   alone does not identify a requirement imposed by a statute, court rule, or professional-conduct
   rule.
-  <!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-022: vocabulary change; no external legal source. -->
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-022: vocabulary change; no external legal source. -->
 
 With no overlay loaded — the default — the run uses the ladder in §1, the archive in §8, and
 whatever the user attaches to the conversation. That is a complete configuration, not a degraded

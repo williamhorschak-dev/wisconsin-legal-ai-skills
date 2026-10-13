@@ -24,7 +24,7 @@ bind nobody, or citations that are affirmatively improper.
 | — | Federal district courts | Persuasive only |
 | — | Other states' decisions, Restatements, treatises, law reviews, Wisconsin Attorney General opinions | Persuasive only; AG opinions carry practical weight with agencies but bind no court |
 
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-016 (row 7): Wis. Stat. § 227.57(11), https://docs.legis.wisconsin.gov/document/statutes/227.57; Grycowski v. Milwaukee Employees' Retirement System/Annuity and Pension Board, 2021 WI App 7, ¶ 30 and n.2, https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=317184; read 2026-10-12. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-016 (row 7): Wis. Stat. § 227.57(11), https://docs.legis.wisconsin.gov/document/statutes/227.57; Grycowski v. Milwaukee Employees' Retirement System/Annuity and Pension Board, 2021 WI App 7, ¶ 30 and n.2, https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=317184; read 2026-10-12. -->
 
 Two entries in that table are the ones a generic assistant gets wrong by default: **the Seventh Circuit does
 not bind Wisconsin state courts**, and **circuit court decisions bind nothing**, including
@@ -102,7 +102,7 @@ Wis. 2d 166, 186, 189-90, 560 N.W.2d 246 (1997).
 *State v. Jensen*, 2021 WI 27, ¶ 11, restates that holding and says *Cook* does not apply to the
 law of the case; *Mitchell v. Buesgen*, 2024 WI App 14, n.17, treats the court of appeals as
 "bound to follow" its precedent as explained in *Cook*. Neither changes the rule above.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-018 (optional): State v. Jensen, 2021 WI 27, ¶ 11, https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=347890; Mitchell v. Buesgen, 2024 WI App 14, n.17, https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=767860; read 2026-10-12. No citator content. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-018 (optional): State v. Jensen, 2021 WI 27, ¶ 11, https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=347890; Mitchell v. Buesgen, 2024 WI App 14, n.17, https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=767860; read 2026-10-12. No citator content. -->
 
 **Cite *Cook* by page, not by paragraph.** It is a 1997 decision predating public-domain
 paragraph numbering. The pincites the supreme court itself uses: **208 Wis. 2d at 186** (unitary
@@ -145,7 +145,7 @@ suffices; the panel need not first establish an irreconcilable one. *Johnson*, 2
 The current restatement is *Wisconsin Voter Alliance v. Secord*, 2025 WI 2, ¶¶ 32-34, 36, 39,
 414 Wis. 2d 348, 15 N.W.3d 872, which also rejects "fine distinctions between arguments and
 assuming additional or different facts" as a way around *Cook*.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-021: reporter citation as given in Wisconsin Voter Alliance v. Secord, 2026 WI 27, ¶ 10, https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=1141646, read 2026-10-12. The FRAP 32.1(a)(i) quotation below keeps "non-precedential" (Fourth Circuit official text). -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-021: reporter citation as given in Wisconsin Voter Alliance v. Secord, 2026 WI 27, ¶ 10, https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=1141646, read 2026-10-12. The FRAP 32.1(a)(i) quotation below keeps "non-precedential" (Fourth Circuit official text). -->
 
 ### 3.1 What the *litigant* actually does about it
 

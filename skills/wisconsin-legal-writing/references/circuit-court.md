@@ -804,7 +804,7 @@ are needed.
   system, so long as the clerk of court later accepts it on review. That expanded
   time to file does not affect the calculation of time under other statutes, rules,
   and court orders. § 801.18(4)(am).
-  <!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-010: Wis. Stat. § 801.18(4)(am), https://docs.legis.wisconsin.gov/document/statutes/801.18, read 2026-10-12. The former "close of business" gloss is not in § 801.15 and was removed. -->
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-010: Wis. Stat. § 801.18(4)(am), https://docs.legis.wisconsin.gov/document/statutes/801.18, read 2026-10-12. The former "close of business" gloss is not in § 801.15 and was removed. -->
 
 **For an act due a prescribed period after service, check § 801.15(5):**
 - Service by mail: **+3 days**.

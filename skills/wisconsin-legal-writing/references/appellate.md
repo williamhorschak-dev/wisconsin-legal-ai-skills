@@ -120,7 +120,7 @@ will not be filed.** Silence is a rule violation.
 A reply brief must comply with § 809.19(1)(e) and (f); if it cites an unpublished
 opinion under § 809.23(3)(a) or (b), a copy must be provided in an appendix to that
 reply brief. § 809.19(4)(b).
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-012 (reply brief): Wis. Stat. § 809.19(4)(b), https://docs.legis.wisconsin.gov/document/statutes/809.19, read 2026-10-12. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-012 (reply brief): Wis. Stat. § 809.19(4)(b), https://docs.legis.wisconsin.gov/document/statutes/809.19, read 2026-10-12. -->
 
 ---
 
@@ -187,7 +187,7 @@ paragraph reads:
 > decisions showing the circuit court's reasoning regarding those issues.
 
 Plus the confidentiality assurance where **Rule 809.19(2)(am)** applies.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-012 (certification): Wis. Stat. § 809.19(8g)(b)1, official chapter 809 PDF, p. 18, https://docs.legis.wisconsin.gov/statutes/statutes/809.pdf, read 2026-10-12. Item (3) reads "s. 809.23 (3) (a) or (b)"; the former "(3)(a)2." was an error. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-012 (certification): Wis. Stat. § 809.19(8g)(b)1, official chapter 809 PDF, p. 18, https://docs.legis.wisconsin.gov/statutes/statutes/809.pdf, read 2026-10-12. Item (3) reads "s. 809.23 (3) (a) or (b)"; the former "(3)(a)2." was an error. -->
 
 **(8g)(c)**: the two certifications may be combined in a single document for
 signature. **(8g)(d)**: electronic filers may sign electronically per
@@ -306,7 +306,7 @@ proportional-serif brief runs at 1.15–1.5 under Rule 809.19(8)(b).
   those groups may register voluntarily, § 809.801(3)(b); except as otherwise
   provided, one who does not files, serves, and receives paper documents by
   traditional methods, § 809.801(3)(c).
-  <!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-012 (eFiling): Wis. Stat. § 809.801(3)(a)-(c), https://docs.legis.wisconsin.gov/document/statutes/809.801, read 2026-10-12. -->
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-012 (eFiling): Wis. Stat. § 809.801(3)(a)-(c), https://docs.legis.wisconsin.gov/document/statutes/809.801, read 2026-10-12. -->
 - **§ 809.801(8)(e):** appendices, exhibits, and affidavits in PDF; **all other
   documents, including the brief, in text-searchable PDF.** Scanning is not
   enough; convert from the word processor.

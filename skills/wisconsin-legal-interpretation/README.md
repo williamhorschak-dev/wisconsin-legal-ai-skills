@@ -33,8 +33,8 @@ Windows, LLC v. LIRC*, No. 2024AP1013, accepted 06/16/2026, with oral argument s
 November 10, 2026 on whether to revisit and modify the *Kalal* framework. Apply *Kalal* as
 explained in *SEIU* unless later controlling authority changes it, and check the case's
 current status before relying on that framework.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-008 and K-1: one identical dated status sentence in canons.md section 1.6, standards-of-review.md and the interpretation README. Sources: SEIU, 2025 WI 29, cover, ¶¶ 9-12, ¶ 65 (https://www.wicourts.gov/sc/order/DisplayDocImage.pdf?docId=977376); Clerk's Table of Pending Cases, p. 9, No. 2024AP1013 (https://www.wicourts.gov/sc/SCCASES.pdf), both read 2026-10-12. No citator content. Recheck on 2026-11-10 and on decision. -->
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-016 (table row on agency readings): Wis. Stat. § 227.57(11), https://docs.legis.wisconsin.gov/document/statutes/227.57; Grycowski v. Milwaukee Employees' Retirement System/Annuity and Pension Board, 2021 WI App 7, ¶ 30 and n.2, https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=317184; read 2026-10-12. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-008 and K-1: one identical dated status sentence in canons.md section 1.6, standards-of-review.md and the interpretation README. Sources: SEIU, 2025 WI 29, cover, ¶¶ 9-12, ¶ 65 (https://www.wicourts.gov/sc/order/DisplayDocImage.pdf?docId=977376); Clerk's Table of Pending Cases, p. 9, No. 2024AP1013 (https://www.wicourts.gov/sc/SCCASES.pdf), both read 2026-10-12. No citator content. Recheck on 2026-11-10 and on decision. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-016 (table row on agency readings): Wis. Stat. § 227.57(11), https://docs.legis.wisconsin.gov/document/statutes/227.57; Grycowski v. Milwaukee Employees' Retirement System/Annuity and Pension Board, 2021 WI App 7, ¶ 30 and n.2, https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=317184; read 2026-10-12. -->
 
 ## Contents
 

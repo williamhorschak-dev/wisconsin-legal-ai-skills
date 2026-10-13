@@ -10,7 +10,7 @@ this skill recommends the public-domain form as a drafting default (project poli
 not a statewide rule), subject to any applicable rule or court order. Formatting failures are
 `FLAG: FORMAT` in the report: they never block a substantive `VERIFIED`, and they never
 ship silently.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-007: SCR 80.02(1), https://www.wicourts.gov/sc/rules/chap80.pdf, read 2026-10-12. The drafting default outside that scope is project policy. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-007: SCR 80.02(1), https://www.wicourts.gov/sc/rules/chap80.pdf, read 2026-10-12. The drafting default outside that scope is project policy. -->
 
 A humility note, in the spirit of the rest of this skill: this file states the
 conventions at the confidence they deserve from a style memory. Where a formatting

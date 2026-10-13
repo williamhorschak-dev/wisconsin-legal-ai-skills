@@ -182,7 +182,7 @@ Subsections (1) to (3) of § 802.05 "do not apply to disclosures and discovery
 requests, responses, objections, and motions that are subject to ss. 804.01 to
 804.12." § 802.05(5). Discovery papers answer to those sections instead, including
 the § 804.12 provisions in section 4 above.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-011: Wis. Stat. § 802.05(5), https://docs.legis.wisconsin.gov/document/statutes/802.05, read 2026-10-12. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-011: Wis. Stat. § 802.05(5), https://docs.legis.wisconsin.gov/document/statutes/802.05, read 2026-10-12. -->
 
 **The asymmetry worth knowing:** § 802.05(3)(b) provides that monetary sanctions may
 not be awarded against a **represented** party for a violation of sub. (2)(b), the
@@ -219,7 +219,7 @@ the withdrawal or correction is not timely made, the award is mandatory,
 § 895.044(2)(b). A timely correction under § 895.044 does not guarantee that no
 costs are awarded. Never ignore either kind of motion. Read what it says the problem
 is, and if it is right, fix it inside the period.
-<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-003: Wis. Stat. § 802.05(3)(a)1., https://docs.legis.wisconsin.gov/document/statutes/802.05; Wis. Stat. § 895.044(1), (2) (intro.), (2)(a), (2)(b), https://docs.legis.wisconsin.gov/document/statutes/895.044; read 2026-10-12. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-003: Wis. Stat. § 802.05(3)(a)1., https://docs.legis.wisconsin.gov/document/statutes/802.05; Wis. Stat. § 895.044(1), (2) (intro.), (2)(a), (2)(b), https://docs.legis.wisconsin.gov/document/statutes/895.044; read 2026-10-12. -->
 
 ## 6. You are held to the same rules
 
