@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "scope": "Public maintenance register, not a private matter source archive or certification of current law.",
+  "freshness_fields": "Three dates answer different questions. retrieved_at: the day a maintainer last fetched url and saw it answer. page_changed_at: the publication date shown in the currency line of the page at currency_url, or null when no such line is recorded. legally_reviewed_at: the day a qualified reviewer checked the proposition against the law; null until that happens, and never set by a script. currency_url and currency_line record where scripts/check_sources.py reads the page's currency line and the value last seen there. A reachable URL or an unchanged currency line does not establish current law, and neither retrieved_at nor page_changed_at substitutes for last_reviewed or legally_reviewed_at.",
   "sources": [
     {
       "id": "seiu-intrinsic-and-confirmation",
@@ -16,7 +17,12 @@
         "skills/wisconsin-legal-interpretation/assets/memo-template.md",
         "skills/wisconsin-legal-interpretation/references/canons.md"
       ],
-      "review_interval_days": 90
+      "review_interval_days": 90,
+      "retrieved_at": "2026-10-13",
+      "page_changed_at": null,
+      "legally_reviewed_at": null,
+      "currency_url": null,
+      "currency_line": null
     },
     {
       "id": "upl-scope",
@@ -34,7 +40,12 @@
         "skills/wisconsin-legal-writing/SKILL.md",
         "skills/wisconsin-legal-interpretation/SKILL.md"
       ],
-      "review_interval_days": 90
+      "review_interval_days": 90,
+      "retrieved_at": "2026-10-13",
+      "page_changed_at": null,
+      "legally_reviewed_at": null,
+      "currency_url": null,
+      "currency_line": null
     },
     {
       "id": "appellate-practice",
@@ -51,7 +62,12 @@
         "skills/wisconsin-legal-writing/references/checklists.md",
         "skills/wisconsin-legal-interpretation/references/authority-hierarchy.md"
       ],
-      "review_interval_days": 60
+      "review_interval_days": 60,
+      "retrieved_at": "2026-10-13",
+      "page_changed_at": "2026-10-01",
+      "legally_reviewed_at": null,
+      "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/809",
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
     },
     {
       "id": "civil-time-and-signatures",
@@ -67,7 +83,12 @@
         "skills/wisconsin-legal-writing/references/circuit-court.md",
         "skills/wisconsin-legal-writing/references/signature-blocks.md"
       ],
-      "review_interval_days": 60
+      "review_interval_days": 60,
+      "retrieved_at": "2026-10-13",
+      "page_changed_at": "2026-10-01",
+      "legally_reviewed_at": null,
+      "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/801",
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
     },
     {
       "id": "pleadings-and-summary-judgment",
@@ -83,7 +104,12 @@
         "skills/wisconsin-legal-writing/references/circuit-court.md",
         "skills/wisconsin-legal-writing/references/responding.md"
       ],
-      "review_interval_days": 60
+      "review_interval_days": 60,
+      "retrieved_at": "2026-10-13",
+      "page_changed_at": "2026-10-01",
+      "legally_reviewed_at": null,
+      "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/802",
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
     },
     {
       "id": "discovery-responses",
@@ -100,7 +126,12 @@
         "skills/wisconsin-legal-writing/assets/04-discovery-response.json",
         "skills/wisconsin-legal-writing/assets/12-motion-to-compel.json"
       ],
-      "review_interval_days": 60
+      "review_interval_days": 60,
+      "retrieved_at": "2026-10-13",
+      "page_changed_at": "2026-10-01",
+      "legally_reviewed_at": null,
+      "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/804",
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
     },
     {
       "id": "reconsideration-relief",
@@ -115,7 +146,12 @@
       "affected_files": [
         "skills/wisconsin-legal-writing/assets/08-motion-for-reconsideration.json"
       ],
-      "review_interval_days": 60
+      "review_interval_days": 60,
+      "retrieved_at": "2026-10-13",
+      "page_changed_at": "2026-10-01",
+      "legally_reviewed_at": null,
+      "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/806",
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
     },
     {
       "id": "declaration-exclusions",
@@ -132,7 +168,12 @@
         "skills/wisconsin-legal-writing/assets/05b-affidavit.json",
         "skills/wisconsin-legal-writing/references/circuit-court.md"
       ],
-      "review_interval_days": 60
+      "review_interval_days": 60,
+      "retrieved_at": "2026-10-13",
+      "page_changed_at": "2026-10-01",
+      "legally_reviewed_at": null,
+      "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/887",
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
     },
     {
       "id": "construction-statutes",
@@ -148,7 +189,12 @@
         "skills/wisconsin-legal-interpretation/references/canons.md",
         "skills/wisconsin-legal-interpretation/assets/memo-template.md"
       ],
-      "review_interval_days": 60
+      "review_interval_days": 60,
+      "retrieved_at": "2026-10-13",
+      "page_changed_at": "2026-10-01",
+      "legally_reviewed_at": null,
+      "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/990",
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
     },
     {
       "id": "small-claims-limits",
@@ -163,7 +209,12 @@
       "affected_files": [
         "skills/wisconsin-legal-writing/references/practice-areas.md"
       ],
-      "review_interval_days": 60
+      "review_interval_days": 60,
+      "retrieved_at": "2026-10-12",
+      "page_changed_at": null,
+      "legally_reviewed_at": null,
+      "currency_url": null,
+      "currency_line": null
     },
     {
       "id": "kalal-framework-status",
@@ -180,7 +231,12 @@
         "skills/wisconsin-legal-writing/references/standards-of-review.md",
         "skills/wisconsin-legal-interpretation/README.md"
       ],
-      "review_interval_days": 30
+      "review_interval_days": 30,
+      "retrieved_at": "2026-10-12",
+      "page_changed_at": null,
+      "legally_reviewed_at": null,
+      "currency_url": null,
+      "currency_line": null
     }
   ]
 }

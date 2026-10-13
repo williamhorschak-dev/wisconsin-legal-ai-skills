@@ -1,0 +1,142 @@
+[
+  {
+    "query": "Served by mail in a Waukesha County small claims case on Oct 3, 2026. Compute my answer deadline and give me the date.",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "train"
+  },
+  {
+    "query": "Write the statutory interpretation section of my Seventh Circuit brief on the FLSA overtime exemption. Use the facts in the attached summary and keep it under 2,500 words.",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "train"
+  },
+  {
+    "query": "How does Wisconsin read the word 'shall' compared with how federal courts read it? The two sides in our dispute over a Wisconsin Administrative Code notice provision each rely on a different case.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "positive",
+    "split": "validation"
+  },
+  {
+    "query": "I just lost at the circuit court in Brown County. Walk me through docketing the appeal and exactly what the record on appeal has to include in my case.",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "validation"
+  },
+  {
+    "query": "Review my reply brief for a Wisconsin Court of Appeals appeal. Check the structure, the certifications and the signature block before I file it.",
+    "should_trigger": false,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "cross-skill",
+    "split": "validation"
+  },
+  {
+    "query": "I need the text of the Wisconsin statute on small claims jurisdiction as it read on June 1, 2016, not today's version. Quote it and tell me where the historical text can be read.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "positive",
+    "split": "train"
+  },
+  {
+    "query": "Our client's lease says 'reasonable notice' and the Wisconsin statute says 'written notice.' How would Wisconsin courts decide whether those two phrases mean the same thing? Walk me through the method and what the other side will argue.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "positive",
+    "split": "train"
+  },
+  {
+    "query": "Draft a Wisconsin circuit court motion to compel discovery responses. We're in Outagamie County and the defendant ignored our interrogatories. I'm the plaintiff's attorney.",
+    "should_trigger": false,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "cross-skill",
+    "split": "train"
+  },
+  {
+    "query": "What's the proper Bluebook way to cite a Wisconsin statute section and subsection in a footnote? No sources needed, I just want the format.",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "validation"
+  },
+  {
+    "query": "plain meaning vs purpose?? how do wisconsin courts handle a local ordinance with two plausible readings. 'person' in ours doesn't say whether it covers LLCs, and the city and my client disagree",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "positive",
+    "split": "validation"
+  },
+  {
+    "query": "i need the current text of Wisconsin Constitution Article I section 11 and whether the wording changed after 1980. just the text and the amendment history pls",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "positive",
+    "split": "validation"
+  },
+  {
+    "query": "Write a short research memo with an authority table on whether a 2020 Wisconsin Court of Appeals decision interpreting a statute was affected by a 2023 amendment. Treat the reading as contested and include the strongest adverse authority.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "positive",
+    "split": "validation"
+  },
+  {
+    "query": "Here is my draft brief and the PDFs of the 14 opinions it cites. Confirm each quotation is accurate and flag any case that doesn't support the sentence it's cited for.",
+    "should_trigger": false,
+    "expected_skill": "cite-check",
+    "category": "cross-skill",
+    "split": "train"
+  },
+  {
+    "query": "Someone on the team says one of our citations, Rowan v. Teague Foods, 2016 WI 54, is hallucinated. Verify that it exists and that the pincite matches the proposition.",
+    "should_trigger": false,
+    "expected_skill": "cite-check",
+    "category": "cross-skill",
+    "split": "train"
+  },
+  {
+    "query": "Is an unpublished Wisconsin Court of Appeals opinion from 2019 citable for its persuasive value in a brief? What does the rule say, and when did that rule take its current form?",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "positive",
+    "split": "train"
+  },
+  {
+    "query": "Put together a declaration for my client in a Dane County case. She signed the lease in April and never got the notice. She is not a lawyer, so make sure the signature block fits.",
+    "should_trigger": false,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "cross-skill",
+    "split": "validation"
+  },
+  {
+    "query": "Does a Wisconsin court still defer to an agency's reading of its own governing statute? Give me the controlling authority and quote the operative language.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "positive",
+    "split": "train"
+  },
+  {
+    "query": "What does Wis. Stat. 227.10(2m) say, exactly? I need the current wording quoted and the place you read it.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-interpretation",
+    "category": "positive",
+    "split": "train"
+  },
+  {
+    "query": "How does Minnesota read an ambiguous statute? What does Minn. Stat. 645.16 say about legislative intent, and how do Minnesota courts use it?",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "train"
+  },
+  {
+    "query": "My neighbor's tree fell on my garage in Racine and his insurer denied the claim. What should I do, and will I win if I sue?",
+    "should_trigger": false,
+    "expected_skill": null,
+    "category": "near-miss",
+    "split": "train"
+  }
+]

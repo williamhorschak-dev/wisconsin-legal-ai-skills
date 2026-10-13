@@ -90,3 +90,130 @@ those checks. Do not put private matter material or paid source archives in this
 Commands return `0` for success, `1` for an incomplete/failed review summary, and
 `2` for invalid data or collection errors. Preparation and validation make no model
 calls. Actual results are pending unless an identified run says otherwise.
+
+## Trigger evaluations
+
+The cases above test what a model does once it has the skills. Trigger evaluations ask
+a narrower question: given only a skill's name and description, does the host choose
+to load that skill for a user's message, and does it stay out of the way when the
+message belongs elsewhere? The query sets follow the
+[Agent Skills guidance on optimizing descriptions](https://agentskills.io/skill-creation/optimizing-descriptions),
+read on 2026-10-13.
+
+Each skill has `evals/triggers/<skill>/eval_queries.json`: 20 queries written for this
+project from invented facts. Nine should trigger the skill. Six are near-misses that
+share vocabulary but belong elsewhere (a Minnesota or federal-court question, a request
+for advice about a real matter, a citation-format question with no sources, a deadline
+calculation, a will or a resume). Five are cross-skill cases that belong to one of the
+other two skills. Each entry has `query` and `should_trigger` as in the guidance, plus
+`expected_skill` (the skill that should trigger, or null), `category`, and `split`
+(`train` for 12 queries, `validation` for 8, with both kinds of query in each). The
+split is fixed. Use the train queries when revising a description and keep validation
+results out of that process. Departures from the guidance are listed under "Differences
+from the guidance" below.
+
+### Scoring rules
+
+Run each query 3 times (any odd number works) and compute the trigger rate: the share
+of runs in which the skill under test was loaded. A should-trigger query passes if the
+rate is above 0.5. A should-not-trigger query passes if the rate is below 0.5. A rate
+exactly at the threshold fails either way, which is why an odd run count is
+recommended. Precision is the share of queries counted as triggering the skill that
+should have; recall is the share of should-trigger queries counted as triggering it. A
+tie counts as a miss for a should-trigger query and as an unwanted trigger for any
+other. A skill passes only if every selected query passes unless you lower
+`--min-pass-rate`. Cross-skill queries count against the skill under test only if it
+triggers; the report also shows whether the expected skill did.
+
+### What this measures and what it does not
+
+A pass says that, on these 20 queries per skill, with this host, model, and installed
+skill set, the description behaved as labeled in the runs you recorded. A small fixed
+holdout does not establish general reliability: different phrasing, a longer
+conversation, other installed skills, or another model can change the outcome. Results
+vary by host and model and across runs of the same one, and hosts differ in how a
+skill is reported as used. Passing a trigger evaluation says nothing about output
+quality, legal accuracy, or whether work is filing-ready. Do not publish a result
+without the host, model, date, run count, and the failing queries.
+
+### Check the query files
+
+```sh
+python scripts/trigger_eval.py validate
+```
+
+This checks the schema, the label rules, the split, and duplicates. It runs nothing.
+
+### Mode 1: score a predictions file (offline)
+
+Collect the results however your host allows, for example by reading its tool-call
+logs, and record them in a JSON file. Each run lists the skills the host loaded
+(an empty list if none):
+
+```json
+{
+  "schema_version": 1,
+  "host": "name and version of the host",
+  "model": "model identifier the host displayed",
+  "collected": "2026-10-13",
+  "predictions": [
+    {"skill": "cite-check", "query": "<query text copied exactly>", "runs": [["cite-check"], ["cite-check"], []]}
+  ]
+}
+```
+
+```sh
+python scripts/trigger_eval.py score --predictions predictions.json --report report.json
+```
+
+Every query for the selected skills needs an entry, using the exact query text. Add
+`--skill NAME` to limit the skills and `--split train|validation` to score one split.
+`--threshold` and `--min-pass-rate` change the rules above. The script makes no model
+or network calls, prints precision, recall, and pass or fail per skill and split, and
+writes the report (it will not overwrite an existing file). Exit status is 0 if every
+selected skill passes, 1 if any fails, and 2 for invalid input.
+
+### Mode 2: run your own command
+
+Write a config that names a command. The script runs it for each query and run,
+without a shell, and the command decides how to talk to a host or model. This
+script makes no network calls of its own; anything the command does is on the
+operator, so review it and mind account costs and data limits first.
+
+```json
+{
+  "command": ["python", "my_host_runner.py"],
+  "runs": 3,
+  "timeout_seconds": 120,
+  "host": "name and version of the host",
+  "model": "model identifier the host displayed"
+}
+```
+
+The query is sent on standard input, or placed in any argument containing `{query}`.
+The command must print one JSON line, either an array of the skill names it saw
+loaded, such as `["cite-check"]`, or `{"triggered": []}` when none. A nonzero exit,
+timeout, or output in another shape stops the run with status 2. Then:
+
+```sh
+python scripts/trigger_eval.py run --config config.json --report report.json --save-predictions predictions.json
+```
+
+`--save-predictions` keeps the raw runs so they can be re-scored offline with
+different options. Run the command in a fresh session for each call so earlier
+queries cannot influence the result, and use a throwaway workspace.
+
+### Differences from the guidance
+
+- The guidance names `eval_queries.json` but gives no location. These live under
+  `evals/triggers/<skill>/` rather than inside the skill folders, so changing a query
+  does not change a skill's checksums or ZIP. The guidance's `evals/evals.json`
+  (output-quality test cases) is a different file and is not provided here; see
+  `cases.json` above.
+- The guidance's example has only `query` and `should_trigger`. The extra fields add
+  the cross-skill label and the split. The guidance suggests either two files or a
+  fixed split; this repository keeps one file per skill with a `split` field.
+- The guidance sketches a shell loop. `scripts/trigger_eval.py` replaces it with the
+  same trigger-rate and threshold rules, and adds the offline mode.
+- The guidance names no skill-level pass rule or precision and recall. Those are this
+  project's additions. No results are recorded in this repository.

@@ -75,7 +75,13 @@ The standard-library helper [scripts/cite_check.py](scripts/cite_check.py) recor
 evidence and produces a report bound to the exact draft and source bytes. Read
 [evidence-tool.md](references/evidence-tool.md) before using it. It checks inventory
 coverage, hashes, source containment, duplicate records, and narrowly normalized text
-matches. It does not run a citator or evaluate law.
+matches. It does not run a citator or evaluate law. Its quote labels are `VERIFIED`,
+`QUOTE_ALTERED`, `MISATTRIBUTED`, and `UNRESOLVED`; only `VERIFIED` supports a pass.
+
+Record whether each source was `retrieved_this_session`, `user_supplied`, or
+`remembered`; remembered text cannot pass a verbatim check. When a source is
+unreachable, name it and the authorities it limits. Do not say that no citation was
+verified when other authorities were checked.
 
 `RECORDED PASS` means every required check has passing evidence entered by a reviewer.
 It is not the tool's independent certification. Missing checks appear as `UNVERIFIED`;

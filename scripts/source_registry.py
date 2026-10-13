@@ -33,6 +33,20 @@ def validate(data, root=ROOT):
                 errors.append(f"{label}: review interval must be 1-365 days")
         except (ValueError, TypeError, KeyError):
             errors.append(f"{label}: invalid review date or interval")
+        for key in ("retrieved_at", "page_changed_at", "legally_reviewed_at"):
+            if key not in item:
+                errors.append(f"{label}: missing {key} (use null when unknown)")
+            elif item[key] is not None:
+                try:
+                    date.fromisoformat(item[key])
+                except (ValueError, TypeError):
+                    errors.append(f"{label}: {key} must be an ISO date or null")
+        currency_url, currency_line = item.get("currency_url"), item.get("currency_line")
+        if currency_url is not None and (not isinstance(currency_url, str) or urlparse(currency_url).scheme != "https"
+                                         or not urlparse(currency_url).netloc):
+            errors.append(f"{label}: currency_url must be an HTTPS URL or null")
+        if currency_line is not None and (not isinstance(currency_line, str) or not currency_line.strip() or not currency_url):
+            errors.append(f"{label}: currency_line must be text recorded from a currency_url, or null")
         paths = item.get("affected_files", [])
         if not paths:
             errors.append(f"{label}: no affected files")

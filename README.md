@@ -281,10 +281,21 @@ python scripts/skill_tools.py package --out dist/skills
 ```
 
 Choose a new package output directory. After reviewed changes to a skill, refresh
-manifests with `python scripts/skill_tools.py manifest`. See [AGENTS.md](AGENTS.md),
+manifests with `python scripts/skill_tools.py manifest`. The queries in `evals/triggers/`
+and `scripts/trigger_eval.py` test whether each skill's description triggers, as
+described in [evals/README.md](evals/README.md), and no trigger results have been
+recorded. A small fixed query set does not show that a skill triggers reliably on any
+host or model. See [AGENTS.md](AGENTS.md),
 [RELEASING.md](docs/RELEASING.md), [PORTABILITY.md](docs/PORTABILITY.md), and the
 [September 20, 2026 assessment](docs/ASSESSMENT-2026-09-20.md), which records that
 day's corrections and is a dated, non-attorney record whose test counts are out of date.
+
+`python -I scripts/check_sources.py --report <path>` requests each URL in the
+[source register](docs/legal-sources.json) once, honoring robots.txt, writes a JSON report,
+and exits 1 if a URL is unreachable or a recorded currency line has changed; it never edits
+the register or its `legally_reviewed_at` field. The
+[Check sources workflow](.github/workflows/check-sources.yml) runs it monthly and on manual
+dispatch and uploads the report as an artifact without committing anything.
 
 ## Author and license
 

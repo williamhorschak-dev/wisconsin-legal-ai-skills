@@ -1,0 +1,5 @@
+[version: as amended by 2025 Fictional Act 999, effective 2027-01-01; not in effect on 2026-10-13 (fictional)]
+FICTIONAL TEST TEXT. Not a Wisconsin statute; written only for the cite_check tests.
+
+[locator: s. 998.05]
+998.05 Filing fee. The clerk shall collect a filing fee of $75 for each petition, except as provided in sub. (2).

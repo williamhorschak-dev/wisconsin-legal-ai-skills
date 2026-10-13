@@ -299,8 +299,10 @@ do not impose a new approval when that scope is already authorized (`references/
 Read [canons.md](references/canons.md) for the Wisconsin interpretive sequence and
 [authority-hierarchy.md](references/authority-hierarchy.md) for binding and persuasive
 authority. Read [sources.md](references/sources.md) for primary-source retrieval and
-confidential materials. These files are research aids; verify operative law during each
-substantive use.
+confidential materials. Read [source-behavior.md](references/source-behavior.md) for how
+Wisconsin source sites display currency lines, versions not yet in effect, permalinks
+and dates, and where those displays mislead. These files are research aids; verify
+operative law during each substantive use.
 
 ## Scope boundary
 
