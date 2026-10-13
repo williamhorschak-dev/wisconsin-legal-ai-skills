@@ -185,7 +185,7 @@ FATAL findings are recorded as `fatal_findings: <integer>`. Any number above zer
 claiming a completed formal pass until corrected and reviewed again. An issue report or
 requested partial draft must preserve those findings visibly; do not label it approved.
 
-**5. `[MANDATORY RULE]` Citator or disclosure — never silence.** When an authority is
+**5. `[SKILL RULE]` Citator or disclosure, never silence.** When an authority is
 **outcome-determinative** for anything that will be filed, served, sent to a client, or relied on
 to meet a deadline, its current negative treatment is checked through an authorized citator
 (KeyCite or Shepard's), **or** the output states on its face that the authority was **not

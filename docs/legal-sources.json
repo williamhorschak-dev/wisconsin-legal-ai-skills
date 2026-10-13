@@ -149,6 +149,38 @@
         "skills/wisconsin-legal-interpretation/assets/memo-template.md"
       ],
       "review_interval_days": 60
+    },
+    {
+      "id": "small-claims-limits",
+      "authority": "Wis. Stat. 799.01(1), Wis. Stat. 425.205(1), and 2025 Wis. Act 105",
+      "url": "https://docs.legis.wisconsin.gov/document/statutes/799.01",
+      "proposition": "Small-claims amount limits: (1)(c) and (1)(d) $10,000 before 2027-01-01 and $15,000 from that date (Act 105 sections 2, 3 and 5; section 4(1) first applies to actions commenced or claims made on the effective date); (1)(cr) $5,000 unchanged; (1)(a), (am), (b) and (cm) carry no chapter 799 dollar cap; covered Consumer Act replevin proceeds under ch. 799 notwithstanding (1)(c) and value under 425.205(1).",
+      "operative_version": "Official section pages and Act 105 read 2026-10-12 in a draft legal-text branch; DRAFT FOR LEGAL REVIEW. Recheck on or before 2027-01-01 and revise the practice-areas.md passage.",
+      "status": "needs_primary_review",
+      "last_reviewed": null,
+      "review_scope": "Draft text prepared from public sources for qualified review; no maintainer or attorney review date is claimed. Trigger: 2027-01-01 effective date.",
+      "review_basis": "docs/LEGAL-TEXT-CHANGES-2026-10.md (L-001).",
+      "affected_files": [
+        "skills/wisconsin-legal-writing/references/practice-areas.md"
+      ],
+      "review_interval_days": 60
+    },
+    {
+      "id": "kalal-framework-status",
+      "authority": "SEIU Healthcare Wisconsin v. WERC, 2025 WI 29; Abby Windows, LLC v. LIRC, No. 2024AP1013",
+      "url": "https://www.wicourts.gov/sc/SCCASES.pdf",
+      "proposition": "Dated status sentence: the unanimous SEIU majority applied Kalal (cover; paragraphs 9-12); the Dallet concurrence, joined by three other justices, proposed a broader approach (paragraph 65); Abby Windows is scheduled for oral argument on 2026-11-10 on whether to revisit and modify the Kalal framework (clerk's Table of Pending Cases, p. 9).",
+      "operative_version": "Status as checked 2026-10-12; DRAFT FOR LEGAL REVIEW. Recheck triggers: 2026-11-10 (scheduled argument) and the date of decision in No. 2024AP1013.",
+      "status": "needs_primary_review",
+      "last_reviewed": null,
+      "review_scope": "Public opinion and clerk's table only; no citator content. No maintainer or attorney review date is claimed.",
+      "review_basis": "docs/LEGAL-TEXT-CHANGES-2026-10.md (L-008, K-1).",
+      "affected_files": [
+        "skills/wisconsin-legal-interpretation/references/canons.md",
+        "skills/wisconsin-legal-writing/references/standards-of-review.md",
+        "skills/wisconsin-legal-interpretation/README.md"
+      ],
+      "review_interval_days": 30
     }
   ]
 }

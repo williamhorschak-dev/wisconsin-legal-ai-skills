@@ -28,7 +28,7 @@ tags: [legal, research, wisconsin, specimen]
 > **The law quoted here is illustrative and may be out of date.** Read the operative text from
 > the official source before relying on any of it:
 >
-> - Wis. Stat. (Rule) § 809.23 — <https://docs.legis.wisconsin.gov/statutes/statutes/809/III/23>
+> - Wis. Stat. (Rule) § 809.23: <https://docs.legis.wisconsin.gov/document/statutes/809.23>
 > - Wis. Stat. § 990.001 — <https://docs.legis.wisconsin.gov/statutes/statutes/990/001>
 > - Wis. Stat. § 752.31 — <https://docs.legis.wisconsin.gov/statutes/statutes/752/31>
 > - *State ex rel. Kalal v. Circuit Court*, 2004 WI 58 —
@@ -255,7 +255,7 @@ files are notional and the retrieval dates are hypothetical; nothing here was ar
 
 | Source file (notional) | Origin URL a real run would use | Retrieved | Currency banner | How found |
 |---|---|---|---|---|
-| `sources/statutes/Wis-Stat-809.23 (ed.).md` | docs.legis.wisconsin.gov/statutes/statutes/809/III/23 | *not run* | *from the site banner* | search-for-proposition |
+| `sources/statutes/Wis-Stat-809.23 (ed.).md` | docs.legis.wisconsin.gov/document/statutes/809.23 | *not run* | *from the site banner* | search-for-proposition |
 | `sources/opinions/2004-WI-58 - State ex rel Kalal v Circuit Court.pdf` | wicourts.gov/sc/opinions/02/pdf/02-2490.pdf | *not run* | n/a | search-for-proposition |
 | `sources/statutes/Wis-Stat-990.001 (ed.).md` | docs.legis.wisconsin.gov/statutes/statutes/990/001 | *not run* | *from the site banner* | search-for-proposition |
 

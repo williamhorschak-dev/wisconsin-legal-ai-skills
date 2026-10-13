@@ -1,6 +1,6 @@
 # Worked example: the Doe sever motion
 
-`State v. Doe`, La Crosse County Case No. 2024CF000321. Defendant's
+`State v. Doe`, La Crosse County Case No. [CASE NO.]. Defendant's
 Motion to Sever Counts 1-4 and for Relief from Prejudicial Joinder, filed by defense
 counsel.
 
@@ -9,6 +9,7 @@ case number, and every date below are invented; the structure and the drafting m
 are modeled on a real, well-built filing. The
 templates in `assets/` teach shape; this file teaches why the shape works. Read it
 before drafting anything substantial, and steal the moves.
+<!-- Maintainer note, P-002, DRAFT FOR LEGAL REVIEW (2026-10-12): the sentence "modeled on a real, well-built filing" is kept for now. No public source in the assessment substantiates it, and it does not establish that any document was filed, accepted, or legally sufficient. The maintainer should confirm the provenance and decide whether to keep, reword, or remove it. -->
 
 The annotations are what matters. The quoted fragments are there to anchor them.
 

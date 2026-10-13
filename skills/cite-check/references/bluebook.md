@@ -2,11 +2,15 @@
 
 Verified is not the same as correctly formatted. This file governs how citations *look*
 in the output. Default style: **Bluebook practitioner conventions (the B "Bluepages"
-rules)**, yielding to the forum's own citation rule wherever one exists — in Wisconsin
-courts, Wisconsin's citation rule (SCR 80.02, requiring the public-domain citation for
-post-2000 Wisconsin cases) governs Wisconsin authority. Formatting failures are
+rules)**, yielding to the forum's own citation rule wherever one exists. SCR 80.02(1)
+governs the citation of published court of appeals and supreme court opinions in the
+table of cases in a brief and the initial citation in a memorandum or other document
+filed with the court of appeals or the supreme court. Outside that express scope,
+this skill recommends the public-domain form as a drafting default (project policy,
+not a statewide rule), subject to any applicable rule or court order. Formatting failures are
 `FLAG: FORMAT` in the report: they never block a substantive `VERIFIED`, and they never
 ship silently.
+<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-007: SCR 80.02(1), https://www.wicourts.gov/sc/rules/chap80.pdf, read 2026-10-12. The drafting default outside that scope is project policy. -->
 
 A humility note, in the spirit of the rest of this skill: this file states the
 conventions at the confidence they deserve from a style memory. Where a formatting

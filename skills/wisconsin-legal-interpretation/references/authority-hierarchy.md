@@ -16,13 +16,15 @@ bind nobody, or citations that are affirmatively improper.
 | 4 | Wisconsin statutes | All Wisconsin courts |
 | 5 | Wisconsin Supreme Court published decisions | All Wisconsin courts |
 | 6 | Wisconsin Court of Appeals **published** decisions | All Wisconsin circuit courts, and the court of appeals itself statewide |
-| 7 | Wisconsin Administrative Code (valid rules within enabling authority) | Binding as law; agency *interpretation* of law gets no deference — § 227.57(11) |
+| 7 | Wisconsin Administrative Code (valid rules within enabling authority) | Binding as law; on judicial review under ch. 227, agency *interpretation* of law gets no deference, § 227.57(11); municipal certiorari review has its own standards, including deference to a municipality's reasonable interpretation of its own ordinance, *Grycowski v. Milwaukee Emps.' Ret. Sys./Annuity & Pension Bd.*, 2021 WI App 7, ¶ 30 & n.2 |
 | 8 | County / municipal ordinances within the enacting body's power and not preempted | Within that jurisdiction |
 | — | Court of appeals **unpublished** decisions | Generally may **not** be cited as precedent or authority — § 809.23(3)(a); narrow persuasive exception in (b) |
 | — | Circuit court decisions | No precedential value anywhere, including on the same judge |
 | — | Seventh Circuit and other federal courts of appeals, on **federal** law | **Persuasive only** in Wisconsin state courts |
 | — | Federal district courts | Persuasive only |
 | — | Other states' decisions, Restatements, treatises, law reviews, Wisconsin Attorney General opinions | Persuasive only; AG opinions carry practical weight with agencies but bind no court |
+
+<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-016 (row 7): Wis. Stat. § 227.57(11), https://docs.legis.wisconsin.gov/document/statutes/227.57; Grycowski v. Milwaukee Employees' Retirement System/Annuity and Pension Board, 2021 WI App 7, ¶ 30 and n.2, https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=317184; read 2026-10-12. -->
 
 Two entries in that table are the ones a generic assistant gets wrong by default: **the Seventh Circuit does
 not bind Wisconsin state courts**, and **circuit court decisions bind nothing**, including
@@ -97,6 +99,11 @@ may overrule another, and the court may not overrule itself. Only the supreme co
 modify, or withdraw language from a published court of appeals opinion. *Cook v. Cook*, 208
 Wis. 2d 166, 186, 189-90, 560 N.W.2d 246 (1997).
 
+*State v. Jensen*, 2021 WI 27, ¶ 11, restates that holding and says *Cook* does not apply to the
+law of the case; *Mitchell v. Buesgen*, 2024 WI App 14, n.17, treats the court of appeals as
+"bound to follow" its precedent as explained in *Cook*. Neither changes the rule above.
+<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-018 (optional): State v. Jensen, 2021 WI 27, ¶ 11, https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=347890; Mitchell v. Buesgen, 2024 WI App 14, n.17, https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=767860; read 2026-10-12. No citator content. -->
+
 **Cite *Cook* by page, not by paragraph.** It is a 1997 decision predating public-domain
 paragraph numbering. The pincites the supreme court itself uses: **208 Wis. 2d at 186** (unitary
 court; statewide precedential effect), **at 189** ("must speak with a unified voice";
@@ -136,8 +143,9 @@ suffices; the panel need not first establish an irreconcilable one. *Johnson*, 2
 > is not an option."
 
 The current restatement is *Wisconsin Voter Alliance v. Secord*, 2025 WI 2, ¶¶ 32-34, 36, 39,
-which also rejects "fine distinctions between arguments and assuming additional or different
-facts" as a way around *Cook*. `[UNVERIFIED]` *Secord* reporter cite.
+414 Wis. 2d 348, 15 N.W.3d 872, which also rejects "fine distinctions between arguments and
+assuming additional or different facts" as a way around *Cook*.
+<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-021: reporter citation as given in Wisconsin Voter Alliance v. Secord, 2026 WI 27, ¶ 10, https://www.wicourts.gov/sc/opinion/DisplayDocument.pdf?content=pdf&seqNo=1141646, read 2026-10-12. The FRAP 32.1(a)(i) quotation below keeps "non-precedential" (Fourth Circuit official text). -->
 
 ### 3.1 What the *litigant* actually does about it
 

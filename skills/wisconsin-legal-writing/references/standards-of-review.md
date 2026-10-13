@@ -115,6 +115,16 @@ this file.
 > *Kalal* remains controlling. **Re-check this before filing any
 > brief that turns on the plain-meaning framework**: if the case has been decided,
 > the quotations above may be superseded.
+>
+> **Status as checked October 12, 2026.** In *SEIU Healthcare Wisconsin v. WERC*, 2025 WI 29,
+> the majority opinion for a unanimous Court applied *Kalal* (cover; ¶¶ 9-12), while Justice
+> Dallet's concurrence, joined by three other justices (four of seven), proposed a broader,
+> holistic approach (cover; ¶ 65). The clerk's Table of Pending Cases (p. 9) lists *Abby
+> Windows, LLC v. LIRC*, No. 2024AP1013, accepted 06/16/2026, with oral argument scheduled for
+> November 10, 2026 on whether to revisit and modify the *Kalal* framework. Apply *Kalal* as
+> explained in *SEIU* unless later controlling authority changes it, and check the case's
+> current status before relying on that framework.
+> <!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-008 and K-1: one identical dated status sentence in canons.md section 1.6, standards-of-review.md and the interpretation README. Sources: SEIU, 2025 WI 29, cover, ¶¶ 9-12, ¶ 65 (https://www.wicourts.gov/sc/order/DisplayDocImage.pdf?docId=977376); Clerk's Table of Pending Cases, p. 9, No. 2024AP1013 (https://www.wicourts.gov/sc/SCCASES.pdf), both read 2026-10-12. No citator content. Recheck on 2026-11-10 and on decision. -->
 
 ## Constitutional questions
 

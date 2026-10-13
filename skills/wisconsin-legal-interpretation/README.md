@@ -20,10 +20,21 @@ of that kind belongs in an optional private overlay the user supplies for an ide
 | Reasons from purpose, then finds text to fit | Runs the sequence *SEIU* states: every intrinsic source first — text, definitions, structure, statutory history, construction statutes, intrinsic canons, binding construction — **then** the plain-meaning call, and only then ambiguity, substantive canons, and extrinsic sources |
 | Treats the newest case as the strongest | Applies *Cook v. Cook*: the court of appeals cannot overrule itself, so conflicting published decisions are both live |
 | Treats the Seventh Circuit as controlling | Persuasive only in Wisconsin state courts, and says so |
-| Defers to reasonable agency readings | Wis. Stat. § 227.57(11): no deference, by statute |
+| Defers to reasonable agency readings | On ch. 227 judicial review, Wis. Stat. § 227.57(11): no deference to the agency's interpretation of law, by statute; municipal certiorari review has its own standards (*Grycowski*, 2021 WI App 7, ¶ 30 & n.2) |
 | Cites any case it finds | Runs the § 809.23(3) citability screen and tracks the copy-filing duty |
 | Delivers the analysis | Delivers the analysis, an authority table backed by an archive, and an adversarial red team report |
 | Reviews when asked | Red-teams every contested answer and every memo, unasked — compact in Mode 2, all seven attacks in Mode 3 — and discloses when a pass was skipped |
+
+**Status as checked October 12, 2026.** In *SEIU Healthcare Wisconsin v. WERC*, 2025 WI 29,
+the majority opinion for a unanimous Court applied *Kalal* (cover; ¶¶ 9-12), while Justice
+Dallet's concurrence, joined by three other justices (four of seven), proposed a broader,
+holistic approach (cover; ¶ 65). The clerk's Table of Pending Cases (p. 9) lists *Abby
+Windows, LLC v. LIRC*, No. 2024AP1013, accepted 06/16/2026, with oral argument scheduled for
+November 10, 2026 on whether to revisit and modify the *Kalal* framework. Apply *Kalal* as
+explained in *SEIU* unless later controlling authority changes it, and check the case's
+current status before relying on that framework.
+<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-008 and K-1: one identical dated status sentence in canons.md section 1.6, standards-of-review.md and the interpretation README. Sources: SEIU, 2025 WI 29, cover, ¶¶ 9-12, ¶ 65 (https://www.wicourts.gov/sc/order/DisplayDocImage.pdf?docId=977376); Clerk's Table of Pending Cases, p. 9, No. 2024AP1013 (https://www.wicourts.gov/sc/SCCASES.pdf), both read 2026-10-12. No citator content. Recheck on 2026-11-10 and on decision. -->
+<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-016 (table row on agency readings): Wis. Stat. § 227.57(11), https://docs.legis.wisconsin.gov/document/statutes/227.57; Grycowski v. Milwaukee Employees' Retirement System/Annuity and Pension Board, 2021 WI App 7, ¶ 30 and n.2, https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=317184; read 2026-10-12. -->
 
 ## Contents
 

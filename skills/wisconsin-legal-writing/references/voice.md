@@ -46,11 +46,15 @@ Whether AI assistance must be disclosed is not a style question and is not answe
 by how the prose reads.
 
 The [official docket for petition 26-02](https://www.wicourts.gov/scrules/pending/2602.htm)
-listed the proposed AI rule as pending when checked September 20, 2026. A petition
-is not an adopted rule. This file does not maintain a verified statewide or county
+listed the proposed AI rule as pending when checked September 20, 2026. As checked
+October 12, 2026, the docket lists a letter from the petitioner requesting withdrawal,
+dated September 28 and received September 30, 2026, and its court orders section
+shows no order. A petition is not an adopted rule. This file does not maintain a
+verified statewide or county
 inventory of AI disclosure requirements. Check current court rules, any effective
 orders, and the actual judge's requirements; do not infer an exemption from an
 omitted county or from the pending status of one proposal.
+<!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-009: Rule Petition 26-02 docket, https://www.wicourts.gov/scrules/pending/2602.htm (entry "Sep 30, 2026, Letter from Petitioner Withdrawing Petition"; no entry under court orders), and the letter, https://www.wicourts.gov/supreme/docs/2602petitionerletter.pdf, p. 1 (dated September 28, 2026; clerk's received stamp September 30, 2026); read 2026-10-12. -->
 
 **What to do:**
 
@@ -62,6 +66,10 @@ omitted county or from the pending status of one proposal.
   warranted and the factual contentions have evidentiary support, after an inquiry
   reasonable under the circumstances. That obligation attaches to the signer
   regardless of what drafted it, and it is the reason cite-checking is not optional.
+  Subsections (1) to (3) of § 802.05 do not apply to disclosures and discovery
+  requests, responses, objections, and motions that are subject to ss. 804.01 to
+  804.12. § 802.05(5).
+  <!-- DRAFT FOR LEGAL REVIEW (2026-10-12), L-011: Wis. Stat. § 802.05(5), https://docs.legis.wisconsin.gov/document/statutes/802.05, read 2026-10-12. -->
 - **If asked, answer honestly.** Do not construct a filing so as to make a truthful
   answer harder to give.
 
