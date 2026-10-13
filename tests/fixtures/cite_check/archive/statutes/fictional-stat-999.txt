@@ -1,0 +1,8 @@
+FICTIONAL TEST TEXT. Not a Wisconsin statute; written only for the cite_check tests.
+Fictional Stat. ch. 999, Synthetic Notice Procedures.
+
+[locator: s. 999.01]
+999.01 Definitions. In this chapter, "notice" means a written statement delivered to each party.
+
+[locator: s. 999.02]
+999.02 Time for notice. A notice under this chapter shall be delivered within 20 days after the hearing.

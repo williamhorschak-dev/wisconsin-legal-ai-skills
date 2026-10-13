@@ -65,6 +65,13 @@ determine the operative legal version, or prove that a visual comparison occurre
 For native text with no separate original, omit both original fields and describe
 the method accurately. Keep this evidence private to the authorized matter.
 
+Add `provenance_origin` to each new entry: `retrieved_this_session`, `user_supplied`,
+or `remembered` (recalled without the source in front of the reviewer). Records without
+it remain readable and are reported as `provenance not recorded`. The tool refuses a
+verbatim `pass` whose origin is `remembered`. An entry may also carry `source_status`
+with `source`, `reason`, and `status` (`reachable`, `unreachable`, or `not_attempted`);
+a check cannot pass from a source that was not reached.
+
 ```sh
 python <skill-dir>/scripts/cite_check.py record --inventory inventory.json --document draft.docx --sources sources --log checks.jsonl --entry entry.json
 ```
@@ -76,8 +83,32 @@ line endings, remove headers, or resolve attribution. Intentional alterations an
 need manual comparison against the original and a documented manual `verbatim` check.
 
 ```sh
-python <skill-dir>/scripts/cite_check.py quote --inventory inventory.json --document draft.docx --sources sources --log checks.jsonl --use use-1 --file opinions/source.txt --locator "paragraph 12"
+python <skill-dir>/scripts/cite_check.py quote --inventory inventory.json --document draft.docx --sources sources --log checks.jsonl --use use-1 --file opinions/source.txt --locator "paragraph 12" --provenance-origin retrieved_this_session
 ```
+
+The quote command records one label with the entry:
+
+| Label | Meaning | Result |
+|---|---|---|
+| `VERIFIED` | Exact text found in the compared text | `pass` |
+| `QUOTE_ALTERED` | No exact match; a passage at least 70 percent similar by words is in the compared text. The report shows a `[-draft only-]{+source only+}` diff | `fail` |
+| `MISATTRIBUTED` | Exact text is elsewhere in this run's archived `.txt`/`.md` sources, not in the compared text; `found_in` names each place | `fail` |
+| `UNRESOLVED` | Not found | `fail` |
+
+Without markers the whole file is compared and the locator is not checked. To compare
+the cited locator, mark the extraction: a line `[locator: s. 999.01]` starts a segment
+that runs to the next locator line, and the locator `s. 999.01(2)` uses that segment. One
+`[version: ...]` line names the dated text a file holds; archive each version in its own
+file. A verbatim entry against a file with a version line must repeat it in
+`version_compared`; the quote command does this. Marker lines are reviewer annotations,
+are not matched, and do not establish which version was in force on the operative date.
+
+PDFs and other files are listed as not searched for `MISATTRIBUTED`. When no other
+archived text can be searched, the label falls back to `UNRESOLVED` with a note. Manual
+verbatim entries may record a `label`: `VERIFIED` only with `pass`, `UNRESOLVED` with
+`fail`, `caution`, or `unverified`, and the others with `fail` or `caution`. A manual
+`MISATTRIBUTED` needs `found_in`; `QUOTE_ALTERED` needs the source wording in `matched`.
+Older records without a label are reported as `quote label not recorded`.
 
 The provided locator still needs a separate `pincite` check. Preserve extraction
 provenance to the original PDF in the source index; a match in an unchecked extraction
@@ -93,6 +124,17 @@ Exit status: `0` all required evidence records pass, `1` a report was written wi
 missing/flagged/caution checks, `2` malformed or stale evidence, unsafe/missing source,
 or another execution error. An absent log produces an entirely unverified report;
 it cannot silently pass. Reports never overwrite existing files.
+
+Add `--sources-status sources-status.json` to include the reachability you recorded:
+
+```json
+{"sources": [{"source": "<site, connector or service>", "status": "unreachable",
+  "reason": "<what happened and when>", "uses": ["use-2"]}]}
+```
+
+The report's "Sources reachable" block lists each source with its status, reason, and
+affected uses, then archived files and `source_status` entries from the log, then any use
+with no recorded source. The tool contacts no source and never prints a run-wide verdict.
 
 The log is an ordinary local file, not a signed or append-only record. The helper detects a
 changed draft, source or inventory, but it does not detect a deleted, inserted or hand-edited

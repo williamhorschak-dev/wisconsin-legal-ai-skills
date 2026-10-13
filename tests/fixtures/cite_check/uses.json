@@ -1,0 +1,17 @@
+[
+  {"id": "u1", "citation": "Smith v. Jones, 2025 WI 999, ¶12", "kind": "case",
+   "proposition": "A late notice bars relief (fictional).",
+   "quote": "A party seeking relief from a default judgment must file written notice within ten days."},
+  {"id": "u2", "citation": "Fictional Stat. § 999.01", "kind": "statute",
+   "proposition": "Notice is due within 20 days (fictional).",
+   "quote": "shall be delivered within 20 days after the hearing."},
+  {"id": "u3", "citation": "Fictional Stat. § 998.05", "kind": "statute",
+   "proposition": "The current filing fee is $75 (fictional).",
+   "quote": "The clerk shall collect a filing fee of $75 for each petition"},
+  {"id": "u4", "citation": "Fictional Stat. § 999.01", "kind": "statute",
+   "proposition": "Oral notice suffices (fictional).",
+   "quote": "Notice may be given orally in any proceeding."},
+  {"id": "u5", "citation": "Smith v. Jones, 2025 WI 999, ¶13", "kind": "case",
+   "proposition": "A court-initiated vacatur needs no notice (fictional).",
+   "quote": "The notice requirement does not apply when the court itself vacates the judgment."}
+]

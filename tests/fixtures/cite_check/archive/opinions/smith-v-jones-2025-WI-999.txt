@@ -1,0 +1,8 @@
+FICTIONAL TEST TEXT. Not a real opinion; written only for the cite_check tests.
+Smith v. Jones, 2025 WI 999 (fictional), on review from Circuit Court Case No. 2025CV000123.
+
+[locator: ¶12]
+¶12 A party who seeks relief from a default judgment must file a written notice within ten days of learning of the judgment. Jane Q. Example filed no notice.
+
+[locator: ¶13]
+¶13 The notice requirement does not apply when the court itself vacates the judgment.
