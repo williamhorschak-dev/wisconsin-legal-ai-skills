@@ -198,7 +198,11 @@ Correction completed: the missing source was retrieved, compared, and checked ag
                      "The lease date is [UNVERIFIED], and the marker is not removed.",
                      "The lease date is [UNVERIFIED]: markers are never optional.",
                      "Is the lease date [UNVERIFIED]? The marker is not removed.",
-                     "The rent term was not retrieved; [UNVERIFIED] marker applies."):
+                     "The rent term was not retrieved; [UNVERIFIED] marker applies.",
+                     # Third review: marker prose in the same clause, and a rule-file name on the line.
+                     "The instrument is [UNVERIFIED] and the marker is not removed.",
+                     "The instrument is [UNVERIFIED] and markers are not optional.",
+                     "The instrument is [UNVERIFIED]; memo-format.md requires a warning."):
             with self.subTest(line=line):
                 result = self.run_memo(self.high_confidence_memo(line))
                 self.assertEqual(result.returncode, 2, result.stdout)
@@ -209,9 +213,31 @@ Correction completed: the missing source was retrieved, compared, and checked ag
                      "Zero [UNVERIFIED] markers were applied.",
                      "[UNVERIFIED] markers: none.",
                      "[UNVERIFIED] markers remain: none.",
-                     "The [UNVERIFIED] marker no longer applies to any authority."):
+                     "The [UNVERIFIED] marker no longer applies to any authority.",
+                     # Third review: a parenthetical inside the clearance sentence, and a noun use on a rule line.
+                     "The [UNVERIFIED] marker, now obsolete, no longer applies.",
+                     "memo-format.md requires an [UNVERIFIED] marker on every unretrieved citation."):
             with self.subTest(line=line):
                 self.assert_clean(self.run_memo(self.high_confidence_memo(line)))
+
+    def test_report_exemption_ends_at_the_next_peer_heading(self):
+        # Third review: a "## Further Analysis" after the report inherited its no-pincite
+        # exemption; a "### Corrected" block inside the report must keep it.
+        text = memo().replace("## Red Team Report\n", (
+            "## Red Team Report\n### Corrected on the second pass\n"
+            "> FINDING 1, reproduced from the first pass.\n\n"), 1)
+        text = text.replace("## Retrieval Record\n", (
+            "## Further Analysis\n"
+            "> Jane Q. Example promised to pay rent on the first of each month.\n\n"
+            "The synthetic promise supports the condition.\n\n"
+            "## Retrieval Record\n"), 1)
+        result = self.run_memo(text)
+        self.assertEqual(result.returncode, 2, result.stdout)
+        body = text.split("\n---", 1)[1].splitlines()
+        line = body.index("> Jane Q. Example promised to pay rent on the first of each month.") + 1
+        self.assertIn(f"Block quote at line {line} has no pincite", result.stdout)
+        quoted = body.index("> FINDING 1, reproduced from the first pass.") + 1
+        self.assertNotIn(f"Block quote at line {quoted} has no pincite", result.stdout)
 
     def test_corrected_heading_without_report_exempts_only_its_own_block(self):
         text = memo()

@@ -59,7 +59,8 @@ it was checked.
   words "Prior to {date} it reads:", not the first block on the page. Say which
   version you quoted and why.
 - **Checked:** 2026-10-13 (help page "About the statutes", and a section page that
-  showed two such notes).
+  showed two such notes); 2026-10-24 (help page re-read for the sentence on which
+  version to quote; SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED, G-002).
 
 ### 3. Permalinks and the JSON suffix
 

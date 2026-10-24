@@ -678,6 +678,49 @@ class QuoteLabelAndReachabilityTests(unittest.TestCase):
                 self.assertIn(line, text)
         self.assertNotIn(f"| opinions/unread.pdf | reachable | {read}", text)
 
+    def test_marker_spelling_locator_spacing_and_short_segments(self):
+        # Third-review attacks 20 and 21: spaced or capitalised markers used to read as source text,
+        # so a wrong-locator quotation passed against the whole file.
+        spaced = "statutes/fictional-stat-997-spaced.txt"
+        (self.sources / spaced).write_text("[Locator : s. 997.01]\nFICTIONAL TEST TEXT about hearings.\n"
+                                           "[ locator: s. 997.02 ]\nThe clerk shall collect a filing fee of $75 for each petition.\n",
+                                           encoding="utf-8")
+        _, entry = self.quote("u3", spaced, "s. 997.01")
+        self.assertEqual((entry["label"], entry["result"], entry["compared"]), ("MISATTRIBUTED", "fail", "marked locator s. 997.01"))
+        broken = "statutes/fictional-stat-997-broken.txt"
+        (self.sources / broken).write_text("[locator s. 997.01]\nThe clerk shall collect a filing fee of $75 for each petition.\n",
+                                           encoding="utf-8")
+        result = self.cli("quote", "--use", "u3", "--file", broken, "--locator", "s. 997.01")
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertIn("malformed marker line", result.stderr)
+        # Attack 14: spacing inside a locator is not part of it.
+        _, entry = self.quote("u5", self.OPINION, "¶ 13", log=self.root / "spaced.jsonl")
+        self.assertEqual((entry["label"], entry["result"], entry["compared"]), ("VERIFIED", "pass", "marked locator ¶13"))
+        # Attack 13: a quotation split across two segments is a classification, not a traceback.
+        split = "opinions/split-segments.txt"
+        (self.sources / split).write_text("[locator: ¶1]\nThe notice\n[locator: ¶2]\nrequirement does not apply when the court itself vacates the judgment.\n",
+                                          encoding="utf-8")
+        self.assertIsNone(checker.near_match(self.quotes["u5"], "The notice"))
+        result = self.cli("quote", "--use", "u5", "--file", split, "--locator", "¶1", log=self.root / "split.jsonl")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertNotIn("VERIFIED", result.stdout)
+
+    def test_legacy_exact_text_pass_against_a_version_not_in_force_is_refused(self):
+        # Third-review attacks 17 and 23: doubled spaces in the version line, and a hand-written
+        # exact-text record without a label that kept pass.
+        self.assertTrue(checker.not_in_force("not  yet in force (fictional)"))
+        future = "statutes/fictional-stat-999-02-future.txt"
+        version = "not  yet in force (fictional)"
+        (self.sources / future).write_text(f"[version: {version}]\n[locator: s. 999.02]\n"
+                                           "999.02 A notice shall be delivered within 20 days after the hearing.\n", encoding="utf-8")
+        _, entry = self.quote("u2", future, "s. 999.02")
+        self.assertEqual((entry["result"], entry["label"]), ("caution", "VERIFIED"))
+        legacy = self.manual("u2", result="pass", file=future, sha256=checker.digest(self.sources / future),
+                             locator="s. 999.02", matched=self.quotes["u2"], method="exact-text", version_compared=version)
+        with self.assertRaisesRegex(ValueError, "exact-text pass refused: the compared file's version line"):
+            checker.validate_entry(legacy, self.inv, self.sources)
+        checker.validate_entry(dict(legacy, result="caution"), self.inv, self.sources)
+
     def test_no_check_passes_from_remembered_text(self):
         # Reviewer attack 5c; 5a and 5b (verbatim) are in test_remembered_verbatim_pass_is_refused.
         for check in ("citation", "pincite", "treatment", "proposition", "format"):

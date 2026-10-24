@@ -26,7 +26,11 @@ TEXT_SUFFIXES = {".txt", ".md"}
 # Reviewer annotations in a .txt/.md source, each on its own line: "[locator: s. 999.01]"
 # starts a segment that runs to the next locator marker; one "[version: ...]" names the
 # dated text the file holds. Marker lines are not source text and are never matched.
-MARKER = re.compile(r"^\s*\[(locator|version):\s*(.*?)\s*\]\s*$")
+# The word and the colon may be spaced or capitalised; a line that starts like a marker
+# but does not parse is refused rather than read as source text, which would silently
+# drop the locator boundaries and compare the whole file.
+MARKER = re.compile(r"^\s*\[\s*(locator|version)\s*:\s*(.*?)\s*\]\s*$", re.I)
+MARKER_LIKE = re.compile(r"^\s*\[\s*(?:locator|version)\b", re.I)
 TOKEN = re.compile(r"\w+|[^\w\s]")
 NEAR_RATIO = 0.7
 NEAR_MIN_WORDS = 4
@@ -137,9 +141,13 @@ def read_text_source(path):
     for line in Path(path).read_text(encoding="utf-8-sig").splitlines():
         marker = MARKER.match(line)
         if not marker:
+            if MARKER_LIKE.match(line):
+                raise ValueError(f"malformed marker line in {Path(path).name}: {line.strip()!r}; "
+                                 "write [locator: ...] or [version: ...] on a line of its own")
             lines.append(line)
             continue
         kind, value = marker.groups()
+        kind = kind.lower()
         if not value:
             raise ValueError(f"empty {kind} marker in {Path(path).name}")
         if kind == "version":
@@ -157,7 +165,8 @@ def read_text_source(path):
 
 
 def locator_key(text):
-    return normalized(text).casefold()
+    # Spacing is not part of a locator: "¶12" and "¶ 12" cite the same segment.
+    return re.sub(r"\s+", "", normalized(text)).casefold()
 
 
 def cited_segment(segments, locator):
@@ -218,6 +227,9 @@ def near_match(quote, text):
                 key = (ratio(lo, hi), -lo, lo - hi)
                 if best is None or key > best[0]:
                     best = (key, lo, hi)
+    if best is None:
+        # The compared segment is shorter than the quotation; nothing to align.
+        return None
     _, lo, hi = best
     # Keep a changed first or last word in view instead of trimming it away.
     ops = SequenceMatcher(None, q, s[lo:hi], autojunk=False).get_opcodes()
@@ -267,7 +279,7 @@ def search_archive(quote, root, cited_name, chosen):
 
 
 def not_in_force(version):
-    return bool(version and NOT_IN_FORCE.search(version))
+    return bool(version and NOT_IN_FORCE.search(normalized(version)))
 
 
 def tool_result(label, version):
@@ -411,7 +423,11 @@ def validate_entry(entry, inv, root):
         if entry["check"] != "verbatim" or path.suffix.lower() not in {".txt", ".md"}:
             raise ValueError("exact-text only supports verbatim checks against .txt/.md sources")
         found = quote_in_text(use["quote"], path.read_text(encoding="utf-8-sig"))
-        if entry["result"] != ("pass" if found else "fail") or entry.get("matched") != (use["quote"] if found else ""):
+        expected = tool_result("VERIFIED", read_text_source(path)[0]) if found else "fail"
+        if found and expected == "caution" and entry["result"] == "pass":
+            raise ValueError("exact-text pass refused: the compared file's version line says the text is not in force "
+                             "or is a prior version; record caution, or a manual pass whose note says which version applies")
+        if entry["result"] != expected or entry.get("matched") != (use["quote"] if found else ""):
             raise ValueError("exact-text result does not match the archived text")
     if entry["check"] == "verbatim" and entry["result"] == "pass" and Path(entry["file"]).suffix.lower() in TEXT_SUFFIXES:
         # No verbatim pass (manual, legacy or hand-edited) may assert a quotation that the

@@ -103,6 +103,16 @@ that runs to the next locator line, and the locator `s. 999.01(2)` uses that seg
 file. A verbatim entry against a file with a version line must repeat it in
 `version_compared`; the quote command does this. Marker lines are reviewer annotations,
 are not matched, and do not establish which version was in force on the operative date.
+The marker word and colon may be spaced or capitalised (`[Locator : ¶ 12]`); a line that
+begins like a marker but does not parse is refused, so a mistyped marker cannot quietly
+turn a marked file into a whole-file comparison. Spacing inside a locator is ignored:
+`¶12` and `¶ 12` are the same locator. A cited locator that extends a marker past a
+non-alphanumeric character (`s. 999.01(2)` for `s. 999.01`, `¶ 12.1` for `¶ 12`) uses the
+parent segment; that does not show the subdivision exists, which the `pincite` check
+covers. A quotation that runs across two marked segments is in neither and is not
+`VERIFIED`; mark the passage as one segment or quote each part separately. A `.md` source
+is matched as raw text: emphasis characters such as `**` are source characters and show
+up as an alteration, so match against a plain-text extraction of the original.
 
 A verbatim `pass` against a `.txt`/`.md` file, whether recorded by the quote command, by
 hand, or found in the log when the report runs, is refused unless the quotation is in the
@@ -114,8 +124,11 @@ When the compared file's version line says `not yet in force`, `not in force`, `
 effect`, `no longer in force`, `prior to`, `superseded`, or `repealed`, the quote command
 still labels an exact match `VERIFIED` but records `caution`, and the label and note say
 why. If that version does apply on the operative date, start a new run and record a manual
-`pass` whose note says so. This is phrase matching on your annotation: a version line
-without these phrases is not thereby shown to be in force.
+`pass` whose note says so. This is phrase matching on your annotation, with spacing
+ignored: a version line without these phrases is not thereby shown to be in force, and a
+phrase outside the list (`becomes effective 2027-01-01`) is not recognised. A legacy
+`exact-text` record without a label gets the same rule: it cannot stay `pass` against a
+version line that says the text is not in force.
 
 PDFs and other files are listed as not searched for `MISATTRIBUTED`. When no other
 archived text can be searched, the label falls back to `UNRESOLVED` with a note. Manual

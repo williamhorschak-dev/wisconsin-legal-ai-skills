@@ -375,8 +375,9 @@ IT IS ORDERED that:
 **Mechanics.**
 - File as **.docx**, not PDF, so the court can edit it. Circuit court eFiling
   technical requirements.
-- **Blank 3-inch top margin on page 1**, ½-inch on subsequent pages, to leave room
-  for the court's signature and stamp.
+- **Blank 3-inch top margin on page 1**, and at least the ½-inch the court's header
+  band needs on later pages (the builder sets later pages to 0.95 inch), to leave
+  room for the court's signature and stamp.
 - **Do not include a signature block for the judge.** "Do not include signature
   blocks for court officials on your document. The court will apply it."
 - The system watermarks it "Proposed" on filing; all eNotice parties are notified.
@@ -776,6 +777,7 @@ service and the $350 GAL payment before the filing is accepted).
 *Source: the official La Crosse County local court rules PDF (2025), pp. 1–24, read
 complete 2026-08-29, at
 <https://www.lacrossecounty.org/docs/default-source/clerk-of-courts/local-court-rules-2025.pdf>.*
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-24), P-003: the URL was added 2026-10-24 from the county clerk's site; the complete reading dated 2026-08-29 predates the October 2026 reviews and was not repeated by them. -->
 
 #### Criminal, Part 6
 
