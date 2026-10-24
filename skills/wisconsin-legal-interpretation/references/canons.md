@@ -88,11 +88,11 @@ and repealed statutory provisions").
 ordinary meaning with the technical-term exception (¶ 45); whole-text and in-context reading;
 reading in relation to surrounding statutes; surplusage; absurdity avoidance (¶ 46); scope,
 context and purpose where ascertainable from text and structure (¶ 48). Substantive canons apply
-only to an ambiguity surviving that whole analysis. *State v. Guarnero*, 2015 WI 72, ¶ 27: the
-rule of lenity applies only "if a 'grievous ambiguity' remains after a court has determined the
-statute's meaning by considering statutory language, context, structure and purpose, such that
-the court must 'simply guess' at the meaning of the statute." `[UNVERIFIED]` *Guarnero* reporter
-cite.
+only to an ambiguity surviving that whole analysis. *State v. Guarnero*, 2015 WI 72, ¶ 27,
+363 Wis. 2d 857, 867 N.W.2d 400: the rule of lenity applies only "if a 'grievous ambiguity' remains
+after a court has determined the statute's meaning by considering statutory language, context,
+structure and purpose, such that the court must 'simply guess' at the meaning of the statute."
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-24), G-112: Guarnero reporter citation as printed in State v. Lickes, 2020 WI App 59, ¶ 33 (slip op. p. 16), https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=280581, read 2026-10-24. No citator content. -->
 
 **An enacted construction directive is itself intrinsic statutory text.** Read it in Stage A,
 within its stated scope, even if it directs liberal construction of a remedial statute. This

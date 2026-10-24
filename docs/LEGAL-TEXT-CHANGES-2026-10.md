@@ -2,25 +2,32 @@
 
 On 2026-10-13 the maintainer, who is not a lawyer, decided to publish these
 corrections with the open items marked [VERIFY]. Two AI reviewers of different model families
-checked every row against live public sources on 2026-10-12 and 2026-10-13. No attorney has
-reviewed them. [LEGAL_NOTICE.md](../LEGAL_NOTICE.md) applies.
+checked every row from L-001 to A2-04 against live public sources on 2026-10-12 and 2026-10-13.
+The rows dated 2026-10-24 are proposals on branch fix/argorn-pass2, checked by one AI lane,
+and are adopted only if the maintainer merges them. No attorney has reviewed any row. [LEGAL_NOTICE.md](../LEGAL_NOTICE.md) applies.
 
 Every change listed here is a correction to general reference material, prepared from public
 official sources, that was source-checked by AI review and has not been reviewed by an attorney.
 
 Scope: findings L-001 to L-012, L-016 to L-018, L-021, L-022, K-1, P-002 and P-003 of the
 2026-10-11 assessment, with the second reviewer's corrections, and findings A2-01 to A2-04 of the
-second review (drafts/ASTRA-REVIEW-2.md), added 2026-10-13. Each changed passage in a skill
+second review (drafts/ASTRA-REVIEW-2.md), added 2026-10-13, and findings G-002 and G-112 of an
+external review, with the La Crosse attribution left open under P-003 and A2-04, added
+2026-10-24. Each changed passage in a skill
 file carries a pinpoint in its text or in an adjacent HTML comment marked
-`SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12)`, or `(checked 2026-10-13)` for the A2 rows. No citator content of any kind is used: status
-statements are a reading of the public opinion with a paragraph cite. Word files were not
-edited.
+`SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12)`, or `(checked 2026-10-13)` for the A2 rows, or `(checked 2026-10-24)` for the G rows and the 2026-10-24 P-003 row. No citator content of any kind is used: status
+statements are a reading of the public opinion with a paragraph cite. One Word file was
+edited: the appendix certification in `assets/10-appellate-brief.docx` was completed from the
+statutory form in pull request 5 (commit c9f04e7, 2026-10-13); see the L-012 DOCX row. No other
+Word file was changed, and the 2026-10-24 rows change no Word file.
 
 Sources were read on 2026-10-12 from docs.legis.wisconsin.gov (pages carrying the banner
 "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 ... in effect on October 1, 2026"),
 wicourts.gov opinion PDFs, the clerk's Table of Pending Cases, the Rule Petition 26-02 docket,
 and the Fourth Circuit's official FRAP 32.1 page. Line numbers are those on branch
-assessment/2026-10-legal-text after the change. "Old text" and "New text" omit the adjacent
+assessment/2026-10-legal-text after the change, except rows dated 2026-10-24, which use branch
+fix/argorn-pass2 and were checked that day by one AI lane against the public sources named in
+each row. "Old text" and "New text" omit the adjacent
 source comments. Rows A2-01 to A2-04 revise passages first changed under L-002, L-004, L-010
 and P-003; for those passages the A2 row shows the current text, and the A2 sources were read
 on 2026-10-13 from the same official pages.
@@ -76,12 +83,21 @@ on 2026-10-13 from the same official pages.
 | A2-02 | skills/wisconsin-legal-writing/references/circuit-court.md:842 | \| Filing deemed timely \| submission complete by 11:59 p.m. CT, if the clerk later accepts it \| § 801.18(4)(am) \| | \| Filing date \| filed that day if the eFiling system records the submission complete by 11:59 p.m. CT and the clerk later accepts it; other time-calculation rules unchanged \| § 801.18(4)(am) \| | Wis. Stat. § 801.18(4)(am), https://docs.legis.wisconsin.gov/document/statutes/801.18, read 2026-10-13; agrees with circuit-court.md:802-806 | Source-checked by AI review; not attorney-reviewed |
 | A2-03 | skills/wisconsin-legal-writing/references/practice-areas.md:239-246, 248 | Small claims follow § 799.205(1) instead. | Small claims have their own section, § 799.205, with a different post-appeal trigger. For initial timing, § 799.205(1) requires the request on the return date of the summons or within 10 days after the case is scheduled for trial, with 10-day, 24-hour and stipulation rules when a new judge is assigned to the trial. After an appellate decision that requires further trial-court proceedings, § 799.205(4) allows a request within 20 days after the entry of the appellate court's judgment or decision, not after the remittitur is filed. Source comment added at line 248. | Wis. Stat. § 799.205(1), (4), https://docs.legis.wisconsin.gov/document/statutes/799.205, read 2026-10-13 | Source-checked by AI review; not attorney-reviewed |
 | A2-04 | skills/wisconsin-legal-writing/references/circuit-court.md:600-602 | Rules signed in **November 2025** by all five judges and approved by Chief Judge Horne. **[VERIFY: confirm the attribution of approval to Chief Judge Horne against the official signature page or the clerk's transmittal before repeating it as fact.]** | Rules signed in **November 2025** by all five judges; this reference does not show who approved them. **[VERIFY: an earlier version named Chief Judge Horne; confirm any approval against the official signature page or the clerk's transmittal first.]** | No public source read for the approval; signature page and clerk's transmittal not available to this lane (P-003 stays open) | Source-checked by AI review; not attorney-reviewed |
+| G-112 | skills/wisconsin-legal-interpretation/references/canons.md:91-95 | *State v. Guarnero*, 2015 WI 72, ¶ 27: the rule of lenity applies only ... at the meaning of the statute." `[UNVERIFIED]` *Guarnero* reporter cite. | *State v. Guarnero*, 2015 WI 72, ¶ 27, 363 Wis. 2d 857, 867 N.W.2d 400: the rule of lenity applies only ... at the meaning of the statute." Source comment added at line 95. | State v. Lickes, 2020 WI App 59, ¶ 33 (slip op. p. 16), prints "State v. Guarnero, 2015 WI 72, ¶26, 363 Wis. 2d 857, 867 N.W.2d 400"; ¶ 34 quotes the ¶ 27 language used here. https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=280581, read 2026-10-24 | Source-checked by AI review; not attorney-reviewed |
+| G-112 | skills/wisconsin-legal-writing/references/circuit-court.md:458-459 | *Teff v. Unity Health Plans Ins. Corp.*, 2003 WI App 115, following | *Teff v. Unity Health Plans Ins. Corp.*, 2003 WI App 115, 265 Wis. 2d 703, 666 N.W.2d 38, following | Parker v. Wisconsin Patients Compensation Fund, 2009 WI App 42, ¶ 10 (slip op. p. 6), prints "Teff v. Unity Health Plans Ins. Corp., 2003 WI App 115, ¶29, 265 Wis. 2d 703, 666 N.W.2d 38". https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=35927, read 2026-10-24. The external reviewer's 666 N.W.2d 136 does not match this source and was not used | Source-checked by AI review; not attorney-reviewed |
+| G-112 | skills/wisconsin-legal-writing/references/circuit-court.md:490, 496 | 2004 WI App 129, ¶ 44. Manifest error means (line 496: `[UNVERIFIED]` parallel cites for *Teff* and *Koepsell's*; confirm before filing.) | 2004 WI App 129, ¶ 44, 275 Wis. 2d 397, 685 N.W.2d 853. Manifest error means (line 496: marker removed; source comment added in its place) | Santiago v. Didion Milling, Inc., No. 2023AP1045, unpublished per curiam, ¶ 18 (Ct. App. Oct. 10, 2024) (slip op. p. 10), prints "Koepsell's Olde Popcorn Wagons, Inc. v. Koepsell's Festival Popcorn Wagons, Ltd., 2004 WI App 129, ¶44, 275 Wis. 2d 397, 685 N.W.2d 853". Cited here only as a public source for the reporter citation, not as authority. https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=860610, read 2026-10-24 | Source-checked by AI review; not attorney-reviewed |
+| P-003, A2-04 | skills/wisconsin-legal-writing/references/circuit-court.md:600-608 | Rules signed in **November 2025** by all five judges; this reference does not show who approved them. **[VERIFY: an earlier version named Chief Judge Horne; confirm any approval against the official signature page or the clerk's transmittal first.]** | The 2025 rules are signed "BY THE COURT" by all five La Crosse County circuit judges, dated November 2025 with the day of the month handwritten, and marked "Approved" by Scott L. Horne, Chief Judge, Seventh Judicial Administrative District (p. 24). Rule 104 (p. 1) provides that rules "shall be adopted by written order of a majority of La Crosse County Circuit Judges, subject to approval of the Chief Judge." Official source: the clerk of circuit court's copy on the county site, <URL> (a 24-page scan with no text layer, so text search and copy do not work on it). Source comment added at line 608. The separate [VERIFY] on the handwritten day (line 609) is unchanged. | La Crosse County Circuit Court Rules (2025), p. 24 (signature and approval block) and p. 1 (Rule 104), https://www.lacrossecounty.org/docs/default-source/clerk-of-courts/local-court-rules-2025.pdf, pages viewed 2026-10-24; the file fetched that day had the same SHA-256 as the assessment's archived copy | Source-checked by AI review; not attorney-reviewed |
+| P-003 | skills/wisconsin-legal-writing/references/circuit-court.md:776-778 | *Source: the official La Crosse County local court rules PDF (2025), pp. 1–24, read complete 2026-08-29.* | Same sentence, with the county clerk URL added. | https://www.lacrossecounty.org/docs/default-source/clerk-of-courts/local-court-rules-2025.pdf | Source-checked by AI review; not attorney-reviewed |
+| G-002 | skills/wisconsin-legal-interpretation/references/source-behavior.md:57-60 and skills/cite-check/references/source-behavior.md:57-60 (identical copy) | (nothing removed; text inserted at the end of entry 2, "What to do") | Quote the text in force on the target date: for a date before the effective date the note states, that is the earlier version printed after the words "Prior to {date} it reads:", not the first block on the page. Say which version you quoted and why. | docs.legis.wisconsin.gov statutes help page, https://docs.legis.wisconsin.gov/help/statutes/_88?up=1 (both versions published with a note; one in regular and one in smaller bold type; notes and superseded text removed after the effective date), read 2026-10-24; agrees with entry 2's existing description | Source-checked by AI review; not attorney-reviewed |
+
 ## Points left open
 
 - [VERIFY] 2025 Wis. Act 105, § 4(1): how the new amounts apply to a claim made before
   January 1, 2027 in an action commenced after it (practice-areas.md, L-001).
-- [VERIFY] Who approved the 2025 La Crosse County rules (circuit-court.md, P-003, A2-04). The
-  signature page was not read; the prose no longer names Chief Judge Horne as approver.
+- Closed 2026-10-24: who approved the 2025 La Crosse County rules (circuit-court.md, P-003,
+  A2-04). The official signature page shows approval by Scott L. Horne as Chief Judge of the
+  Seventh Judicial Administrative District, and the prose says so. Still open: the handwritten
+  day of signing ([VERIFY] at circuit-court.md:609).
 - [VERIFY] Pending legislation. An assessment note of 2026-10-12 records a pending bill touching
   § 801.58 and pending-legislation notices on statutes used for L-001, L-002 and L-004. The
   official section pages read for this change showed no such notice. Check the current bills

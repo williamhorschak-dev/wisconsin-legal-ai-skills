@@ -52,7 +52,10 @@ it was checked.
   present, record both versions, the effective date the note states, and the Act it
   names; pick the version for the operative date of the question; then read the
   amending Act's effective-date provision. Rely on the note's wording, not the
-  typeface.
+  typeface. Quote the text in force on the target date: for a date before the
+  effective date the note states, that is the earlier version printed after the
+  words "Prior to {date} it reads:", not the first block on the page. Say which
+  version you quoted and why.
 - **Checked:** 2026-10-13 (help page "About the statutes", and a section page that
   showed two such notes).
 
