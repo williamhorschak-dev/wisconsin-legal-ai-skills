@@ -313,7 +313,7 @@ class CitationEvidenceTests(unittest.TestCase):
         self.assertEqual(self.report().returncode, 0)
         manual_text = self.report_path.read_text(encoding="utf-8")
         self.assertIn("reviewer attestation; the tool confirmed the quotation appears in the archived text, nothing more", manual_text)
-        self.assertNotIn("not compared by the tool", manual_text)
+        self.assertNotIn("reviewer attestation, not compared by the tool", manual_text)
         second = self.root / "second.jsonl"
         checker.append_entry(second, self.evidence("verbatim", method="exact-text", matched=self.inv["uses"][0]["quote"]), self.inv, self.sources)
         text, _ = checker.report(self.inv, checker.read_log(second, self.inv, self.sources))
@@ -478,9 +478,10 @@ class QuoteLabelAndReachabilityTests(unittest.TestCase):
         self.assertEqual(entry["found_in"][0]["version"], amended)
         text = self.report()
         self.assertIn(f"found at {self.AMENDED} @ s. 998.05 (version: {amended}); compared against version: {in_force}", text)
-        # The amended text holds the quotation; the entry says which version that is.
+        # The amended text holds the quotation; the entry says which version that is. Its
+        # version line says it is not in effect, so the exact match is recorded as caution.
         _, entry = self.quote("u3", self.AMENDED, "s. 998.05", log=self.root / "amended.jsonl")
-        self.assertEqual((entry["result"], entry["label"], entry["version_compared"]), ("pass", "VERIFIED", amended))
+        self.assertEqual((entry["result"], entry["label"], entry["version_compared"]), ("caution", "VERIFIED", amended))
         # A manual verbatim record against a dated text must name that version.
         with self.assertRaisesRegex(ValueError, "version_compared"):
             checker.validate_entry(self.manual("u3", file=self.IN_FORCE, sha256=checker.digest(self.sources / self.IN_FORCE),
@@ -588,6 +589,106 @@ class QuoteLabelAndReachabilityTests(unittest.TestCase):
                                     "source": "Fictional site", "status": "unreachable", "reason": "Synthetic"})
         with self.assertRaisesRegex(ValueError, "not reached"):
             checker.validate_entry(unreached, self.inv, self.sources)
+
+    def opinion_pass(self, use, locator, **changes):
+        fields = {"result": "pass", "file": self.OPINION, "sha256": checker.digest(self.sources / self.OPINION),
+                  "locator": locator, "matched": self.quotes[use], **changes}
+        return self.manual(use, **fields)
+
+    def test_manual_verbatim_pass_must_sit_under_the_cited_locator(self):
+        # Reviewer attack 2b: the u5 quotation is under ¶13 only.
+        entry_path = self.root / "entry.json"
+        entry_path.write_text(json.dumps(self.opinion_pass("u5", "¶12"), ensure_ascii=False), encoding="utf-8")
+        result = self.cli("record", "--entry", str(entry_path))
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertIn("verbatim pass refused: the quotation is not in the segment marked for the cited locator '¶12'", result.stderr)
+        self.assertFalse(self.log.exists())
+        with self.assertRaisesRegex(ValueError, "has locator markers but none matches '¶99'"):
+            checker.validate_entry(self.opinion_pass("u5", "¶99"), self.inv, self.sources)
+        # A legacy exact-text record without a label gets the same locator check.
+        with self.assertRaisesRegex(ValueError, "verbatim pass refused"):
+            checker.validate_entry(self.opinion_pass("u5", "¶12", method="exact-text"), self.inv, self.sources)
+        checker.validate_entry(self.opinion_pass("u5", "¶13"), self.inv, self.sources)
+        checker.validate_entry(self.opinion_pass("u5", "¶12", result="caution", matched=""), self.inv, self.sources)
+
+    def test_hand_edited_verbatim_pass_without_method_is_refused_by_report(self):
+        # Reviewer attack 6b: a log line with no method, label VERIFIED and the wrong locator.
+        line = dict(self.opinion_pass("u5", "¶12", label="VERIFIED", compared="marked locator ¶12"),
+                    recorded_at="2026-10-13T12:00:00+00:00")
+        line.pop("method")
+        self.log.write_text(json.dumps(line, ensure_ascii=False) + "\n", encoding="utf-8")
+        result = self.cli("report", "--out", str(self.report_path))
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertIn("log line 1: verbatim pass refused", result.stderr)
+        self.assertFalse(self.report_path.exists())
+        # Attack 6a, for contrast: an edited exact-text line is already refused.
+        self.quote("u5", self.OPINION, "¶13", log=self.root / "tool.jsonl")
+        edited = json.loads((self.root / "tool.jsonl").read_text(encoding="utf-8"))
+        edited["locator"] = "¶12"
+        self.log.write_text(json.dumps(edited, ensure_ascii=False) + "\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "exact-text label does not match"):
+            checker.read_log(self.log, self.inv, self.sources)
+
+    def test_exact_match_in_a_version_not_in_force_is_caution(self):
+        # Reviewer attack 3b: the quote command run straight against a version not yet in force.
+        future = "statutes/fictional-stat-999-02-future.txt"
+        version = "as amended by 2025 Fictional Act 999; not yet in force (fictional)"
+        (self.sources / future).write_text(f"[version: {version}]\nFICTIONAL TEST TEXT.\n\n[locator: s. 999.02]\n"
+                                           "999.02 A notice shall be delivered within 20 days after the hearing.\n", encoding="utf-8")
+        result, entry = self.quote("u2", future, "s. 999.02")
+        self.assertEqual((entry["result"], entry["label"], entry["version_compared"]), ("caution", "VERIFIED", version))
+        self.assertIn("caution: the compared file's version line says the text is not in force or is a prior version",
+                      result.stdout)
+        self.assertIn("so the result is caution until a reviewer confirms which version applies", entry["note"])
+        text = self.report()
+        self.assertIn("| u2 | Fictional Stat. § 999.01 | Notice is due within 20 days (fictional). | UNVERIFIED |", text)
+        self.assertIn(f"verbatim: caution ({future} @ s. 999.02, text compared by the tool); VERIFIED: exact text found", text)
+        # Promoting that record to pass by hand breaks the log.
+        line = json.loads(self.log.read_text(encoding="utf-8"))
+        self.log.write_text(json.dumps(dict(line, result="pass"), ensure_ascii=False) + "\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "exact-text label does not match"):
+            checker.read_log(self.log, self.inv, self.sources)
+        # A version line that does not say so keeps the pass; manual VERIFIED stays pass only.
+        self.assertTrue(checker.not_in_force("text prior to 2025 Fictional Act 999 (fictional)"))
+        self.assertFalse(checker.not_in_force("in force 2024-07-01 through 2026-12-31 (fictional)"))
+        _, entry = self.quote("u2", self.STATUTE, "s. 999.02", log=self.root / "current.jsonl")
+        self.assertEqual((entry["result"], entry["label"]), ("pass", "VERIFIED"))
+
+    def test_reachability_says_when_the_tool_did_not_read_the_file(self):
+        # Reviewer attack 4c: a manual verbatim pass against a binary file the tool never reads.
+        pdf = self.sources / "opinions" / "unread.pdf"
+        pdf.write_bytes(b"%PDF-1.4 synthetic placeholder\n")
+        # Attack 4a, for contrast: the quote command refuses a non-text source.
+        result = self.cli("quote", "--use", "u5", "--file", "opinions/unread.pdf", "--locator", "p. 1")
+        self.assertEqual(result.returncode, 2, result.stderr)
+        self.assertIn("quote requires a UTF-8 text source", result.stderr)
+        checker.append_entry(self.log, self.manual("u5", result="pass", file="opinions/unread.pdf", sha256=checker.digest(pdf),
+                                                   locator="p. 1", matched=self.quotes["u5"]), self.inv, self.sources)
+        checker.append_entry(self.log, self.opinion_pass("u5", "¶13", check="citation", matched="Smith v. Jones"),
+                             self.inv, self.sources)
+        self.quote("u1", self.OPINION, "¶12")
+        text = self.report()
+        not_read = "archived file present and its hash matched when this report ran; contents not compared by the tool"
+        read = "archived copy read for the recorded check; its hash matched when this report ran"
+        for line in (f"| opinions/unread.pdf | reachable | {not_read} | u5 Smith v. Jones, 2025 WI 999, ¶13 (verbatim) | evidence records |",
+                     f"| {self.OPINION} | reachable | {not_read} | u5 Smith v. Jones, 2025 WI 999, ¶13 (citation) | evidence records |",
+                     f"| {self.OPINION} | reachable | {read} | u1 Smith v. Jones, 2025 WI 999, ¶12 (verbatim) | evidence records |",
+                     "verbatim: pass (opinions/unread.pdf @ p. 1, reviewer attestation, not compared by the tool)"):
+            with self.subTest(line=line):
+                self.assertIn(line, text)
+        self.assertNotIn(f"| opinions/unread.pdf | reachable | {read}", text)
+
+    def test_no_check_passes_from_remembered_text(self):
+        # Reviewer attack 5c; 5a and 5b (verbatim) are in test_remembered_verbatim_pass_is_refused.
+        for check in ("citation", "pincite", "treatment", "proposition", "format"):
+            with self.subTest(check=check):
+                entry = self.opinion_pass("u5", "¶13", check=check, matched="Smith v. Jones", provenance_origin="remembered",
+                                          citator="Fictional citator")
+                with self.assertRaisesRegex(ValueError, f"{check} pass refused: remembered text is not a source; "
+                                                        "retrieve the source, or record caution or unverified"):
+                    checker.validate_entry(entry, self.inv, self.sources)
+                checker.validate_entry(dict(entry, result="caution"), self.inv, self.sources)
+                checker.validate_entry(dict(entry, result="unverified"), self.inv, self.sources)
 
 
 if __name__ == "__main__":
