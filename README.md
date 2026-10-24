@@ -38,6 +38,16 @@ never establishes that.
 
 ## The three skills
 
+- **Citation check:** [cite-check](skills/cite-check/SKILL.md) checks citations,
+  quotations, pincites, and the propositions they support against sources the session
+  can read.
+- **Wisconsin filings:** [wisconsin-legal-writing](skills/wisconsin-legal-writing/SKILL.md)
+  drafts and reviews Wisconsin circuit court and Court of Appeals papers.
+- **Wisconsin statutory interpretation:**
+  [wisconsin-legal-interpretation](skills/wisconsin-legal-interpretation/SKILL.md) looks up
+  what a Wisconsin provision said on a given date and analyzes contested readings under
+  Wisconsin's own method.
+
 | Skill | Use it to | It does not | Bundled tools |
 |---|---|---|---|
 | [cite-check](skills/cite-check/SKILL.md) | Check that citations, quotations, pincites, and the propositions they support match sources you or the assistant can read. | Run a citator. Treat a failed search as proof a case does not exist. | `cite_check.py`: an evidence log tied to SHA-256 hashes of the draft and sources, a text-quotation matcher, and a report generator. Python 3.10 and 3.12 tested in CI; 3.14.5 run in the 2026-10-11 assessment and again on 2026-10-13; other versions untested. Standard library only. |

@@ -1,5 +1,7 @@
 # How Wisconsin sources behave
 
+Canonical file: `wisconsin-legal-interpretation/references/source-behavior.md`; the cite-check skill ships an identical copy so it works when installed alone, and the two are kept byte-identical.
+
 This file describes how the public Wisconsin source sites display text, dates and
 status, and where those displays mislead a reader or an agent. It says nothing about
 what any provision means or whether it is in force. Each entry was checked against

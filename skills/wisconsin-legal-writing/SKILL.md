@@ -2,6 +2,7 @@
 name: wisconsin-legal-writing
 description: Draft or review Wisconsin circuit court and Court of Appeals filings, including motions, briefs, discovery responses, declarations, and proposed orders. Use for document structure, procedural issue spotting, signatures, and filing review. Use the interpretation skill for disputed legal meaning rather than document production.
 license: MIT
+compatibility: Instructions work in any text-capable host. DOCX generation with scripts/build_filing.py needs Python 3.10 or later and python-docx 1.2.0 (requirements.txt). The scripts never fetch anything; current-law checks need the host's own source access.
 metadata:
   version: "2026.10.13.1"
 ---

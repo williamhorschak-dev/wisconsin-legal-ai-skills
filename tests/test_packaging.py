@@ -169,6 +169,12 @@ class PackagingTests(unittest.TestCase):
                         build_release.build(Path(directory) / "release", (ROOT / "VERSION").read_text().strip())
             self.assertEqual(list(Path(directory).iterdir()), [])
 
+    def test_cite_check_source_behavior_copy_matches_canonical_file(self):
+        canonical = ROOT / "skills/wisconsin-legal-interpretation/references/source-behavior.md"
+        copy = ROOT / "skills/cite-check/references/source-behavior.md"
+        self.assertEqual(copy.read_bytes(), canonical.read_bytes(),
+                         "copy the interpretation skill's source-behavior.md over the cite-check copy")
+
 
 if __name__ == "__main__":
     unittest.main()
