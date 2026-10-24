@@ -56,9 +56,10 @@ Wis. Stat. § 801.18(8), and § 809.801(8)(h) on appeal.
 
 The court line below runs to a **right tab at 6.5″**, so the county text lands
 inside that square if the caption starts at the top of the page. The builder
-resolves this by setting a ½″ top margin and clearing a 2″ band across the top of
-page 1, which is what these documents look like in the filed record once the stamp
-is applied. **If you build a caption by hand, leave that space.**
+keeps the 0.95″ top margin on every page and clears a 2″ band across the top of
+page 1 with a first-page header, which is what these documents look like in the
+filed record once the stamp is applied. **If you build a caption by hand, leave
+that space.**
 
 ### Exact geometry
 
@@ -187,6 +188,11 @@ Table has no visible borders. Note that in this variant the designations carry a
 headings below it are centered, bold, and underlined.
 
 Use this only when the user asks for an attorney-signed firm filing.
+
+`scripts/build_filing.py` does not produce this form. It emits only the
+three-rule caption in section A, including for
+`assets/11-motion-attorney-signed.json`. Where a firm wants the table form, build
+the document and then replace the party block with the table by hand in Word.
 
 ---
 

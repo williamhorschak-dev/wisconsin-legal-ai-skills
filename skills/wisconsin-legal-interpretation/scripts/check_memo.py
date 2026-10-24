@@ -1127,7 +1127,12 @@ def _report_span(body: str, found: dict | None):
     block, within which a block quotation needs no pincite."""
     if not found or "Red Team Report" not in found:
         m = PRIOR_PASS_HEADING.search(body)
-        return (m.start(), len(body)) if m else (len(body), len(body))
+        if not m:
+            return len(body), len(body)
+        # The corrected-finding block ends at the next heading. Running it to
+        # the end of the file exempted every later block quote in the memo.
+        nxt = ANY_HEADING.search(body, m.end())
+        return m.start(), (nxt.start() if nxt else len(body))
     start = found["Red Team Report"]
     later = [p for p in found.values() if p > start]
     return start, (min(later) if later else len(body))
@@ -1212,16 +1217,23 @@ def _applied_markers(line: str) -> int:
     negation word shortly before it and the word "marker" right after it ("no
     [UNVERIFIED] marker remains"), or "marker(s)/remain(s)" followed by a
     negation after it. A negation elsewhere in the sentence ("was not retrieved
-    [UNVERIFIED]") does not exempt the token."""
+    [UNVERIFIED]") does not exempt the token.
+
+    Neither window may cross a clause boundary. An earlier version stopped only
+    at a period, so "the cite is [UNVERIFIED]; markers are not optional" read
+    the next clause as a statement about this token and exempted a real
+    marker. The one colon allowed is directly after "marker(s)" or "remain(s)",
+    the tally form "[UNVERIFIED] markers: none"."""
     count = 0
     for m in UNVERIFIED.finditer(line):
         before = line[max(0, m.start() - 60):m.start()]
         after = line[m.end():]
         says_none = re.search(
-            r"\b(?:no|none|zero|not|never|without)\b[^.\n]{0,40}$", before, re.IGNORECASE
+            r"\b(?:no|none|zero|not|never|without)\b[^.,;:!?\n]{0,40}$", before, re.IGNORECASE
         ) and re.match(r"\s*markers?\b", after, re.IGNORECASE)
         says_cleared = re.match(
-            r"[^.\n]{0,40}\b(?:remains?|marker)s?\b[^.\n]{0,20}\b(?:no|none|not|never)\b",
+            r"[^.,;:!?\n]{0,30}\b(?:remains?|marker)s?\b(?:\s*:)?[^.,;:!?\n]{0,20}"
+            r"\b(?:no|none|not|never)\b",
             after, re.IGNORECASE,
         )
         if not (says_none or says_cleared):

@@ -5,11 +5,13 @@ their visible paragraph text with the bundled documents. It checks page geometry
 ZIP integrity, and a long Unicode caption/signature fixture. All 14 supplied DOCX
 files are covered by [template-review.json](template-review.json).
 
-With one exception, the current DOCX assets are unchanged from the earlier 14-document visual review
-recorded in [the assessment](ASSESSMENT-2026-09-20.md); the exception is the appendix certification in
-`10-appellate-brief.docx`, a text-only edit on 2026-10-13 that was read back but not rendered. Their content hashes bind
-that inherited record to these bytes. This release adds regression checks; it does
-not claim a second rendered-page review or renderer-independent layout equality.
+The three hand-built DOCX assets are covered by the earlier 14-document visual review
+recorded in [the assessment](ASSESSMENT-2026-09-20.md), except the appendix certification in
+`10-appellate-brief.docx`, a text-only edit on 2026-10-13 that was read back but not rendered.
+The 11 JSON-backed assets were rebuilt on 2026-10-24 after a top-margin fix (0.95 in on every page);
+only that margin value changed, and the rebuilt files were rendered in Word and checked page by page by an AI agent.
+Content hashes bind each record to these bytes. The Word check is not renderer-independent
+layout equality, and it is not an attorney review.
 
 When changing a specification, builder layout, or Word asset:
 
