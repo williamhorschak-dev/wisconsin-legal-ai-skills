@@ -68,7 +68,8 @@ the method accurately. Keep this evidence private to the authorized matter.
 Add `provenance_origin` to each new entry: `retrieved_this_session`, `user_supplied`,
 or `remembered` (recalled without the source in front of the reviewer). Records without
 it remain readable and are reported as `provenance not recorded`. The tool refuses a
-verbatim `pass` whose origin is `remembered`. An entry may also carry `source_status`
+`pass` for any check whose origin is `remembered`; record `caution` or `unverified`
+until the source is retrieved. An entry may also carry `source_status`
 with `source`, `reason`, and `status` (`reachable`, `unreachable`, or `not_attempted`);
 a check cannot pass from a source that was not reached.
 
@@ -90,7 +91,7 @@ The quote command records one label with the entry:
 
 | Label | Meaning | Result |
 |---|---|---|
-| `VERIFIED` | Exact text found in the compared text | `pass` |
+| `VERIFIED` | Exact text found in the compared text | `pass`; `caution` when the file's version line says the text is not in force |
 | `QUOTE_ALTERED` | No exact match; a passage at least 70 percent similar by words is in the compared text. The report shows a `[-draft only-]{+source only+}` diff | `fail` |
 | `MISATTRIBUTED` | Exact text is elsewhere in this run's archived `.txt`/`.md` sources, not in the compared text; `found_in` names each place | `fail` |
 | `UNRESOLVED` | Not found | `fail` |
@@ -102,6 +103,19 @@ that runs to the next locator line, and the locator `s. 999.01(2)` uses that seg
 file. A verbatim entry against a file with a version line must repeat it in
 `version_compared`; the quote command does this. Marker lines are reviewer annotations,
 are not matched, and do not establish which version was in force on the operative date.
+
+A verbatim `pass` against a `.txt`/`.md` file, whether recorded by the quote command, by
+hand, or found in the log when the report runs, is refused unless the quotation is in the
+cited locator's segment (or anywhere in the file when it has no locator markers). A cited
+locator that matches no marker in a marked file is refused too: add the marker, or record
+`fail`, `caution`, or `unverified`.
+
+When the compared file's version line says `not yet in force`, `not in force`, `not in
+effect`, `no longer in force`, `prior to`, `superseded`, or `repealed`, the quote command
+still labels an exact match `VERIFIED` but records `caution`, and the label and note say
+why. If that version does apply on the operative date, start a new run and record a manual
+`pass` whose note says so. This is phrase matching on your annotation: a version line
+without these phrases is not thereby shown to be in force.
 
 PDFs and other files are listed as not searched for `MISATTRIBUTED`. When no other
 archived text can be searched, the label falls back to `UNRESOLVED` with a note. Manual
@@ -134,7 +148,11 @@ Add `--sources-status sources-status.json` to include the reachability you recor
 
 The report's "Sources reachable" block lists each source with its status, reason, and
 affected uses, then archived files and `source_status` entries from the log, then any use
-with no recorded source. The tool contacts no source and never prints a run-wide verdict.
+with no recorded source. An archived file is shown as `archived copy read` only for a
+verbatim check the tool compared (an exact-text record, or a verbatim `pass` against a
+`.txt`/`.md` file). For every other record, including any PDF, it says the file was present
+and its hash matched, and that the tool did not compare the contents. The tool contacts no
+source and never prints a run-wide verdict.
 
 The log is an ordinary local file, not a signed or append-only record. The helper detects a
 changed draft, source or inventory, but it does not detect a deleted, inserted or hand-edited

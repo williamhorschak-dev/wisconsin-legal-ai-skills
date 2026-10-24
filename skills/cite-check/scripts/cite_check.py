@@ -30,6 +30,9 @@ MARKER = re.compile(r"^\s*\[(locator|version):\s*(.*?)\s*\]\s*$")
 TOKEN = re.compile(r"\w+|[^\w\s]")
 NEAR_RATIO = 0.7
 NEAR_MIN_WORDS = 4
+# A version line with one of these phrases says the file is not the text in force now.
+# Phrase matching on a reviewer annotation; its absence does not establish the version in force.
+NOT_IN_FORCE = re.compile(r"\b(?:not (?:yet )?in (?:force|effect)|no longer in (?:force|effect)|prior to|superseded|repealed)\b", re.I)
 
 
 def digest(path):
@@ -263,13 +266,27 @@ def search_archive(quote, root, cited_name, chosen):
     return found, searched, skipped
 
 
+def not_in_force(version):
+    return bool(version and NOT_IN_FORCE.search(version))
+
+
+def tool_result(label, version):
+    """Result the quote command records: VERIFIED against a not-in-force version is caution."""
+    if label != "VERIFIED":
+        return "fail"
+    return "caution" if not_in_force(version) else "pass"
+
+
 def classify(quote, root, name, locator):
     """Fields for a tool-labelled verbatim entry."""
     cited = cited_check(quote, root, name, locator)
     fields = {"compared": cited["compared"], **({"version_compared": cited["version"]} if cited["version"] else {})}
     if cited["exact"]:
-        return dict(fields, label="VERIFIED", matched=quote,
-                    note="Exact text found in the compared text. Pincite, attribution and the version in force need separate review.")
+        note = "Exact text found in the compared text. Pincite, attribution and the version in force need separate review."
+        if not_in_force(cited["version"]):
+            note += (" The compared file's version line says this text is not in force or is a prior version,"
+                     " so the result is caution until a reviewer confirms which version applies on the operative date.")
+        return dict(fields, label="VERIFIED", matched=quote, note=note)
     found, searched, skipped = search_archive(quote, root, name, cited["chosen"])
     note = f"Searched {searched} archived text source(s) outside the compared text for the exact quotation."
     if skipped:
@@ -308,7 +325,8 @@ def check_quote_label(entry, use, root):
         return
     if entry["check"] != "verbatim" or label not in LABELS:
         raise ValueError("label applies only to verbatim checks: VERIFIED, QUOTE_ALTERED, MISATTRIBUTED or UNRESOLVED")
-    if entry["result"] not in LABELS[label]:
+    allowed = LABELS[label] | ({"caution"} if label == "VERIFIED" and entry.get("method") == "exact-text" else set())
+    if entry["result"] not in allowed:
         raise ValueError(f"{label} cannot be recorded as {entry['result']}; only VERIFIED supports a pass")
     if label == "MISATTRIBUTED":
         check_found_in(entry, use["quote"], root)
@@ -322,7 +340,7 @@ def check_quote_label(entry, use, root):
     expected = {"VERIFIED": cited["exact"], "QUOTE_ALTERED": not cited["exact"] and cited["near"] is not None,
                 "MISATTRIBUTED": not cited["exact"], "UNRESOLVED": not cited["exact"] and cited["near"] is None}[label]
     matched = {"VERIFIED": use["quote"], "QUOTE_ALTERED": cited["near"]}.get(label, "")
-    if (not expected or entry["result"] != ("pass" if label == "VERIFIED" else "fail") or entry.get("matched") != matched
+    if (not expected or entry["result"] != tool_result(label, cited["version"]) or entry.get("matched") != matched
             or entry.get("compared") != cited["compared"] or entry.get("version_compared") != cited["version"]
             or (label == "QUOTE_ALTERED" and entry.get("diff") != word_diff(use["quote"], matched))):
         raise ValueError("exact-text label does not match the archived text")
@@ -359,8 +377,8 @@ def validate_entry(entry, inv, root):
                 raise ValueError("provenance original source hash differs")
     if "provenance_origin" in entry and entry["provenance_origin"] not in ORIGINS:
         raise ValueError("provenance_origin must be retrieved_this_session, user_supplied or remembered")
-    if entry["check"] == "verbatim" and entry["result"] == "pass" and entry.get("provenance_origin") == "remembered":
-        raise ValueError("verbatim pass refused: remembered text is not a source; retrieve the text, or record caution or unverified")
+    if entry["result"] == "pass" and entry.get("provenance_origin") == "remembered":
+        raise ValueError(f"{entry['check']} pass refused: remembered text is not a source; retrieve the source, or record caution or unverified")
     if "source_status" in entry:
         status = entry["source_status"]
         if not isinstance(status, dict) or status.get("status") not in REACH or any(
@@ -387,18 +405,24 @@ def validate_entry(entry, inv, root):
             raise ValueError(f"the source declares version {version!r}; the entry must name it in version_compared")
     check_quote_label(entry, use, root)
     if entry.get("method") == "exact-text" and entry.get("label") is None:
-        # Records written before quote labels: whole-file match, as before.
+        # Records written before quote labels: the result must agree with a whole-file search;
+        # a pass is also checked at the cited locator below.
         path = source_path(root, entry["file"])
         if entry["check"] != "verbatim" or path.suffix.lower() not in {".txt", ".md"}:
             raise ValueError("exact-text only supports verbatim checks against .txt/.md sources")
         found = quote_in_text(use["quote"], path.read_text(encoding="utf-8-sig"))
         if entry["result"] != ("pass" if found else "fail") or entry.get("matched") != (use["quote"] if found else ""):
             raise ValueError("exact-text result does not match the archived text")
-    elif entry["check"] == "verbatim" and entry["result"] == "pass" and Path(entry["file"]).suffix.lower() in {".txt", ".md"}:
-        # A manual pass may not assert a quotation that the readable archived text lacks.
-        text = "\n".join(part for _, part in read_text_source(source_path(root, entry["file"]))[1])
-        if not quote_in_text(use["quote"], text):
-            raise ValueError("verbatim pass refused: the quotation is not in the archived text; use the quote command, or record fail, caution or unverified")
+    if entry["check"] == "verbatim" and entry["result"] == "pass" and Path(entry["file"]).suffix.lower() in TEXT_SUFFIXES:
+        # No verbatim pass (manual, legacy or hand-edited) may assert a quotation that the
+        # readable archived text lacks at the cited locator.
+        cited = cited_check(use["quote"], root, entry["file"], entry["locator"])
+        if not cited["exact"]:
+            place = ("the archived text" if not cited["compared"].startswith("marked") and cited["chosen"]
+                     else f"the segment marked for the cited locator {entry['locator']!r}" if cited["chosen"]
+                     else f"the cited locator: {entry['file']} has locator markers but none matches {entry['locator']!r}")
+            raise ValueError(f"verbatim pass refused: the quotation is not in {place}; "
+                             "use the quote command, or record fail, caution or unverified")
     return use
 
 
@@ -476,6 +500,8 @@ def quote_label(entry, quote):
     text = f"{label}: " + {"VERIFIED": "exact text found", "QUOTE_ALTERED": "near match, wording differs",
                           "MISATTRIBUTED": "exact text not at the cited locator", "UNRESOLVED": "not found"}[label]
     text += f"; compared {entry['compared']}" if tool else " (reviewer label)"
+    if label == "VERIFIED" and entry.get("result") == "caution":
+        text += "; caution: the compared file's version line says the text is not in force or is a prior version"
     if label == "QUOTE_ALTERED":
         text += "; diff ([-draft only-] {+source only+}): " + word_diff(quote, entry["matched"])
     if label == "MISATTRIBUTED":
@@ -502,8 +528,13 @@ def reachability(inv, entries, reach=None):
             found = entry["source_status"]
             add(found["source"], found["status"], found["reason"], "evidence record", entry["use"], entry["check"])
     for entry in sorted((e for e in entries if e.get("file")), key=lambda e: e["file"]):
-        add(entry["file"], "reachable", "archived copy read for the recorded check; its hash matched when this report ran",
-            "evidence records", entry["use"], entry["check"])
+        # The tool reads a file's contents only for a verbatim check it compared: an exact-text
+        # record, or a verbatim pass against a .txt/.md file. Otherwise it only checks the hash.
+        compared = entry["check"] == "verbatim" and Path(entry["file"]).suffix.lower() in TEXT_SUFFIXES and (
+            entry.get("method") == "exact-text" or entry["result"] == "pass")
+        reason = ("archived copy read for the recorded check; its hash matched when this report ran" if compared else
+                  "archived file present and its hash matched when this report ran; contents not compared by the tool")
+        add(entry["file"], "reachable", reason, "evidence records", entry["use"], entry["check"])
     order = [use["id"] for use in inv["uses"]]
     citation = {use["id"]: use["citation"] for use in inv["uses"]}
     lines = ["## Sources reachable", "",
@@ -604,7 +635,7 @@ def main():
             path = source_path(args.sources, args.file)
             fields = classify(use["quote"], args.sources, args.file, args.locator)
             entry = {"document_sha256": inv["document_sha256"], "use": args.use, "check": "verbatim",
-                     "result": "pass" if fields["label"] == "VERIFIED" else "fail", "method": "exact-text",
+                     "result": tool_result(fields["label"], fields.get("version_compared")), "method": "exact-text",
                      "file": args.file, "sha256": digest(path), "locator": args.locator, **fields}
             if args.provenance_origin:
                 entry["provenance_origin"] = args.provenance_origin

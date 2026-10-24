@@ -79,7 +79,7 @@ matches. It does not run a citator or evaluate law. Its quote labels are `VERIFI
 `QUOTE_ALTERED`, `MISATTRIBUTED`, and `UNRESOLVED`; only `VERIFIED` supports a pass.
 
 Record whether each source was `retrieved_this_session`, `user_supplied`, or
-`remembered`; remembered text cannot pass a verbatim check. When a source is
+`remembered`; remembered text cannot pass any check. When a source is
 unreachable, name it and the authorities it limits. Do not say that no citation was
 verified when other authorities were checked.
 
