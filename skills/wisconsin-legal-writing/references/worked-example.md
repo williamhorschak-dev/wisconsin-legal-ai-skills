@@ -18,7 +18,7 @@ The annotations are what matters. The quoted fragments are there to anchor them.
 ## The skeleton
 
 ```
-CAPTION (two-column table)
+CAPTION (two-column table)   <- by hand; build_filing.py emits the three-rule caption
 DEFENDANT'S MOTION TO SEVER COUNTS 1-4 AND FOR RELIEF FROM PREJUDICIAL JOINDER
 
 MOTION                    <- what is being asked for

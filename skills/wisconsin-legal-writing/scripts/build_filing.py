@@ -532,19 +532,24 @@ def build(spec, out_path, *, draft=False, overwrite=False):
     # is what the filed documents in the corpus actually look like once the court
     # applies its stamp. Set "stamp_clearance": false to suppress it (for a
     # document that will be filed on paper, or one the court will not stamp).
+    #
+    # The band is a first-page header that starts 0.5" from the top edge and is
+    # taller than the top margin, so Word starts page 1 body text below it. The
+    # top margin stays 0.95" so that pages 2 and later, which have no header,
+    # also keep body text clear of the court's 1/2" header band. An earlier
+    # version set a 0.5" top margin, which put page 2 text at 0.5".
+    sec.header_distance = Inches(0.5)
     if spec.get("stamp_clearance", True) and not proposed:
-        sec.top_margin = Inches(0.5)
         sec.different_first_page_header_footer = True
-        _spacer(sec.first_page_header, inches=1.5)
+        _spacer(sec.first_page_header, inches=1.5)   # 0.5" + 1.5" = 2" clear
 
     if proposed:
-        # A 3" blank top margin belongs on page 1 ONLY; subsequent pages take the
-        # ordinary 1/2" the court's header needs. Setting sec.top_margin would
-        # apply 3" to every page, so the space is created with a distinct
-        # first-page header instead.
-        sec.top_margin = Inches(0.5)
+        # A 3" blank top margin belongs on page 1 ONLY; later pages keep the
+        # 0.95" margin above. Setting sec.top_margin would apply 3" to every
+        # page, so the space is created with a distinct first-page header
+        # instead.
         sec.different_first_page_header_footer = True
-        _spacer(sec.first_page_header, inches=2.5)   # + 0.5" margin = 3" clear
+        _spacer(sec.first_page_header, inches=2.5)   # 0.5" + 2.5" = 3" clear
 
     build_caption(doc, spec, size)
     build_body(doc, spec.get("body", []), size, spacing)
