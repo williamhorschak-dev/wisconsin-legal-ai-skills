@@ -1,0 +1,500 @@
+{
+ "schema_version": 1,
+ "host": "Claude Code desktop app 2.1.272, Windows 11, Agent tool subagents (general-purpose, model haiku); installed skills release 2026.10.24.1 plus anthropic-skills plugin copies of the same three skills also present; prompt wrapper: round 3, same wrapper as round 2, model sonnet; reply under 150 words",
+ "model": "claude-sonnet-5-5 (as recorded in the subagent transcripts)",
+ "collected": "2026-10-24",
+ "predictions": [
+  {
+   "skill": "cite-check",
+   "query": "A clerk thinks two of the cases in our opposition brief may not exist. Verify these: Brandt v. Ostrander Mutual, 2015 WI 77, para. 22, and Pell v. Wren Valley School District, 2018 WI App 12, para. 9. Check the quotes against the opinions too.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "An associate ran our memo through a chatbot and some of the authorities in the table look invented. Audit the table of authorities: what's verified, what's unverified, and what you could not find in the sources you searched.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Can you fix the APA citations in my psychology term paper? The reference list is a mess, half of them are missing DOIs and the italics are wrong.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Compare the quotation in paragraph 12 of our brief with the opinion I attached and tell me whether the court said it in the majority opinion or whether it comes from the dissent or a headnote.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Does this pincite line up? I cite Kessler v. Marlow Rail Co., 410 Wis. 2d 311, 325 for the statement that notice must be \"actual and timely.\" I pasted the opinion text below the draft paragraph. Page numbers are the bracketed ones.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Draft a motion to extend time to respond to the summary judgment motion for a Dane County Circuit Court case. I am the plaintiff and I'm representing myself. Include the proposed order.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "I need the text of Wis. Stat. 893.54 as it read on the date of the accident (March 2011), not the current version. Quote it and tell me how you know which version applied.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "I pasted a draft declaration and the record index. Make sure every (Doc. 14:3) style reference points at the exhibit and page it claims to, and list the ones that don't.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "I'm filing a response brief on Friday. Can you go through every case cite in /matter/brief_v3.docx and tell me whether each one actually says what I claim it says? I saved PDFs of all the opinions in the sources folder.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Is Hollis v. Tern Creek Co. still good law? The cite is in footnote 14 of my draft. Tell me which sources you checked for later history and what you did not check.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "My former employer never paid my last two weeks of overtime and sent me a letter denying it. Should I sue them, and which claims give me the best shot? I have my pay stubs here.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Our city ordinance says 'dwelling unit' but the county code says 'residential structure' for the same rental rule. Reasonable people read them differently. Which reading would a Wisconsin court choose and under what method? I want the adverse arguments too.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Review my proposed order and caption for a Milwaukee County small claims case. Does the signature block look right for a party with no lawyer?",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Served by mail in a Waukesha County small claims case on Oct 3, 2026. Calculate my exact last day to answer and tell me if the mail days count.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "What are the rules in Minnesota for amending a complaint after the answer has been served, and how long do I have to ask for leave?",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "What does Wis. Stat. 227.57(11) say today, and has the legislature changed that subsection since 2017? Quote the text and tell me where you read it.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "What is the Bluebook format for citing a Wisconsin Court of Appeals decision in a footnote? I don't have any of the cases open, I just want the general rule.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Write the argument section of my Seventh Circuit brief on the Rule 12(b)(6) standard. The facts are in the attached summary. Aim for about 2,000 words.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "ck my cites pls. Fenwick v. Calder Lake Township, 2019 WI App 41, is supposed to hold the late-notice rule is mandatory and I quote it on page 6. is that quote real or did the AI make it up",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "my associate handed me a string cite w/ 6 cases for one sentence and I dont trust it. read each one and tell me which actually back up that sentence and which are just about the same topic",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Does a Wisconsin court still defer to an agency's reading of its own governing statute? Give me the controlling authority and quote the operative language.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Draft a Wisconsin circuit court motion to compel discovery responses. We're in Outagamie County and the defendant ignored our interrogatories. I'm the plaintiff's attorney.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Here is my draft brief and the PDFs of the 14 opinions it cites. Confirm each quotation is accurate and flag any case that doesn't support the sentence it's cited for.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "How does Minnesota read an ambiguous statute? What does Minn. Stat. 645.16 say about legislative intent, and how do Minnesota courts use it?",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "How does Wisconsin read the word 'shall' compared with how federal courts read it? The two sides in our dispute over a Wisconsin Administrative Code notice provision each rely on a different case.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "I just lost at the circuit court in Brown County. Walk me through docketing the appeal and exactly what the record on appeal has to include in my case.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "I need the text of the Wisconsin statute on small claims jurisdiction as it read on June 1, 2016, not today's version. Quote it and tell me where the historical text can be read.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Is an unpublished Wisconsin Court of Appeals opinion from 2019 citable for its persuasive value in a brief? What does the rule say, and when did that rule take its current form?",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "My neighbor's tree fell on my garage in Racine and his insurer denied the claim. What should I do, and will I win if I sue?",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Our client's lease says 'reasonable notice' and the Wisconsin statute says 'written notice.' How would Wisconsin courts decide whether those two phrases mean the same thing? Walk me through the method and what the other side will argue.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Put together a declaration for my client in a Dane County case. She signed the lease in April and never got the notice. She is not a lawyer, so make sure the signature block fits.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Review my reply brief for a Wisconsin Court of Appeals appeal. Check the structure, the certifications and the signature block before I file it.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Served by mail in a Waukesha County small claims case on Oct 3, 2026. Compute my answer deadline and give me the date.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Someone on the team says one of our citations, Rowan v. Teague Foods, 2016 WI 54, is hallucinated. Verify that it exists and that the pincite matches the proposition.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "What does Wis. Stat. 227.10(2m) say, exactly? I need the current wording quoted and the place you read it.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "What's the proper Bluebook way to cite a Wisconsin statute section and subsection in a footnote? No sources needed, I just want the format.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Write a short research memo with an authority table on whether a 2020 Wisconsin Court of Appeals decision interpreting a statute was affected by a 2023 amendment. Treat the reading as contested and include the strongest adverse authority.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Write the statutory interpretation section of my Seventh Circuit brief on the FLSA overtime exemption. Use the facts in the attached summary and keep it under 2,500 words.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "i need the current text of Wisconsin Constitution Article I section 11 and whether the wording changed after 1980. just the text and the amendment history pls",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "plain meaning vs purpose?? how do wisconsin courts handle a local ordinance with two plausible readings. 'person' in ours doesn't say whether it covers LLCs, and the city and my client disagree",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Can you check the substitution of judge request I filled out for my Wisconsin civil case? I'm not sure I completed it right or served it correctly.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Check the citations in my motion before I file it: every case, quote and pincite against the opinions in my sources folder.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Does Wis. Stat. 801.15 count weekends when the period is under 11 days? Quote exactly what it says today and where you read it.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Draft a Rule 12(b)(6) brief in support of a motion to dismiss for the Western District of Wisconsin. The facts are in the attached summary.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Draft responses and objections to the plaintiff's first interrogatories and requests for admission in a Wisconsin state court case. Remind me what's different about requests for admission.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Fix the caption and signature block on this Court of Appeals reply brief. Do not change my wording.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Help me write a cover letter and resume for a paralegal job at a Madison law firm. I have two years of office experience.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "I need a motion to extend the time to respond to written discovery in Outagamie County Circuit Court. I'm the defense attorney. Draft it with a proposed order.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Is 'person' in a Wisconsin consumer protection statute broad enough to cover an LLC? Courts and parties read it differently and I need to know how Wisconsin would resolve it.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Make a proposed order for the motion in the attached PDF. Wisconsin circuit court, leave the judge's signature and the date blank.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "My client needs a declaration to go with a motion in a Wisconsin circuit court. Prepare it, and make sure the signature block reflects that he is not a lawyer.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "My landlord kept my whole deposit. Should I sue in small claims or send a demand letter first, and how much should I ask for?",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Please review my draft motion to compel in /cases/sample_v_sample/motion_draft.docx. List the specific defects first before any style changes. It's a Wisconsin circuit court case.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Verify that Marsh v. Keene Orchard Co., 2017 WI App 8, says what footnote 6 of this brief says it says, and tell me how far you got on subsequent history.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "What are the page limits and formatting rules for motions in Hennepin County District Court in Minnesota?",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "What is the Bluebook short form rule for id.? Just the format please, I have no cases in front of me.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Which version of the Wisconsin summary judgment statute, 802.08, applies to a motion filed in 2012? Quote it and show me how you chose the version.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "Write a last will and testament for my father. He lives in Green Bay and wants everything split equally between his three kids.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "can u turn this rough outline into a brief in opposition to summary judgment? Wisconsin circuit court, Rock County, I'm pro se, outline is at ~/Documents/opp_outline.txt",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "write a short letter to the Milwaukee County judge asking to reschedule the motion hearing, I'm representing myself and the other side already agreed",
+   "runs": [
+    []
+   ]
+  }
+ ]
+}
