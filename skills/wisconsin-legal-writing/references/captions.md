@@ -53,13 +53,25 @@ Before the geometry: **page 1 needs a blank 2″ × 2″ square at the top right
 the court's file stamp, and every page needs a blank ½″ top margin for the
 court-applied header. Director of State Courts technical requirements;
 Wis. Stat. § 801.18(8), and § 809.801(8)(h) on appeal.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-24): circuit court eFiling technical requirements, https://www.wicourts.gov/ecourts/efilecircuit/tech.htm (page dated April 14, 2026): "a blank 1/2" top margin to accommodate the court-applied document header" and "a blank 2"x2" square in the top-right corner of the first page to accommodate the court file stamp"; appellate page https://www.wicourts.gov/ecourts/efileappellate/tech.htm (dated April 30, 2024) has the same two sentences; Wis. Stat. § 809.801(8)(h) (the square only) and § 801.18(8)(a) (the director publishes the technical requirements), https://docs.legis.wisconsin.gov/document/statutes/809.801 and /801.18, read 2026-10-24. -->
+
+Where the stamp actually lands, measured on two La Crosse County circuit court
+filings stamped in October 2026 (a motion and a declaration): the court's header
+text sits 0.13″ to 0.32″ from the top edge and 1.25″ to 6.5″ from the left; the red
+FILED block (date, clerk, county, case number) sits 0.27″ to 1.19″ from the top and
+6.7″ to 8.0″ from the left. Pages 2 and later carry only the header. The
+declaration had been built with the clearance switched off, so its caption began
+at the 0.95″ margin and the stamp printed over the county name. A declaration or
+affidavit filed as its own document is stamped exactly like a motion.
 
 The court line below runs to a **right tab at 6.5″**, so the county text lands
 inside that square if the caption starts at the top of the page. The builder
 keeps the 0.95″ top margin on every page and clears a 2″ band across the top of
 page 1 with a first-page header, which is what these documents look like in the
-filed record once the stamp is applied. **If you build a caption by hand, leave
-that space.**
+filed record once the stamp is applied. The band cannot be switched off
+(`stamp_clearance: false` is refused). **If you build a caption by hand, leave
+that space, and check the converted PDF: the first body line must sit at least
+2″ from the top edge.**
 
 ### Exact geometry
 

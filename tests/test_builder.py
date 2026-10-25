@@ -156,7 +156,7 @@ class FilingBuilderTests(unittest.TestCase):
         # about 2.5 in) for a proposed order's 3 in band. Pages 2 and later have
         # no header, so their body text starts at the 0.95 in margin.
         cases = (({}, 8), ({"proposed_order": True, "signature": None}, 14),
-                 ({"stamp_clearance": False}, None))
+                 ({"stamp_clearance": True}, 8))
         for changes, breaks in cases:
             with self.subTest(changes=changes):
                 spec = {**filing(), **changes, "case_no": "2025CV000123"}
@@ -177,6 +177,15 @@ class FilingBuilderTests(unittest.TestCase):
                     self.assertEqual(len(headers), 1)
                     self.assertEqual(header.count("<w:br/>"), breaks)
                     self.assertIn('<w:sz w:val="24"/>', header)
+
+    def test_stamp_clearance_cannot_be_switched_off(self):
+        # A filed declaration built with the switch off had the clerk's FILED stamp
+        # (0.27 to 1.19 in from the top, 6.7 to 8.0 in from the left) printed over
+        # the county name of a caption that started at the 0.95 in margin.
+        spec = {**filing(), "stamp_clearance": False, "case_no": "2025CV000123"}
+        with self.assertRaisesRegex(ValueError, "stamp_clearance: false is not supported"):
+            builder.build(spec, self.output, overwrite=True)
+        self.assertFalse(self.output.exists())
 
     def test_legal_omissions_and_literal_asterisks_survive_emphasis(self):
         spec = filing()
