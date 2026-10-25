@@ -1,7 +1,8 @@
 ---
 name: cite-check
-description: Check legal citations, quotations, pincites, attribution, proposition support, and record references against sources the session can read. Report subsequent treatment only as far as a named citator or a disclosed search supports. Use for citation reviews and when preparing legal work that relies on authority. Scale a conversational check to the request; use archived evidence and a report for a filing review.
+description: Check legal citations, quotations, pincites, attribution, proposition support, and record references against sources the session can read. Report subsequent treatment only as far as a named citator or a disclosed search supports. Use for citation reviews and when preparing legal work that relies on authority. Scale a conversational check to the request; use archived evidence and a report for a filing review. Not for drafting a brief or reviewing its argument, structure, or formatting; route "review my brief" to a writing skill such as wisconsin-legal-writing, and "check the citations in my brief" here.
 license: MIT
+compatibility: Instructions work in any text-capable host. The optional scripts/cite_check.py needs Python 3.10 or later and the standard library only, and never fetches anything. Live source and citator checks are done with the host's own tools; the script verifies local files.
 metadata:
   version: "2026.10.13.1"
 ---
@@ -79,7 +80,7 @@ matches. It does not run a citator or evaluate law. Its quote labels are `VERIFI
 `QUOTE_ALTERED`, `MISATTRIBUTED`, and `UNRESOLVED`; only `VERIFIED` supports a pass.
 
 Record whether each source was `retrieved_this_session`, `user_supplied`, or
-`remembered`; remembered text cannot pass a verbatim check. When a source is
+`remembered`; remembered text cannot pass any check. When a source is
 unreachable, name it and the authorities it limits. Do not say that no citation was
 verified when other authorities were checked.
 

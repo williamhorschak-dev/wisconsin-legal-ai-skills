@@ -1127,9 +1127,23 @@ def _report_span(body: str, found: dict | None):
     block, within which a block quotation needs no pincite."""
     if not found or "Red Team Report" not in found:
         m = PRIOR_PASS_HEADING.search(body)
-        return (m.start(), len(body)) if m else (len(body), len(body))
+        if not m:
+            return len(body), len(body)
+        # The corrected-finding block ends at the next heading. Running it to
+        # the end of the file exempted every later block quote in the memo.
+        nxt = ANY_HEADING.search(body, m.end())
+        return m.start(), (nxt.start() if nxt else len(body))
     start = found["Red Team Report"]
-    later = [p for p in found.values() if p > start]
+    # The report ends at the next heading of its own level or higher, whether or
+    # not that heading is a required section. Bounding it only by required
+    # headings let a "## Further Analysis" placed after the report inherit the
+    # exemption. A deeper heading inside the report ("### Corrected on the
+    # second pass") does not end it.
+    heading = re.match(r"[ \t]*(#{1,6})", body[start:])
+    level = len(heading.group(1)) if heading else 3
+    peer = re.compile(r"^[ \t]*#{1,%d}(?!#)[ \t]*\S" % level, re.MULTILINE)
+    nxt = peer.search(body, start + (heading.end() if heading else 1))
+    later = [p for p in found.values() if p > start] + ([nxt.start()] if nxt else [])
     return start, (min(later) if later else len(body))
 
 
@@ -1205,26 +1219,40 @@ def check_red_team(body: str, found: dict) -> None:
     # against the fatal_findings field; nothing to do here.
 
 
-def _applied_markers(line: str) -> int:
+def _applied_markers(line: str, rule_line: bool = False) -> int:
     """Count [UNVERIFIED] tokens on a line that the memo APPLIES.
 
-    A token is exempt only when the sentence is about the marker itself: a
-    negation word shortly before it and the word "marker" right after it ("no
-    [UNVERIFIED] marker remains"), or "marker(s)/remain(s)" followed by a
-    negation after it. A negation elsewhere in the sentence ("was not retrieved
-    [UNVERIFIED]") does not exempt the token."""
+    A token is exempt only when the sentence is about the marker itself, which
+    means the token is used as a noun: the word "marker(s)" or "remain(s)"
+    follows it directly. Then either a negation word shortly before it ("no
+    [UNVERIFIED] marker remains") or a negation later in the same sentence
+    ("the [UNVERIFIED] marker, now obsolete, no longer applies"; the tally form
+    "[UNVERIFIED] markers: none") exempts it. A token followed by anything
+    else is an applied marker, whatever the rest of the sentence says: "the
+    cite is [UNVERIFIED]; markers are not optional" and "the date is
+    [UNVERIFIED] and the marker is not removed" both count. The negation before
+    the token may not cross a clause boundary ("was not retrieved; [UNVERIFIED]
+    marker applies" counts).
+
+    rule_line says the line cites the package's own rules (_is_rule_statement).
+    On such a line a noun use of the token ("memo-format.md requires an
+    [UNVERIFIED] marker on every unretrieved cite") is exempt without a
+    negation, but an applied token on the same line still counts: naming a
+    rule file beside a live marker does not clear the marker."""
     count = 0
     for m in UNVERIFIED.finditer(line):
         before = line[max(0, m.start() - 60):m.start()]
         after = line[m.end():]
-        says_none = re.search(
-            r"\b(?:no|none|zero|not|never|without)\b[^.\n]{0,40}$", before, re.IGNORECASE
-        ) and re.match(r"\s*markers?\b", after, re.IGNORECASE)
-        says_cleared = re.match(
-            r"[^.\n]{0,40}\b(?:remains?|marker)s?\b[^.\n]{0,20}\b(?:no|none|not|never)\b",
+        noun = re.match(r"\s*(?:markers?|remains?)\b", after, re.IGNORECASE)
+        says_none = noun and re.search(
+            r"\b(?:no|none|zero|not|never|without)\b[^.,;:!?\n]{0,40}$", before, re.IGNORECASE
+        )
+        says_cleared = noun and re.match(
+            r"\s*(?:markers?|remains?)\b(?:\s+(?:markers?|remains?)\b)?(?:\s*:)?[^.;:!?\n]{0,60}"
+            r"\b(?:no|none|not|never)\b",
             after, re.IGNORECASE,
         )
-        if not (says_none or says_cleared):
+        if not (says_none or says_cleared or (rule_line and noun)):
             count += 1
     return count
 
@@ -1234,9 +1262,8 @@ def check_markers(body: str, fm: dict) -> None:
     # team explaining "HIGH because no [UNVERIFIED] marker remains" is stating
     # the rule; counting it blocked the memo on the sentence that justified it.
     n_unver = sum(
-        _applied_markers(line)
+        _applied_markers(line, _is_rule_statement(line))
         for line in body.splitlines()
-        if not _is_rule_statement(line)
     )
     if n_unver:
         warn(

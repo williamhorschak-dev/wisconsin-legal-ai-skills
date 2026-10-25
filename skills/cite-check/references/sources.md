@@ -94,8 +94,8 @@ is outcome-determinative or copies disagree, escalate to the official version.
   `.md` header** (`updated_through:`), and read the section's **NOTES**: a NOTE can flag
   an amendment the base text does not yet show.
 - For how these sites display currency lines, versions not yet in effect, permalinks,
-  release dates and access limits, read `references/source-behavior.md` in the
-  wisconsin-legal-interpretation skill, which is a separate skill folder.
+  release dates and access limits, read [source-behavior.md](source-behavior.md) in
+  this skill's references folder (a copy of the interpretation skill's file).
 - **Vintage rule** (it governs): when the draft concerns past conduct,
   acquire and cite the version **in force at the operative time**, from the archived
   editions, and say so in the report. The archived copy in `sources/statutes/` must *be*

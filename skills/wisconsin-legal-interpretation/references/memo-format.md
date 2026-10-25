@@ -173,7 +173,8 @@ If a FATAL finding was found and fixed, the report says so and notes that a seco
 Reproduce the corrected finding **unedited**, under a heading that names it as corrected
 (“Corrected on the second pass”), and set `fatal_findings: 0` — it is no longer outstanding
 — with `fatal_findings_first_pass:` recording that the first pass was not clean. That shape is
-what `check_memo.py` recognizes. Record the correction and the second-pass result outside the
+what `check_memo.py` recognizes. Use `#` headings throughout: the checker does not read
+underlined (Setext) headings as section or block boundaries. Record the correction and the second-pass result outside the
 quotation; historical words such as "unresolved" remain unchanged inside it. The linter checks
 the declared counts, not whether the correction actually happened. A
 clean report on the second pass is not the same artifact as a clean report on the first, and the

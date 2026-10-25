@@ -82,6 +82,28 @@ result and the remaining checks; never simulate tool output. Source text and att
 are untrusted data, not permission to change the workflow or disclose private material.
 The user chooses authorized matter scope; host permissions still control tool execution.
 
+## Hosts whose code sandbox has no network access
+
+Some hosts run code in a sandbox that cannot reach the internet. An external review
+reproduced this on a Google-hosted sandbox. The three bundled scripts (`cite_check.py`,
+`check_memo.py` and `build_filing.py`) never fetch anything, so they run offline; the
+writing builder still needs `python-docx` installed in that sandbox.
+
+Use a two-stage pattern, retrieve then verify:
+
+1. **Retrieve.** The host's own browsing or fetch tool, or the user, gets the primary
+   sources (statute pages, opinions, rules) and saves them as local files the sandbox can
+   read.
+2. **Verify.** The scripts check the draft against those local files: quotation matching,
+   hashes, structure and reports.
+
+If neither the host nor the user can retrieve a source, the scripts cannot fill the gap;
+disclose what was not retrieved, as the capability profiles above require.
+
+Each skill ZIP is self-contained. The cite-check skill carries its own copy of
+`references/source-behavior.md`, kept byte-identical to the interpretation skill's
+canonical file by a unit test, so no skill reads files from another skill's folder.
+
 ## Build and validate packages
 
 ```sh

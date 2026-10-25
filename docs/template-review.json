@@ -1,69 +1,69 @@
 {
   "source_commit": "073dc425c6f144525e60f47c68846475fe2c112e",
-  "scope": "Inherited visual-review record for unchanged assets, plus a text-only edit to 10-appellate-brief.docx on 2026-10-13; this register does not claim a new render.",
+  "scope": "Inherited visual-review record for unchanged assets, a text-only edit to 10-appellate-brief.docx on 2026-10-13, and a top-margin rebuild of the 11 JSON-backed templates on 2026-10-24 that was rendered in Word and checked page by page by an AI agent.",
   "files": {
     "01-motion.docx": {
-      "sha256": "7011fecce06090d7183da6d6a1f2ecfd04f58a55debaac5b51e653fe3ec7c3e4",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "52689c00d222b61f14a33062a3accb9a7fdd344778467bdc1b7cd85e69b0b822",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "02-brief.docx": {
-      "sha256": "b9a7111d09b2722689054020d0afe70175171aba53f6541fc510ed3577c845e9",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "548d66c93e621d270776668d6927f52c81f17d14f00a8b8a51c58d9f94b174ee",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "03-brief-in-opposition.docx": {
-      "sha256": "6fb026bd020dd5894cb139fefec287c3fb9c2c665e19cbd8a4b43cae06d5a3a2",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "28a17fe05c72532ff2774da59f8eaac7232c5c4eb826f87758d719d3ed3c18b6",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "04-discovery-response.docx": {
-      "sha256": "5dc2c05a94044f6b520351efe26554121bb889dec23ad3a8999496cbb347eaa4",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "912780b00f87e0864db7995fc99940576e2c93f7463f7effd432be87ee53099b",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 3 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. The verification block still splits across pages 2 and 3, as it did before; the break now falls after the Signed on line instead of after the signature line. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "05-declaration.docx": {
-      "sha256": "7413240e9cab92ca5dc8fe987e1673257a4759c3907c1c9eb6759cbb092fdac2",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "fbda138ab5f29a6388946748ef2de8411ef44d1250621ef59763e73df4c13664",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "05b-affidavit.docx": {
-      "sha256": "2d89c1124f84a6c5cb3db38c14249cde77fad26b230318f403a3e292e8685906",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "4e7c5f8d0f4b3b4f3cee20fc6877e8cb25ac624bdda1b8a43a20495e427b0be7",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "06-proposed-order.docx": {
-      "sha256": "a5e1deb7a466968ee8c9628fb662ca2dc137a4dbb9fde0fb744f8bd7703ad629",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "28d34ab15726e7b78821882ea3fc28d8cd306ba105d905dc95051147496161cf",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 1 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 3.51 in (unchanged) from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "07-motion-to-enlarge-time.docx": {
-      "sha256": "94afa113fc2fcee7f26092184a011be4185684919e65a802535a2a95402b90f2",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "9d6f1ad29834b9c14ff84a2d1d23d552ac2f0781d27977e197c316ee1e8ca1f4",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "08-motion-for-reconsideration.docx": {
-      "sha256": "b7e62c392c2e9a77371ac0fce43994ec3cbbdd35190c7546f7607a4641009f0e",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "a0c4a2e33016f43feef75d607194687d89a862e2b358d39b88b7596bd29245a6",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 3 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. It now runs to 3 pages instead of 2; the drafting note and signature block move together to page 3. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "09-letter-to-court.docx": {
       "sha256": "76acac296a9ce3c39595b3d41de3ddd4dd4b4bce52943e3850e6afb7d932d083",
@@ -80,18 +80,18 @@
       "new_render_this_release": false
     },
     "11-motion-attorney-signed.docx": {
-      "sha256": "59bd42ba740a85a40473cd02f2bd200d140cac3e81ca023382267ba1bddbc4a3",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "75b4b51fe56511819351e6caedc6f75a270a2abbe5a22248119398d46ad6b281",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "12-motion-to-compel.docx": {
-      "sha256": "2a644e69f25da1248e0b47fa8fc217d71d74c6effda0d832aa8783c9bb1592bc",
-      "review_status": "inherited",
-      "review_date": "2026-09-20",
-      "review_basis": "docs/ASSESSMENT-2026-09-20.md: rendered-page review of all 14 templates",
-      "new_render_this_release": false
+      "sha256": "9f01b388207a8fd2d7c7bc285ab1dbf9d0e29f35cd9aec084abcacc4d139aa05",
+      "review_status": "layout-checked",
+      "review_date": "2026-10-24",
+      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 3 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "13-memorandum.docx": {
       "sha256": "24f2ffefad185eacc0b9ac7c027c2051f872a96b0c939b67903b103c3069ff60",

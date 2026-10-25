@@ -375,8 +375,9 @@ IT IS ORDERED that:
 **Mechanics.**
 - File as **.docx**, not PDF, so the court can edit it. Circuit court eFiling
   technical requirements.
-- **Blank 3-inch top margin on page 1**, ½-inch on subsequent pages, to leave room
-  for the court's signature and stamp.
+- **Blank 3-inch top margin on page 1**, and at least the ½-inch the court's header
+  band needs on later pages (the builder sets later pages to 0.95 inch), to leave
+  room for the court's signature and stamp.
 - **Do not include a signature block for the judge.** "Do not include signature
   blocks for court officials on your document. The court will apply it."
 - The system watermarks it "Proposed" on filing; all eNotice parties are notified.
@@ -456,7 +457,7 @@ cite it to reconsider a summary judgment ruling, a default judgment, or any
 non-final order.** It sits inside § 805.17, captioned "Trial to the court," and
 operates on the findings and conclusions § 805.17(2) requires "[i]n all actions
 tried upon the facts without a jury." *Teff v. Unity Health Plans Ins. Corp.*, 2003
-WI App 115, following *Continental Casualty Co. v. Milwaukee Metropolitan Sewerage
+WI App 115, 265 Wis. 2d 703, 666 N.W.2d 38, following *Continental Casualty Co. v. Milwaukee Metropolitan Sewerage
 District*, 175 Wis. 2d 527, 533-34, 499 N.W.2d 282 (Ct. App. 1993), holds that
 § 805.17(3) "did not apply to a motion for reconsideration of a summary judgment."
 
@@ -487,13 +488,13 @@ before stating its deadline. See the [current § 806.07](https://docs.legis.wisc
 **The standard for reconsidering a non-final order:** "the movant must present either
 newly discovered evidence or establish a manifest error of law or fact."
 *Koepsell's Olde Popcorn Wagons, Inc. v. Koepsell's Festival Popcorn Wagons, Ltd.*,
-2004 WI App 129, ¶ 44. Manifest error means "the wholesale disregard,
+2004 WI App 129, ¶ 44, 275 Wis. 2d 397, 685 N.W.2d 853. Manifest error means "the wholesale disregard,
 misapplication, or failure to recognize controlling precedent." Note the standard is
 borrowed from federal law (*Oto v. Metropolitan Life Ins. Co.*, 224 F.3d 601, 606
 (7th Cir. 2000)); say so when you cite it. And *Koepsell's* forecloses the obvious
 misuse: "A party may not use a motion for reconsideration to introduce new evidence
 that could have been introduced at the original summary judgment phase."
-`[UNVERIFIED]` parallel cites for *Teff* and *Koepsell's*; confirm before filing.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-24), G-112: Teff reporter citation as printed in Parker v. Wisconsin Patients Compensation Fund, 2009 WI App 42, ¶ 10 (slip op. p. 6), https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=35927; Koepsell's reporter citation as printed in Santiago v. Didion Milling, Inc., No. 2023AP1045, unpublished per curiam, ¶ 18 (Ct. App. Oct. 10, 2024) (slip op. p. 10), https://www.wicourts.gov/ca/opinion/DisplayDocument.pdf?content=pdf&seqNo=860610; both read 2026-10-24. No citator content. -->
 
 **`[MANDATORY RULE]` A reconsideration motion that merely re-argues does not extend
 the appeal deadline, and its denial is not separately appealable.** *Silverton
@@ -597,9 +598,15 @@ applied below), 1 date left [VERIFY].** The
 standing rule is unchanged — re-verify against the official PDF before relying on
 any rule in a filing; verification ages.
 
-Rules signed in **November 2025** by all five judges; this reference does not show
-who approved them. **[VERIFY: an earlier version named Chief Judge Horne; confirm any
-approval against the official signature page or the clerk's transmittal first.]**
+The 2025 rules are signed "BY THE COURT" by all five La Crosse County circuit judges,
+dated November 2025 with the day of the month handwritten, and marked "Approved" by
+Scott L. Horne, Chief Judge, Seventh Judicial Administrative District (p. 24). Rule 104
+(p. 1) provides that rules "shall be adopted by written order of a majority of La Crosse
+County Circuit Judges, subject to approval of the Chief Judge." Official source: the clerk of
+circuit court's copy on the county site,
+<https://www.lacrossecounty.org/docs/default-source/clerk-of-courts/local-court-rules-2025.pdf>
+(a 24-page scan with no text layer, so text search and copy do not work on it).
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-24), P-003 and A2-04: signature page p. 24 and Rule 104 p. 1 of the official PDF at the URL above, viewed 2026-10-24; the file fetched that day had the same SHA-256 as the assessment's archived copy. -->
 **[VERIFY: the day is handwritten on the signature page and obscured by a
 signature stroke; Rule 609(1) carries an internal date of 11/18/25, which post-dates
 a November 7 signing. Confirm the operative date against a clean copy or the clerk's
@@ -768,7 +775,9 @@ with five specified items); **Rule 1300** (p. 23 — pro se juvenile guardianshi
 service and the $350 GAL payment before the filing is accepted).
 
 *Source: the official La Crosse County local court rules PDF (2025), pp. 1–24, read
-complete 2026-08-29.*
+complete 2026-08-29, at
+<https://www.lacrossecounty.org/docs/default-source/clerk-of-courts/local-court-rules-2025.pdf>.*
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-24), P-003: the URL was added 2026-10-24 from the county clerk's site; the complete reading dated 2026-08-29 predates the October 2026 reviews and was not repeated by them. -->
 
 #### Criminal, Part 6
 

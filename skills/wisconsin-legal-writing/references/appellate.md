@@ -311,8 +311,10 @@ proportional-serif brief runs at 1.15–1.5 under Rule 809.19(8)(b).
   documents, including the brief, in text-searchable PDF.** Scanning is not
   enough; convert from the word processor.
 - **§ 809.801(8)(h):** leave a blank **2″ × 2″ square at the top right of page 1**
-  for the file stamp. Leave a blank ½″ top margin on every page for the court's
-  header.
+  for the file stamp. The appellate eFiling technical requirements add a blank ½″
+  top margin on every page for the court-applied header; that margin is not in
+  the statute.
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-24): § 809.801(8)(h) reads "Users shall format electronically filed documents to leave a blank space 2 inches by 2 inches square at the top right corner of the first page to accommodate the court file stamp." https://docs.legis.wisconsin.gov/document/statutes/809.801, read 2026-10-24. The half-inch margin: https://www.wicourts.gov/ecourts/efileappellate/tech.htm (page dated April 30, 2024). An earlier version attributed both to the statute. -->
 - **§ 809.801(9)(a):** no paper copy is sent to the court; the electronic version
   is the official record.
 - **§ 809.801(12)(a):** electronic signature reads **"Electronically signed by"**

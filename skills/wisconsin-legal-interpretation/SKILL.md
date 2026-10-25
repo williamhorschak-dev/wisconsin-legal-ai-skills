@@ -11,6 +11,7 @@ description: >-
   contested. Not for drafting or formatting filings, not for case-specific
   appellate procedure, and not for routine deadline computation.
 license: MIT
+compatibility: Instructions work in any text-capable host. The optional memo linter scripts/check_memo.py needs Python 3.10 or later and the standard library only, and never fetches anything. Current-law checks need the host's own source access; the script reads local files.
 metadata:
   version: "2026.10.13.1"
 ---
@@ -54,8 +55,9 @@ file papers, or send confidential matter data to a new service.
 
 ## When this skill applies, and when it does not
 
-**Applies:** a disputed question of substantive Wisconsin law where the answer turns on what a
-provision means or requires, and where reasonable readings differ.
+**Applies:** a question of Wisconsin law that turns on what a provision says, means, or requires
+as of a given date. That includes a quick lookup of current or historical text (Mode 1) and a
+disputed question where reasonable readings differ (Modes 2 and 3).
 
 **Does not apply, and should not activate:**
 
@@ -69,9 +71,9 @@ provision means or requires, and where reasonable readings differ.
   rules, and a jurisdictional deadline computed from a research file is a malpractice-shaped
   error. Only proceed if a dedicated deadline workflow is explicitly invoked, and even then say
   what inputs were used.
-- **Settled questions.** If the provision plainly answers the question and nothing is contested,
-  return the text and the citation. Do not run an interpretive analysis to decorate an easy
-  answer.
+- **An interpretive analysis of a settled question.** If the provision plainly answers the
+  question and nothing is contested, answer in Mode 1: return the text and the citation. Do not
+  run an interpretive analysis to decorate an easy answer.
 
 **Before starting, establish:** the operative date (the law as of when), the forum, whether the
 question is state or federal, and whether the user wants a quick lookup, a contested-interpretation

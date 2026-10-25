@@ -1,5 +1,7 @@
 # How Wisconsin sources behave
 
+Canonical file: `wisconsin-legal-interpretation/references/source-behavior.md`; the cite-check skill ships an identical copy so it works when installed alone, and the two are kept byte-identical.
+
 This file describes how the public Wisconsin source sites display text, dates and
 status, and where those displays mislead a reader or an agent. It says nothing about
 what any provision means or whether it is in force. Each entry was checked against
@@ -52,9 +54,13 @@ it was checked.
   present, record both versions, the effective date the note states, and the Act it
   names; pick the version for the operative date of the question; then read the
   amending Act's effective-date provision. Rely on the note's wording, not the
-  typeface.
+  typeface. Quote the text in force on the target date: for a date before the
+  effective date the note states, that is the earlier version printed after the
+  words "Prior to {date} it reads:", not the first block on the page. Say which
+  version you quoted and why.
 - **Checked:** 2026-10-13 (help page "About the statutes", and a section page that
-  showed two such notes).
+  showed two such notes); 2026-10-24 (help page re-read for the sentence on which
+  version to quote; SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED, G-002).
 
 ### 3. Permalinks and the JSON suffix
 

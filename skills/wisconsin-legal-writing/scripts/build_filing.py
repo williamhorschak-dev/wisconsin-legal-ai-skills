@@ -411,6 +411,13 @@ def _validate(spec, *, draft=False):
     for key in ("appellate", "proposed_order", "stamp_clearance", "bold_court_line", "signature_in_body"):
         if key in spec and not isinstance(spec[key], bool):
             raise ValueError(f"{key} must be true or false")
+    if spec.get("stamp_clearance") is False:
+        # A filed declaration built with this switch off had the clerk's FILED stamp
+        # printed over the county name of its caption. Every eFiled document, a
+        # declaration or affidavit filed on its own included, is stamped on page 1.
+        raise ValueError("stamp_clearance: false is not supported: the clerk's FILED stamp is applied at the top "
+                         "right of page 1 of every eFiled document and overprints a caption that starts at the "
+                         "top margin; remove the key")
     court = spec.get("court", "CIRCUIT COURT")
     if not isinstance(court, str) or court.strip().upper() != "CIRCUIT COURT":
         raise ValueError("This builder supports CIRCUIT COURT captions only")
@@ -525,26 +532,35 @@ def build(spec, out_path, *, draft=False, overwrite=False):
     # court-applied header (case number, document number, filed date, pagination)
     # and a blank 2" x 2" square at the TOP RIGHT of page 1 for the file stamp.
     # Director of State Courts technical requirements; Wis. Stat. s. 801.18(8).
+    # Measured on two circuit court filings stamped in October 2026: the header
+    # text runs 0.13" to 0.32" from the top edge; the FILED block runs 0.27" to
+    # 1.19" from the top and 6.7" to 8.0" from the left, inside the square and
+    # over the end of a court line that starts at the 0.95" margin.
     #
     # The caption's court line carries a right tab at 6.5", which puts the county
     # text inside that square. Rather than break the caption geometry, page 1 gets
     # a full-width 2" clear band, which necessarily clears the top-right square and
     # is what the filed documents in the corpus actually look like once the court
-    # applies its stamp. Set "stamp_clearance": false to suppress it (for a
-    # document that will be filed on paper, or one the court will not stamp).
-    if spec.get("stamp_clearance", True) and not proposed:
-        sec.top_margin = Inches(0.5)
+    # applies its stamp. There is no switch to suppress it: a paper filing is
+    # stamped in the same place, and an unstamped copy only gains white space.
+    #
+    # The band is a first-page header that starts 0.5" from the top edge and is
+    # taller than the top margin, so Word starts page 1 body text below it. The
+    # top margin stays 0.95" so that pages 2 and later, which have no header,
+    # also keep body text clear of the court's 1/2" header band. An earlier
+    # version set a 0.5" top margin, which put page 2 text at 0.5".
+    sec.header_distance = Inches(0.5)
+    if not proposed:
         sec.different_first_page_header_footer = True
-        _spacer(sec.first_page_header, inches=1.5)
+        _spacer(sec.first_page_header, inches=1.5)   # 0.5" + 1.5" = 2" clear
 
     if proposed:
-        # A 3" blank top margin belongs on page 1 ONLY; subsequent pages take the
-        # ordinary 1/2" the court's header needs. Setting sec.top_margin would
-        # apply 3" to every page, so the space is created with a distinct
-        # first-page header instead.
-        sec.top_margin = Inches(0.5)
+        # A 3" blank top margin belongs on page 1 ONLY; later pages keep the
+        # 0.95" margin above. Setting sec.top_margin would apply 3" to every
+        # page, so the space is created with a distinct first-page header
+        # instead.
         sec.different_first_page_header_footer = True
-        _spacer(sec.first_page_header, inches=2.5)   # + 0.5" margin = 3" clear
+        _spacer(sec.first_page_header, inches=2.5)   # 0.5" + 2.5" = 3" clear
 
     build_caption(doc, spec, size)
     build_body(doc, spec.get("body", []), size, spacing)
