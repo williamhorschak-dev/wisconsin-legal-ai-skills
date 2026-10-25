@@ -4,7 +4,7 @@ description: Check legal citations, quotations, pincites, attribution, propositi
 license: MIT
 compatibility: Instructions work in any text-capable host. The optional scripts/cite_check.py needs Python 3.10 or later and the standard library only, and never fetches anything. Live source and citator checks are done with the host's own tools; the script verifies local files.
 metadata:
-  version: "2026.10.24.1"
+  version: "2026.10.24.2"
 ---
 
 # Cite Check

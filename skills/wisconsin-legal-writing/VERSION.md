@@ -1,5 +1,9 @@
 # wisconsin-legal-writing
 
+## 2026.10.24.2
+
+- Version number only. No file in the skill changed.
+
 ## 2026.10.24.1
 
 - `build_filing.py`: pages 2 and later keep the 0.95 inch top margin (the earlier

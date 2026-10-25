@@ -1,0 +1,59 @@
+{
+ "schema_version": 1,
+ "host": "Claude Code desktop app 2.1.272, Windows 11, Agent tool subagents (general-purpose); anthropic-skills plugin copies of the same three skills also present; prompt wrapper: use any tools and skills you would normally use, with shell commands, file edits, browsing and agents forbidden; reply under 150 words; installed skills release 2026.10.24.1; the five round-3 misses repeated three times each on sonnet",
+ "model": "claude-sonnet-5-5 (as recorded in the subagent transcripts)",
+ "collected": "2026-10-24",
+ "predictions": [
+  {
+   "skill": "cite-check",
+   "query": "Does this pincite line up? I cite Kessler v. Marlow Rail Co., 410 Wis. 2d 311, 325 for the statement that notice must be \"actual and timely.\" I pasted the opinion text below the draft paragraph. Page numbers are the bracketed ones.",
+   "runs": [
+    [],
+    [
+     "cite-check"
+    ],
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "I pasted a draft declaration and the record index. Make sure every (Doc. 14:3) style reference points at the exhibit and page it claims to, and list the ones that don't.",
+   "runs": [
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "my associate handed me a string cite w/ 6 cases for one sentence and I dont trust it. read each one and tell me which actually back up that sentence and which are just about the same topic",
+   "runs": [
+    [],
+    [],
+    []
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-interpretation",
+   "query": "Is an unpublished Wisconsin Court of Appeals opinion from 2019 citable for its persuasive value in a brief? What does the rule say, and when did that rule take its current form?",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ],
+    [],
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "wisconsin-legal-writing",
+   "query": "write a short letter to the Milwaukee County judge asking to reschedule the motion hearing, I'm representing myself and the other side already agreed",
+   "runs": [
+    [],
+    [],
+    []
+   ]
+  }
+ ]
+}

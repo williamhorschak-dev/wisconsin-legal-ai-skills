@@ -1,0 +1,769 @@
+{
+  "schema_version": 1,
+  "tool": "scripts/trigger_eval.py",
+  "mode": "offline-predictions",
+  "generated_at": "2026-10-25T01:19:09.472309+00:00",
+  "commit": "e917cd02f1f43f9405c840574c237ebd6a213c23",
+  "dirty": true,
+  "threshold": 0.5,
+  "threshold_rule": "should-trigger passes above the threshold; should-not-trigger passes below it",
+  "min_pass_rate": 1.0,
+  "verdict_split": "all",
+  "queries_content_sha256": {
+    "cite-check": "d5ff3257646776c6ddbe495093b56746fdbe31b161e8e0d9d28570b8037e3118",
+    "wisconsin-legal-interpretation": "97d38ded1e641be540984030b192e49d10c2e8fb8e61307696291ed85ef93341"
+  },
+  "run_metadata": {
+    "host": "Claude Code desktop app 2.1.272, Windows 11, Agent tool subagents (general-purpose); anthropic-skills plugin copies of the same three skills also present; prompt wrapper: use any tools and skills you would normally use, with shell commands, file edits, browsing and agents forbidden; reply under 150 words; installed skills release 2026.10.24.1 with two candidate descriptions: cite-check first wording ('Use it even for one citation, pincite, quotation, string cite, or record cite pasted in chat, whenever the user asks whether it is real, accurate, or supports the sentence.') and the interpretation one-question-lookup sentence; cite-check and interpretation query sets only",
+    "model": "claude-sonnet-5-5 (as recorded in the subagent transcripts)",
+    "collected": "2026-10-24",
+    "note": "Supplied by the operator and not verified by this script."
+  },
+  "scope": "Trigger rates for a small fixed query set on one host and model. This does not establish general reliability, other hosts or models, output quality, or legal accuracy.",
+  "warnings": [
+    "Some queries have fewer than 3 runs; single runs are sensitive to model nondeterminism."
+  ],
+  "skills": {
+    "cite-check": {
+      "passed": false,
+      "splits": {
+        "all": {
+          "queries": 20,
+          "passed": 15,
+          "pass_rate": 0.75,
+          "true_positives": 4,
+          "false_negatives": 5,
+          "false_positives": 0,
+          "true_negatives": 11,
+          "precision": 1.0,
+          "recall": 0.4444,
+          "ties_at_threshold": 0,
+          "cross_skill_routed_to_expected": 5,
+          "cross_skill_total": 5
+        },
+        "train": {
+          "queries": 12,
+          "passed": 11,
+          "pass_rate": 0.9167,
+          "true_positives": 4,
+          "false_negatives": 1,
+          "false_positives": 0,
+          "true_negatives": 7,
+          "precision": 1.0,
+          "recall": 0.8,
+          "ties_at_threshold": 0,
+          "cross_skill_routed_to_expected": 3,
+          "cross_skill_total": 3
+        },
+        "validation": {
+          "queries": 8,
+          "passed": 4,
+          "pass_rate": 0.5,
+          "true_positives": 0,
+          "false_negatives": 4,
+          "false_positives": 0,
+          "true_negatives": 4,
+          "precision": null,
+          "recall": 0.0,
+          "ties_at_threshold": 0,
+          "cross_skill_routed_to_expected": 2,
+          "cross_skill_total": 2
+        }
+      },
+      "queries": [
+        {
+          "index": 0,
+          "query": "Served by mail in a Waukesha County small claims case on Oct 3, 2026. Calculate my exact last day to answer and tell me if the mail days count.",
+          "split": "train",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 1,
+          "query": "Is Hollis v. Tern Creek Co. still good law? The cite is in footnote 14 of my draft. Tell me which sources you checked for later history and what you did not check.",
+          "split": "validation",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": false,
+          "expected_skill_rate": 0.0,
+          "skills_triggered": {}
+        },
+        {
+          "index": 2,
+          "query": "I pasted a draft declaration and the record index. Make sure every (Doc. 14:3) style reference points at the exhibit and page it claims to, and list the ones that don't.",
+          "split": "validation",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": false,
+          "expected_skill_rate": 0.0,
+          "skills_triggered": {}
+        },
+        {
+          "index": 3,
+          "query": "Draft a motion to extend time to respond to the summary judgment motion for a Dane County Circuit Court case. I am the plaintiff and I'm representing myself. Include the proposed order.",
+          "split": "train",
+          "category": "cross-skill",
+          "should_trigger": false,
+          "expected_skill": "wisconsin-legal-writing",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-writing": 1.0
+          }
+        },
+        {
+          "index": 4,
+          "query": "Does this pincite line up? I cite Kessler v. Marlow Rail Co., 410 Wis. 2d 311, 325 for the statement that notice must be \"actual and timely.\" I pasted the opinion text below the draft paragraph. Page numbers are the bracketed ones.",
+          "split": "train",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": false,
+          "expected_skill_rate": 0.0,
+          "skills_triggered": {}
+        },
+        {
+          "index": 5,
+          "query": "Our city ordinance says 'dwelling unit' but the county code says 'residential structure' for the same rental rule. Reasonable people read them differently. Which reading would a Wisconsin court choose and under what method? I want the adverse arguments too.",
+          "split": "train",
+          "category": "cross-skill",
+          "should_trigger": false,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 6,
+          "query": "Compare the quotation in paragraph 12 of our brief with the opinion I attached and tell me whether the court said it in the majority opinion or whether it comes from the dissent or a headnote.",
+          "split": "validation",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": false,
+          "expected_skill_rate": 0.0,
+          "skills_triggered": {}
+        },
+        {
+          "index": 7,
+          "query": "My former employer never paid my last two weeks of overtime and sent me a letter denying it. Should I sue them, and which claims give me the best shot? I have my pay stubs here.",
+          "split": "train",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 8,
+          "query": "An associate ran our memo through a chatbot and some of the authorities in the table look invented. Audit the table of authorities: what's verified, what's unverified, and what you could not find in the sources you searched.",
+          "split": "train",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "cite-check": 1.0
+          }
+        },
+        {
+          "index": 9,
+          "query": "Can you fix the APA citations in my psychology term paper? The reference list is a mess, half of them are missing DOIs and the italics are wrong.",
+          "split": "validation",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 10,
+          "query": "I'm filing a response brief on Friday. Can you go through every case cite in /matter/brief_v3.docx and tell me whether each one actually says what I claim it says? I saved PDFs of all the opinions in the sources folder.",
+          "split": "train",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "cite-check": 1.0
+          }
+        },
+        {
+          "index": 11,
+          "query": "What is the Bluebook format for citing a Wisconsin Court of Appeals decision in a footnote? I don't have any of the cases open, I just want the general rule.",
+          "split": "train",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 12,
+          "query": "A clerk thinks two of the cases in our opposition brief may not exist. Verify these: Brandt v. Ostrander Mutual, 2015 WI 77, para. 22, and Pell v. Wren Valley School District, 2018 WI App 12, para. 9. Check the quotes against the opinions too.",
+          "split": "train",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "cite-check": 1.0
+          }
+        },
+        {
+          "index": 13,
+          "query": "I need the text of Wis. Stat. 893.54 as it read on the date of the accident (March 2011), not the current version. Quote it and tell me how you know which version applied.",
+          "split": "validation",
+          "category": "cross-skill",
+          "should_trigger": false,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 14,
+          "query": "What are the rules in Minnesota for amending a complaint after the answer has been served, and how long do I have to ask for leave?",
+          "split": "train",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 15,
+          "query": "What does Wis. Stat. 227.57(11) say today, and has the legislature changed that subsection since 2017? Quote the text and tell me where you read it.",
+          "split": "train",
+          "category": "cross-skill",
+          "should_trigger": false,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 16,
+          "query": "Review my proposed order and caption for a Milwaukee County small claims case. Does the signature block look right for a party with no lawyer?",
+          "split": "validation",
+          "category": "cross-skill",
+          "should_trigger": false,
+          "expected_skill": "wisconsin-legal-writing",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-writing": 1.0
+          }
+        },
+        {
+          "index": 17,
+          "query": "Write the argument section of my Seventh Circuit brief on the Rule 12(b)(6) standard. The facts are in the attached summary. Aim for about 2,000 words.",
+          "split": "validation",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 18,
+          "query": "ck my cites pls. Fenwick v. Calder Lake Township, 2019 WI App 41, is supposed to hold the late-notice rule is mandatory and I quote it on page 6. is that quote real or did the AI make it up",
+          "split": "train",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "cite-check": 1.0
+          }
+        },
+        {
+          "index": 19,
+          "query": "my associate handed me a string cite w/ 6 cases for one sentence and I dont trust it. read each one and tell me which actually back up that sentence and which are just about the same topic",
+          "split": "validation",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": false,
+          "expected_skill_rate": 0.0,
+          "skills_triggered": {}
+        }
+      ]
+    },
+    "wisconsin-legal-interpretation": {
+      "passed": true,
+      "splits": {
+        "all": {
+          "queries": 20,
+          "passed": 20,
+          "pass_rate": 1.0,
+          "true_positives": 9,
+          "false_negatives": 0,
+          "false_positives": 0,
+          "true_negatives": 11,
+          "precision": 1.0,
+          "recall": 1.0,
+          "ties_at_threshold": 0,
+          "cross_skill_routed_to_expected": 3,
+          "cross_skill_total": 5
+        },
+        "train": {
+          "queries": 12,
+          "passed": 12,
+          "pass_rate": 1.0,
+          "true_positives": 5,
+          "false_negatives": 0,
+          "false_positives": 0,
+          "true_negatives": 7,
+          "precision": 1.0,
+          "recall": 1.0,
+          "ties_at_threshold": 0,
+          "cross_skill_routed_to_expected": 1,
+          "cross_skill_total": 3
+        },
+        "validation": {
+          "queries": 8,
+          "passed": 8,
+          "pass_rate": 1.0,
+          "true_positives": 4,
+          "false_negatives": 0,
+          "false_positives": 0,
+          "true_negatives": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "ties_at_threshold": 0,
+          "cross_skill_routed_to_expected": 2,
+          "cross_skill_total": 2
+        }
+      },
+      "queries": [
+        {
+          "index": 0,
+          "query": "Served by mail in a Waukesha County small claims case on Oct 3, 2026. Compute my answer deadline and give me the date.",
+          "split": "train",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 1,
+          "query": "Write the statutory interpretation section of my Seventh Circuit brief on the FLSA overtime exemption. Use the facts in the attached summary and keep it under 2,500 words.",
+          "split": "train",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 2,
+          "query": "How does Wisconsin read the word 'shall' compared with how federal courts read it? The two sides in our dispute over a Wisconsin Administrative Code notice provision each rely on a different case.",
+          "split": "validation",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 3,
+          "query": "I just lost at the circuit court in Brown County. Walk me through docketing the appeal and exactly what the record on appeal has to include in my case.",
+          "split": "validation",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 4,
+          "query": "Review my reply brief for a Wisconsin Court of Appeals appeal. Check the structure, the certifications and the signature block before I file it.",
+          "split": "validation",
+          "category": "cross-skill",
+          "should_trigger": false,
+          "expected_skill": "wisconsin-legal-writing",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-writing": 1.0
+          }
+        },
+        {
+          "index": 5,
+          "query": "I need the text of the Wisconsin statute on small claims jurisdiction as it read on June 1, 2016, not today's version. Quote it and tell me where the historical text can be read.",
+          "split": "train",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 6,
+          "query": "Our client's lease says 'reasonable notice' and the Wisconsin statute says 'written notice.' How would Wisconsin courts decide whether those two phrases mean the same thing? Walk me through the method and what the other side will argue.",
+          "split": "train",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 7,
+          "query": "Draft a Wisconsin circuit court motion to compel discovery responses. We're in Outagamie County and the defendant ignored our interrogatories. I'm the plaintiff's attorney.",
+          "split": "train",
+          "category": "cross-skill",
+          "should_trigger": false,
+          "expected_skill": "wisconsin-legal-writing",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-writing": 1.0
+          }
+        },
+        {
+          "index": 8,
+          "query": "What's the proper Bluebook way to cite a Wisconsin statute section and subsection in a footnote? No sources needed, I just want the format.",
+          "split": "validation",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 9,
+          "query": "plain meaning vs purpose?? how do wisconsin courts handle a local ordinance with two plausible readings. 'person' in ours doesn't say whether it covers LLCs, and the city and my client disagree",
+          "split": "validation",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 10,
+          "query": "i need the current text of Wisconsin Constitution Article I section 11 and whether the wording changed after 1980. just the text and the amendment history pls",
+          "split": "validation",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 11,
+          "query": "Write a short research memo with an authority table on whether a 2020 Wisconsin Court of Appeals decision interpreting a statute was affected by a 2023 amendment. Treat the reading as contested and include the strongest adverse authority.",
+          "split": "validation",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 12,
+          "query": "Here is my draft brief and the PDFs of the 14 opinions it cites. Confirm each quotation is accurate and flag any case that doesn't support the sentence it's cited for.",
+          "split": "train",
+          "category": "cross-skill",
+          "should_trigger": false,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 0.0,
+          "skills_triggered": {}
+        },
+        {
+          "index": 13,
+          "query": "Someone on the team says one of our citations, Rowan v. Teague Foods, 2016 WI 54, is hallucinated. Verify that it exists and that the pincite matches the proposition.",
+          "split": "train",
+          "category": "cross-skill",
+          "should_trigger": false,
+          "expected_skill": "cite-check",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 0.0,
+          "skills_triggered": {}
+        },
+        {
+          "index": 14,
+          "query": "Is an unpublished Wisconsin Court of Appeals opinion from 2019 citable for its persuasive value in a brief? What does the rule say, and when did that rule take its current form?",
+          "split": "train",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 15,
+          "query": "Put together a declaration for my client in a Dane County case. She signed the lease in April and never got the notice. She is not a lawyer, so make sure the signature block fits.",
+          "split": "validation",
+          "category": "cross-skill",
+          "should_trigger": false,
+          "expected_skill": "wisconsin-legal-writing",
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-writing": 1.0
+          }
+        },
+        {
+          "index": 16,
+          "query": "Does a Wisconsin court still defer to an agency's reading of its own governing statute? Give me the controlling authority and quote the operative language.",
+          "split": "train",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 17,
+          "query": "What does Wis. Stat. 227.10(2m) say, exactly? I need the current wording quoted and the place you read it.",
+          "split": "train",
+          "category": "positive",
+          "should_trigger": true,
+          "expected_skill": "wisconsin-legal-interpretation",
+          "runs": 1,
+          "triggers": 1,
+          "trigger_rate": 1.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": 1.0,
+          "skills_triggered": {
+            "wisconsin-legal-interpretation": 1.0
+          }
+        },
+        {
+          "index": 18,
+          "query": "How does Minnesota read an ambiguous statute? What does Minn. Stat. 645.16 say about legislative intent, and how do Minnesota courts use it?",
+          "split": "train",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        },
+        {
+          "index": 19,
+          "query": "My neighbor's tree fell on my garage in Racine and his insurer denied the claim. What should I do, and will I win if I sue?",
+          "split": "train",
+          "category": "near-miss",
+          "should_trigger": false,
+          "expected_skill": null,
+          "runs": 1,
+          "triggers": 0,
+          "trigger_rate": 0.0,
+          "threshold": 0.5,
+          "passed": true,
+          "expected_skill_rate": null,
+          "skills_triggered": {}
+        }
+      ]
+    }
+  },
+  "passed": false
+}
