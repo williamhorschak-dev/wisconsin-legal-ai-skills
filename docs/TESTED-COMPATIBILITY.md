@@ -43,13 +43,14 @@ helpers and evaluation infrastructure, not a completed cross-model benchmark.
   assets. That is an independent rebuild on GitHub's runners. The copy of this file
   inside the release says the check had not been made yet, because the file is itself
   an asset; this repository copy records the result.
-- **Models and hosts.** One trigger-activation run on 2026-10-24, after publication: the
-  60 trigger queries, one run each, in fresh Claude Code desktop (2.1.272) subagents on
-  claude-haiku-5-5 with the release's skills installed. No near-miss or cross-skill query
-  triggered the skill under test (precision 1.00 for all three skills); recall was 0.11
-  for cite-check and 0.33 for the other two, so the protocol's every-query rule fails. One
-  run per query, one model, a subagent context: see
-  evals/triggers/results/2026-10-24-claude-code-haiku-subagents.md. No output-quality or
+- **Models and hosts.** Two trigger-activation runs on 2026-10-24, after publication: the
+  60 trigger queries, one run each, in fresh Claude Code desktop (2.1.272) subagents with
+  the release's skills installed, once on claude-haiku-5-5 and once on claude-sonnet-5-5.
+  No near-miss or cross-skill query triggered the skill under test in either run
+  (precision 1.00 for all three skills). Recall on haiku was 0.11, 0.33 and 0.33; on
+  sonnet 0.67, 0.89 and 0.89 (cite-check, interpretation, writing). Both fail the
+  protocol's every-query rule. One run per query per model, a subagent context: see
+  evals/triggers/results/2026-10-24-claude-code-subagents.md. No output-quality or
   legal-accuracy trial was run.
 
 ## Record of 2026-10-13
