@@ -1,5 +1,23 @@
 # wisconsin-legal-writing
 
+## 2026.10.24.1
+
+- `build_filing.py`: pages 2 and later keep the 0.95 inch top margin (the earlier
+  release set 0.5 inch); page 1 clearance unchanged; the clearance can no longer be
+  switched off after a filed declaration built with it off had the clerk's stamp over
+  the county name. All 11 JSON-backed templates rebuilt, rendered in Word 16.0 and
+  viewed on 2026-10-24 by an AI lane and independently by a second AI reviewer; not
+  attorney-reviewed. 08-motion-for-reconsideration is now 3 pages.
+- captions.md records where the court's header and FILED stamp land, measured on two
+  October 2026 filings, and says the builder emits the three-rule caption only.
+- References: Teff and Koepsell's reporter citations filled from public opinions; the
+  La Crosse approval sentence restored from the county clerk's signature page (the
+  handwritten day still [VERIFY]); proposed-order margin sentence; appellate.md
+  attributes the half-inch top margin to the technical requirements page. Each change is
+  listed with its source in docs/LEGAL-TEXT-CHANGES-2026-10.md; source-checked by AI
+  review, not attorney-reviewed.
+- Compatibility frontmatter added to SKILL.md.
+
 ## 2026.10.13.1
 
 - Corrected procedure references found in the 2026-10-11 assessment: small-claims

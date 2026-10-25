@@ -4,7 +4,7 @@ description: Draft or review Wisconsin circuit court and Court of Appeals filing
 license: MIT
 compatibility: Instructions work in any text-capable host. DOCX generation with scripts/build_filing.py needs Python 3.10 or later and python-docx 1.2.0 (requirements.txt). The scripts never fetch anything; current-law checks need the host's own source access.
 metadata:
-  version: "2026.10.13.1"
+  version: "2026.10.24.1"
 ---
 
 # Wisconsin Legal Writing

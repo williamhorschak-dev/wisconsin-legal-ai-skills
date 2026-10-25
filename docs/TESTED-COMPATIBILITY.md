@@ -1,12 +1,12 @@
-# Tested compatibility: 2026.10.13.1
+# Tested compatibility: 2026.10.24.1
 
 Format support and observed behavior are separate claims.
 
 | Layer | Evidence | Limit |
 |---|---|---|
 | Skill packages | Metadata, local links, notices, hashes and ZIP contents are checked by CI. | The host must support the format and expose the needed capabilities. |
-| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (132 in this release). Local Windows runs on CPython 3.12.10 and 3.14.5 are recorded below. | Passing code tests do not establish legal accuracy. |
-| Document templates | All 11 JSON-backed templates are rebuilt; all 14 Word assets have a byte-bound review record. | Structural/text checks do not render pages. The existing visual review is inherited; the appendix certification in `10-appellate-brief.docx` was edited as text on 2026-10-13 and not rendered. See TEMPLATE-QA.md. |
+| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (145 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
+| Document templates | All 11 JSON-backed templates were rebuilt on 2026-10-24, rendered in Word 16.0 and viewed by an AI lane, and independently rebuilt, rendered and measured by a second AI reviewer the same day; all 14 Word assets have a byte-bound review record. | A rendered-page check by AI is not an attorney review and does not establish filing readiness. The three assets outside the rebuild keep their inherited review. See TEMPLATE-QA.md. |
 | Claude model behavior | No provider trials recorded for this release. | The optional CLI adapter is tested with simulated subprocess responses only. |
 | GPT/OpenAI model behavior | No provider trials recorded for this release. | Codex metadata and prompt exports establish integration format, not answer quality. |
 | Other LLMs | Portable prompt inputs and manual result import are available. No provider trials recorded. | No universal compatibility or equivalent-performance claim. |
@@ -15,6 +15,29 @@ The 24 scenarios prepare 48 paired trials per repetition. None is marked passed
 merely because its fixture exists. There is no published model score, legal-accuracy
 score, or attorney approval for this release. Current publication provides tested
 helpers and evaluation infrastructure, not a completed cross-model benchmark.
+
+## Record of 2026-10-24
+
+- **CI.** The validate workflow (Ubuntu and Windows, each on Python 3.10 and 3.12)
+  passed in all four jobs at 327038f on `main` (run 40146193402), the merge of pull
+  request 8, and at that pull request's last two commits, e493335 (run 40144698014)
+  and edca691 (run 40145939490). Each job ran 145 tests. The version-bump pull
+  request's own runs are listed on that pull request.
+- **Local Windows runs.** On Windows 11 under CPython 3.12.10 (a virtual environment
+  with python-docx 1.2.0 and PyYAML), the four validators (`skill_tools.py`,
+  `evaluate.py`, `trigger_eval.py` and `source_registry.py`, each with `validate`)
+  exited 0, and the suite ran 145 tests, OK, with 2 skipped. The skipped tests create
+  symbolic links, which needs a Windows privilege the account did not hold; the Ubuntu
+  jobs run them.
+- **Independent reviewer run.** A Codex-model reviewer ran the same five commands on
+  Windows 11 under CPython 3.12.14 at 3a705a7 and reported the same validator results
+  and 141 tests, OK, 2 skipped (before the four tests added afterwards). It also ran 29
+  synthetic citation-check scenarios and 20 memo fixtures; the defects it found are
+  fixed in e493335.
+- **Release assets.** Not checked when this record was written. RELEASING.md requires
+  the draft release's assets to match the local build by SHA-256 before publication;
+  the result is not recorded in this file, which is itself one of the assets.
+- **Models and hosts.** None run on this release.
 
 ## Record of 2026-10-13
 

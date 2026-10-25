@@ -1,3 +1,96 @@
+# 2026.10.24.1
+
+Fixes from a third independent AI review (two passes on the 2026.10.13.1 bundle by a
+Google model and a third pass on the pull request by a Codex model), and a file-stamp
+placement fix the maintainer reported from two filed documents. The legal-text rows were
+source-checked by AI review against public sources. No attorney reviewed any of it; the
+maintainer is not a lawyer; LEGAL_NOTICE.md applies.
+
+## cite-check
+
+- A verbatim pass against a .txt or .md source, whether recorded by the quote command,
+  written by hand, or found in the log when the report runs, must sit in the segment
+  marked for the cited locator; a cited locator that matches no marker is refused. The
+  earlier release checked only the quote command's own entries.
+- No check of any type can pass from remembered text. The earlier release refused only a
+  remembered verbatim pass.
+- An exact match in a file whose version line says the text is not in force or is a prior
+  version is recorded as caution with the reason. A legacy exact-text record without a
+  label gets the same rule. The phrase check ignores spacing and is documented as phrase
+  matching, not an operative-date model.
+- The report says when the tool did not read a file: "archived file present and its hash
+  matched when this report ran; contents not compared by the tool".
+- Marker lines are parsed with optional spacing and any case, a line that starts like a
+  marker but does not parse is refused, spacing inside a locator is ignored, and a
+  quotation longer than its segment is classified instead of raising an error.
+- references/source-behavior.md now ships inside the skill as a byte-identical copy of the
+  interpretation skill's file; compatibility frontmatter added; the description says what
+  the skill is not for; evidence-tool.md documents the Markdown, parent-segment and
+  version-phrase limits; PORTABILITY.md covers hosts whose code sandbox has no network.
+
+## wisconsin-legal-writing
+
+- Pages 2 and later keep the documented 0.95 inch top margin. The earlier release set
+  them to 0.5 inch, under the court's header band. Page 1 clearance is unchanged. All 11
+  JSON-backed templates were rebuilt, rendered in Word 16.0 and viewed by an AI lane, and
+  independently rebuilt, rendered and measured by the third reviewer; the review record
+  says so and claims no attorney review. 08-motion-for-reconsideration is now 3 pages.
+- The page-1 stamp clearance can no longer be switched off. A filed declaration built with
+  it off had the clerk's FILED stamp printed over the county name of its caption.
+  captions.md records where the court's header and stamp land, measured on two October
+  2026 circuit court filings, with the technical requirements and statutes quoted.
+- captions.md and worked-example.md say the builder emits the three-rule caption only;
+  the attorney-table caption is a manual step.
+- References: Teff and Koepsell's reporter citations filled from public opinions; the
+  La Crosse approval sentence restored from the county clerk's signature page, with the
+  handwritten day still marked [VERIFY]; the proposed-order sentence separates the
+  half-inch header band from the builder's 0.95 inch margin; appellate.md attributes the
+  half-inch top margin to the appellate technical requirements page rather than to
+  s. 809.801(8)(h), which gives the 2 by 2 inch square only; the Koepsell's source note
+  cites the published Bauer v. Wisconsin Energy Corp., 2022 WI 11. Each change is in
+  docs/LEGAL-TEXT-CHANGES-2026-10.md with its source.
+
+## wisconsin-legal-interpretation
+
+- check_memo.py counts an [UNVERIFIED] marker unless the token is used as a noun in a
+  statement about the marker ("no [UNVERIFIED] marker remains", "[UNVERIFIED] markers:
+  none"). A live marker beside marker prose, a rule-file name or clause punctuation is
+  counted; a parenthetical inside a clearance sentence is not a false error. The Red Team
+  Report's no-pincite exemption ends at the next heading of its own level, and a corrected
+  block in a memo without a report exempts only itself.
+- Guarnero reporter citation filled; source-behavior.md entry 2 states the "Prior to
+  [date] it reads:" rule in words; SKILL.md says Mode 1 quick lookups are in scope;
+  memo-format.md says headings are # headings; compatibility frontmatter added.
+
+## Repository
+
+- Tests 132 to 145; the CI matrix is unchanged (Ubuntu and Windows, Python 3.10 and 3.12).
+- Reviewer claims checked against public sources and not adopted: a La Crosse rule
+  renumbering (the official PDF, page 8, numbers settlement authority 505, continuances
+  507 and the consumer credit checklist 508, as the references have them), a wrong N.W.2d
+  page for Teff, and a wicourts link for State v. Johnson that opened a different case.
+- The assessment's public record of all three reviews is kept outside the repository by
+  the maintainer; docs/reviews holds nothing new in this release.
+
+## Known issues carried forward
+
+- Subsequent history of cited authorities was not exhaustively checked against public
+  sources.
+- The Kalal status sentence must be rechecked after 2026-11-10; the small-claims passage
+  must be re-edited on 2027-01-01.
+- The evidence log does not detect deleted lines. Hand-edited pass lines are now
+  re-checked against the archive when the report runs.
+- Version detection in cite_check.py is phrase matching on the reviewer's annotation; it
+  has no operative-date model, and a phrase outside its list is not recognised.
+- The trigger queries have never been run on a host that records skill activation.
+- Two items remain marked [VERIFY]: how 2025 Wis. Act 105 applies to a claim made before
+  January 1, 2027 in an action commenced after it, and the signing date of the 2025
+  La Crosse County local rules.
+
+The three skills remain independently usable. These changes do not certify legal
+accuracy, filing readiness, or the permissibility of a particular legal-service
+deployment.
+
 # 2026.10.13.1
 
 Corrections from an AI-assisted assessment run on 2026-10-11, with the legal-text

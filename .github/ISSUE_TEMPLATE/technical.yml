@@ -47,7 +47,7 @@ body:
     attributes:
       label: Release version
       description: The version in the VERSION file or the release tag, for example 2026.10.13.1.
-      placeholder: "2026.10.13.1"
+      placeholder: "2026.10.24.1"
   - type: input
     id: environment
     attributes:
