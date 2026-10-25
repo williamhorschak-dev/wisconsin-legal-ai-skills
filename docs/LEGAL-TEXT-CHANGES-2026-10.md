@@ -3,10 +3,10 @@
 On 2026-10-13 the maintainer, who is not a lawyer, decided to publish these
 corrections with the open items marked [VERIFY]. Two AI reviewers of different model families
 checked every row from L-001 to A2-04 against live public sources on 2026-10-12 and 2026-10-13.
-The rows dated 2026-10-24 are proposals on branch integrate/argorn-pass2 (draft pull request 8),
-checked by one AI lane and re-checked against the same public sources by a second AI reviewer
-on 2026-10-24, and are adopted only if the maintainer merges them. That branch also rebuilds
-eleven Word templates for a page-margin fix; that is an engineering change recorded in
+The rows dated 2026-10-24 were checked by one AI lane and re-checked against the same public
+sources by a second AI reviewer on 2026-10-24, and were adopted when the maintainer merged pull
+request 8 (327038f) for release 2026.10.24.1. That pull request also rebuilt eleven Word
+templates for a page-margin fix; that is an engineering change recorded in
 docs/TEMPLATE-QA.md, not a legal-text change. No attorney has reviewed any row. [LEGAL_NOTICE.md](../LEGAL_NOTICE.md) applies.
 
 Every change listed here is a correction to general reference material, prepared from public
@@ -14,7 +14,8 @@ official sources, that was source-checked by AI review and has not been reviewed
 
 Scope: findings L-001 to L-012, L-016 to L-018, L-021, L-022, K-1, P-002 and P-003 of the
 2026-10-11 assessment, with the second reviewer's corrections, and findings A2-01 to A2-04 of the
-second review (drafts/ASTRA-REVIEW-2.md), added 2026-10-13, findings G-002 and G-112 of an
+second review (the reviewer's report is kept in the maintainer's assessment record, outside
+this repository), added 2026-10-13, findings G-002 and G-112 of an
 external review, with the La Crosse attribution left open under P-003 and A2-04, added
 2026-10-24, and S-001 (file-stamp placement and its sources), added 2026-10-24. Each changed passage in a skill
 file carries a pinpoint in its text or in an adjacent HTML comment marked
@@ -28,9 +29,9 @@ Sources were read on 2026-10-12 from docs.legis.wisconsin.gov (pages carrying th
 "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 ... in effect on October 1, 2026"),
 wicourts.gov opinion PDFs, the clerk's Table of Pending Cases, the Rule Petition 26-02 docket,
 and the Fourth Circuit's official FRAP 32.1 page. Line numbers are those on branch
-assessment/2026-10-legal-text after the change, except rows dated 2026-10-24, which use branch
-fix/argorn-pass2 and were checked that day by one AI lane against the public sources named in
-each row. "Old text" and "New text" omit the adjacent
+assessment/2026-10-legal-text after the change, except rows dated 2026-10-24, which use the
+files as merged in pull request 8 and were checked that day by one AI lane against the public
+sources named in each row. "Old text" and "New text" omit the adjacent
 source comments. Rows A2-01 to A2-04 revise passages first changed under L-002, L-004, L-010
 and P-003; for those passages the A2 row shows the current text, and the A2 sources were read
 on 2026-10-13 from the same official pages.
