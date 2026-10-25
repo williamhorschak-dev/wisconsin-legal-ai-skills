@@ -34,9 +34,15 @@ helpers and evaluation infrastructure, not a completed cross-model benchmark.
   and 141 tests, OK, 2 skipped (before the four tests added afterwards). It also ran 29
   synthetic citation-check scenarios and 20 memo fixtures; the defects it found are
   fixed in e493335.
-- **Release assets.** Not checked when this record was written. RELEASING.md requires
-  the draft release's assets to match the local build by SHA-256 before publication;
-  the result is not recorded in this file, which is itself one of the assets.
+- **Release assets.** Before publication the draft release's assets were downloaded and
+  all eight SHA-256 values in SHA256SUMS.txt matched the local build from the clean
+  checkout at 4d9f296; BUILD.json names that commit with `dirty` and `preview` false.
+  After publication, the artifacts of the validate workflow run for the push of 4d9f296
+  to `main` (run 40146773285) were downloaded: each of the four matrix jobs (Ubuntu and
+  Windows, Python 3.10 and 3.12) produced all nine files byte-identical to the published
+  assets. That is an independent rebuild on GitHub's runners. The copy of this file
+  inside the release says the check had not been made yet, because the file is itself
+  an asset; this repository copy records the result.
 - **Models and hosts.** None run on this release.
 
 ## Record of 2026-10-13
