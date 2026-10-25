@@ -607,10 +607,13 @@ circuit court's copy on the county site,
 <https://www.lacrossecounty.org/docs/default-source/clerk-of-courts/local-court-rules-2025.pdf>
 (a 24-page scan with no text layer, so text search and copy do not work on it).
 <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-24), P-003 and A2-04: signature page p. 24 and Rule 104 p. 1 of the official PDF at the URL above, viewed 2026-10-24; the file fetched that day had the same SHA-256 as the assessment's archived copy. -->
-**[VERIFY: the day is handwritten on the signature page and obscured by a
-signature stroke; Rule 609(1) carries an internal date of 11/18/25, which post-dates
-a November 7 signing. Confirm the operative date against a clean copy or the clerk's
-transmittal before citing it.]** Thirteen parts. **Five branches:** Br. 1 Joseph G. Veenstra; Br. 2 Elliott M.
+**[VERIFY: the day of the month on the signature page (p. 24) is handwritten and
+crossed by a signature stroke; it could not be read at 500 dpi. No public source read on
+2026-10-24 states a signing or effective date: the county clerk's Circuit Court
+Information page links the PDF without a date, and wicourts.gov keeps no dated local-rules
+list. Rule 609(1) carries an internal date of 11/18/25, and Rule 105 (p. 1) says adopting
+orders specify an effective date. Cite the rules as dated November 2025 and confirm the
+day and the effective date with the clerk of circuit court before relying on either.]** Thirteen parts. **Five branches:** Br. 1 Joseph G. Veenstra; Br. 2 Elliott M.
 Levine; Br. 3 Mark A. Huesmann; Br. 4 Scott L. Horne (Chief Judge, Seventh Judicial
 Administrative District); Br. 5 Gloria L. Doyle.
 

@@ -97,8 +97,13 @@ $10,000 property-value limit for the replevin actions specified there. 2025 Wis.
 Act 105, §§ 2, 3 and 5, raises both amounts to $15,000 effective January 1, 2027,
 and Act 105, § 4(1), says the change first applies to "actions commenced or claims
 made on the effective date of this subsection," that is, January 1, 2027. [VERIFY]
-How § 4(1) applies to a claim made before January 1, 2027 in an action commenced
-after it is for qualified review. The
+Section 4(1) does not say whether the new amounts turn on when a claim arose or when
+the action is commenced: it names two undefined alternatives, "actions commenced" and
+"claims made," each "on the effective date," and does not say "on or after." Whether
+the $15,000 limits reach a claim that arose before January 1, 2027 in an action
+commenced on or after that date, and whether "claims made" means asserted or arisen,
+is unresolved; no court or agency source on the point was read (Act text re-read
+2026-10-24). For qualified review. The
 **$5,000** limit for third-party complaints, personal injury claims, and actions
 based in tort, § 799.01(1)(cr), is unchanged by Act 105. These are not limits on
 every chapter 799 proceeding: covered Consumer Act replevin is conducted under
