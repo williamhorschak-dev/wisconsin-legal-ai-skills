@@ -1,3 +1,59 @@
+# 2026.10.24.2
+
+One description change, made after the first trigger-activation runs on a host that
+records skill activation. No legal text, script, template or reference file changed. No
+attorney reviewed any of it; the maintainer is not a lawyer; LEGAL_NOTICE.md applies.
+
+## wisconsin-legal-interpretation
+
+- The description gains one sentence: "Use it also for one-question lookups such as
+  whether a Wisconsin statute or court rule permits something, what it says, or when it
+  took its current form." It was written against the train split after the
+  unpublished-opinion citability query missed in two of four Sonnet runs. With it
+  installed, all 20 interpretation queries passed on claude-sonnet-5-5 (one run each;
+  recall 1.00, precision 1.00). The skill's instructions are unchanged.
+
+## cite-check
+
+- No change. Two candidate sentences for the description were tested on the same host
+  and rejected: neither raised recall on the should-trigger queries (0.44 and 0.33 against
+  0.67 for the unchanged text), and neither produced an unwanted trigger. The misses
+  cluster on queries that refer to an attached draft or opinion that the test did not
+  supply; the model asks for the file instead of loading a skill. That is a limit of the
+  test setup, not something the description text was able to move.
+
+## wisconsin-legal-writing
+
+- No change beyond the version number. The "letter to the judge" query also missed on
+  Sonnet; it is a validation query, so the description was not tuned on it.
+
+## Repository
+
+- evals/triggers/results records rounds 4 to 6 (repeats of the five Sonnet misses, three
+  runs each; the candidate descriptions; the accepted change) with the predictions and
+  report files. README and docs/TESTED-COMPATIBILITY.md point to it.
+- Tests unchanged at 145; the CI matrix is unchanged.
+
+## Known issues carried forward
+
+- Subsequent history of cited authorities was not exhaustively checked against public
+  sources.
+- The Kalal status sentence must be rechecked after 2026-11-10; the small-claims passage
+  must be re-edited on 2027-01-01.
+- The evidence log does not detect deleted lines.
+- Version detection in cite_check.py is phrase matching on the reviewer's annotation; it
+  has no operative-date model.
+- Trigger activation is measured on one host and two models, one run per query except for
+  the five repeated misses; the every-query rule still fails for cite-check and for the
+  writing skill on this host. The command-line runner has not been exercised.
+- Two items remain marked [VERIFY]: how 2025 Wis. Act 105 applies to a claim made before
+  January 1, 2027 in an action commenced after it, and the signing date of the 2025
+  La Crosse County local rules.
+
+The three skills remain independently usable. These changes do not certify legal
+accuracy, filing readiness, or the permissibility of a particular legal-service
+deployment.
+
 # 2026.10.24.1
 
 Fixes from a third independent AI review (two passes on the 2026.10.13.1 bundle by a

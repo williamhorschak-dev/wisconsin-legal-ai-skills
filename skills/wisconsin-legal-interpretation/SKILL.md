@@ -5,7 +5,9 @@ description: >-
   Administrative Code, Supreme Court Rules, and ordinances under Wisconsin's
   own method. Use when a question turns on what a provision says or means as
   of a given date, including quick lookups of current or historical text, and
-  for contested readings. Determines operative date and forum, classifies
+  for contested readings. Use it also for one-question lookups such as whether
+  a Wisconsin statute or court rule permits something, what it says, or when it
+  took its current form. Determines operative date and forum, classifies
   authority, quotes operative text with pincites, checks statutory vintage and
   subsequent history, and researches adverse authority when a reading is
   contested. Not for drafting or formatting filings, not for case-specific
@@ -13,7 +15,7 @@ description: >-
 license: MIT
 compatibility: Instructions work in any text-capable host. The optional memo linter scripts/check_memo.py needs Python 3.10 or later and the standard library only, and never fetches anything. Current-law checks need the host's own source access; the script reads local files.
 metadata:
-  version: "2026.10.24.1"
+  version: "2026.10.24.2"
 ---
 
 # Wisconsin Legal Interpretation

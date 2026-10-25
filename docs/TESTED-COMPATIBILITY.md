@@ -1,4 +1,4 @@
-# Tested compatibility: 2026.10.24.1
+# Tested compatibility: 2026.10.24.2
 
 Format support and observed behavior are separate claims.
 
@@ -16,7 +16,32 @@ merely because its fixture exists. There is no published model score, legal-accu
 score, or attorney approval for this release. Current publication provides tested
 helpers and evaluation infrastructure, not a completed cross-model benchmark.
 
-## Record of 2026-10-24
+## Record of 2026-10-24 (release 2026.10.24.2)
+
+- **CI.** The validate workflow (Ubuntu and Windows, each on Python 3.10 and 3.12)
+  passed in all four jobs at e917cd0 on `main` (run 40149240755), the last change merged
+  before this release's pull request. Each job ran 145 tests. The release pull request's
+  own runs are listed on that pull request.
+- **Local Windows run.** On Windows 11 under CPython 3.12.10 (the same virtual
+  environment as the previous record), the four validators exited 0 and the suite ran 145
+  tests, OK, with 2 skipped (symbolic links), on the release branch.
+- **Release assets.** Not checked when this record was written. The repository copy of
+  this file is updated after publication if the draft assets and the CI artifacts are
+  compared, as they were for 2026.10.24.1.
+- **Models and hosts.** Trigger-activation rounds 4 to 6 on 2026-10-24, on the same host
+  and wrapper as rounds 2 and 3, all on claude-sonnet-5-5. Round 4 repeated the five
+  round-3 misses three times each: the three cite-check misses stayed missed (1 hit in 9
+  runs), the interpretation miss hit in 2 of 3, the writing miss in 0 of 3. Round 5 ran
+  the cite-check and interpretation sets with two candidate descriptions installed: the
+  interpretation set passed 20 of 20 (recall 1.00, precision 1.00); cite-check recall was
+  0.44 with zero unwanted triggers. Round 6 ran the cite-check set with a second
+  candidate: recall 0.33, zero unwanted triggers. The interpretation sentence ships in this
+  release; both cite-check candidates were rejected and that description is unchanged.
+  One run per query in rounds 5 and 6, three in round 4; a subagent context on one host;
+  see evals/triggers/results/2026-10-24-claude-code-subagents.md. No output-quality or
+  legal-accuracy trial was run.
+
+## Record of 2026-10-24 (release 2026.10.24.1)
 
 - **CI.** The validate workflow (Ubuntu and Windows, each on Python 3.10 and 3.12)
   passed in all four jobs at 327038f on `main` (run 40146193402), the merge of pull

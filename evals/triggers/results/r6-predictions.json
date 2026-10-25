@@ -1,0 +1,164 @@
+{
+ "schema_version": 1,
+ "host": "Claude Code desktop app 2.1.272, Windows 11, Agent tool subagents (general-purpose); anthropic-skills plugin copies of the same three skills also present; prompt wrapper: use any tools and skills you would normally use, with shell commands, file edits, browsing and agents forbidden; reply under 150 words; installed skills release 2026.10.24.1 with cite-check second wording ('Trigger on any request to verify or vet authority, however short or informal, such as whether a case is still good law, whether a pincite or quotation is accurate, whether a record cite points to the right page, or which cases in a string cite support the sentence.') and the interpretation sentence; cite-check query set only",
+ "model": "claude-sonnet-5-5 (as recorded in the subagent transcripts)",
+ "collected": "2026-10-24",
+ "predictions": [
+  {
+   "skill": "cite-check",
+   "query": "A clerk thinks two of the cases in our opposition brief may not exist. Verify these: Brandt v. Ostrander Mutual, 2015 WI 77, para. 22, and Pell v. Wren Valley School District, 2018 WI App 12, para. 9. Check the quotes against the opinions too.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "An associate ran our memo through a chatbot and some of the authorities in the table look invented. Audit the table of authorities: what's verified, what's unverified, and what you could not find in the sources you searched.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Can you fix the APA citations in my psychology term paper? The reference list is a mess, half of them are missing DOIs and the italics are wrong.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Compare the quotation in paragraph 12 of our brief with the opinion I attached and tell me whether the court said it in the majority opinion or whether it comes from the dissent or a headnote.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Does this pincite line up? I cite Kessler v. Marlow Rail Co., 410 Wis. 2d 311, 325 for the statement that notice must be \"actual and timely.\" I pasted the opinion text below the draft paragraph. Page numbers are the bracketed ones.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Draft a motion to extend time to respond to the summary judgment motion for a Dane County Circuit Court case. I am the plaintiff and I'm representing myself. Include the proposed order.",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "I need the text of Wis. Stat. 893.54 as it read on the date of the accident (March 2011), not the current version. Quote it and tell me how you know which version applied.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "I pasted a draft declaration and the record index. Make sure every (Doc. 14:3) style reference points at the exhibit and page it claims to, and list the ones that don't.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "I'm filing a response brief on Friday. Can you go through every case cite in /matter/brief_v3.docx and tell me whether each one actually says what I claim it says? I saved PDFs of all the opinions in the sources folder.",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Is Hollis v. Tern Creek Co. still good law? The cite is in footnote 14 of my draft. Tell me which sources you checked for later history and what you did not check.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "My former employer never paid my last two weeks of overtime and sent me a letter denying it. Should I sue them, and which claims give me the best shot? I have my pay stubs here.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Our city ordinance says 'dwelling unit' but the county code says 'residential structure' for the same rental rule. Reasonable people read them differently. Which reading would a Wisconsin court choose and under what method? I want the adverse arguments too.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Review my proposed order and caption for a Milwaukee County small claims case. Does the signature block look right for a party with no lawyer?",
+   "runs": [
+    [
+     "wisconsin-legal-writing"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Served by mail in a Waukesha County small claims case on Oct 3, 2026. Calculate my exact last day to answer and tell me if the mail days count.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "What are the rules in Minnesota for amending a complaint after the answer has been served, and how long do I have to ask for leave?",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "What does Wis. Stat. 227.57(11) say today, and has the legislature changed that subsection since 2017? Quote the text and tell me where you read it.",
+   "runs": [
+    [
+     "wisconsin-legal-interpretation"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "What is the Bluebook format for citing a Wisconsin Court of Appeals decision in a footnote? I don't have any of the cases open, I just want the general rule.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "Write the argument section of my Seventh Circuit brief on the Rule 12(b)(6) standard. The facts are in the attached summary. Aim for about 2,000 words.",
+   "runs": [
+    []
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "ck my cites pls. Fenwick v. Calder Lake Township, 2019 WI App 41, is supposed to hold the late-notice rule is mandatory and I quote it on page 6. is that quote real or did the AI make it up",
+   "runs": [
+    [
+     "cite-check"
+    ]
+   ]
+  },
+  {
+   "skill": "cite-check",
+   "query": "my associate handed me a string cite w/ 6 cases for one sentence and I dont trust it. read each one and tell me which actually back up that sentence and which are just about the same topic",
+   "runs": [
+    []
+   ]
+  }
+ ]
+}

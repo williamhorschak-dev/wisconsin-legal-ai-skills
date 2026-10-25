@@ -2,8 +2,10 @@
 
 First recorded runs of the 60 trigger queries on a host that logs skill activation: one run
 per query on claude-haiku-5-5 (round 2) and one on claude-sonnet-5-5 (round 3), same
-wrapper, same host configuration. Not the three runs the protocol asks for. Read them as
-first measurements, not as reliability figures.
+wrapper, same host configuration, followed by repeats of the Sonnet misses (round 4) and
+two rounds with candidate descriptions installed (rounds 5 and 6). Only round 4 has the
+three runs per query the protocol asks for. Read them as first measurements, not as
+reliability figures.
 
 ## Setup
 
@@ -12,7 +14,7 @@ first measurements, not as reliability figures.
   every tool call, and a `Skill` tool call naming one of the three skills (or the
   `anthropic-skills:` plugin copy of it, which was also installed on this host) counts as
   that skill being loaded. Installed skills: release 2026.10.24.1.
-- Models: claude-haiku-5-5 (round 2) and claude-sonnet-5-5 (round 3), as recorded in every transcript.
+- Models: claude-haiku-5-5 (round 2) and claude-sonnet-5-5 (rounds 3 to 6), as recorded in every transcript.
 - Prompt wrapper (round 2): "Respond to the following user message as you normally would,
   using whichever of your tools and skills you would normally use for it. Do not run shell
   commands, do not create or edit files, do not browse the web, do not spawn agents. Keep the
@@ -76,6 +78,55 @@ its skill.
 
 Nine of the thirty-six calls went to the `anthropic-skills:` plugin copy of the writing skill.
 
+## Round 4: the five Sonnet misses repeated (claude-sonnet-5-5, three runs each)
+
+Same wrapper, unchanged descriptions. Record-index references 0 of 3, Kessler pincite 1 of
+3, six-case string cite 0 of 3, unpublished-opinion citability 2 of 3, letter to the judge
+0 of 3. With round 3 counted, the cite-check misses are 1 hit in 12 runs, so they are not
+sampling noise. `r4-predictions.json` holds these runs; the scorer does not produce a
+report for a partial query set, so there is no `r4-report.json`.
+
+## Rounds 5 and 6: candidate descriptions (claude-sonnet-5-5, one run per query)
+
+Changes were written against the train split only. Two of the three cite-check misses are
+train queries (record-index references, Kessler pincite); the string cite, the citability
+question and the letter are validation queries, so the interpretation and writing
+descriptions were not tuned on their own misses. The interpretation sentence was written
+against its train misses from round 2.
+
+Round 5 installed a cite-check sentence ("Use it even for one citation, pincite,
+quotation, string cite, or record cite pasted in chat, whenever the user asks whether it is
+real, accurate, or supports the sentence.") and an interpretation sentence ("Use it also
+for one-question lookups such as whether a Wisconsin statute or court rule permits
+something, what it says, or when it took its current form."), and ran the cite-check and
+interpretation sets.
+
+| Skill | Split | Pass | Precision | Recall | False positives | Missed triggers | Cross-skill routed to expected |
+|---|---|---|---|---|---|---|---|
+| cite-check (candidate 1) | all | 15/20 | 1.00 | 0.44 | 0 | 5 | 5/5 |
+| wisconsin-legal-interpretation (new sentence) | all | 20/20 | 1.00 | 1.00 | 0 | 0 | 3/5 |
+
+Round 6 installed a second cite-check sentence ("Trigger on any request to verify or vet
+authority, however short or informal, such as whether a case is still good law, whether a
+pincite or quotation is accurate, whether a record cite points to the right page, or which
+cases in a string cite support the sentence.") and ran the cite-check set.
+
+| Skill | Split | Pass | Precision | Recall | False positives | Missed triggers | Cross-skill routed to expected |
+|---|---|---|---|---|---|---|---|
+| cite-check (candidate 2) | all | 14/20 | 1.00 | 0.33 | 0 | 6 | 5/5 |
+
+Outcome: the interpretation sentence is adopted in release 2026.10.24.2. Both cite-check
+candidates were rejected; the description is unchanged from 2026.10.24.1. Neither candidate
+beat the unchanged text's round-3 recall of 0.67, and one run per query cannot separate
+0.33, 0.44 and 0.67 with confidence anyway. In rounds 5 and 6 the cite-check misses were
+the queries that refer to an attached draft, opinion, memo or record index that the test
+does not supply (Hollis footnote, record-index references, Kessler pincite, paragraph 12
+quotation, table of authorities, string cite); in every such run the model replied that
+the attachment had not arrived and asked for it, without loading a skill. The two cite-check
+hits that are stable across rounds (Brandt and Pell existence check, Fenwick quote) carry
+their citations in the message. Two cross-skill queries in the interpretation set that
+expect cite-check (the 14-opinion brief, the Rowan citation) went to no skill in round 5.
+
 ## What this does and does not show
 
 - On this host, with either model, the descriptions did not cause unwanted activation on
@@ -84,13 +135,20 @@ Nine of the thirty-six calls went to the `anthropic-skills:` plugin copy of the 
   should-trigger queries; Sonnet for 22 of 27 with the same wrapper and the same
   descriptions. The remaining Sonnet misses cluster on short, informal citation requests
   and on one letter-drafting request.
-- One run per query per model. The protocol's three runs were not made; single runs are
-  sensitive to sampling, and the main session model and the command-line runner have not
-  been exercised.
+- One run per query per model in rounds 2, 3, 5 and 6; three runs per query only in
+  round 4. Single runs are sensitive to sampling, and the main session model and the
+  command-line runner have not been exercised.
+- The wrapper forbids browsing and file access and the queries name attachments that are
+  not supplied, so a model that asks for the missing file before choosing a skill is
+  counted as a miss. That is a property of this test setup.
 - Some skill calls went to the `anthropic-skills:` plugin copy of the writing skill rather
   than the installed one (4 of 15 in round 2, 9 of 36 in round 3). Which copy loads is a
   host decision; the count treats them as the same skill.
 - Nothing here measures output quality or legal accuracy.
 
 Files: `r1-predictions.json`, `r1-report.json` (invalid wrapper, kept for the record),
-`r2-predictions.json`, `r2-report.json` (haiku), `r3-predictions.json`, `r3-report.json` (sonnet).
+`r2-predictions.json`, `r2-report.json` (haiku), `r3-predictions.json`, `r3-report.json`
+(sonnet), `r4-predictions.json` (repeats), `r5-predictions.json`, `r5-report.json`
+(candidate descriptions, cite-check and interpretation), `r6-predictions.json`,
+`r6-report.json` (second cite-check candidate). The `host` field of each predictions file
+says which descriptions were installed for that round.
