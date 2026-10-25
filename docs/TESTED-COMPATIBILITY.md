@@ -25,9 +25,15 @@ helpers and evaluation infrastructure, not a completed cross-model benchmark.
 - **Local Windows run.** On Windows 11 under CPython 3.12.10 (the same virtual
   environment as the previous record), the four validators exited 0 and the suite ran 145
   tests, OK, with 2 skipped (symbolic links), on the release branch.
-- **Release assets.** Not checked when this record was written. The repository copy of
-  this file is updated after publication if the draft assets and the CI artifacts are
-  compared, as they were for 2026.10.24.1.
+- **Release assets.** Before publication the draft release's assets were downloaded and
+  all eight SHA-256 values in SHA256SUMS.txt matched the local build from the clean
+  checkout at 07ef342, with SHA256SUMS.txt itself identical; BUILD.json names that commit
+  with `dirty` and `preview` false. After publication, the artifacts of the validate
+  workflow run for the push of 07ef342 to `main` (run 40150567840) were downloaded: each
+  of the four matrix jobs (Ubuntu and Windows, Python 3.10 and 3.12) produced all nine
+  files byte-identical to the published assets. The copy of this file inside the release
+  says the check had not been made yet, because the file is itself an asset; this
+  repository copy records the result.
 - **Models and hosts.** Trigger-activation rounds 4 to 6 on 2026-10-24, on the same host
   and wrapper as rounds 2 and 3, all on claude-sonnet-5-5. Round 4 repeated the five
   round-3 misses three times each: the three cite-check misses stayed missed (1 hit in 9
