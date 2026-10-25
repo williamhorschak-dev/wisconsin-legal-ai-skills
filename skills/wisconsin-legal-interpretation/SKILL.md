@@ -13,7 +13,7 @@ description: >-
 license: MIT
 compatibility: Instructions work in any text-capable host. The optional memo linter scripts/check_memo.py needs Python 3.10 or later and the standard library only, and never fetches anything. Current-law checks need the host's own source access; the script reads local files.
 metadata:
-  version: "2026.10.13.1"
+  version: "2026.10.24.1"
 ---
 
 # Wisconsin Legal Interpretation

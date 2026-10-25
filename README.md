@@ -203,9 +203,9 @@ See [the full example](skills/wisconsin-legal-interpretation/references/syntheti
 | Claim | Status |
 |---|---|
 | The skill packages pass the repository's checks (metadata, links, legal notice, checksums) | Run by CI on every push to `main`. |
-| The Python tools have a regression test suite | 132 tests. CI ran all 132 on Ubuntu and Windows with Python 3.10 and 3.12 at commit c9f04e7 (run 38420064917), the last change merged before the version bump for this release. |
-| Release files can be rebuilt from the tagged commit | For release 2026.09.20.2, a rebuild on CPython 3.12 on 2026-10-11 matched every published asset byte for byte. A rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. No independent rebuild of release 2026.10.13.1 has been recorded. |
-| Word templates build and render | The 11 JSON-backed templates rebuild in tests. The maintainer's Word review is dated 2026-09-20. A Word render on 2026-10-11 matched the 32-page figure and found the layout issues listed below. The appendix certification in `10-appellate-brief.docx` was edited as text on 2026-10-13 and has not been rendered; see [TEMPLATE-QA.md](docs/TEMPLATE-QA.md). |
+| The Python tools have a regression test suite | 145 tests. CI ran all 145 on Ubuntu and Windows with Python 3.10 and 3.12 at commit 327038f (run 40146193402), the last change merged before the version bump for this release. |
+| Release files can be rebuilt from the tagged commit | For release 2026.09.20.2, a rebuild on CPython 3.12 on 2026-10-11 matched every published asset byte for byte. A rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. No independent rebuild of release 2026.10.13.1 or 2026.10.24.1 has been recorded. |
+| Word templates build and render | The 11 JSON-backed templates rebuild in tests. On 2026-10-24 all 11 were rebuilt with a corrected later-page margin, rendered in Word 16.0 and viewed by an AI lane, and independently rebuilt, rendered and measured by a second AI reviewer. No attorney reviewed them. See [TEMPLATE-QA.md](docs/TEMPLATE-QA.md). |
 | Any model follows these skills | **No trial recorded by the project.** As of 2026-10-12, the project's release record (see below) lists no model or host trial. The 24-scenario [evaluation suite](evals/README.md) and its harness have no recorded results. A separate exploratory evaluation is summarized after this table; it is not a certification. |
 | Claude Code, Codex, Claude upload, or ChatGPT find and use the skills | **Not tested.** Layouts follow vendor documentation. |
 | The legal statements are correct and current | **Not established.** There has been no attorney review. See "Keeping it current". |
@@ -232,13 +232,17 @@ scorers identified the condition of all 24 responses, so the scoring was effecti
 unblinded. Read it as an exploratory measurement of task completion, not as evidence that
 the legal content is correct. It was run on release 2026.09.20.2, not on this release.
 
-## Known limits of the bundled tools (release 2026.10.13.1)
+## Known limits of the bundled tools (release 2026.10.24.1)
 
-These describe the files in release 2026.10.13.1. Five limits of release 2026.09.20.2
-are corrected in it: quotation matching without word boundaries, a manual verbatim pass
-that was not compared with the archived text, a missed `[UNVERIFIED]` marker after a
-negation word, a crash on a non-UTF-8 memo, and the wrong cross-reference in the
-appellate template's appendix certification.
+These describe the files in release 2026.10.24.1. Defects of release 2026.10.13.1
+corrected in it, all found by a third independent AI review: a verbatim pass recorded by
+hand or through the record command was not checked against the cited locator; a
+remembered source could pass checks other than verbatim; an exact match in a version not
+in force passed without warning; mistyped locator markers silently turned a marked file
+into a whole-file comparison; the memo linter exempted live `[UNVERIFIED]` markers beside
+marker prose and let a section after the Red Team Report inherit its no-pincite exemption;
+pages 2 and later of built documents had a 0.5 inch top margin; and the page-1 stamp
+clearance could be switched off.
 
 - The evidence log is an ordinary file. The tool detects a changed draft or source. It
   does not detect log lines that were deleted or written by hand. `RECORDED PASS` means
@@ -249,9 +253,11 @@ appellate template's appendix certification.
   and the appellate template's top margin differs from the margin table in `appellate.md`.
 - The subsequent history of cited authorities was not checked exhaustively against public
   sources where only the original opinion was read.
-- Three items in the procedure references remain marked [VERIFY]: how 2025 Wis. Act 105
-  applies to a claim made before January 1, 2027 in an action commenced after it; who
-  approved the 2025 La Crosse County local rules; and the signing date of those rules.
+- Two items in the procedure references remain marked [VERIFY]: how 2025 Wis. Act 105
+  applies to a claim made before January 1, 2027 in an action commenced after it, and the
+  signing date of the 2025 La Crosse County local rules.
+- Version detection in the citation tool is phrase matching on the reviewer's own
+  annotation; it has no model of which text is in force on a given date.
 
 ## Keeping it current
 
@@ -265,8 +271,9 @@ effective dates.
 An AI-assisted accuracy check of the stored legal references on 2026-10-11 (not a legal
 review and not by an attorney) found stored statements that needed correction, including
 judicial substitution timing and public-records remedy subsections. Release 2026.10.13.1
-contains the corrections. Two AI reviewers checked them against public sources; no
-attorney has reviewed them. Each one is listed with its source in
+contains the corrections, and release 2026.10.24.1 adds reporter citations and a restored
+local-rule attribution found by a third review. AI reviewers checked them against public
+sources; no attorney has reviewed them. Each one is listed with its source in
 [LEGAL-TEXT-CHANGES-2026-10.md](docs/LEGAL-TEXT-CHANGES-2026-10.md). The check also
 found that the Wisconsin Supreme Court had accepted review of whether to modify the
 *Kalal* interpretive framework in *Abby Windows, LLC v. Labor & Industry Review
