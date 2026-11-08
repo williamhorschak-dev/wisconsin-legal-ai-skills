@@ -18,7 +18,7 @@
         "skills/wisconsin-legal-interpretation/references/canons.md"
       ],
       "review_interval_days": 90,
-      "retrieved_at": "2026-10-13",
+      "retrieved_at": "2026-11-08",
       "page_changed_at": null,
       "legally_reviewed_at": null,
       "currency_url": null,
@@ -41,7 +41,7 @@
         "skills/wisconsin-legal-interpretation/SKILL.md"
       ],
       "review_interval_days": 90,
-      "retrieved_at": "2026-10-13",
+      "retrieved_at": "2026-11-08",
       "page_changed_at": null,
       "legally_reviewed_at": null,
       "currency_url": null,
@@ -63,11 +63,11 @@
         "skills/wisconsin-legal-interpretation/references/authority-hierarchy.md"
       ],
       "review_interval_days": 60,
-      "retrieved_at": "2026-10-13",
-      "page_changed_at": "2026-10-01",
+      "retrieved_at": "2026-11-08",
+      "page_changed_at": "2026-11-04",
       "legally_reviewed_at": null,
       "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/809",
-      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on November 4, 2026. Published and certified under s. 35.18. Changes effective after November 4, 2026, are designated by NOTES. (Published 11-4-26)"
     },
     {
       "id": "civil-time-and-signatures",
@@ -84,11 +84,11 @@
         "skills/wisconsin-legal-writing/references/signature-blocks.md"
       ],
       "review_interval_days": 60,
-      "retrieved_at": "2026-10-13",
-      "page_changed_at": "2026-10-01",
+      "retrieved_at": "2026-11-08",
+      "page_changed_at": "2026-11-04",
       "legally_reviewed_at": null,
       "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/801",
-      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on November 4, 2026. Published and certified under s. 35.18. Changes effective after November 4, 2026, are designated by NOTES. (Published 11-4-26)"
     },
     {
       "id": "pleadings-and-summary-judgment",
@@ -105,11 +105,11 @@
         "skills/wisconsin-legal-writing/references/responding.md"
       ],
       "review_interval_days": 60,
-      "retrieved_at": "2026-10-13",
-      "page_changed_at": "2026-10-01",
+      "retrieved_at": "2026-11-08",
+      "page_changed_at": "2026-11-04",
       "legally_reviewed_at": null,
       "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/802",
-      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on November 4, 2026. Published and certified under s. 35.18. Changes effective after November 4, 2026, are designated by NOTES. (Published 11-4-26)"
     },
     {
       "id": "discovery-responses",
@@ -127,11 +127,11 @@
         "skills/wisconsin-legal-writing/assets/12-motion-to-compel.json"
       ],
       "review_interval_days": 60,
-      "retrieved_at": "2026-10-13",
-      "page_changed_at": "2026-10-01",
+      "retrieved_at": "2026-11-08",
+      "page_changed_at": "2026-11-04",
       "legally_reviewed_at": null,
       "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/804",
-      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on November 4, 2026. Published and certified under s. 35.18. Changes effective after November 4, 2026, are designated by NOTES. (Published 11-4-26)"
     },
     {
       "id": "reconsideration-relief",
@@ -147,11 +147,11 @@
         "skills/wisconsin-legal-writing/assets/08-motion-for-reconsideration.json"
       ],
       "review_interval_days": 60,
-      "retrieved_at": "2026-10-13",
-      "page_changed_at": "2026-10-01",
+      "retrieved_at": "2026-11-08",
+      "page_changed_at": "2026-11-04",
       "legally_reviewed_at": null,
       "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/806",
-      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on November 4, 2026. Published and certified under s. 35.18. Changes effective after November 4, 2026, are designated by NOTES. (Published 11-4-26)"
     },
     {
       "id": "declaration-exclusions",
@@ -169,11 +169,11 @@
         "skills/wisconsin-legal-writing/references/circuit-court.md"
       ],
       "review_interval_days": 60,
-      "retrieved_at": "2026-10-13",
-      "page_changed_at": "2026-10-01",
+      "retrieved_at": "2026-11-08",
+      "page_changed_at": "2026-11-04",
       "legally_reviewed_at": null,
       "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/887",
-      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on November 4, 2026. Published and certified under s. 35.18. Changes effective after November 4, 2026, are designated by NOTES. (Published 11-4-26)"
     },
     {
       "id": "construction-statutes",
@@ -190,11 +190,11 @@
         "skills/wisconsin-legal-interpretation/assets/memo-template.md"
       ],
       "review_interval_days": 60,
-      "retrieved_at": "2026-10-13",
-      "page_changed_at": "2026-10-01",
+      "retrieved_at": "2026-11-08",
+      "page_changed_at": "2026-11-04",
       "legally_reviewed_at": null,
       "currency_url": "https://docs.legis.wisconsin.gov/statutes/statutes/990",
-      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on October 1, 2026. Published and certified under s. 35.18. Changes effective after October 1, 2026, are designated by NOTES. (Published 10-1-26)"
+      "currency_line": "2023-24 Wisconsin Statutes updated through 2025 Wis. Act 247 and through all Supreme Court Orders and Controlled Substances Board Orders filed before and in effect on November 4, 2026. Published and certified under s. 35.18. Changes effective after November 4, 2026, are designated by NOTES. (Published 11-4-26)"
     },
     {
       "id": "small-claims-limits",
@@ -210,7 +210,7 @@
         "skills/wisconsin-legal-writing/references/practice-areas.md"
       ],
       "review_interval_days": 60,
-      "retrieved_at": "2026-10-12",
+      "retrieved_at": "2026-11-08",
       "page_changed_at": null,
       "legally_reviewed_at": null,
       "currency_url": null,
@@ -232,7 +232,7 @@
         "skills/wisconsin-legal-interpretation/README.md"
       ],
       "review_interval_days": 30,
-      "retrieved_at": "2026-10-12",
+      "retrieved_at": "2026-11-08",
       "page_changed_at": null,
       "legally_reviewed_at": null,
       "currency_url": null,
