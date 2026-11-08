@@ -1,5 +1,16 @@
 # wisconsin-legal-writing
 
+## 2026.11.07.1
+
+- `build_filing.py`: the page-1 clearance band is one header paragraph of exact height
+  (2.5 inches for a proposed order, 1.5 inches otherwise, after the 0.5 inch header
+  distance) instead of a stack of line breaks whose height depended on the renderer.
+  Page 1 body text now starts at exactly 3.0 inches on a proposed order and 2.0 inches
+  on other documents; later pages unchanged at 0.95 inch. All 11 JSON-backed templates
+  rebuilt; only their header part changed; measured in Word 16.0 and its exported PDF on
+  2026-11-07; not attorney-reviewed.
+- captions.md and circuit-court.md describe the exact-height band.
+
 ## 2026.10.24.2
 
 - Version number only. No file in the skill changed.

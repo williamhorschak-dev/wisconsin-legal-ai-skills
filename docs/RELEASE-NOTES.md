@@ -1,3 +1,53 @@
+# 2026.11.07.1
+
+A layout fix to the Word document builder and its eleven JSON-backed templates. No legal
+text changed. No attorney reviewed any of it; the maintainer is not a lawyer;
+LEGAL_NOTICE.md applies.
+
+## wisconsin-legal-writing
+
+- The page-1 clearance band is now one header paragraph of exact height instead of a
+  stack of line breaks. The line-break version assumed one sixth of an inch per line,
+  but its real height depended on the renderer's line metrics for the font: Word placed
+  the proposed order's first line at 3.5 inches instead of 3, and other viewers
+  stretched the gap further. The maintainer reported a proposed order whose gap was
+  about twice what the eFiling requirement asks for. The builder now gives exactly
+  3.0 inches on page 1 of a proposed order and 2.0 inches on page 1 of every other
+  document, with later pages unchanged at 0.95 inch.
+- All 11 JSON-backed templates were rebuilt. Only the header part of each file changed.
+  Word 16.0 and its exported PDF both measure 2.00 and 3.00 inches; page counts are
+  unchanged. docs/template-review.json records the new bytes.
+- captions.md and circuit-court.md describe the exact-height band and warn against
+  adding blank lines or a page margin on top of it.
+
+## cite-check and wisconsin-legal-interpretation
+
+- No change beyond the version number.
+
+## Repository
+
+- Tests unchanged at 145 (one builder test now checks the exact line rule instead of a
+  break count); the CI matrix is unchanged.
+
+## Known issues carried forward
+
+- Subsequent history of cited authorities was not exhaustively checked against public
+  sources.
+- The Kalal status sentence must be rechecked after 2026-11-10; the small-claims passage
+  must be re-edited on 2027-01-01.
+- The evidence log does not detect deleted lines.
+- Version detection in cite_check.py is phrase matching on the reviewer's annotation; it
+  has no operative-date model.
+- Trigger activation is measured on one host and two models; the every-query rule still
+  fails for cite-check and for the writing skill on this host.
+- Two items remain marked [VERIFY]: how 2025 Wis. Act 105 applies to a claim made before
+  January 1, 2027 in an action commenced after it, and the signing date of the 2025
+  La Crosse County local rules.
+
+The three skills remain independently usable. These changes do not certify legal
+accuracy, filing readiness, or the permissibility of a particular legal-service
+deployment.
+
 # 2026.10.24.2
 
 One description change, made after the first trigger-activation runs on a host that

@@ -68,7 +68,12 @@ The court line below runs to a **right tab at 6.5″**, so the county text lands
 inside that square if the caption starts at the top of the page. The builder
 keeps the 0.95″ top margin on every page and clears a 2″ band across the top of
 page 1 with a first-page header, which is what these documents look like in the
-filed record once the stamp is applied. The band cannot be switched off
+filed record once the stamp is applied. The header holds one empty paragraph of
+exact height (1.5″ after the 0.5″ header distance; 2.5″ for a proposed order), so
+the body starts at 2.0″ (3.0″ for a proposed order) in any renderer that honours
+exact line spacing; Word 16.0 and its exported PDF both measure those values. An
+earlier builder stacked line breaks instead, and their height depended on the
+renderer: Word drew the proposed order's gap at 3.5″ and other viewers wider. The band cannot be switched off
 (`stamp_clearance: false` is refused). **If you build a caption by hand, leave
 that space, and check the converted PDF: the first body line must sit at least
 2″ from the top edge.**
