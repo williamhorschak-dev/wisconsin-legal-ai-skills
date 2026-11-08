@@ -10,6 +10,12 @@ recorded in [the assessment](ASSESSMENT-2026-09-20.md), except the appendix cert
 `10-appellate-brief.docx`, a text-only edit on 2026-10-13 that was read back but not rendered.
 The 11 JSON-backed assets were rebuilt on 2026-10-24 after a top-margin fix (0.95 in on every page);
 only that margin value changed, and the rebuilt files were rendered in Word and checked page by page by an AI agent.
+They were rebuilt again on 2026-11-07 after the page-1 clearance spacer changed from a stack of line
+breaks to one header paragraph of exact height. Only word/header1.xml changed in each file. Word 16.0
+now places page 1 body text at 2.00 in from the top edge (3.00 in for the proposed order), where the
+line-break version gave 2.31 in and 3.51 in and other renderers gave more; page counts are unchanged;
+the Word-exported PDF, read with PyMuPDF, agrees for the four templates exported; page 1 of the
+proposed order and the motion was viewed by an AI agent. Not an attorney review.
 Content hashes bind each record to these bytes. The Word check is not renderer-independent
 layout equality, and it is not an attorney review.
 

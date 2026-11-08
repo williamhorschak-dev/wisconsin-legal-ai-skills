@@ -377,7 +377,10 @@ IT IS ORDERED that:
   technical requirements.
 - **Blank 3-inch top margin on page 1**, and at least the ½-inch the court's header
   band needs on later pages (the builder sets later pages to 0.95 inch), to leave
-  room for the court's signature and stamp.
+  room for the court's signature and stamp. With `proposed_order: true` the builder
+  starts page 1 body text at exactly 3.0 inches (an exact-height first-page header;
+  measured in Word 16.0). Do not add blank lines or a larger page margin on top of
+  it: that doubles the gap.
 - **Do not include a signature block for the judge.** "Do not include signature
   blocks for court officials on your document. The court will apply it."
 - The system watermarks it "Proposed" on filing; all eNotice parties are notified.

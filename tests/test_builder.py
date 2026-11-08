@@ -6,6 +6,7 @@ These checks inspect DOCX content/structure, not rendered layout or legal validi
 import importlib.util
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -151,13 +152,15 @@ class FilingBuilderTests(unittest.TestCase):
 
     def test_saved_xml_keeps_top_margin_on_every_page_and_spacer_on_page_one(self):
         # 1368 twips = 0.95 in on every page. Page 1 clearance comes from a
-        # first-page header that starts 720 twips (0.5 in) from the top edge:
-        # 8 breaks (9 lines, about 1.5 in) for a 2 in band, 14 breaks (15 lines,
-        # about 2.5 in) for a proposed order's 3 in band. Pages 2 and later have
-        # no header, so their body text starts at the 0.95 in margin.
-        cases = (({}, 8), ({"proposed_order": True, "signature": None}, 14),
-                 ({"stamp_clearance": True}, 8))
-        for changes, breaks in cases:
+        # first-page header that starts 720 twips (0.5 in) from the top edge and
+        # holds one empty paragraph of exact height: 2160 twips (1.5 in) for a
+        # 2 in band, 3600 twips (2.5 in) for a proposed order's 3 in band. An
+        # exact line rule, not a stack of line breaks, so the height does not
+        # depend on the renderer's line metrics. Pages 2 and later have no
+        # header, so their body text starts at the 0.95 in margin.
+        cases = (({}, 2160), ({"proposed_order": True, "signature": None}, 3600),
+                 ({"stamp_clearance": True}, 2160))
+        for changes, twips in cases:
             with self.subTest(changes=changes):
                 spec = {**filing(), **changes, "case_no": "2025CV000123"}
                 builder.build(spec, self.output, overwrite=True)
@@ -168,15 +171,15 @@ class FilingBuilderTests(unittest.TestCase):
                 self.assertRegex(document, r'<w:pgMar [^>]*w:top="1368"')
                 self.assertRegex(document, r'<w:pgMar [^>]*w:header="720"')
                 self.assertNotIn('w:type="default"', document)
-                if breaks is None:
-                    self.assertNotIn("<w:titlePg", document)
-                    self.assertNotIn("<w:headerReference", document)
-                else:
-                    self.assertIn("<w:titlePg/>", document)
-                    self.assertIn('<w:headerReference w:type="first"', document)
-                    self.assertEqual(len(headers), 1)
-                    self.assertEqual(header.count("<w:br/>"), breaks)
-                    self.assertIn('<w:sz w:val="24"/>', header)
+                self.assertIn("<w:titlePg/>", document)
+                self.assertIn('<w:headerReference w:type="first"', document)
+                self.assertEqual(len(headers), 1)
+                spacing = re.search(r"<w:spacing [^>]*/>", header)
+                self.assertIsNotNone(spacing, header)
+                self.assertIn(f'w:line="{twips}"', spacing.group(0))
+                self.assertIn('w:lineRule="exact"', spacing.group(0))
+                self.assertNotIn("<w:br/>", header)
+                self.assertEqual(header.count("<w:p>") + header.count("<w:p "), 1)
 
     def test_stamp_clearance_cannot_be_switched_off(self):
         # A filed declaration built with the switch off had the clerk's FILED stamp

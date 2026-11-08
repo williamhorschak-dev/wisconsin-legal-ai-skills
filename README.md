@@ -203,9 +203,9 @@ See [the full example](skills/wisconsin-legal-interpretation/references/syntheti
 | Claim | Status |
 |---|---|
 | The skill packages pass the repository's checks (metadata, links, legal notice, checksums) | Run by CI on every push to `main`. |
-| The Python tools have a regression test suite | 145 tests. CI ran all 145 on Ubuntu and Windows with Python 3.10 and 3.12 at commit e917cd0 (run 40149240755), the last change merged before the version bump for this release. |
-| Release files can be rebuilt from the tagged commit | For release 2026.10.24.2, each of the four CI jobs (Ubuntu and Windows, Python 3.10 and 3.12; run 40150567840 at the tagged commit 07ef342) produced all nine files byte-identical to the published assets, checked 2026-10-24. The same held for release 2026.10.24.1 (run 40146773285). For release 2026.09.20.2, a rebuild on CPython 3.12 on 2026-10-11 matched every published asset byte for byte; a rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. No independent rebuild of release 2026.10.13.1 was recorded. |
-| Word templates build and render | The 11 JSON-backed templates rebuild in tests. On 2026-10-24 all 11 were rebuilt with a corrected later-page margin, rendered in Word 16.0 and viewed by an AI lane, and independently rebuilt, rendered and measured by a second AI reviewer. No attorney reviewed them. See [TEMPLATE-QA.md](docs/TEMPLATE-QA.md). |
+| The Python tools have a regression test suite | 145 tests. CI ran all 145 on Ubuntu and Windows with Python 3.10 and 3.12 at commit f5fb4ff (run 40151236293), the last change merged before the version bump for this release. |
+| Release files can be rebuilt from the tagged commit | Not yet recorded for release 2026.11.07.1. For release 2026.10.24.2, each of the four CI jobs (Ubuntu and Windows, Python 3.10 and 3.12; run 40150567840 at the tagged commit 07ef342) produced all nine files byte-identical to the published assets, checked 2026-10-24. The same held for release 2026.10.24.1 (run 40146773285). For release 2026.09.20.2, a rebuild on CPython 3.12 on 2026-10-11 matched every published asset byte for byte; a rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. No independent rebuild of release 2026.10.13.1 was recorded. |
+| Word templates build and render | The 11 JSON-backed templates rebuild in tests. On 2026-11-07 all 11 were rebuilt with an exact-height page-1 clearance; Word 16.0 and its exported PDF place page 1 text at 2.00 in (3.00 in for the proposed order), page counts unchanged. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. No attorney reviewed them. See [TEMPLATE-QA.md](docs/TEMPLATE-QA.md). |
 | Any model follows these skills | **No trial recorded by the project.** As of 2026-10-12, the project's release record (see below) lists no model or host trial. The 24-scenario [evaluation suite](evals/README.md) and its harness have no recorded results. A separate exploratory evaluation is summarized after this table; it is not a certification. |
 | Claude Code, Codex, Claude upload, or ChatGPT find and use the skills | **Six rounds recorded, 2026-10-24,** all in Claude Code desktop subagents on one Windows host. No unwanted activation on any near-miss or cross-skill query in any round. Should-trigger queries that loaded their skill, one run each: on claude-haiku-5-5, 1 of 9, 3 of 9 and 3 of 9; on claude-sonnet-5-5, 6 of 9, 8 of 9 and 8 of 9 (cite-check, interpretation, writing). The interpretation description in this release gained one sentence and then passed 9 of 9 on Sonnet; two candidate sentences for cite-check did not help and were not adopted. See [the record](evals/triggers/results/2026-10-24-claude-code-subagents.md). Codex, Claude upload and ChatGPT: not tested; layouts follow vendor documentation. |
 | The legal statements are correct and current | **Not established.** There has been no attorney review. See "Keeping it current". |
@@ -232,11 +232,13 @@ scorers identified the condition of all 24 responses, so the scoring was effecti
 unblinded. Read it as an exploratory measurement of task completion, not as evidence that
 the legal content is correct. It was run on release 2026.09.20.2, not on this release.
 
-## Known limits of the bundled tools (release 2026.10.24.2)
+## Known limits of the bundled tools (release 2026.11.07.1)
 
-These describe the files in release 2026.10.24.2, whose scripts and templates are the same
-as in 2026.10.24.1. Defects of release 2026.10.13.1 corrected in 2026.10.24.1, all found by
-a third independent AI review: a verbatim pass recorded by
+These describe the files in release 2026.11.07.1. Release 2026.11.07.1 corrects one layout defect of
+the two 2026.10.24 releases: the page-1 clearance band was built from line breaks, so its
+height depended on the renderer and a proposed order's gap came out well over 3 inches.
+Defects of release 2026.10.13.1 corrected in 2026.10.24.1, all found by a third
+independent AI review: a verbatim pass recorded by
 hand or through the record command was not checked against the cited locator; a
 remembered source could pass checks other than verbatim; an exact match in a version not
 in force passed without warning; mistyped locator markers silently turned a marked file

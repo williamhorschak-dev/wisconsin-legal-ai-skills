@@ -29,7 +29,7 @@ import sys
 
 try:
     from docx import Document
-    from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT
+    from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_TAB_ALIGNMENT
     from docx.shared import Inches, Pt
 except ImportError:
     sys.exit("python-docx is required: python -m pip install -r <skill-dir>/requirements.txt")
@@ -293,15 +293,23 @@ def build_body(doc, blocks, size, spacing):
 # ---------------------------------------------------------------- signature
 
 def _spacer(header, *, inches):
-    """Put INCHES of blank vertical space in a header, to clear an area on page 1."""
+    """Put exactly INCHES of blank vertical space in a header, to clear an area on page 1.
+
+    One empty paragraph whose line height is fixed with an exact line rule. An
+    earlier version stacked line breaks in a 12 pt run, assuming 1/6 inch per line;
+    the real height depends on the renderer's line metrics for the font, so Word
+    drew the proposed order's 2.5 inch spacer about half an inch too tall (body text
+    at 3.5 inches instead of 3) and other viewers drew it taller still. A fixed line
+    height is honoured as written.
+    """
     para = header.paragraphs[0] if header.paragraphs else header.add_paragraph()
-    para.paragraph_format.space_after = Pt(0)
-    para.paragraph_format.space_before = Pt(0)
+    fmt = para.paragraph_format
+    fmt.space_after = Pt(0)
+    fmt.space_before = Pt(0)
+    fmt.line_spacing = Inches(inches)
+    fmt.line_spacing_rule = WD_LINE_SPACING.EXACTLY
     run = para.add_run()
     run.font.size = Pt(12)
-    # 12 pt single-spaced is ~1/6" per line.
-    for _ in range(max(0, int(round(inches * 6)) - 1)):
-        run.add_break()
     return para
 
 
@@ -548,19 +556,19 @@ def build(spec, out_path, *, draft=False, overwrite=False):
     # taller than the top margin, so Word starts page 1 body text below it. The
     # top margin stays 0.95" so that pages 2 and later, which have no header,
     # also keep body text clear of the court's 1/2" header band. An earlier
-    # version set a 0.5" top margin, which put page 2 text at 0.5".
+    # version set a 0.5" top margin, which put page 2 text at 0.5". The spacer
+    # has an exact height, so the body starts at 2.0" (3.0" for a proposed
+    # order) in any renderer that honours exact line spacing.
     sec.header_distance = Inches(0.5)
-    if not proposed:
-        sec.different_first_page_header_footer = True
-        _spacer(sec.first_page_header, inches=1.5)   # 0.5" + 1.5" = 2" clear
-
+    sec.different_first_page_header_footer = True
     if proposed:
         # A 3" blank top margin belongs on page 1 ONLY; later pages keep the
         # 0.95" margin above. Setting sec.top_margin would apply 3" to every
         # page, so the space is created with a distinct first-page header
         # instead.
-        sec.different_first_page_header_footer = True
         _spacer(sec.first_page_header, inches=2.5)   # 0.5" + 2.5" = 3" clear
+    else:
+        _spacer(sec.first_page_header, inches=1.5)   # 0.5" + 1.5" = 2" clear
 
     build_caption(doc, spec, size)
     build_body(doc, spec.get("body", []), size, spacing)

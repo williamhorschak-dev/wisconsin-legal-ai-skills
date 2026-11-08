@@ -1,68 +1,68 @@
 {
   "source_commit": "073dc425c6f144525e60f47c68846475fe2c112e",
-  "scope": "Inherited visual-review record for unchanged assets, a text-only edit to 10-appellate-brief.docx on 2026-10-13, and a top-margin rebuild of the 11 JSON-backed templates on 2026-10-24 that was rendered in Word and checked page by page by an AI agent.",
+  "scope": "Inherited visual-review record for unchanged assets, a text-only edit to 10-appellate-brief.docx on 2026-10-13, and a rebuild of the 11 JSON-backed templates on 2026-11-07 after the page-1 clearance spacer was given an exact height; measured in Word 16.0 and in the exported PDF, page 1 of two templates viewed by an AI agent.",
   "files": {
     "01-motion.docx": {
-      "sha256": "52689c00d222b61f14a33062a3accb9a7fdd344778467bdc1b7cd85e69b0b822",
+      "sha256": "f6d2ce4c955e19289033a20baf696bd6d9975e3e1eae4baad2961f7046bfcb26",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 2 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "02-brief.docx": {
-      "sha256": "548d66c93e621d270776668d6927f52c81f17d14f00a8b8a51c58d9f94b174ee",
+      "sha256": "04715b514e69ab8b4d2c28d48bb74aef6f8e8f965eba316096d960edc0152615",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 2 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "03-brief-in-opposition.docx": {
-      "sha256": "28a17fe05c72532ff2774da59f8eaac7232c5c4eb826f87758d719d3ed3c18b6",
+      "sha256": "8850ea9e528ac344eaddc252e87df46530968ab9452431f56d5eb44f481078a3",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 2 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "04-discovery-response.docx": {
-      "sha256": "912780b00f87e0864db7995fc99940576e2c93f7463f7effd432be87ee53099b",
+      "sha256": "81e8e363b942f3b40c88acc253589fad394083eb7c26b47d3a8983d8cf4b161a",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 3 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. The verification block still splits across pages 2 and 3, as it did before; the break now falls after the Signed on line instead of after the signature line. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 3 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "05-declaration.docx": {
-      "sha256": "fbda138ab5f29a6388946748ef2de8411ef44d1250621ef59763e73df4c13664",
+      "sha256": "55982172f964bc6bd9bff6e1ac81fa81c466ed47def9362785472936108654f9",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 2 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "05b-affidavit.docx": {
-      "sha256": "4e7c5f8d0f4b3b4f3cee20fc6877e8cb25ac624bdda1b8a43a20495e427b0be7",
+      "sha256": "3ee3fe984102bb5560c6f47a583e6b852874945dd687f8a6c570be315bb752bb",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 2 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "06-proposed-order.docx": {
-      "sha256": "28d34ab15726e7b78821882ea3fc28d8cd306ba105d905dc95051147496161cf",
+      "sha256": "f59d21f54335e948000dcb602d4a32da05d97772e81f99f0d0388c59d89007ee",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 1 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 3.51 in (unchanged) from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 1 page(s), unchanged. Word reported page 1 body text at 3.00 in from the top edge (was 3.51 in); the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "07-motion-to-enlarge-time.docx": {
-      "sha256": "9d6f1ad29834b9c14ff84a2d1d23d552ac2f0781d27977e197c316ee1e8ca1f4",
+      "sha256": "ff59e4e1ad30c5efd27a3d49ed307c9ee3bb38286f577a8fd09253e7828cefbe",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 2 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "08-motion-for-reconsideration.docx": {
-      "sha256": "a0c4a2e33016f43feef75d607194687d89a862e2b358d39b88b7596bd29245a6",
+      "sha256": "7f736e1d319c24b3ecb9f28d33c7336b3a9b74b539736755655dc98d230be15b",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 3 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. It now runs to 3 pages instead of 2; the drafting note and signature block move together to page 3. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 3 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "09-letter-to-court.docx": {
@@ -80,17 +80,17 @@
       "new_render_this_release": false
     },
     "11-motion-attorney-signed.docx": {
-      "sha256": "75b4b51fe56511819351e6caedc6f75a270a2abbe5a22248119398d46ad6b281",
+      "sha256": "cc69fc3514f04aeaecb03820a2adb53ca9f0d6e820ca9d31a4f389a3c0f6f4d5",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 2 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 2 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "12-motion-to-compel.docx": {
-      "sha256": "9f01b388207a8fd2d7c7bc285ab1dbf9d0e29f35cd9aec084abcacc4d139aa05",
+      "sha256": "0a9abbae4c856d562b393ed96b4f8fe370f1bcf61f7dfddb84eaacc003ecf99c",
       "review_status": "layout-checked",
-      "review_date": "2026-10-24",
-      "review_basis": "Rebuilt with make_templates.py after the G-107 builder fix. Compared part by part with the prior bytes: only the w:pgMar w:top value in word/document.xml changed, from 720 to 1368 twips (0.95 in). Rendered in Microsoft Word 16.0 build 16.0.19127 with Century Schoolbook installed; 3 page(s). Each exported PDF page was viewed by an AI agent (Claude), and Word reported page 1 body text at 2.31 in (unchanged) and later pages at 0.95 in from the top edge. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-07",
+      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 3 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "13-memorandum.docx": {
