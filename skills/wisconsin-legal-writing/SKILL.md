@@ -110,8 +110,14 @@ python <skill-dir>/scripts/build_filing.py spec.json --draft -o draft.docx
 Use the Python executable available in the environment (`python`, `python3`, `py`, or
 an absolute path). Resolve `<skill-dir>` to this installed skill's directory. Execute
 from an authorized writable workspace. `--draft` permits placeholders and incomplete
-contact details; omit it after resolving those inputs. Bracketed legal quotations may
-also require `--draft`; its placeholder screen is conservative, not semantic validation.
+contact details; omit it after resolving those inputs. Without it, each detected token
+and spec path is reported: square-bracketed text, nonempty single-line angle/curly
+tokens, two or more underscores, and case-insensitive whole-word `TBD`/`TBA`/`TK`
+or X runs of two or more. X masks ending in four visible digits are allowed, with
+whitespace, period or common dash separators. Intentional matches, including
+bracketed legal quotations and literal X runs, require `--draft`.
+This conservative screen is not semantic validation or a redaction check;
+it does not infer missing facts or catch every placeholder spelling.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

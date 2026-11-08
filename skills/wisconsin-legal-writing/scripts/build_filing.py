@@ -9,6 +9,18 @@ Structural checks do not establish legal correctness or filing readiness.
 
 Requires python-docx; see the skill's requirements.txt.
 
+Without --draft, the placeholder screen reports matching string values and their
+spec paths: nonempty single-line square, angle or curly brackets; two or more
+underscores; whole-word TBD, TBA or TK; and whole-word runs of two or more Xs.
+Words and X runs are case-insensitive. X masks ending in four visible digits are
+allowed, with whitespace, periods or common dash separators between groups.
+This exception affects only X detection, not other markers around a mask.
+The screen deliberately does not infer missing facts, recognize other placeholder
+words, match single Xs or tokens embedded in words, or validate redaction, law or
+filing readiness. Empty angle/curly pairs and pairs spanning lines are not matched.
+Intentional matches, including bracketed quotations and literal X runs, still need
+--draft. Draft content is unchanged.
+
 Geometry reproduced from the reference corpus:
   page 8.5 x 11; L/R margins 1.0"; T/B margins 0.95"
   Century Schoolbook (or Times New Roman) 12 pt body, justified, 1.5 line spacing
@@ -399,17 +411,41 @@ def build_signature(doc, sig, size):
 # --------------------------------------------------------------------- main
 
 REQUIRED_TOP = ("county", "case_no", "title", "first_party", "second_party")
+_PLACEHOLDER = re.compile(
+    r"\[[^\]\n]+\]|_{2,}|<[^<>\r\n]+>|\{[^{}\r\n]+\}|"
+    r"\b(?:TBD|TBA|TK)\b|(?P<x_run>\bX{2,}\b)",
+    re.IGNORECASE,
+)
+_NUMBER_MASK = re.compile(
+    r"(?<!\w)[Xx]+(?:[\s.\-\u2010-\u2015\u2212]+[Xx]+)*"
+    r"[\s.\-\u2010-\u2015\u2212]*[0-9]{4}(?!\w)"
+)
 
 
-def _strings(value):
+def _strings(value, path=""):
     if isinstance(value, str):
-        yield value
+        yield path, value
     elif isinstance(value, dict):
-        for item in value.values():
-            yield from _strings(item)
+        for key, item in value.items():
+            if isinstance(key, str) and key.isidentifier():
+                child = f"{path}.{key}" if path else key
+            else:
+                child = f"{path}[{json.dumps(key)}]"
+            yield from _strings(item, child)
     elif isinstance(value, list):
-        for item in value:
-            yield from _strings(item)
+        for index, item in enumerate(value):
+            yield from _strings(item, f"{path}[{index}]")
+
+
+def _placeholders(spec):
+    for path, value in _strings(spec):
+        masks = [match.span() for match in _NUMBER_MASK.finditer(value)]
+        for match in _PLACEHOLDER.finditer(value):
+            if match.lastgroup == "x_run" and any(
+                start <= match.start() and match.end() <= end for start, end in masks
+            ):
+                continue
+            yield f"{path}: {json.dumps(match.group())}"
 
 
 def _validate(spec, *, draft=False):
@@ -440,8 +476,13 @@ def _validate(spec, *, draft=False):
             raise ValueError("each body block must be an object with string text")
         if block.get("type", "p") not in {"p", "h1", "h2", "h3", "num", "quote", "answer", "ordered", "blank"}:
             raise ValueError(f"unknown block type: {block.get('type')!r}")
-    if not draft and any(re.search(r"\[[^\]\n]+\]|_{2,}", value) for value in _strings(spec)):
-        raise ValueError("bracketed text or blanks need review; resolve placeholders or use --draft (also for intentional legal brackets)")
+    if not draft:
+        placeholders = list(_placeholders(spec))
+        if placeholders:
+            raise ValueError(
+                "placeholder markers need review; resolve them or use --draft "
+                "(also for intentional legal brackets):\n" + "\n".join(placeholders)
+            )
     missing = [k for k in REQUIRED_TOP if not spec.get(k)]
     if missing:
         raise ValueError("spec is missing required key(s): " + ", ".join(missing))
