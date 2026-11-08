@@ -22,7 +22,22 @@ jobs:
         with:
           python-version: '3.12'
       - name: Check registered source URLs and currency lines
-        run: python -I scripts/check_sources.py --report source-check/report.json
+        id: source-check
+        shell: bash
+        run: |
+          set +e
+          python -I scripts/check_sources.py --report source-check/report.json
+          checker_exit=$?
+          set -e
+          echo "checker_exit=$checker_exit" >> "$GITHUB_OUTPUT"
+          echo "Source checker exit: $checker_exit" >> "$GITHUB_STEP_SUMMARY"
+          case "$checker_exit" in
+            0) echo "All configured checks completed successfully." >> "$GITHUB_STEP_SUMMARY" ;;
+            1) echo "::error::Source changes or refusals require attention."; exit 1 ;;
+            2) echo "::error::Source checker configuration or report output failed."; exit 2 ;;
+            3) echo "::warning::Source check incomplete because of transient failures or the run budget. Read the report." ;;
+            *) echo "::error::Unexpected source checker exit: $checker_exit"; exit 1 ;;
+          esac
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4, verified 2026-09-20
         if: always()
         with:
