@@ -113,6 +113,91 @@ class FilingBuilderTests(unittest.TestCase):
         builder.build(spec, self.output, draft=True)
         self.assertIn("On [DATE], see (Doc. __:__).", self.text())
 
+    def test_each_placeholder_form_requires_draft_and_remains_visible(self):
+        for token in (
+            "[DATE]", "__", "____", "<DATE>", "<date to supply>",
+            "{...}", "{date to supply}", "TBD", "TBA", "TK", "tbd", "tba", "tk",
+            "XX", "XXXX", "xx", "xXx",
+        ):
+            with self.subTest(token=token):
+                spec = filing()
+                spec["body"][0]["text"] = f"Synthetic input: {token}."
+                with self.assertRaises(ValueError) as caught:
+                    builder.build(spec, self.output, overwrite=True)
+                self.assertIn(f"body[0].text: {json.dumps(token)}", str(caught.exception))
+                builder.build(spec, self.output, draft=True, overwrite=True)
+                self.assertIn(spec["body"][0]["text"], self.text())
+
+    def test_placeholder_error_lists_every_token_and_unambiguous_spec_path(self):
+        spec = filing()
+        spec["title"] = "<TITLE>"
+        spec["body"][0]["text"] = "TBD, TBA; TK. XXXX [DATE] __ {time} TBD"
+        spec["signature"]["date"] = "<DATE>"
+        spec["metadata"] = {"nested": ["TBA", {"key.with[punctuation]": "{...}"}]}
+        original = b"Existing document must survive placeholder refusal."
+        self.output.write_bytes(original)
+        result = self.cli(spec, "--overwrite")
+        self.assertEqual(result.returncode, 2, result.stderr)
+        expected = ['title: "<TITLE>"']
+        expected.extend(f"body[0].text: {json.dumps(token)}" for token in (
+            "TBD", "TBA", "TK", "XXXX", "[DATE]", "__", "{time}", "TBD",
+        ))
+        expected.extend([
+            'signature.date: "<DATE>"', 'metadata.nested[0]: "TBA"',
+            'metadata.nested[1]["key.with[punctuation]"]: "{...}"',
+        ])
+        self.assertEqual(result.stderr.splitlines()[1:], expected)
+        self.assertIn("--draft", result.stderr)
+        self.assertNotIn("Traceback", result.stderr)
+        self.assertEqual(self.output.read_bytes(), original)
+
+    def test_ordinary_words_and_four_digit_number_masks_build_without_draft(self):
+        for text in (
+            "Ordinary text, next, Exhibit, textbook, Next and exhibit remain intact.",
+            "Literal tokens X, x, TK421, XTBD, TBAx and unfilled are outside the screen.",
+            "Synthetic number XXXX1234.",
+            "Synthetic number XXX-XX-1234.",
+            "Synthetic number XXXX XXXX XXXX 1234.",
+            "Synthetic number xxxx-xxxx-1234.",
+            "Synthetic number XX.XX.1234.",
+            "Synthetic number XX\tXX\t1234.",
+            "Synthetic number XXX\u00a0XX\u00a01234.",
+            "Synthetic number XXX\u2011XX\u20111234.",
+            "Synthetic number XXX\u2012XX\u20121234.",
+            "Synthetic number XXX\u2013XX\u20131234.",
+            "Synthetic number XXX\u2212XX\u22121234.",
+            "Literal empty pairs <> and {} remain outside the screen.",
+            "Literal multiline pairs <first\nsecond> and {first\nsecond} remain outside the screen.",
+        ):
+            with self.subTest(text=text):
+                spec = filing()
+                spec["body"][0]["text"] = text
+                builder.build(spec, self.output, overwrite=True)
+                self.assertIn(text, self.text())
+
+    def test_number_mask_exception_does_not_hide_other_placeholders(self):
+        spec = filing()
+        spec["body"][0]["text"] = "XXXX 1234; TBD; XXXX 123; XXXX 12345; <XXXX 1234>; Chapter XX."
+        with self.assertRaises(ValueError) as caught:
+            builder.build(spec, self.output)
+        self.assertEqual(str(caught.exception).splitlines()[1:], [
+            'body[0].text: "TBD"', 'body[0].text: "XXXX"',
+            'body[0].text: "XXXX"', 'body[0].text: "<XXXX 1234>"', 'body[0].text: "XX"',
+        ])
+        self.assertFalse(self.output.exists())
+
+    def test_brackets_in_synthetic_statutory_quote_still_require_draft(self):
+        spec = filing()
+        spec["body"] = [{
+            "type": "quote",
+            "text": 'Fictional statute: "The [requesting] party may obtain a copy."',
+        }]
+        with self.assertRaisesRegex(ValueError, "intentional legal brackets"):
+            builder.build(spec, self.output)
+        self.assertFalse(self.output.exists())
+        builder.build(spec, self.output, draft=True)
+        self.assertIn(spec["body"][0]["text"], self.text())
+
     def test_generated_non_draft_does_not_invent_blank_attorney_date(self):
         spec = filing()
         spec["signature"] = {

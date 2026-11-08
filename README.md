@@ -149,8 +149,14 @@ python .claude/skills/wisconsin-legal-writing/scripts/build_filing.py .claude/sk
 ```
 
 Use `.agents/skills` in place of `.claude/skills` for Codex. `--draft` allows
-unfilled placeholders; without it the builder refuses bracketed text and runs of
-underscores. It will not overwrite an existing file unless you add `--overwrite`.
+unfilled placeholders. Without it the builder reports each token and spec path for
+square-bracketed text, nonempty single-line angle/curly tokens, two or more
+underscores, whole-word `TBD`/`TBA`/`TK`, and whole-word runs of two or more Xs
+(case-insensitive). X masks ending in four visible digits are allowed, including
+whitespace, period or common dash separators. Intentional matches, including
+bracketed quotations and literal X runs, need `--draft`. This is a conservative
+screen, not semantic validation or a redaction check. It will not overwrite an
+existing file unless you add `--overwrite`.
 Python 3.10 and 3.12 are what CI tests. Python 3.14.5 ran these tools in a
 2026-10-11 check, with a deprecation warning from `cite_check.py` that this release
 removes, and ran the test suite again on 2026-10-13; later versions are not part of CI.
@@ -250,8 +256,11 @@ clearance could be switched off.
 - The evidence log is an ordinary file. The tool detects a changed draft or source. It
   does not detect log lines that were deleted or written by hand. `RECORDED PASS` means
   a reviewer entered passing records; it is not an independent certification.
-- The builder's non-draft check catches bracketed text and runs of underscores. It does
-  not catch `TBD`, `XXXX`, `<DATE>`, or `{...}`.
+- The builder's non-draft screen catches square-bracketed text, nonempty single-line
+  angle/curly tokens, two or more underscores, and case-insensitive whole-word
+  `TBD`/`TBA`/`TK` and X runs of two or more. X masks ending in four visible digits
+  are allowed, with whitespace, period or common dash separators. It does not infer
+  missing facts, catch every placeholder spelling, or perform semantic validation.
 - In two templates a section symbol can be separated from its number by a line break,
   and the appellate template's top margin differs from the margin table in `appellate.md`.
 - The subsequent history of cited authorities was not checked exhaustively against public
