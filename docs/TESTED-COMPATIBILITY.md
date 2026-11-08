@@ -32,9 +32,15 @@ helpers and evaluation infrastructure, not a completed cross-model benchmark.
   0.95 in; page counts unchanged. The Word-exported PDFs of four templates, read with
   PyMuPDF, give the same first-text positions. Page 1 of the proposed order and of the
   motion was viewed by an AI agent. No renderer other than Word was run.
-- **Release assets.** Not checked when this record was written. The repository copy of
-  this file is updated after publication if the draft assets and the CI artifacts are
-  compared, as they were for 2026.10.24.2.
+- **Release assets.** Before publication the draft release's assets were downloaded and
+  all eight SHA-256 values in SHA256SUMS.txt matched the local build from the clean
+  checkout at a58f32e, with SHA256SUMS.txt itself identical; BUILD.json names that commit
+  with `dirty` and `preview` false. The artifacts of the validate workflow run for the
+  push of a58f32e to `main` (run 42440778709) were downloaded: each of the four matrix
+  jobs (Ubuntu and Windows, Python 3.10 and 3.12) produced all nine files byte-identical
+  to the release assets. The release was published on 2026-11-08 after the maintainer's
+  go-ahead. The copy of this file inside the release says the check had not been made yet,
+  because the file is itself an asset; this repository copy records the result.
 - **Models and hosts.** No new trial. The 2026-10-24 trigger-activation record stands.
 
 ## Record of 2026-10-24 (release 2026.10.24.2)
