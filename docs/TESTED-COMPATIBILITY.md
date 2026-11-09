@@ -1,12 +1,12 @@
-# Tested compatibility: 2026.11.07.1
+# Tested compatibility: 2026.11.08.1
 
 Format support and observed behavior are separate claims.
 
 | Layer | Evidence | Limit |
 |---|---|---|
 | Skill packages | Metadata, local links, notices, hashes and ZIP contents are checked by CI. | The host must support the format and expose the needed capabilities. |
-| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (145 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
-| Document templates | All 11 JSON-backed templates were rebuilt on 2026-11-07 after the page-1 clearance spacer was given an exact height; Word 16.0 and its exported PDF place page 1 body text at 2.00 in (3.00 in for the proposed order) and later pages at 0.95 in; page counts unchanged; page 1 of two templates viewed by an AI agent. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. All 14 Word assets have a byte-bound review record. | A rendered-page check by AI is not an attorney review and does not establish filing readiness. The three assets outside the rebuild keep their inherited review. See TEMPLATE-QA.md. |
+| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (182 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
+| Document templates | All 11 JSON-backed templates were rebuilt on 2026-11-07 after the page-1 clearance spacer was given an exact height; Word 16.0 and its exported PDF place page 1 body text at 2.00 in (3.00 in for the proposed order) and later pages at 0.95 in; page counts unchanged; page 1 of two templates viewed by an AI agent. On 2026-11-08 a second AI reviewer rendered two of them with LibreOffice 26.8.2.2 and measured first glyph boxes at 2.03 in, 3.03 in and 0.98 in, a constant offset from Word's line positions, no clipping. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. All 14 Word assets have a byte-bound review record. | A rendered-page check by AI is not an attorney review and does not establish filing readiness. The three assets outside the rebuild keep their inherited review. See TEMPLATE-QA.md. |
 | Claude model behavior | No provider trials recorded for this release. | The optional CLI adapter is tested with simulated subprocess responses only. |
 | GPT/OpenAI model behavior | No provider trials recorded for this release. | Codex metadata and prompt exports establish integration format, not answer quality. |
 | Other LLMs | Portable prompt inputs and manual result import are available. No provider trials recorded. | No universal compatibility or equivalent-performance claim. |
@@ -15,6 +15,34 @@ The 24 scenarios prepare 48 paired trials per repetition. None is marked passed
 merely because its fixture exists. There is no published model score, legal-accuracy
 score, or attorney approval for this release. Current publication provides tested
 helpers and evaluation infrastructure, not a completed cross-model benchmark.
+
+## Record of 2026-11-08 (release 2026.11.08.1)
+
+- **CI.** The validate workflow (Ubuntu and Windows, each on Python 3.10 and 3.12)
+  passed in all four jobs at 07d4396 on `main` (run 42541808087), the last change merged
+  before this release's pull request, and on each of the four pull requests merged that day
+  (18, 19, 20 and 21). Each job ran 182 tests. The release pull request's own runs are listed
+  on that pull request.
+- **Local Windows run.** On Windows 11 under CPython 3.14.5 (the system interpreter, not the
+  3.12 virtual environment of the earlier records), the four validators exited 0 and the suite
+  ran 182 tests, OK, with 2 skipped (symbolic links), on the release branch.
+- **Document templates.** Not rebuilt; the 2026.11.07.1 bytes are unchanged. On 2026-11-08 a
+  second AI reviewer converted 01-motion.docx and 06-proposed-order.docx to PDF with
+  LibreOffice 26.8.2.2 (writer_pdf_Export) and measured the first glyph box from the top edge
+  with PyMuPDF: 2.034 in on page 1 of the motion, 0.984 in on its page 2, 3.034 in on page 1
+  of the proposed order; Century Schoolbook embedded as subsets; page counts 2 and 1; no
+  clipping. The 0.034 in difference from Word's 2.00, 0.95 and 3.00 in is the glyph box
+  sitting below the line top that Word reports, not a layout change. The remaining twelve
+  templates were not rendered outside Word.
+- **Source checker.** The rebuilt checker was run once by hand against the real register on
+  2026-11-08 before its pull request merged: 21 requests (18 URLs, two robots files, one
+  same-host redirect hop) in 86 seconds, no retries, all ten PDF responses accepted by the
+  integrity checks, exit 1 from seven changed currency lines (the statutes republication of
+  11-4-26), which the register refresh then recorded. The monthly workflow has not yet run on
+  the new code.
+- **Release assets.** To be checked after publication, as for the previous releases; the copy
+  of this file inside the release cannot record that result.
+- **Models and hosts.** No new trial. The 2026-10-24 trigger-activation record stands.
 
 ## Record of 2026-11-07 (release 2026.11.07.1)
 

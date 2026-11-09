@@ -1,3 +1,81 @@
+# 2026.11.08.1
+
+A maintenance release: a wider placeholder screen in the document builder, a rebuilt source
+checker, a refreshed source register with one new record, and one dated legal-text passage
+updated. No template changed. No attorney reviewed any of it; the maintainer is not a lawyer;
+LEGAL_NOTICE.md applies.
+
+## wisconsin-legal-writing
+
+- The builder's final-mode placeholder screen now catches `<DATE>`-style angle tokens,
+  `{...}` curly tokens, whole-word TBD, TBA and TK, and runs of two or more X, in addition
+  to square brackets and double underscores, and names every offending token with its spec
+  path (for example `body[3].text: "<DATE>"`) before any output file is opened. A number
+  mask ending in four digits is exempt from the X rule. Draft mode is unchanged. The screen is
+  still a conservative screen, not semantic validation or a redaction check.
+- voice.md, section 2: the dated status of Rule Petition 26-02 is updated. The court's order
+  filed October 15, 2026 granted the petitioner's motion to withdraw and dismissed the
+  petition; the order does not adopt the proposed rules. Petition 26-06, filed September 28,
+  2026 and proposing SCR 76.20 to 76.24 on equal access to artificial intelligence in legal
+  proceedings, was listed as not yet scheduled for public hearing when checked on November 8,
+  2026; its text was not reviewed. The passage keeps its warning that this file holds no
+  inventory of AI-disclosure requirements. Source-checked by the coordinating AI and
+  independently by a second AI of a different model family, both on 2026-11-08; adopted by
+  the maintainer at merge; not attorney-reviewed. Recorded in docs/LEGAL-TEXT-CHANGES-2026-11.md.
+
+## cite-check and wisconsin-legal-interpretation
+
+- No change beyond the version number.
+
+## Repository
+
+- scripts/check_sources.py reports one outcome per source (`ok`, `changed`, `refused`,
+  `transient`) with its component diagnostics kept, and exits 0, 1 (changed or refused),
+  2 (configuration or unwritable report) or 3 (transient failures only), precedence 2 over 1
+  over 3 over 0. One scheduler paces every request: 2 seconds per host, 5 seconds on
+  docs.legis.wisconsin.gov, the robots Crawl-delay and any Retry-After, with at most one retry
+  per URL. A supervised worker process bounds each request to 20 seconds, including DNS and a
+  slow body; the run budget is 720 seconds inside the workflow's 15 minutes. Bodies are capped
+  at 16 MB; an expected PDF must arrive as `application/pdf` with a PDF header and EOF marker
+  and a matching Content-Length; off-host redirects are never followed; an unexpected 304 is
+  refused. The monthly workflow keeps the real exit code, fails on 1 or 2, warns on 3 and
+  always uploads the report. docs/SOURCE-MAINTENANCE.md describes the outcomes.
+- docs/legal-sources.json: all eleven records refreshed from a manual run on 2026-11-08
+  (retrieval date; the seven statute records now carry the currency line published 11-4-26,
+  still through 2025 Wis. Act 247); one record added for the AI rule-petition status, which
+  the checker watches for availability only. Twelve records: six inherited,
+  four pending primary review, two focused checks. No review date or
+  review status changed.
+- Tests: 182 (145 before; 5 new builder tests, 32 new checker tests). CI matrix unchanged.
+- A second renderer was measured on the 2026.11.07.1 templates: LibreOffice 26.8.2.2 placed
+  the first glyph box of page 1 at 2.03 in (3.03 in for the proposed order) and of page 2 at
+  0.98 in, a constant offset from Word's line positions with no clipping; recorded in
+  docs/TESTED-COMPATIBILITY.md and TEMPLATE-QA.md. The templates did not change.
+
+## Known issues carried forward
+
+- Subsequent history of cited authorities was not exhaustively checked against public
+  sources.
+- The Kalal status sentence (oral argument in Abby Windows listed for 2026-11-10) must be
+  rechecked in the week of 2026-11-11; the small-claims passage must be re-edited on
+  2027-01-01.
+- The evidence log does not detect deleted lines.
+- Version detection in cite_check.py is phrase matching on the reviewer's annotation; it
+  has no operative-date model.
+- Trigger activation is measured on one host and two models; the every-query rule still
+  fails for cite-check and for the writing skill on this host. The results narrative
+  mislabels two query splits and evals/README.md still says no results are recorded; both
+  are corrected with the next dataset change.
+- The source checker drops the redirect target from a record when a same-host redirect was
+  followed successfully; the request log keeps both hops.
+- Two items remain marked [VERIFY]: how 2025 Wis. Act 105 applies to a claim made before
+  January 1, 2027 in an action commenced after it, and the signing date of the 2025
+  La Crosse County local rules.
+
+The three skills remain independently usable. These changes do not certify legal
+accuracy, filing readiness, or the permissibility of a particular legal-service
+deployment.
+
 # 2026.11.07.1
 
 A layout fix to the Word document builder and its eleven JSON-backed templates. No legal
