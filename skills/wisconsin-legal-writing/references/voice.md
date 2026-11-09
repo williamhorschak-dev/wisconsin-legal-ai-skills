@@ -45,16 +45,19 @@ defeat a tool.
 Whether AI assistance must be disclosed is not a style question and is not answered
 by how the prose reads.
 
-The [official docket for petition 26-02](https://www.wicourts.gov/scrules/pending/2602.htm)
+The [official docket for petition 26-02](https://www.wicourts.gov/scrules/archive/2602.htm)
 listed the proposed AI rule as pending when checked September 20, 2026. As checked
-October 12, 2026, the docket lists a letter from the petitioner requesting withdrawal,
-dated September 28 and received September 30, 2026, and its court orders section
-shows no order. A petition is not an adopted rule. This file does not maintain a
-verified statewide or county
+November 8, 2026, the docket sits in the court's petition archive and lists an order of
+October 15, 2026; that order grants the petitioner's motion to withdraw and dismisses the
+petition, so no SCR chapter 76 was created from it. A second petition, 26-06, filed
+September 28, 2026 and proposing SCR 76.20 to 76.24 on equal access to artificial
+intelligence in legal proceedings, was pending with no hearing scheduled on the same date.
+A petition is not an adopted rule, and a dismissed petition is not a ruling that no
+disclosure duty exists. This file does not maintain a verified statewide or county
 inventory of AI disclosure requirements. Check current court rules, any effective
 orders, and the actual judge's requirements; do not infer an exemption from an
-omitted county or from the pending status of one proposal.
-<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-009: Rule Petition 26-02 docket, https://www.wicourts.gov/scrules/pending/2602.htm (entry "Sep 30, 2026, Letter from Petitioner Withdrawing Petition"; no entry under court orders), and the letter, https://www.wicourts.gov/supreme/docs/2602petitionerletter.pdf, p. 1 (dated September 28, 2026; clerk's received stamp September 30, 2026); read 2026-10-12. -->
+omitted county or from the status of any one proposal.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-11-08), AR8-06, supersedes the L-009 check of 2026-10-12: Rule Petition 26-02 archived docket, https://www.wicourts.gov/scrules/archive/2602.htm (Court orders & communications, "Oct 15, 2026, Order"; Responses, "Sep 30, 2026, Letter from Petitioner Withdrawing Petition"; page updated October 15, 2026); the order, https://www.wicourts.gov/sc/rulhear/DisplayDocument.pdf?content=pdf&seqNo=1192324, p. 1 (filed October 15, 2026: "IT IS ORDERED that the motion is granted. The petition is dismissed."); Rule Petition 26-06 docket, https://www.wicourts.gov/scrules/pending/2606.htm (filed Sep 28, 2026; no court orders; no scheduled event; page updated September 28, 2026); pending petitions index, https://www.wicourts.gov/scrules/pending/index.htm (updated October 15, 2026). All read 2026-11-08; the former pending-docket URL for 26-02 returned HTTP 404 that day. -->
 
 **What to do:**
 
