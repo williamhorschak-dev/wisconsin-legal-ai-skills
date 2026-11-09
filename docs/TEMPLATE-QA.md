@@ -16,6 +16,11 @@ now places page 1 body text at 2.00 in from the top edge (3.00 in for the propos
 line-break version gave 2.31 in and 3.51 in and other renderers gave more; page counts are unchanged;
 the Word-exported PDF, read with PyMuPDF, agrees for the four templates exported; page 1 of the
 proposed order and the motion was viewed by an AI agent. Not an attorney review.
+On 2026-11-08 a second AI reviewer converted 01-motion.docx and 06-proposed-order.docx (the 2026-11-07
+bytes) to PDF with LibreOffice 26.8.2.2 and measured the first glyph box with PyMuPDF at 2.034 in (motion
+page 1), 0.984 in (motion page 2) and 3.034 in (proposed order page 1), Century Schoolbook embedded, no
+clipping; the constant 0.034 in is the glyph box sitting below the line top that Word reports. The other
+twelve templates have not been rendered outside Word. Not an attorney review.
 Content hashes bind each record to these bytes. The Word check is not renderer-independent
 layout equality, and it is not an attorney review.
 

@@ -1,5 +1,21 @@
 # wisconsin-legal-writing
 
+## 2026.11.08.1
+
+- `build_filing.py`: the final-mode placeholder screen now also refuses nonempty single-line
+  angle and curly tokens, whole-word TBD, TBA and TK in any case, and whole-word runs of two
+  or more X, and lists every offending token with its spec path before any output file is
+  opened. A number mask ending in four digits (XXXX1234, XXX-XX-1234 and grouped forms) is
+  exempt from the X rule; the exemption is an engineering choice, not a redaction check.
+  Draft mode is unchanged. No template was rebuilt; package members are byte-identical.
+- `references/voice.md`, section 2: the dated status of Rule Petition 26-02 (proposed SCR
+  chapter on generative AI in court proceedings) now records the court's order of October 15,
+  2026 granting the motion to withdraw and dismissing the petition, which does not adopt the
+  proposed rules, and names petition 26-06 (filed September 28, 2026) as listed but not yet
+  scheduled for hearing as checked November 8, 2026. Source-checked by two AI reviewers of
+  different model families; not attorney-reviewed; listed in docs/LEGAL-TEXT-CHANGES-2026-11.md.
+- SKILL.md and the README describe the wider placeholder screen.
+
 ## 2026.11.07.1
 
 - `build_filing.py`: the page-1 clearance band is one header paragraph of exact height
