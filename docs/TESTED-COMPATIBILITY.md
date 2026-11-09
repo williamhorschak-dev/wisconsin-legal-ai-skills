@@ -40,8 +40,19 @@ helpers and evaluation infrastructure, not a completed cross-model benchmark.
   integrity checks, exit 1 from seven changed currency lines (the statutes republication of
   11-4-26), which the register refresh then recorded. The monthly workflow has not yet run on
   the new code.
-- **Release assets.** To be checked after publication, as for the previous releases; the copy
-  of this file inside the release cannot record that result.
+- **Release assets.** The draft release's nine assets were downloaded before publication and
+  every SHA-256 matched the local build from the clean checkout at fd525a8; BUILD.json names
+  that commit with `dirty` and `preview` false. The maintainer published on 2026-11-09 00:59 UTC
+  (2026-11-08 local). The artifacts of the validate run for the push of fd525a8 to `main`
+  (run 42542908238) were then downloaded: the four matrix jobs produced nine files byte-identical
+  to one another, but the five ZIPs and SHA256SUMS.txt differed from the published ones, because
+  the local build had run under CPython 3.14.5 and its compression library packs differently;
+  every ZIP member name, member bytes and date were identical. A rebuild from the same checkout
+  under CPython 3.12.10 was byte-identical to all four CI artifact sets, and within the hour the
+  maintainer had those six files replace the published ones. The public assets, the 3.12 build and
+  the CI artifacts now match byte for byte, and SHA256SUMS.txt verifies against the downloads. The
+  copy of this file inside the release says the check had not been made yet, because the file is
+  itself an asset; this repository copy records the result.
 - **Models and hosts.** No new trial. The 2026-10-24 trigger-activation record stands.
 
 ## Record of 2026-11-07 (release 2026.11.07.1)

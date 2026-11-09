@@ -13,8 +13,11 @@ Before a release:
 2. Refresh manifests after reviewing the changes. Run the test suite, skill/suite/
    source validators, and any required rendered-page or behavioral checks.
 3. Merge after CI passes. From the clean merged checkout, build with
-   `python scripts/build_release.py --out dist/release`. `--allow-dirty` produces
-   local previews only; do not publish them as a release.
+   `python scripts/build_release.py --out dist/release` under CPython 3.12, the
+   interpreter CI uses: a build under 3.14 has identical ZIP contents but different
+   compressed bytes (seen 2026-10-11 and 2026-11-08), so its assets would not match the
+   CI artifacts byte for byte. `--allow-dirty` produces local previews only; do not
+   publish them as a release.
 4. Create a draft GitHub release tagged `v` plus `VERSION` at that exact commit.
    Attach every asset: three skill ZIPs, prompt packs, evaluation fixtures/protocol,
    release notes, compatibility record, build provenance and `SHA256SUMS.txt`.
