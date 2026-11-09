@@ -261,6 +261,10 @@ clearance could be switched off.
   `TBD`/`TBA`/`TK` and X runs of two or more. X masks ending in four visible digits
   are allowed, with whitespace, period or common dash separators. It does not infer
   missing facts, catch every placeholder spelling, or perform semantic validation.
+- The builder's protected-information screen matches number patterns for the five
+  categories in Wis. Stat. § 801.19(1)(a) in the spec text only. It cannot see exhibits,
+  does not recognise every account, license or passport format, and can match numbers
+  that are not protected information. It is not a redaction check.
 - In two templates a section symbol can be separated from its number by a line break,
   and the appellate template's top margin differs from the margin table in `appellate.md`.
 - The subsequent history of cited authorities was not checked exhaustively against public

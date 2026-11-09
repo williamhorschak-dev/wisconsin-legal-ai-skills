@@ -21,6 +21,16 @@ filing readiness. Empty angle/curly pairs and pairs spanning lines are not match
 Intentional matches, including bracketed quotations and literal X runs, still need
 --draft. Draft content is unchanged.
 
+Protected-information screen. Wis. Stat. s. 801.19(1)(a) names five kinds of protected
+information (social security, employer or taxpayer identification, financial account,
+driver license and passport numbers), and s. 801.19(2)(c) requires a party to omit them
+from documents filed in circuit court. Without --draft the builder refuses a spec whose
+text matches one of the number patterns below and names the spec path and the category
+without echoing the number; with --draft it warns. --protected-info-reviewed builds
+anyway after the user has confirmed a match is not protected information. The screen
+reads only the spec. It does not see exhibits, does not recognise every number format,
+and is not a redaction or compliance check.
+
 Geometry reproduced from the reference corpus:
   page 8.5 x 11; L/R margins 1.0"; T/B margins 0.95"
   Century Schoolbook (or Times New Roman) 12 pt body, justified, 1.5 line spacing
@@ -448,7 +458,71 @@ def _placeholders(spec):
             yield f"{path}: {json.dumps(match.group())}"
 
 
-def _validate(spec, *, draft=False):
+# Wis. Stat. s. 801.19(1)(a): the five kinds of protected information. Each pattern's last
+# group (or whole match) is the number; keyword patterns look at most 40 characters ahead
+# on the same line. Dates and telephone numbers are not account or license numbers.
+_PI_GAP = r"[^\n]{0,40}?"
+_PI_NOT_DATE_OR_PHONE = r"(?!\d{4}-\d{2}-\d{2}(?!\d))(?!\(?\d{3}\)?[ .-]\d{3}[ .-]\d{4}(?!\d))"
+_PROTECTED = (
+    ("social security number", re.compile(r"(?<![\w-])\d{3}-\d{2}-\d{4}(?![\w-])")),
+    ("social security number", re.compile(
+        r"(?:social\s+security|\bSSN\b|\bSS\s*#)" + _PI_GAP + r"(?<!\d)(\d{9})(?!\d)", re.IGNORECASE)),
+    ("employer or taxpayer identification number", re.compile(r"(?<![\w-])\d{2}-\d{7}(?![\w-])")),
+    ("employer or taxpayer identification number", re.compile(
+        r"(?:\bF?EIN\b|\bI?TIN\b|taxpayer\s+identification|employer\s+identification|\btax\s+id\b)"
+        + _PI_GAP + r"(?<!\d)(\d{9})(?!\d)", re.IGNORECASE)),
+    ("financial account number", re.compile(
+        r"(?:account|\bacct\b|routing|\bIBAN\b|credit\s+card|debit\s+card|card\s+(?:no|number)|loan\s+(?:no|number))"
+        + _PI_GAP + r"(?<!\w)" + _PI_NOT_DATE_OR_PHONE + r"((?:\d[ -]?){7,18}\d)(?!\w)", re.IGNORECASE)),
+    ("driver license number", re.compile(
+        r"(?:driver'?s?\s+licen[sc]e|operator'?s?\s+licen[sc]e|\bDL\s*(?:no|number|#))"
+        + _PI_GAP + r"(?<!\w)" + _PI_NOT_DATE_OR_PHONE
+        + r"((?=[A-Za-z0-9-]*\d{4})[A-Za-z]?\d[A-Za-z0-9-]{5,19})(?![\w-])", re.IGNORECASE)),
+    ("passport number", re.compile(
+        r"passport" + _PI_GAP + r"(?<!\w)" + _PI_NOT_DATE_OR_PHONE
+        + r"((?=[A-Za-z0-9]*\d{4})[A-Za-z0-9]{6,9})(?!\w)", re.IGNORECASE)),
+)
+_CARD = re.compile(r"(?<![\w-])(?:\d[ -]?){12,18}\d(?![\w-])")
+_PROTECTED_MESSAGE = (
+    "possible protected information. Wis. Stat. s. 801.19(2)(c) requires a party to omit a "
+    "social security number, an employer or taxpayer identification number, a financial "
+    "account number, a driver license number and a passport number from documents filed in "
+    "circuit court, and to submit one that is required by law or necessary to the action "
+    "separately on the court's protected information form. Remove or mask each item below, "
+    "or build with --protected-info-reviewed after confirming a match is not protected "
+    "information. This screen reads only the spec; it does not review exhibits and is not "
+    "a redaction check:\n")
+
+
+def _luhn(digits):
+    total = 0
+    for index, char in enumerate(reversed(digits)):
+        value = int(char)
+        if index % 2:
+            value = value * 2 - 9 if value > 4 else value * 2
+        total += value
+    return total % 10 == 0
+
+
+def _protected(spec):
+    """Yield 'path: category' for number patterns of s. 801.19(1)(a); never the number."""
+    for path, value in _strings(spec):
+        seen = set()
+        hits = []
+        for category, pattern in _PROTECTED:
+            for match in pattern.finditer(value):
+                hits.append((match.span(match.lastindex or 0), category))
+        for match in _CARD.finditer(value):
+            if _luhn(re.sub(r"\D", "", match.group())):
+                hits.append((match.span(), "financial account number"))
+        for (start, end), category in sorted(hits):
+            if any(start < other_end and other_start < end for other_start, other_end in seen):
+                continue
+            seen.add((start, end))
+            yield f"{path}: {category} pattern ({end - start} characters, not shown)"
+
+
+def _validate(spec, *, draft=False, protected_info_reviewed=False):
     """Validate supported structure; this is not a legal or filing certification."""
     if not isinstance(spec, dict):
         raise ValueError("spec must be a JSON object")
@@ -483,6 +557,12 @@ def _validate(spec, *, draft=False):
                 "placeholder markers need review; resolve them or use --draft "
                 "(also for intentional legal brackets):\n" + "\n".join(placeholders)
             )
+    if not protected_info_reviewed:
+        protected = list(_protected(spec))
+        if protected and draft:
+            print("warning: " + _PROTECTED_MESSAGE + "\n".join(protected), file=sys.stderr)
+        elif protected:
+            raise ValueError(_PROTECTED_MESSAGE + "\n".join(protected))
     missing = [k for k in REQUIRED_TOP if not spec.get(k)]
     if missing:
         raise ValueError("spec is missing required key(s): " + ", ".join(missing))
@@ -549,9 +629,9 @@ def _validate(spec, *, draft=False):
               "telephone number, email, and bar number if any.")
 
 
-def build(spec, out_path, *, draft=False, overwrite=False):
+def build(spec, out_path, *, draft=False, overwrite=False, protected_info_reviewed=False):
     global _font
-    _validate(spec, draft=draft)
+    _validate(spec, draft=draft, protected_info_reviewed=protected_info_reviewed)
     out_path = Path(out_path)
     if out_path.suffix.lower() != ".docx":
         raise ValueError("output must have a .docx extension")
@@ -671,6 +751,8 @@ def main():
     ap.add_argument("-o", "--out", help="explicit output .docx path")
     ap.add_argument("--draft", action="store_true", help="allow placeholders and incomplete contact details")
     ap.add_argument("--overwrite", action="store_true", help="explicitly replace the output document")
+    ap.add_argument("--protected-info-reviewed", action="store_true",
+                    help="build although the s. 801.19 number screen matched; use only after checking each match")
     ap.add_argument("--example", action="store_true",
                     help="print a worked example spec and exit")
     ap.add_argument("--doctypes", action="store_true",
@@ -692,7 +774,8 @@ def main():
     try:
         with open(args.spec, encoding="utf-8-sig") as fh:
             spec = json.load(fh)
-        print(build(spec, args.out, draft=args.draft, overwrite=args.overwrite))
+        print(build(spec, args.out, draft=args.draft, overwrite=args.overwrite,
+                    protected_info_reviewed=args.protected_info_reviewed))
         print("Created for review; source verification and rendered layout QA remain required.", file=sys.stderr)
     except (OSError, ValueError, TypeError, KeyError) as exc:
         ap.exit(2, f"build_filing: {exc}\n")

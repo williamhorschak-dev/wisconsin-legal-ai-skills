@@ -453,6 +453,40 @@ served, the address, the method, and the date.
 
 ---
 
+## 7a. Protected information, Wis. Stat. § 801.19
+
+Five kinds of numbers are "protected information" in a circuit court record: a social
+security number, an employer or taxpayer identification number, a financial account
+number, a driver license number, and a passport number. § 801.19(1)(a). Since July 1,
+2016, no party may submit protected information in a document filed in circuit court
+except in the manner the section provides. § 801.19(2)(a).
+
+- **The filer is responsible.** "[T]he parties to the action are solely responsible for
+  ensuring that protected information does not appear in any document filed with the
+  court. The court will not review each document filed by a party for compliance with
+  this section." § 801.19(2)(b).
+- **Original documents: omit it.** In a pleading, motion, brief or other original
+  document, leave the number out. If it is required by law or necessary to the action,
+  submit it separately on the court's protected information form. § 801.19(2)(c)1.
+- **Exhibits: redact a copy.** For a previously existing document, redact the protected
+  information from a copy, file the redacted copy, and submit the information on the
+  form if it is required or necessary. § 801.19(2)(c)2. If redaction is impracticable
+  the document may be attached to the form unredacted. § 801.19(2)(c)3.
+- **Consequences.** A party who files its own protected information without the form
+  waives the protection as to that information. § 801.19(2)(f)1. For another person's
+  information the court may impose reasonable expenses, including attorney fees and
+  costs, or sanction the conduct as contempt. § 801.19(2)(f)3.
+- Family actions have their own channel for some of this information. § 801.19(2)(e).
+
+`build_filing.py` screens the spec text for these number patterns and refuses a final
+build that matches one. The screen does not see exhibits and does not recognise every
+format, so read every exhibit and attachment yourself. Sections 801.20 and 801.21
+(confidential documents and motions to seal) are separate requirements this file does
+not cover.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-11-09), U-01: Wis. Stat. § 801.19(1)(a)1.-5., (2)(a), (2)(b), (2)(c)1.-3., (2)(e), (2)(f)1. and 3., https://docs.legis.wisconsin.gov/document/statutes/801.19, read 2026-11-09 (page banner: updated through 2025 Wis. Act 247). Second AI review pending. -->
+
+---
+
 ## 8. Motions for reconsideration and relief from judgment
 
 **`[MANDATORY RULE]` § 805.17(3) is NOT a general reconsideration statute. Never

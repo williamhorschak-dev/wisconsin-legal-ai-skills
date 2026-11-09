@@ -118,6 +118,12 @@ whitespace, period or common dash separators. Intentional matches, including
 bracketed legal quotations and literal X runs, require `--draft`.
 This conservative screen is not semantic validation or a redaction check;
 it does not infer missing facts or catch every placeholder spelling.
+The builder also refuses spec text that matches a social security, employer or taxpayer
+identification, financial account, driver license or passport number pattern, which
+Wis. Stat. § 801.19(2)(c) requires a party to omit from circuit court filings; it names the
+spec path and category without echoing the number. `--draft` warns instead, and
+`--protected-info-reviewed` builds after a match has been checked. That screen reads only
+the spec, not exhibits, and is not a redaction check. See `references/circuit-court.md`.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

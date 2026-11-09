@@ -198,6 +198,64 @@ class FilingBuilderTests(unittest.TestCase):
         builder.build(spec, self.output, draft=True)
         self.assertIn(spec["body"][0]["text"], self.text())
 
+    def test_protected_information_patterns_refuse_final_build_without_echoing_the_number(self):
+        cases = {
+            "Her social security number is 123-45-6789.": "social security number",
+            "SSN 123456789 appears on the form.": "social security number",
+            "The employer's EIN is 12-3456789.": "employer or taxpayer identification number",
+            "Taxpayer identification 987654321 was used.": "employer or taxpayer identification number",
+            "Funds left account number 0001234567890 that day.": "financial account number",
+            "Routing 123456789 was printed on the check.": "financial account number",
+            "He paid with 4111 1111 1111 1111 at the counter.": "financial account number",
+            "Her driver license number is E123-4567-8901-23.": "driver license number",
+            "Passport number C12345678 was presented.": "passport number",
+        }
+        for text, category in cases.items():
+            with self.subTest(category=category, text=text):
+                spec = filing()
+                spec["body"][0]["text"] = text
+                with self.assertRaises(ValueError) as caught:
+                    builder.build(spec, self.output)
+                message = str(caught.exception)
+                self.assertIn("801.19(2)(c)", message)
+                self.assertIn(f"body[0].text: {category} pattern", message)
+                for digits in re.findall(r"\d{4,}", text):
+                    self.assertNotIn(digits, message)
+                self.assertFalse(self.output.exists())
+
+    def test_protected_information_screen_passes_masks_dates_phones_and_case_numbers(self):
+        for text in (
+            "The account ending in 1234 and SSN XXX-XX-6789 are masked.",
+            "The account was opened on 2025-01-15 and closed 2025-03-01.",
+            "Call the account manager at 608-555-0100 or (608) 555-0100.",
+            "Case No. 2025-CV-000123 and 2025CV000123; zip 54000-1234; Doc. 12 at 3.",
+            "Her driver license was suspended on 2025-01-15 for 90 days.",
+            "The passport application was filed in 2024 at 123 Main Street.",
+            "Invoice 1234 5678 9012 3456 is not a card number under the checksum test.",
+            "Wis. Stat. s. 801.19(1)(a) lists five kinds of numbers; damages were $12,500,000.",
+        ):
+            with self.subTest(text=text):
+                spec = filing()
+                spec["body"][0]["text"] = text
+                builder.build(spec, self.output, overwrite=True)
+                self.assertIn(text, self.text())
+
+    def test_protected_information_draft_warns_and_reviewed_flag_builds(self):
+        spec = filing()
+        spec["signature"]["address"] = "1 Synthetic Way; SSN 123-45-6789"
+        refused = self.cli(spec)
+        self.assertEqual(refused.returncode, 2, refused.stderr)
+        self.assertIn("signature.address: social security number pattern (11 characters, not shown)", refused.stderr)
+        self.assertNotIn("6789", refused.stderr)
+        self.assertFalse(self.output.exists())
+        draft = self.cli(spec, "--draft")
+        self.assertEqual(draft.returncode, 0, draft.stderr)
+        self.assertIn("warning: possible protected information", draft.stderr)
+        self.assertNotIn("6789", draft.stderr)
+        reviewed = self.cli(spec, "--protected-info-reviewed", "--overwrite")
+        self.assertEqual(reviewed.returncode, 0, reviewed.stderr)
+        self.assertNotIn("protected information", reviewed.stderr)
+
     def test_generated_non_draft_does_not_invent_blank_attorney_date(self):
         spec = filing()
         spec["signature"] = {
