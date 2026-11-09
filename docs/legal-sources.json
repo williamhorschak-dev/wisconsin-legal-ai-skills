@@ -240,13 +240,13 @@
     },
     {
       "id": "ai-rule-petition-status",
-      "authority": "Wisconsin Supreme Court Rule Petitions 26-02 (dismissed by order of 2026-10-15) and 26-06 (pending)",
+      "authority": "Wisconsin Supreme Court Rule Petitions 26-02 (withdrawn and dismissed by order filed 2026-10-15) and 26-06 (filed 2026-09-28; not yet scheduled for public hearing as checked 2026-11-08)",
       "url": "https://www.wicourts.gov/scrules/orders.htm",
-      "proposition": "Dated status passage in voice.md section 2: petition 26-02 (proposed SCR ch. 76, generative AI in court proceedings) was dismissed on the petitioner's motion by order filed 2026-10-15, so no rule was created from it; petition 26-06 (proposed SCR 76.20 to 76.24, equal access to artificial intelligence in legal proceedings, filed 2026-09-28) was pending with no hearing scheduled as checked 2026-11-08. The passage claims no statewide AI-disclosure rule either way and tells the user to check the assigned court's requirements.",
-      "operative_version": "Status as checked 2026-11-08; SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-11-08). Recheck triggers: any new entry on the rules orders listing, any entry on the 26-06 docket, and any hearing date set for 26-06.",
+      "proposition": "Dated status passage in voice.md section 2: the order filed October 15, 2026 granted the motion to withdraw petition 26-02 and dismissed the petition; the order does not adopt the proposed rules. As checked November 8, 2026, the court listed petition 26-06 among petitions not yet scheduled for public hearing. The passage does not determine statewide or local AI-disclosure requirements and directs users to check the assigned court's requirements.",
+      "operative_version": "Status as checked 2026-11-08; SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check and second AI review, both 2026-11-08). Manual recheck triggers: a new entry on the rules orders listing, any entry on the 26-06 docket, a hearing date for 26-06. The monthly checker tests only this url's availability and response integrity; it does not detect new orders, docket entries or hearing dates. The record is due for review while its status is needs_primary_review.",
       "status": "needs_primary_review",
       "last_reviewed": null,
-      "review_scope": "Archived docket of 26-02, the one-page order of 2026-10-15, the 26-06 docket (title and filing date only; petition text not read) and the pending-petitions index, all on wicourts.gov. No citator content. No maintainer or attorney review date is claimed.",
+      "review_scope": "The one-page order filed October 15, 2026; the 26-06 docket's title, filing date, court-orders section and scheduled-events section; the pending-petitions index; and the rules orders listing. The coordinator also read the archived 26-02 docket; the second reviewer could not retrieve that page. The petition text was not read. No citator content or attorney review is claimed.",
       "review_basis": "docs/LEGAL-TEXT-CHANGES-2026-11.md (AR8-06).",
       "affected_files": [
         "skills/wisconsin-legal-writing/references/voice.md"
