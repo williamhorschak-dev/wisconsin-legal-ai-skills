@@ -237,6 +237,26 @@
       "legally_reviewed_at": null,
       "currency_url": null,
       "currency_line": null
+    },
+    {
+      "id": "ai-rule-petition-status",
+      "authority": "Wisconsin Supreme Court Rule Petitions 26-02 (withdrawn and dismissed by order filed 2026-10-15) and 26-06 (filed 2026-09-28; not yet scheduled for public hearing as checked 2026-11-08)",
+      "url": "https://www.wicourts.gov/scrules/orders.htm",
+      "proposition": "Dated status passage in voice.md section 2: the order filed October 15, 2026 granted the motion to withdraw petition 26-02 and dismissed the petition; the order does not adopt the proposed rules. As checked November 8, 2026, the court listed petition 26-06 among petitions not yet scheduled for public hearing. The passage does not determine statewide or local AI-disclosure requirements and directs users to check the assigned court's requirements.",
+      "operative_version": "Status as checked 2026-11-08; SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check and second AI review, both 2026-11-08). Manual recheck triggers: a new entry on the rules orders listing, any entry on the 26-06 docket, a hearing date for 26-06. The monthly checker tests only this url's availability and response integrity; it does not detect new orders, docket entries or hearing dates. The record is due for review while its status is needs_primary_review.",
+      "status": "needs_primary_review",
+      "last_reviewed": null,
+      "review_scope": "The one-page order filed October 15, 2026; the 26-06 docket's title, filing date, court-orders section and scheduled-events section; the pending-petitions index; and the rules orders listing. The coordinator also read the archived 26-02 docket; the second reviewer could not retrieve that page. The petition text was not read. No citator content or attorney review is claimed.",
+      "review_basis": "docs/LEGAL-TEXT-CHANGES-2026-11.md (AR8-06).",
+      "affected_files": [
+        "skills/wisconsin-legal-writing/references/voice.md"
+      ],
+      "review_interval_days": 30,
+      "retrieved_at": "2026-11-08",
+      "page_changed_at": null,
+      "legally_reviewed_at": null,
+      "currency_url": null,
+      "currency_line": null
     }
   ]
 }

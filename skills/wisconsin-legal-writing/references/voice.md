@@ -45,16 +45,19 @@ defeat a tool.
 Whether AI assistance must be disclosed is not a style question and is not answered
 by how the prose reads.
 
-The [official docket for petition 26-02](https://www.wicourts.gov/scrules/pending/2602.htm)
-listed the proposed AI rule as pending when checked September 20, 2026. As checked
-October 12, 2026, the docket lists a letter from the petitioner requesting withdrawal,
-dated September 28 and received September 30, 2026, and its court orders section
-shows no order. A petition is not an adopted rule. This file does not maintain a
-verified statewide or county
-inventory of AI disclosure requirements. Check current court rules, any effective
-orders, and the actual judge's requirements; do not infer an exemption from an
-omitted county or from the pending status of one proposal.
-<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-009: Rule Petition 26-02 docket, https://www.wicourts.gov/scrules/pending/2602.htm (entry "Sep 30, 2026, Letter from Petitioner Withdrawing Petition"; no entry under court orders), and the letter, https://www.wicourts.gov/supreme/docs/2602petitionerletter.pdf, p. 1 (dated September 28, 2026; clerk's received stamp September 30, 2026); read 2026-10-12. -->
+The court's October 15, 2026 [order](https://www.wicourts.gov/sc/rulhear/DisplayDocument.pdf?content=pdf&seqNo=1192324)
+granted the petitioner's motion to withdraw petition 26-02, which had asked the court to
+create a Supreme Court Rule chapter on the use of generative artificial intelligence in court
+proceedings, and dismissed the petition. The order does not adopt the proposed rules. As
+checked November 8, 2026, the court's [pending-petitions index](https://www.wicourts.gov/scrules/pending/index.htm)
+listed petition 26-06, filed September 28, 2026, under petitions not yet scheduled for public
+hearing. Its [docket title](https://www.wicourts.gov/scrules/pending/2606.htm) describes proposed
+SCR 76.20 to 76.24 concerning equal access to artificial intelligence in legal proceedings. The
+petition text was not reviewed for this update. This file does not maintain a verified
+statewide or county inventory of AI disclosure requirements. Check current court rules, any
+effective orders, and the actual judge's requirements; do not infer an exemption from an
+omitted county or from the status of any one proposal.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-08; second AI review by Astra, a Codex model, 2026-11-08), AR8-06, supersedes the L-009 check of 2026-10-12: the order in Rule Petition 26-02, https://www.wicourts.gov/sc/rulhear/DisplayDocument.pdf?content=pdf&seqNo=1192324, p. 1 (filed October 15, 2026; the recital describes the petition as requesting a new SCR chapter to regulate the use of generative artificial intelligence; "IT IS ORDERED that the motion is granted. The petition is dismissed."; SHA-256 0e74af2dc4bf30c82fd9bb025a00b652886afd73696703b09b7c9360c3a34018); the rules orders listing, https://www.wicourts.gov/scrules/orders.htm (row "Oct 15, 2026, 26-02", linking that order); the Rule Petition 26-06 docket, https://www.wicourts.gov/scrules/pending/2606.htm (title; Date Filed Sep 28, 2026; no court orders, no scheduled event, no past hearings); the pending petitions index, https://www.wicourts.gov/scrules/pending/index.htm (26-06 under petitions filed, not yet scheduled for public hearing). Both reviewers read the order, the listing, the 26-06 docket and the index. The coordinator also read the archived 26-02 docket, https://www.wicourts.gov/scrules/archive/2602.htm (Court orders & communications: Oct 15, 2026, Order), and observed HTTP 404 that day for the former pending URL, https://www.wicourts.gov/scrules/pending/2602.htm; the second reviewer could not retrieve the archive page and did not repeat the former-URL request. The 26-06 petition text was not read. -->
 
 **What to do:**
 
