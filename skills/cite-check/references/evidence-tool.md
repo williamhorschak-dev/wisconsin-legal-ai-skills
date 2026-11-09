@@ -27,7 +27,9 @@ Python's `hashlib.sha256(Path(path).read_bytes()).hexdigest()`). Synthetic examp
 
 Kinds: `case`, `statute`, `regulation`, `rule`, `record`. For authorities the required
 checks are `citation`, `pincite`, `treatment`, `proposition`, and `format`; for records,
-`record`, `pincite`, and `format`. A non-empty quote adds `verbatim`. Record separate
+`record`, `pincite`, and `format`. A non-empty quote adds `verbatim`. A `case` use for an
+unpublished Wisconsin opinion carries `"unpublished": true`, which adds `citability`
+(see below). Record separate
 uses for different propositions, locators, and short forms. Omit `quote` when there is
 no quotation; an empty or normalization-only quotation is invalid. Omitting a use or quote
 from the inventory cannot be detected automatically; review the inventory itself.
@@ -64,6 +66,30 @@ validates their hash and the field structure; it cannot authenticate a URL,
 determine the operative legal version, or prove that a visual comparison occurred.
 For native text with no separate original, omit both original fields and describe
 the method accurately. Keep this evidence private to the authorized matter.
+
+A `citability` record carries the facts Wis. Stat. § 809.23(3) turns on, read from the
+opinion itself:
+
+```json
+{
+  "citability": {
+    "purpose": "persuasive",
+    "opinion_type": "authored",
+    "issued": "2020-03-03",
+    "copy_filed_and_served": true
+  }
+}
+```
+
+`purpose` is `persuasive`, `claim_preclusion`, `issue_preclusion`, or `law_of_the_case`.
+`opinion_type` is `authored`, `per_curiam`, `memorandum`, `summary_disposition`, or
+`other_order`. The tool refuses a `pass` for a persuasive purpose unless the opinion is
+authored and issued on or after July 1, 2009, § 809.23(3)(b), and refuses any `pass`
+unless `copy_filed_and_served` is true, § 809.23(3)(c). The three preclusion and
+law-of-the-case purposes of § 809.23(3)(a) are not limited by date or authorship. The tool
+applies the statute's conditions to the recorded facts; it does not read the opinion, and
+it does not find unpublished opinions that the inventory fails to mark.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-11-09), U-02: Wis. Stat. § 809.23(3)(a)-(c), https://docs.legis.wisconsin.gov/document/statutes/809.23, read 2026-11-09 (page banner: updated through 2025 Wis. Act 247). Second AI review pending. -->
 
 Add `provenance_origin` to each new entry: `retrieved_this_session`, `user_supplied`,
 or `remembered` (recalled without the source in front of the reviewer). Records without

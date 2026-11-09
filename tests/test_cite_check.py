@@ -67,6 +67,81 @@ class CitationEvidenceTests(unittest.TestCase):
     def report(self):
         return self.cli("report", "--out", str(self.report_path))
 
+    def unpublished(self):
+        self.inv["uses"][0].update(kind="case", unpublished=True,
+                                   citation="Smith v. Jones, No. 2019AP000001, unpublished slip op. (synthetic)")
+        self.save_inventory()
+
+    def citability(self, result="pass", **facts):
+        base = {"purpose": "persuasive", "opinion_type": "authored", "issued": "2020-03-03",
+                "copy_filed_and_served": True}
+        base.update(facts)
+        return self.evidence("citability", result, citability={k: v for k, v in base.items() if v is not None})
+
+    def test_unpublished_use_requires_citability_and_only_cases_may_be_marked(self):
+        self.assertNotIn("citability", checker.required_checks(self.inv["uses"][0]))
+        self.inv["uses"][0]["unpublished"] = True
+        self.save_inventory()
+        with self.assertRaisesRegex(ValueError, "applies only to a case use"):
+            checker.inventory(self.inventory_path, self.document)
+        self.unpublished()
+        inv = checker.inventory(self.inventory_path, self.document)
+        self.assertIn("citability", checker.required_checks(inv["uses"][0]))
+        with self.assertRaisesRegex(ValueError, "belong only on a citability check"):
+            checker.validate_entry(self.evidence("citation", citability={"purpose": "persuasive"}), self.inv, self.sources)
+
+    def test_citability_pass_is_refused_unless_the_statutory_conditions_are_recorded(self):
+        self.unpublished()
+        refused = {
+            "per curiam": (dict(opinion_type="per_curiam"), "is not an authored opinion"),
+            "summary order": (dict(opinion_type="summary_disposition"), "809.23\\(3\\)\\(b\\)"),
+            "type missing": (dict(opinion_type=None), "opinion_type authored"),
+            "too early": (dict(issued="2009-06-30"), "on or after July 1, 2009"),
+            "date missing": (dict(issued=None), "on or after July 1, 2009"),
+            "no copy": (dict(copy_filed_and_served=False), "809.23\\(3\\)\\(c\\)"),
+            "copy missing": (dict(copy_filed_and_served=None), "file and serve a copy"),
+            "preclusion without copy": (dict(purpose="issue_preclusion", opinion_type="per_curiam",
+                                             copy_filed_and_served=False), "file and serve a copy"),
+        }
+        for name, (facts, message) in refused.items():
+            with self.subTest(case=name):
+                with self.assertRaisesRegex(ValueError, message):
+                    checker.validate_entry(self.citability(**facts), self.inv, self.sources)
+        for facts in (dict(), dict(issued="2009-07-01"),
+                      dict(purpose="claim_preclusion", opinion_type="per_curiam", issued="2005-01-01"),
+                      dict(purpose="law_of_the_case", opinion_type="summary_disposition", issued=None)):
+            with self.subTest(allowed=facts):
+                checker.validate_entry(self.citability(**facts), self.inv, self.sources)
+        checker.validate_entry(self.citability("fail", opinion_type="per_curiam"), self.inv, self.sources)
+        for bad, message in ((dict(purpose="precedent"), "purpose is persuasive"), (dict(issued="March 3, 2020"), "YYYY-MM-DD"),
+                             (dict(opinion_type="signed"), "opinion_type must be"),
+                             (dict(copy_filed_and_served="yes"), "true or false")):
+            with self.subTest(malformed=bad):
+                with self.assertRaisesRegex(ValueError, message):
+                    checker.validate_entry(self.citability("caution", **bad), self.inv, self.sources)
+        with self.assertRaisesRegex(ValueError, "needs a citability object"):
+            checker.validate_entry(self.evidence("citability"), self.inv, self.sources)
+
+    def test_report_is_incomplete_without_citability_and_states_the_copy_duty(self):
+        self.unpublished()
+        for check in ("citation", "pincite", "proposition", "format"):
+            checker.append_entry(self.log, self.evidence(check), self.inv, self.sources)
+        checker.append_entry(self.log, self.evidence("treatment", citator="Synthetic citator"), self.inv, self.sources)
+        first = self.report()
+        self.assertEqual(first.returncode, 1, first.stderr)
+        text = self.report_path.read_text(encoding="utf-8")
+        self.assertIn("citability: missing", text)
+        self.assertIn("UNVERIFIED", text)
+        self.assertIn("809.23(3)(c)", text)
+        self.report_path.unlink()
+        checker.append_entry(self.log, self.citability(), self.inv, self.sources)
+        second = self.report()
+        self.assertEqual(second.returncode, 0, second.stderr)
+        text = self.report_path.read_text(encoding="utf-8")
+        self.assertIn("RECORDED PASS", text)
+        self.assertIn("purpose persuasive, opinion type authored, issued 2020-03-03, copy filed and served: yes", text)
+        self.assertIn("An archived copy in the sources folder is not a filed or served copy", text)
+
     def test_append_preserves_accepted_log_endings(self):
         for ending in (b"", b"\n", b"\r\n", b"\r"):
             with self.subTest(ending=ending):
