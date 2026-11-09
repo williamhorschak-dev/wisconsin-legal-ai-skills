@@ -256,6 +256,65 @@ class FilingBuilderTests(unittest.TestCase):
         self.assertEqual(reviewed.returncode, 0, reviewed.stderr)
         self.assertNotIn("protected information", reviewed.stderr)
 
+    def declaration(self):
+        spec = filing()
+        spec["title"] = "Declaration of Alex Example in Support of Synthetic Motion"
+        spec["body"] = [
+            {"type": "num", "text": "1. I am the plaintiff and make this declaration on personal knowledge."},
+            {"type": "p", "text": "I declare under penalty of false swearing under the law of Wisconsin "
+                                    "that the foregoing is true and correct."},
+            {"type": "p", "text": "Signed on the 2nd day of January, 2026, at Anytown, Wisconsin."},
+        ]
+        return spec
+
+    def test_declaration_in_statutory_form_builds_and_other_documents_are_not_checked(self):
+        builder.build(self.declaration(), self.output)
+        self.assertIn("under penalty of false swearing under the law of Wisconsin", self.text())
+        motion = filing()
+        motion["title"] = "Motion for Declaratory Relief"
+        builder.build(motion, self.output, overwrite=True)
+        affidavit = self.declaration()
+        affidavit["document_type"] = "motion"
+        affidavit["body"] = affidavit["body"][:1]
+        builder.build(affidavit, self.output, overwrite=True)
+
+    def test_declaration_missing_statutory_elements_is_refused_and_draft_warns(self):
+        cases = {
+            "phrase": (lambda body: body.pop(1), "false swearing under the law of Wisconsin"),
+            "execution": (lambda body: body.pop(2), "lacks an execution line"),
+            "year": (lambda body: body.__setitem__(2, {"type": "p", "text": "Signed on January 2 at Anytown, Wisconsin."}),
+                     "states no year"),
+        }
+        for name, (change, expected) in cases.items():
+            with self.subTest(missing=name):
+                spec = self.declaration()
+                change(spec["body"])
+                with self.assertRaises(ValueError) as caught:
+                    builder.build(spec, self.output)
+                self.assertIn("887.015(6)", str(caught.exception))
+                self.assertIn(expected, str(caught.exception))
+                self.assertFalse(self.output.exists())
+                result = self.cli(spec, "--draft", "--overwrite")
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn("warning: declaration form", result.stderr)
+                self.output.unlink()
+        typed = self.declaration()
+        typed["title"] = "Statement of Alex Example"
+        typed["document_type"] = "declaration"
+        typed["body"].pop(1)
+        with self.assertRaisesRegex(ValueError, "887.015"):
+            builder.build(typed, self.output)
+
+    def test_declaration_notes_excluded_uses_and_place_without_state(self):
+        spec = self.declaration()
+        spec["title"] = "Declaration of Alex Example for Recording with the Register of Deeds"
+        spec["body"][2]["text"] = "Signed on January 2, 2026, at Anytown."
+        result = self.cli(spec)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("note: declaration: the text mentions a declaration to be recorded", result.stderr)
+        self.assertIn("887.015(4)(b)4.", result.stderr)
+        self.assertIn("place has no comma", result.stderr)
+
     def test_generated_non_draft_does_not_invent_blank_attorney_date(self):
         spec = filing()
         spec["signature"] = {

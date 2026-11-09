@@ -31,10 +31,10 @@
       "new_render_this_release": true
     },
     "05-declaration.docx": {
-      "sha256": "55982172f964bc6bd9bff6e1ac81fa81c466ed47def9362785472936108654f9",
+      "sha256": "71cf986e85fb3305a1c0369feae3c48b5e7a34d338902013fa2adbccf3016ede",
       "review_status": "layout-checked",
-      "review_date": "2026-11-07",
-      "review_basis": "Rebuilt with make_templates.py after the page-1 clearance spacer changed from a stack of line breaks to one header paragraph of exact height (3600 twips for the proposed order, 2160 twips otherwise). Compared part by part with the prior bytes: only word/header1.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed; 2 page(s), unchanged. Word reported page 1 body text at 2.00 in from the top edge (was 2.31 in) and later pages at 0.95 in; the Word-exported PDF read with PyMuPDF gave the same first-text position for the four templates exported. Page 1 was viewed by an AI agent (Claude) for the proposed order and the motion. Layout check only; no legal content changed and nothing was reviewed by an attorney.",
+      "review_date": "2026-11-09",
+      "review_basis": "Rebuilt with make_templates.py on 2026-11-09 after 05-declaration.json was changed to the order and wording of the form in Wis. Stat. s. 887.015(6): an opening line, the numbered facts, then \"I declare under penalty of false swearing under the law of Wisconsin that the foregoing is true and correct.\" and the execution line. Compared part by part with the prior bytes: only word/document.xml changed. Rendered in Microsoft Word 16.0 with Century Schoolbook installed: 2 pages, unchanged; Word reported the first paragraph at 2.00 in from the top edge, and the Word-saved PDF read with PyMuPDF gave first text at 2.00 in on page 1 and 1.18 in on page 2 (0.95 in before; the page now begins with a spaced paragraph). The declaration sentence ends page 1 and the execution line and signature block begin page 2 in the unfilled template. Both pages were viewed by an AI agent (Claude). Layout check by one AI reviewer; the wording change is listed in docs/LEGAL-TEXT-CHANGES-2026-11.md (U-03) and awaits a second AI review and the maintainer's adoption. Nothing was reviewed by an attorney.",
       "new_render_this_release": true
     },
     "05b-affidavit.docx": {

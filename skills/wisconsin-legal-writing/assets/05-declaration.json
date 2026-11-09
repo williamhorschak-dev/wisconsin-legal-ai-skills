@@ -1,6 +1,7 @@
 {
   "county": "[COUNTY]",
   "court": "CIRCUIT COURT",
+  "document_type": "declaration",
   "case_no": "[YYYY]-CV-[NNNNNN]",
   "font": "Century Schoolbook",
   "bold_court_line": false,
@@ -18,7 +19,7 @@
   "body": [
     {
       "type": "p",
-      "text": "Pursuant to Wis. Stat. § 887.015, I declare the following to be true under penalty of false swearing under the law of Wisconsin."
+      "text": "I, [NAME], state the following under Wis. Stat. § 887.015:"
     },
     {
       "type": "num",
@@ -34,7 +35,11 @@
     },
     {
       "type": "p",
-      "text": "Signed on the ____ day of __________, [YEAR], at [CITY], [STATE OR COUNTRY]."
+      "text": "I declare under penalty of false swearing under the law of Wisconsin that the foregoing is true and correct."
+    },
+    {
+      "type": "p",
+      "text": "Signed on the ____ day of __________, [YEAR], at [CITY OR OTHER LOCATION], [STATE OR COUNTRY]."
     }
   ],
   "signature": {

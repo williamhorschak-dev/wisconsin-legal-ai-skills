@@ -124,6 +124,9 @@ Wis. Stat. § 801.19(2)(c) requires a party to omit from circuit court filings; 
 spec path and category without echoing the number. `--draft` warns instead, and
 `--protected-info-reviewed` builds after a match has been checked. That screen reads only
 the spec, not exhibits, and is not a redaction check. See `references/circuit-court.md`.
+A declaration (`document_type: "declaration"` or a title beginning "Declaration") must
+carry the Wis. Stat. § 887.015(6) words "under penalty of false swearing under the law of
+Wisconsin" and a "Signed on [date], at [place]" line; the builder checks the form only.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

@@ -31,6 +31,14 @@ anyway after the user has confirmed a match is not protected information. The sc
 reads only the spec. It does not see exhibits, does not recognise every number format,
 and is not a redaction or compliance check.
 
+Declaration check. A spec with document_type "declaration", or whose title begins with
+"Declaration", is checked against the form in Wis. Stat. s. 887.015(6): the words "under
+penalty of false swearing under the law of Wisconsin" and an execution line "Signed on
+[date], at [city or other location, and state or country]". Without --draft a missing
+element is refused; with --draft it is a warning. Wording that points at a use excluded
+by s. 887.015(4)(b) produces a note. The statute asks for substantial conformity; the
+check does not decide whether a declaration is permitted, true, or properly executed.
+
 Geometry reproduced from the reference corpus:
   page 8.5 x 11; L/R margins 1.0"; T/B margins 0.95"
   Century Schoolbook (or Times New Roman) 12 pt body, justified, 1.5 line spacing
@@ -70,6 +78,7 @@ DOCTYPES = {
     "brief": "Caption, title, INTRODUCTION, BACKGROUND, ARGUMENT with point headings, CONCLUSION, signature.",
     "discovery": "Caption, title, NOW COMES paragraph, section headings, request/ANSWER pairs, signature.",
     "affidavit": "Caption, title, venue block, numbered personal-knowledge paragraphs, jurat.",
+    "declaration": "Caption, title, numbered personal-knowledge paragraphs, the s. 887.015(6) declaration sentence, execution line, signature.",
     "proposed_order": "Caption, ORDER GRANTING title, recital, IT IS ORDERED that:, ordered items. No signature block.",
     "letter": "No caption. Business letter with a Re: line. Use references/letters.md.",
     "appellate_brief": "White cover, then Rule 809.19(1)(a)-(f) sections in order. Use references/appellate.md.",
@@ -522,6 +531,54 @@ def _protected(spec):
             yield f"{path}: {category} pattern ({end - start} characters, not shown)"
 
 
+# Wis. Stat. s. 887.015(6): "I declare under penalty of false swearing under the law of
+# Wisconsin that the foregoing is true and correct. Signed on the .... day of ...., ....(year),
+# at ....(city or other location, and state or country)." then printed name and signature.
+_DECLARATION_TITLE = re.compile(r"^\W*(?:unsworn\s+)?declaration\b", re.IGNORECASE)
+_DECLARATION_PHRASE = re.compile(
+    r"under\s+penalty\s+of\s+false\s+swearing\s+under\s+the\s+law\s+of\s+Wisconsin", re.IGNORECASE)
+_DECLARATION_SIGNED = re.compile(r"\bsigned\s+on\b(?P<date>[^\n]*?)\bat\s+(?P<place>[^\n]*\S)", re.IGNORECASE)
+# s. 887.015(4)(b)1., 2., 4. and 5.; subd. 3. (an oath before a specified official other
+# than a notary) cannot be recognised from text.
+_DECLARATION_EXCLUDED = (
+    ("a deposition (s. 887.015(4)(b)1.)", re.compile(r"\bdeposition\b", re.IGNORECASE)),
+    ("an oath of office (s. 887.015(4)(b)2.)", re.compile(r"\boath\s+of\s+office\b", re.IGNORECASE)),
+    ("a declaration to be recorded under s. 706.06 or 706.25 or ch. 140 (s. 887.015(4)(b)4.)",
+     re.compile(r"706\.06|706\.25|\bch(?:apter|\.)\s*140\b|register\s+of\s+deeds", re.IGNORECASE)),
+    ("an oath required under s. 853.04 (s. 887.015(4)(b)5.)",
+     re.compile(r"853\.04|self-prov(?:ed|ing)", re.IGNORECASE)),
+)
+
+
+def _declaration_problems(spec):
+    """Return (problems, notes) for a declaration spec; empty lists for other documents."""
+    kind = spec.get("document_type")
+    title = spec.get("title") if isinstance(spec.get("title"), str) else ""
+    if kind != "declaration" and not (kind is None and _DECLARATION_TITLE.search(title)):
+        return [], []
+    texts = [block.get("text", "") for block in spec.get("body", []) if isinstance(block, dict)]
+    joined = "\n".join(text for text in texts if isinstance(text, str))
+    problems, notes = [], []
+    if not _DECLARATION_PHRASE.search(joined):
+        problems.append("the body lacks the words \"under penalty of false swearing under the law of Wisconsin\"")
+    signed = _DECLARATION_SIGNED.search(joined)
+    if not signed:
+        problems.append("the body lacks an execution line: \"Signed on [date], at [city or other location, "
+                        "and state or country]\"")
+    else:
+        if not re.search(r"\b(?:19|20)\d{2}\b|\[|_{2,}", signed.group("date")):
+            problems.append("the execution line states no year")
+        if "," not in signed.group("place"):
+            notes.append("the execution line's place has no comma; the statutory form asks for the city or "
+                         "other location, and the state or country")
+    scan = title + "\n" + joined
+    for label, pattern in _DECLARATION_EXCLUDED:
+        if pattern.search(scan):
+            notes.append(f"the text mentions {label}; s. 887.015 does not apply to that use, so check "
+                         "whether an unsworn declaration is permitted here")
+    return problems, notes
+
+
 def _validate(spec, *, draft=False, protected_info_reviewed=False):
     """Validate supported structure; this is not a legal or filing certification."""
     if not isinstance(spec, dict):
@@ -588,6 +645,18 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
             "of that, and a brief built with appellate:true would violate\n"
             "Rule 809.19(8)(b). Start from assets/10-appellate-brief.docx and see\n"
             "references/appellate.md.")
+
+    problems, notes = _declaration_problems(spec)
+    for item in notes:
+        print("note: declaration: " + item + ".", file=sys.stderr)
+    if problems:
+        message = ("declaration form: Wis. Stat. s. 887.015(6) requires an unsworn declaration to be in "
+                   "substantially the statutory form (declaration under penalty of false swearing under "
+                   "the law of Wisconsin; date and place of signing; printed name; signature): "
+                   + "; ".join(problems) + ".")
+        if not draft:
+            raise ValueError(message)
+        print("warning: " + message, file=sys.stderr)
 
     sig = spec.get("signature")
     if spec.get("signature_in_body"):
