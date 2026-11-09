@@ -39,6 +39,14 @@ element is refused; with --draft it is a warning. Wording that points at a use e
 by s. 887.015(4)(b) produces a note. The statute asks for substantial conformity; the
 check does not decide whether a declaration is permitted, true, or properly executed.
 
+Caption rules. A complaint or summons is refused in every mode: Wis. Stat. ss. 802.04(1)
+and 801.09(1) require the case classification type and code number and the names and
+addresses of all parties there, and this builder prints one party per side and no
+classification. A written motion's title must name the party seeking relief and describe
+the relief, s. 802.01(2)(d): without --draft a motion titled without a party or without a
+description is refused; with --draft it is a warning. Titles are recognised by their
+opening words only.
+
 Geometry reproduced from the reference corpus:
   page 8.5 x 11; L/R margins 1.0"; T/B margins 0.95"
   Century Schoolbook (or Times New Roman) 12 pt body, justified, 1.5 line spacing
@@ -579,6 +587,51 @@ def _declaration_problems(spec):
     return problems, notes
 
 
+# Wis. Stat. s. 802.04(1) (complaint caption), s. 801.09(1) (summons) and s. 802.01(2)(d)
+# ("The name of the party seeking the order or relief and a brief description of the type
+# of order or relief sought shall be included in the caption of every written motion.").
+_COMPLAINT_TITLE = re.compile(
+    r"^\W*(?:(?:verified|amended|first|second|third|supplemental|class\s+action|third[- ]party)\s+)*"
+    r"(?:summons(?:\s+and\s+complaint)?|complaint)\b", re.IGNORECASE)
+_MOTION_TITLE = re.compile(
+    r"^\W*(?:(?P<party>[^\n]*?(?:'s|s'|\u2019s|s\u2019))\s+)?"
+    r"(?P<kind>(?:(?:renewed|amended|emergency|expedited|joint|stipulated|unopposed|second|third|"
+    r"supplemental|combined)\s+)*)(?:notice\s+of\s+)?motion\b(?P<rest>[^\n]*)$", re.IGNORECASE)
+
+
+def _caption_problems(spec):
+    """Return (refusal, motion_problem): the first applies in every mode, the second in final mode."""
+    title = spec.get("title") if isinstance(spec.get("title"), str) else ""
+    kind = spec.get("document_type")
+    if kind in ("complaint", "summons") or _COMPLAINT_TITLE.search(title):
+        return ("this builder cannot produce a complaint or summons caption. Wis. Stat. s. 802.04(1) requires "
+                "the complaint's caption to include the standardized case classification type and code "
+                "number approved by the director of state courts, and its title to include the names and "
+                "addresses of all the parties, any representative capacity, and a corporation's existence "
+                "and domestic or foreign status; s. 801.09(1) requires the same title in the summons. The "
+                "builder prints the first party on each side and no classification, which s. 802.04(1) "
+                "allows only for pleadings other than the complaint. Prepare the complaint and summons "
+                "from the court's forms or by hand"), None
+    match = _MOTION_TITLE.search(title) if kind in (None, "motion") else None
+    if not match:
+        return None, None
+    rest = match.group("rest")
+    names = []
+    for side in ("first_party", "second_party"):
+        party = spec.get(side) if isinstance(spec.get(side), dict) else {}
+        names += [party.get(k) for k in ("name", "designation") if isinstance(party.get(k), str) and party.get(k).strip()]
+    named = bool(match.group("party")) or bool(re.search(r"\b(?:joint|stipulated)\b", match.group("kind"), re.IGNORECASE)) \
+        or any(re.search(r"(?<!\w)" + re.escape(name.strip()) + r"(?!\w)", rest, re.IGNORECASE) for name in names)
+    described = len(re.findall(r"[A-Za-z\[]\S*", rest)) >= 2
+    missing = [text for ok, text in ((named, "the name of the party seeking the order or relief"),
+                                      (described, "a brief description of the order or relief sought")) if not ok]
+    if not missing:
+        return None, None
+    return None, ("motion title: Wis. Stat. s. 802.01(2)(d) requires the caption of every written motion to "
+                  "include " + " and ".join(missing) + f"; the title is {title!r} (for example, "
+                  "\"Plaintiff's Motion to Compel Discovery\")")
+
+
 def _validate(spec, *, draft=False, protected_info_reviewed=False):
     """Validate supported structure; this is not a legal or filing certification."""
     if not isinstance(spec, dict):
@@ -645,6 +698,14 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
             "of that, and a brief built with appellate:true would violate\n"
             "Rule 809.19(8)(b). Start from assets/10-appellate-brief.docx and see\n"
             "references/appellate.md.")
+
+    refusal, motion_problem = _caption_problems(spec)
+    if refusal:
+        raise ValueError(refusal + ".")
+    if motion_problem and draft:
+        print("warning: " + motion_problem + ".", file=sys.stderr)
+    elif motion_problem:
+        raise ValueError(motion_problem + ".")
 
     problems, notes = _declaration_problems(spec)
     for item in notes:

@@ -271,7 +271,7 @@ class FilingBuilderTests(unittest.TestCase):
         builder.build(self.declaration(), self.output)
         self.assertIn("under penalty of false swearing under the law of Wisconsin", self.text())
         motion = filing()
-        motion["title"] = "Motion for Declaratory Relief"
+        motion["title"] = "Plaintiff's Motion for Declaratory Relief"
         builder.build(motion, self.output, overwrite=True)
         affidavit = self.declaration()
         affidavit["document_type"] = "motion"
@@ -314,6 +314,59 @@ class FilingBuilderTests(unittest.TestCase):
         self.assertIn("note: declaration: the text mentions a declaration to be recorded", result.stderr)
         self.assertIn("887.015(4)(b)4.", result.stderr)
         self.assertIn("place has no comma", result.stderr)
+
+    def test_complaint_and_summons_titles_are_refused_in_every_mode(self):
+        for title in ("Complaint", "Summons and Complaint", "Amended Complaint for Damages",
+                      "VERIFIED COMPLAINT", "Third-Party Complaint", "Summons"):
+            for draft in (False, True):
+                with self.subTest(title=title, draft=draft):
+                    spec = filing()
+                    spec["title"] = title
+                    with self.assertRaises(ValueError) as caught:
+                        builder.build(spec, self.output, draft=draft)
+                    self.assertIn("802.04(1)", str(caught.exception))
+                    self.assertIn("case classification type and code", str(caught.exception))
+                    self.assertFalse(self.output.exists())
+        typed = filing()
+        typed["document_type"] = "complaint"
+        with self.assertRaisesRegex(ValueError, "801.09"):
+            builder.build(typed, self.output)
+        for title in ("Defendant's Answer to Complaint", "Plaintiff's Motion to Amend Complaint",
+                      "Defendant's Brief in Support of Motion to Dismiss the Complaint"):
+            with self.subTest(title=title):
+                spec = filing()
+                spec["title"] = title
+                builder.build(spec, self.output, overwrite=True)
+
+    def test_motion_title_must_name_the_party_and_describe_the_relief(self):
+        bad = {
+            "Motion to Compel Discovery": "the name of the party seeking",
+            "Notice of Motion and Motion for Summary Judgment": "the name of the party seeking",
+            "Renewed Motion to Dismiss": "the name of the party seeking",
+            "Plaintiff's Motion": "a brief description",
+            "Motion": "the name of the party seeking the order or relief and a brief description",
+        }
+        for title, expected in bad.items():
+            with self.subTest(title=title):
+                spec = filing()
+                spec["title"] = title
+                with self.assertRaises(ValueError) as caught:
+                    builder.build(spec, self.output)
+                self.assertIn("802.01(2)(d)", str(caught.exception))
+                self.assertIn(expected, str(caught.exception))
+                result = self.cli(spec, "--draft", "--overwrite")
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn("warning: motion title", result.stderr)
+                self.output.unlink()
+        for title in ("Plaintiff's Motion to Compel Discovery", "Defendants' Motion for Summary Judgment",
+                      "Motion of Plaintiff to Enlarge Time", "Motion by Taylor Example to Dismiss",
+                      "Joint Motion to Amend the Scheduling Order", "Stipulated Motion for a Protective Order",
+                      "Plaintiff's Notice of Motion and Motion to Compel",
+                      "Plaintiff's Brief in Support of Motion to Compel", "Order Granting Motion to Compel"):
+            with self.subTest(title=title):
+                spec = filing()
+                spec["title"] = title
+                builder.build(spec, self.output, overwrite=True)
 
     def test_generated_non_draft_does_not_invent_blank_attorney_date(self):
         spec = filing()

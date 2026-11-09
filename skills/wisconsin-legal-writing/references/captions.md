@@ -14,9 +14,24 @@ take precedence; do not assume La Crosse County or a pro se plaintiff.
   In practice, after the summons and complaint, filings carry the court/county line,
   the party block, and the case number; the classification code lives on the
   initiating documents and the electronic cover sheet.
+- **Wis. Stat. § 802.04(1)**: every pleading's caption sets out the name of the court,
+  the venue, the title of the action, the file number, and a designation. **In the
+  complaint** the caption must include the standardized case classification type and
+  code number approved by the director of state courts, and the title must include the
+  names and addresses of all the parties, any representative capacity, and, for a
+  corporation, its existence and domestic or foreign status. A pleading that commences
+  an action under § 814.61(1)(a) or § 814.62(1) or (2), and a complaint under
+  § 814.61(3), must also state in the caption, if a money judgment is claimed, whether
+  the amount claimed is greater than the amount under § 799.01(1)(d). "In pleadings
+  other than the complaint, it is sufficient to state the name of the first party on
+  each side with an appropriate indication of other parties." `build_filing.py` prints
+  that shorter caption, so it **refuses to build a complaint or a summons**; prepare
+  those from the court's forms or by hand.
 - **Wis. Stat. § 802.01(2)(d)**: *every written motion* must include in its caption
   the name of the party seeking relief and a brief description of the type of relief
-  sought. `PLAINTIFF'S MOTION TO COMPEL`, not `MOTION TO COMPEL`.
+  sought. `PLAINTIFF'S MOTION TO COMPEL`, not `MOTION TO COMPEL`. The builder refuses
+  a final build of a motion whose title names no party or describes no relief.
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-11-09), U-04: Wis. Stat. § 802.04(1), § 801.09(1) and § 802.01(2)(d), https://docs.legis.wisconsin.gov/document/statutes/802.04, .../801.09 and .../802.01, read 2026-11-09 (page banner: updated through 2025 Wis. Act 247). Second AI review pending. -->
 - **Wis. Stat. § 809.81(9)**: appellate captions must carry the full name of each
   party as in the circuit court and designate each party's status in *both* courts
   (`Plaintiff-Appellant`, `Defendant-Respondent`).

@@ -127,6 +127,9 @@ the spec, not exhibits, and is not a redaction check. See `references/circuit-co
 A declaration (`document_type: "declaration"` or a title beginning "Declaration") must
 carry the Wis. Stat. § 887.015(6) words "under penalty of false swearing under the law of
 Wisconsin" and a "Signed on [date], at [place]" line; the builder checks the form only.
+The builder refuses a complaint or summons, whose captions Wis. Stat. §§ 802.04(1) and
+801.09(1) require to carry more than it prints, and a final motion whose title does not
+name the moving party and the relief sought, § 802.01(2)(d).
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested
