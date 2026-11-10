@@ -83,8 +83,8 @@ sources; no attorney has reviewed them. Each one is listed with its source in
 [LEGAL-TEXT-CHANGES-2026-10.md](LEGAL-TEXT-CHANGES-2026-10.md). The check also
 found that the Wisconsin Supreme Court had accepted review of whether to modify the
 *Kalal* interpretive framework in *Abby Windows, LLC v. Labor & Industry Review
-Commission*, No. 2024AP1013, and that the case is scheduled
-for oral argument on November 10, 2026. Monetary limits in the references, including the
+Commission*, No. 2024AP1013. The clerk's table of pending cases, read again on
+November 10, 2026, listed oral argument for that day and showed no decision. Monetary limits in the references, including the
 small-claims limit, are affected by 2025 Wis. Act 105, which takes effect on
 January 1, 2027 (Act section 5). The small-claims passage now carries a dated note about
 it. Do not rely on any amount, deadline, or rule in a reference file without
