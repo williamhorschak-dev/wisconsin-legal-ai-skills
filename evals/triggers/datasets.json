@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "note": "Each version fixes the three query files by SHA-256 of their bytes with LF line endings. A result is tied to the version it was collected on; results from different versions are not pooled.",
+  "current": 2,
+  "versions": [
+    {
+      "version": 1,
+      "frozen": "2026-11-10",
+      "files": {
+        "cite-check": {
+          "sha256": "926129e80171d39dfa20f6a79eef5dda52a09a8e7296088cd5af6c0ae9bb64da",
+          "queries": 20,
+          "positive": 9,
+          "near_miss": 6,
+          "cross_skill": 5,
+          "train": 12,
+          "validation": 8
+        },
+        "wisconsin-legal-interpretation": {
+          "sha256": "9fbe46091cff5ba84b13e7e9d0a5032a4cac9b8f47d60b48e93efd8838813ae2",
+          "queries": 20,
+          "positive": 9,
+          "near_miss": 6,
+          "cross_skill": 5,
+          "train": 12,
+          "validation": 8
+        },
+        "wisconsin-legal-writing": {
+          "sha256": "2a03ffaefc2c4fb60d564f00655aa518144248844b45015eb3505ffb0c1e10ec",
+          "queries": 20,
+          "positive": 9,
+          "near_miss": 6,
+          "cross_skill": 5,
+          "train": 12,
+          "validation": 8
+        }
+      },
+      "results": [
+        "results/2026-10-24-claude-code-subagents.md (rounds 1 to 6)"
+      ],
+      "change": "First fixed set: 20 queries per skill."
+    },
+    {
+      "version": 2,
+      "frozen": "2026-11-10",
+      "files": {
+        "cite-check": {
+          "sha256": "926129e80171d39dfa20f6a79eef5dda52a09a8e7296088cd5af6c0ae9bb64da",
+          "queries": 20,
+          "positive": 9,
+          "near_miss": 6,
+          "cross_skill": 5,
+          "train": 12,
+          "validation": 8
+        },
+        "wisconsin-legal-interpretation": {
+          "sha256": "9fbe46091cff5ba84b13e7e9d0a5032a4cac9b8f47d60b48e93efd8838813ae2",
+          "queries": 20,
+          "positive": 9,
+          "near_miss": 6,
+          "cross_skill": 5,
+          "train": 12,
+          "validation": 8
+        },
+        "wisconsin-legal-writing": {
+          "sha256": "24cce058915ec5892b3ba47709c08dc944e5e536b4b46e27bafa45b86aa602bc",
+          "queries": 21,
+          "positive": 10,
+          "near_miss": 6,
+          "cross_skill": 5,
+          "train": 13,
+          "validation": 8
+        }
+      },
+      "results": [],
+      "change": "One should-trigger train query added to the writing set: a letter to the court for the file. The validation letter query is unchanged and was not used to write it. No other file changed."
+    }
+  ]
+}
