@@ -92,6 +92,39 @@ Every successful declaration build says so: the form was generated from the revi
 stated use, date and place, and applicability, exclusion status, the body review and actual
 execution were not independently verified.
 
+Motions. Wis. Stat. s. 802.01(2)(d) ends: "The name of the party seeking the order or relief
+and a brief description of the type of order or relief sought shall be included in the
+caption of every written motion." A spec is a motion when document_type is "motion", a
+motion object is present, or the title opens with recognised English motion words
+("Plaintiff's Motion ...", "Motion of ...", "Joint Motion ...", "Notice of Motion and
+Motion ..."). The builder does not read a motion's title to decide who moves or what is
+sought. The reviewer states both, and the builder generates the supported titles:
+
+    "motion": {"movers": ["first_party"], "qualifier": null, "relief": "to Compel Discovery"}
+
+movers lists each party seeking the order or relief by reference: "first_party" or
+"second_party", or {"name": ..., "designation": ...} for a person the two-party caption does
+not print. qualifier is null or one of a fixed list (amended, renewed, emergency, expedited,
+unopposed, stipulated, agreed, joint, ex_parte, supplemental). relief is put after the word
+Motion as written. with_notice: true gives "Notice of Motion and Motion". From these the
+builder generates "Plaintiff's Motion to Compel Discovery", "Motion of Plaintiff to Compel
+Discovery" and the same with the party's name or designation and name. The spec's title
+must be one of them, compared without regard to case, spacing or apostrophe style. A final
+build is refused otherwise, with the titles listed, and --draft warns. No mover is listed
+twice; joint needs two or more movers; a designation alone is offered only when it
+identifies one person. A title that opens as a notice of motion or of hearing, with no
+document_type, is refused in a final build until the reviewer says whether it is the written
+motion; s. 802.01(2)(a) lets a motion be stated in a written notice of its hearing. Refused
+in every mode: a motion object or motion title with another document_type, a motion marked
+as a proposed order, unknown keys and fields of the wrong type.
+
+This generates one supported title form from the reviewer's statements. It is not a check
+of statutory compliance, and other lawful titles are refused as unsupported by the tool. A
+motion under a title the recogniser does not know, with no document_type and no motion
+object, is not treated as a motion at all. Every build whose title is one of the generated
+titles says that party status, completeness, legal adequacy and document classification
+remain unverified; a draft let through with a different title gets the warning instead.
+
 Geometry reproduced from the reference corpus:
   page 8.5 x 11; L/R margins 1.0"; T/B margins 0.95"
   Century Schoolbook (or Times New Roman) 12 pt body, justified, 1.5 line spacing
@@ -105,6 +138,7 @@ Appellate briefs and letters are not supported by this caption builder.
 import argparse
 from datetime import date
 import io
+import itertools
 import json
 import math
 from pathlib import Path
@@ -653,9 +687,214 @@ def _title_opens_as(title, pattern):
     return False
 
 
+def _fold(text):
+    return " ".join(text.replace("\u2019", "'").split()).casefold()
+
+
+def _parties(spec):
+    """(name, designation) for each side whose fields are usable strings."""
+    found = []
+    for side in ("first_party", "second_party"):
+        party = spec.get(side)
+        if isinstance(party, dict) and all(isinstance(party.get(key), str) and party[key].strip() for key in ("name", "designation")):
+            found.append((party["name"], party["designation"]))
+    return found
+
+
+_TITLE_STOP = re.compile(r"^(?:answer|motion|brief|response|reply|opposition|notice|order|memorandum|declaration|"
+                         r"affidavit|objection|stipulation|to|in|for)$", re.IGNORECASE)
+
+
+def _opens_after_parties(title, pattern, parties):
+    """A second recognizer, used in addition to _title_opens_as and never instead of it.
+
+    It follows joined possessives ("Plaintiff's and Defendant's Joint ...") and a possessive phrase
+    containing "of" or "and" when that phrase is a party's name in the spec, so "State of Anystate's
+    Motion" opens as a motion for that party and "Withdrawal of Plaintiff's Motion" does not.
+    """
+    names = {_fold(text) for name, designation in parties for text in (name, designation, f"{designation} {name}")}
+    words = title.split()
+    start = index = 0
+    while index < len(words) and index - start < 10:
+        word = words[index].strip(".,:;")
+        if _TITLE_STOP.match(word):
+            return False
+        index += 1
+        if not _POSSESSIVE.search(word):
+            continue
+        phrase = _POSSESSIVE.sub("", " ".join(words[start:index]).rstrip(".,:;"))
+        if re.search(r"(?:^|\s)(?:of|and|&)(?:\s|$)", phrase, re.IGNORECASE) and _fold(phrase) not in names:
+            return False
+        if pattern.search(" ".join(words[index:])):
+            return True
+        if index < len(words) and words[index].strip(",").lower() in ("and", "&"):
+            index += 1
+            start = index
+            continue
+        return False
+    return False
+
+
 def _is_complaint_or_summons(spec):
+    """The recognizer merged in pull request 37, unchanged, or the party-aware one. Either refuses."""
     title = spec.get("title") if isinstance(spec.get("title"), str) else ""
-    return spec.get("document_type") in ("complaint", "summons") or _title_opens_as(title, _COMPLAINT_TITLE)
+    return (spec.get("document_type") in ("complaint", "summons") or _title_opens_as(title, _COMPLAINT_TITLE)
+            or _opens_after_parties(title, _COMPLAINT_TITLE, _parties(spec)))
+
+
+# Written motions, Wis. Stat. s. 802.01(2)(d); see the module docstring. Nothing below reads a motion's
+# title to decide who moves or what is sought: the titles are generated from the fields and compared whole.
+_MOTION_TITLE = re.compile(
+    r"^\W*(?:(?:" + _TITLE_QUALIFIER + r"|joint|stipulated|agreed|unopposed|renewed|emergency|expedited|ex\s+parte|omnibus|"
+    r"combined)\s+)*(?:notice\s+of\s+motion\s+and\s+)?motions?\b", re.IGNORECASE)
+_NOTICE_TITLE = re.compile(r"^\W*notice\s+of\s+(?:motion|hearing)\b", re.IGNORECASE)
+MOTION_QUALIFIERS = {"amended": "Amended", "renewed": "Renewed", "emergency": "Emergency", "expedited": "Expedited",
+                     "unopposed": "Unopposed", "stipulated": "Stipulated", "agreed": "Agreed", "joint": "Joint",
+                     "ex_parte": "Ex Parte", "supplemental": "Supplemental"}
+_MOTION_KEYS = ("movers", "qualifier", "relief", "with_notice")
+_MOTION_RULE = ("Wis. Stat. s. 802.01(2)(d) requires the caption of every written motion to include the name of the party "
+                "seeking the order or relief and a brief description of the type of order or relief sought. ")
+_MOTION_EXAMPLE = "{\"movers\": [\"first_party\"], \"qualifier\": null, \"relief\": \"to Compel Discovery\"}"
+MOTION_NOTICE = ("The title is one supported motion title generated from the reviewer's party references, qualifier and "
+                 "relief description. This is not a check of statutory compliance; party status, completeness, legal "
+                 "adequacy and document classification remain unverified.")
+
+
+def _opens(spec, pattern):
+    return _title_opens_as(spec["title"], pattern) or _opens_after_parties(spec["title"], pattern, _parties(spec))
+
+
+def _series(items):
+    return items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]
+
+
+def _possessives(phrase):
+    return [phrase + "'s"] + ([phrase + "'"] if phrase[-1:] in "sS" else [])
+
+
+def _motion_titles(spec, given):
+    """(supported titles, problems) for a type-checked motion object. Titles are generated, never parsed."""
+    problems, movers, seen = [], [], set()
+    caption = {side: (spec[side]["name"].strip(), spec[side]["designation"].strip()) for side in ("first_party", "second_party")}
+    caption_names = {_fold(name) for name, _ in caption.values()}
+    for entry in given.get("movers", []):
+        if isinstance(entry, str):
+            if entry not in caption:
+                problems.append(f"motion.movers: {_redact(repr(entry))} is not \"first_party\" or \"second_party\"; give a person "
+                                "the caption does not print as {\"name\": ..., \"designation\": ...}")
+                continue
+            key, (name, designation) = entry, caption[entry]
+        else:
+            name, designation = entry["name"].strip(), (entry.get("designation") or "").strip() or None
+            key = ("outside", _fold(name))
+            if not name:
+                problems.append("motion.movers: a mover outside the caption needs a name")
+                continue
+            if _fold(name) in caption_names:
+                problems.append(f"motion.movers: {_redact(repr(name))} is a party in the caption; refer to that party as "
+                                "\"first_party\" or \"second_party\"")
+                continue
+        if key in seen:
+            problems.append(f"motion.movers lists {_redact(repr(name))} twice; list each party seeking the order or relief once")
+            continue
+        seen.add(key)
+        movers.append((name, designation))
+    if not given.get("movers"):
+        problems.append("motion.movers must list each party seeking the order or relief, for example [\"first_party\"]")
+    relief = " ".join(given.get("relief", "").split())
+    if not re.search(r"\w", relief):
+        problems.append("motion.relief must briefly describe the type of order or relief sought, for example \"to Compel "
+                        "Discovery\"")
+    qualifier = given.get("qualifier")
+    if qualifier == "joint" and len(movers) < 2:
+        problems.append("motion.qualifier is \"joint\" but motion.movers lists fewer than two distinct movers; consent or "
+                        "stipulation does not by itself make someone a mover")
+    if problems:
+        return [], problems
+    # A designation alone is offered only where it points at one person among the caption parties and the movers.
+    designations = [_fold(designation) for _, designation in list(caption.values())
+                    + [mover for mover in movers if mover not in caption.values()] if designation]
+    styles = []
+    if all(designation for _, designation in movers):
+        if all(designations.count(_fold(designation)) == 1 for _, designation in movers):
+            styles.append([designation for _, designation in movers])
+        styles.append([f"{designation} {name}" for name, designation in movers])
+    styles.append([name for name, _ in movers])
+    word = ((MOTION_QUALIFIERS[qualifier] + " ") if qualifier else "") + (
+        "Notice of Motion and Motion" if given.get("with_notice") else "Motion")
+    titles = []
+    for phrases in styles:
+        for combination in itertools.product(*[_possessives(phrase) for phrase in phrases]):
+            titles.append(f"{_series(list(combination))} {word} {relief}")
+        titles.append(f"{word} of {_series(phrases)} {relief}")
+    return titles, problems
+
+
+def _check_motion(spec, *, draft=False, quiet=False):
+    """Hold a motion's title to the titles generated from the reviewer's motion object.
+
+    Returns None for a document that is not treated as a motion, True for a motion whose title is one of
+    the generated titles, and False for a draft that was allowed through with problems.
+    """
+    title, typed, given = spec["title"], spec.get("document_type"), spec.get("motion")
+    opens = _opens(spec, _MOTION_TITLE)
+    problems = []
+    if typed is None and given is None and not opens:
+        if not _opens(spec, _NOTICE_TITLE):
+            return None
+        problems.append(
+            "the title opens as a notice of motion or of hearing, and document_type does not say whether this document "
+            "is the written motion. Under s. 802.01(2)(a) a motion may be stated in a written notice of its hearing. Set "
+            "document_type to \"motion\" and add the motion object if it is; set document_type to another type, for "
+            "example \"notice\", if it is a separate notice")
+    elif typed != "motion" and given is None and not opens:
+        return None
+    elif typed is not None and typed != "motion":
+        raise ValueError(
+            "contradictory spec: " + ("a motion object is given" if given is not None else "the title opens as a motion")
+            + f" but document_type is {_redact(repr(typed))}. Set document_type to \"motion\", or change the title and remove "
+              "the motion object if this is another document.")
+    elif spec.get("proposed_order"):
+        raise ValueError("contradictory spec: a motion cannot be a proposed order. Build the motion and the proposed order "
+                         "as separate documents.")
+    elif given is None:
+        problems.append("a written motion needs a motion object, for example " + _MOTION_EXAMPLE)
+    else:
+        if not isinstance(given, dict):
+            raise ValueError("motion must be an object")
+        unknown = sorted(set(given) - set(_MOTION_KEYS))
+        if unknown:
+            raise ValueError("motion has unknown key(s): " + ", ".join(_redact(repr(key)) for key in unknown)
+                             + ". Known keys: " + ", ".join(_MOTION_KEYS))
+        if "movers" in given:
+            listed = given["movers"]
+            if not isinstance(listed, list) or not all(
+                    isinstance(entry, str) or (isinstance(entry, dict) and set(entry) <= {"name", "designation"}
+                                               and isinstance(entry.get("name"), str)
+                                               and ("designation" not in entry or isinstance(entry["designation"], str)))
+                    for entry in listed):
+                raise ValueError("motion.movers must be a list whose items are \"first_party\", \"second_party\" or "
+                                 "{\"name\": text, \"designation\": text}")
+        if "relief" in given and not isinstance(given["relief"], str):
+            raise ValueError("motion.relief must be a string")
+        if "with_notice" in given and not isinstance(given["with_notice"], bool):
+            raise ValueError("motion.with_notice must be true or false")
+        if given.get("qualifier") is not None and (not isinstance(given["qualifier"], str)
+                                                   or given["qualifier"] not in MOTION_QUALIFIERS):
+            raise ValueError("motion.qualifier must be null or one of: " + ", ".join(MOTION_QUALIFIERS))
+        titles, problems = _motion_titles(spec, given)
+        if titles and _fold(title) not in {_fold(candidate) for candidate in titles}:
+            problems.append("the title is not one the builder generates from the motion object. Use one of:\n"
+                            + "\n".join("      " + _redact(candidate) for candidate in titles[:8])
+                            + "\n  or change the motion object. Other titles may be lawful; this tool supports these")
+    if not problems:
+        return True
+    message = _MOTION_RULE + "The builder generates the supported titles from the reviewer's statements:\n" + "\n".join(problems)
+    if not draft:
+        raise ValueError(message + "\nResolve these or use --draft.")
+    if not quiet:
+        print("warning: draft motion: " + message, file=sys.stderr)
+    return False
 
 
 # Unsworn declarations, Wis. Stat. s. 887.015. The builder prints the closing of the form in
@@ -851,6 +1090,8 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
     for key in ("county", "case_no", "title"):
         if not isinstance(spec[key], str) or not spec[key].strip():
             raise ValueError(f"{key} must be a non-empty string")
+    if spec.get("document_type") is not None and (not isinstance(spec["document_type"], str) or not spec["document_type"].strip()):
+        raise ValueError("document_type must be a non-empty string, or be left out")
 
     if _is_complaint_or_summons(spec):
         raise ValueError(
@@ -882,6 +1123,7 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
                 raise ValueError(f"{side}.{k} must be a non-empty string")
 
     _declaration_blocks(spec, draft=draft)
+    _check_motion(spec, draft=draft)
 
     if spec.get("appellate"):
         raise ValueError(
@@ -1013,6 +1255,8 @@ def build(spec, out_path, *, draft=False, overwrite=False, protected_info_review
     doc.save(payload)
     with out_path.open("wb" if overwrite else "xb") as output:
         output.write(payload.getvalue())
+    if _check_motion(spec, draft=draft, quiet=True) is True:
+        print(MOTION_NOTICE, file=sys.stderr)
     if closing is not None:
         purpose = (spec["declaration"].get("purpose") or "").strip() or "none stated"
         print(DECLARATION_NOTICE.format(purpose=_redact(" ".join(purpose.split()))), file=sys.stderr)
@@ -1029,6 +1273,8 @@ EXAMPLE = {
     "proposed_order": False,
     "first_party": {"name": "JANE Q. EXAMPLE", "designation": "Plaintiff"},
     "second_party": {"name": "ACME DEBT BUYER, LLC", "designation": "Defendant"},
+    "document_type": "motion",
+    "motion": {"movers": ["first_party"], "qualifier": None, "relief": "to Compel"},
     "title": "Plaintiff's Motion to Compel",
     "body": [
         {"type": "p", "text": "Plaintiff Jane Q. Example, pro se, moves the Court for an Order compelling Defendant Acme Debt Buyer, LLC (“Acme”) to provide complete discovery responses and production, and for Plaintiff's reasonable expenses incurred in making this motion, pursuant to Wis. Stat. §§ 804.09 and 804.12(1)(a)–(c), with sanctions available for noncompliance under Wis. Stat. § 804.12(2)."},

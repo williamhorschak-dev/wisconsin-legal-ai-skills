@@ -240,6 +240,8 @@ class DeclarationTests(unittest.TestCase):
                 spec = filing()
                 spec["title"] = title
                 spec["body"].append({"type": "p", "text": "The declaration says it was signed under penalty of false swearing."})
+                if title.startswith("Plaintiff's Motion"):
+                    spec["motion"] = {"movers": ["first_party"], "relief": "to Strike Defendant's Declaration"}
                 lines, notice = self.build(spec)
                 self.assertNotIn(SENTENCE, lines)
                 self.assertNotIn("Declaration form generated", notice)

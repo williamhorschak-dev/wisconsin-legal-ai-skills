@@ -6,6 +6,14 @@
   "bold_court_line": false,
   "appellate": false,
   "proposed_order": false,
+  "document_type": "motion",
+  "motion": {
+    "movers": [
+      "first_party"
+    ],
+    "qualifier": null,
+    "relief": "to Enlarge Time to [ACT]"
+  },
   "first_party": {
     "name": "[PARTY ONE]",
     "designation": "Plaintiff"
