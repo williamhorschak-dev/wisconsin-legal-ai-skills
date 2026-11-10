@@ -265,8 +265,7 @@ clearance could be switched off.
   categories in Wis. Stat. § 801.19(1)(a) in the spec text only. It cannot see exhibits,
   does not recognise every account, license or passport format, and can match numbers
   that are not protected information. It is not a redaction check.
-- In two templates a section symbol can be separated from its number by a line break,
-  and the appellate template's top margin differs from the margin table in `appellate.md`.
+- In two templates a section symbol can be separated from its number by a line break.
 - The subsequent history of cited authorities was not checked exhaustively against public
   sources where only the original opinion was read.
 - Two items in the procedure references remain marked [VERIFY]: how 2025 Wis. Act 105
