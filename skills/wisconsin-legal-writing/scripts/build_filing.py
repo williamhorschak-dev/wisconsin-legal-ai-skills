@@ -35,6 +35,13 @@ the number. The screen is a pattern match on the spec only: it does not see exhi
 not recognise every number format, can match numbers that are not protected information,
 and is not a redaction or compliance check.
 
+County check. The caption names the venue, s. 802.04(1). Without --draft the county must be
+one of the 72 counties listed in Wis. Stat. s. 752.11(1), which also assigns each county's
+judicial circuit to a court of appeals district; with --draft a placeholder county is
+accepted and any other unknown county is a warning. --district COUNTY prints the district
+s. 752.11(1) assigns. The check knows county names only; it does not decide proper venue
+or where an appeal is heard.
+
 Geometry reproduced from the reference corpus:
   page 8.5 x 11; L/R margins 1.0"; T/B margins 0.95"
   Century Schoolbook (or Times New Roman) 12 pt body, justified, 1.5 line spacing
@@ -424,6 +431,37 @@ def build_signature(doc, sig, size):
 
 # --------------------------------------------------------------------- main
 
+# Wis. Stat. s. 752.11(1)(a)-(d): the court of appeals districts and the counties whose
+# judicial circuits each consists of. Read 2026-11-09; 72 counties.
+COURT_OF_APPEALS_DISTRICTS = {
+    "I": ("Milwaukee",),
+    "II": ("Kenosha", "Racine", "Walworth", "Waukesha", "Washington", "Ozaukee", "Sheboygan", "Manitowoc",
+           "Fond du Lac", "Green Lake", "Winnebago", "Calumet"),
+    "III": ("Door", "Kewaunee", "Brown", "Oconto", "Marinette", "Forest", "Florence", "Outagamie", "Menominee",
+            "Shawano", "Langlade", "Marathon", "Lincoln", "Oneida", "Vilas", "Taylor", "Price", "Iron", "Ashland",
+            "Bayfield", "Sawyer", "Rusk", "Chippewa", "Eau Claire", "Trempealeau", "Buffalo", "Pepin", "Dunn",
+            "Pierce", "St. Croix", "Barron", "Polk", "Burnett", "Washburn", "Douglas"),
+    "IV": ("Rock", "Green", "Jefferson", "Dodge", "Dane", "Lafayette", "Iowa", "Grant", "Richland", "Crawford",
+           "Sauk", "Columbia", "Marquette", "Waushara", "Waupaca", "Portage", "Wood", "Adams", "Juneau", "Jackson",
+           "Clark", "Monroe", "Vernon", "La Crosse"),
+}
+
+
+def _county_key(name):
+    key = re.sub(r"\s+county\s*$", "", name.strip(), flags=re.IGNORECASE)
+    key = re.sub(r"^(?:saint|st\.?)\s+", "st ", key, flags=re.IGNORECASE)
+    return re.sub(r"[\s.]+", " ", key).strip().lower()
+
+
+_COUNTY_DISTRICT = {_county_key(county): (county, district)
+                    for district, counties in COURT_OF_APPEALS_DISTRICTS.items() for county in counties}
+
+
+def district_for(county):
+    """Return (county name, district) under s. 752.11(1), or None for a name not listed there."""
+    return _COUNTY_DISTRICT.get(_county_key(county)) if isinstance(county, str) else None
+
+
 REQUIRED_TOP = ("county", "case_no", "title", "first_party", "second_party")
 _PLACEHOLDER = re.compile(
     r"\[[^\]\n]+\]|_{2,}|<[^<>\r\n]+>|\{[^{}\r\n]+\}|"
@@ -588,6 +626,16 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
     for key in ("county", "case_no", "title"):
         if not isinstance(spec[key], str) or not spec[key].strip():
             raise ValueError(f"{key} must be a non-empty string")
+
+    if district_for(spec["county"]) is None:
+        # A placeholder county is tolerated only in a draft; a final build always needs a listed county.
+        message = (f"county {_redact(repr(spec['county']))} is not one of the 72 Wisconsin counties listed in Wis. Stat. "
+                   "s. 752.11(1); the caption must name the venue, s. 802.04(1). Give the county's name, for "
+                   "example \"La Crosse\" or \"St. Croix\"")
+        if not draft:
+            raise ValueError(message + ".")
+        if not re.search(r"\[[^\]\n]+\]|_{2,}", spec["county"]):
+            print("warning: " + message + ".", file=sys.stderr)
 
     for side in ("first_party", "second_party"):
         p = spec.get(side) or {}
@@ -776,8 +824,18 @@ def main():
                     help="print a worked example spec and exit")
     ap.add_argument("--doctypes", action="store_true",
                     help="list the built-in document skeletons and exit")
+    ap.add_argument("--district", metavar="COUNTY",
+                    help="print the court of appeals district Wis. Stat. s. 752.11(1) assigns to a county and exit")
     args = ap.parse_args()
 
+    if args.district:
+        found = district_for(args.district)
+        if not found:
+            ap.exit(2, f"build_filing: {args.district!r} is not one of the 72 counties listed in Wis. Stat. s. 752.11(1)\n")
+        letter = {"I": "a", "II": "b", "III": "c", "IV": "d"}[found[1]]
+        print(f"{found[0]} County: Court of Appeals District {found[1]}, Wis. Stat. s. 752.11(1)({letter}). "
+              "This is the statutory district list, not a determination of where a particular appeal is heard.")
+        return
     if args.doctypes:
         for k, v in DOCTYPES.items():
             print(f"{k:18s} {v}")

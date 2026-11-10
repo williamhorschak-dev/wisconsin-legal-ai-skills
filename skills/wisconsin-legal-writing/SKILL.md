@@ -126,6 +126,8 @@ or necessary to the action. The refusal names the spec path and category and nev
 the number. `--draft` warns instead, and `--protected-info-reviewed` builds after a match has
 been checked. It is a pattern screen of the spec only: it misses formats it does not know,
 does not see exhibits, and is not a redaction check. See `references/circuit-court.md`.
+A final build's county must be one of the 72 counties in Wis. Stat. § 752.11(1);
+`--district COUNTY` prints its court of appeals district.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

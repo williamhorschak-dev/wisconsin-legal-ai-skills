@@ -26,7 +26,7 @@ MODULE_SPEC.loader.exec_module(builder)
 
 def filing():
     return {
-        "county": "Synthetic",
+        "county": "La Crosse",
         "case_no": "TEST-1",
         "title": "Synthetic motion for testing",
         "first_party": {"name": "Alex Example", "designation": "Plaintiff"},
@@ -291,6 +291,58 @@ class FilingBuilderTests(unittest.TestCase):
         reviewed = self.cli(spec, "--protected-info-reviewed", "--overwrite")
         self.assertEqual(reviewed.returncode, 0, reviewed.stderr)
         self.assertNotIn("protected information", reviewed.stderr)
+
+    def test_county_must_be_a_wisconsin_county_and_every_county_has_one_district(self):
+        districts = builder.COURT_OF_APPEALS_DISTRICTS
+        names = [county for counties in districts.values() for county in counties]
+        self.assertEqual(len(names), 72)
+        self.assertEqual(len(set(names)), 72)
+        self.assertEqual({key: len(value) for key, value in districts.items()}, {"I": 1, "II": 12, "III": 35, "IV": 24})
+        for given, expected in (("La Crosse", ("La Crosse", "IV")), ("LA CROSSE COUNTY", ("La Crosse", "IV")),
+                                ("Saint Croix", ("St. Croix", "III")), ("st croix county", ("St. Croix", "III")),
+                                ("Fond du Lac", ("Fond du Lac", "II")), ("Milwaukee", ("Milwaukee", "I")),
+                                ("Trempealeau", ("Trempealeau", "III")), ("Green", ("Green", "IV")),
+                                ("Green Lake", ("Green Lake", "II"))):
+            with self.subTest(county=given):
+                self.assertEqual(builder.district_for(given), expected)
+                spec = filing()
+                spec["county"] = given
+                builder.build(spec, self.output, overwrite=True)
+        for wrong in ("La Cross", "Synthetic", "Cook", "Lacrosse", "La Cross[", "[", "[]", "[COUNTY]", "La Crosse]"):
+            with self.subTest(wrong=wrong):
+                self.assertIsNone(builder.district_for(wrong))
+                spec = filing()
+                spec["county"] = wrong
+                self.output.unlink(missing_ok=True)
+                with self.assertRaises(ValueError):
+                    builder.build(spec, self.output)
+                self.assertFalse(self.output.exists())
+        spec = filing()
+        spec["county"] = "La Cross["
+        with self.assertRaisesRegex(ValueError, "752.11\\(1\\).*802.04\\(1\\)"):
+            builder.build(spec, self.output)
+        spec["county"] = "Synthetic"
+        draft = self.cli(spec, "--draft")
+        self.assertEqual(draft.returncode, 0, draft.stderr)
+        self.assertIn("warning: county 'Synthetic' is not one of the 72 Wisconsin counties", draft.stderr)
+        spec["county"] = "[COUNTY]"
+        placeholder = self.cli(spec, "--draft", "--overwrite")
+        self.assertEqual(placeholder.returncode, 0, placeholder.stderr)
+        self.assertNotIn("is not one of the 72", placeholder.stderr)
+        listed = subprocess.run([sys.executable, str(SCRIPT), "--district", "Trempealeau County"],
+                                capture_output=True, text=True, encoding="utf-8")
+        self.assertEqual(listed.returncode, 0, listed.stderr)
+        self.assertIn("Trempealeau County: Court of Appeals District III, Wis. Stat. s. 752.11(1)(c)", listed.stdout)
+        unknown = subprocess.run([sys.executable, str(SCRIPT), "--district", "Cook"], capture_output=True, text=True, encoding="utf-8")
+        self.assertEqual(unknown.returncode, 2)
+
+    def test_captions_reference_lists_the_same_districts_as_the_builder(self):
+        text = (SCRIPT.parents[1] / "references" / "captions.md").read_text(encoding="utf-8")
+        for district, counties in builder.COURT_OF_APPEALS_DISTRICTS.items():
+            row = re.search(rf"^\| \*\*{district}\*\* \| ([^|]+) \|", text, re.MULTILINE)
+            self.assertIsNotNone(row, district)
+            listed = [name.strip() for name in row.group(1).split(",")]
+            self.assertEqual(sorted(listed), sorted(counties))
 
     def test_generated_non_draft_does_not_invent_blank_attorney_date(self):
         spec = filing()
