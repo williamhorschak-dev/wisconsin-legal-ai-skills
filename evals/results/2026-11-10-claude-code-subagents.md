@@ -78,8 +78,9 @@ no tools, automatic skills or hidden instructions. This run did not meet that.
    change. [collection-audit.json](2026-11-10-run/collection-audit.json) marks them.
 5. **One agent wrote its answer file twice** (I04 baseline). The second write is the answer
    recorded.
-6. **Review was by the project's own AI coordinator.** It is not independent and it is not
-   human or attorney review. No second grader scored the answers.
+6. **Review was by the project's own AI coordinator, and it was not blind.** The reviewer
+   knew which condition each answer came from. It is not independent and it is not human or
+   attorney review. No second grader scored the answers.
 
 ## Observations outside the rubric
 
