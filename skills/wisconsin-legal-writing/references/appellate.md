@@ -253,6 +253,32 @@ Excluded from the **page** count (Judicial Council Note): table of contents, tab
 of authorities, statement of issues, statement on oral argument and publication,
 appendix, supplemental appendix.
 
+**What counts toward the word limit.** For a party's brief the limit applies to "those
+portions of the brief referred to in sub. (1) (d), (e) and (f)": the statement of the
+case, the argument and the conclusion. § 809.19(8)(c)1. For a reply brief and a nonparty
+brief it applies to the portions referred to in sub. (1)(e) and (f). § 809.19(8)(c)2.-3.
+The certified count may be the one a commercial word processor reports, and it must
+include the words of any text included as an image. § 809.19(8g)(a)2.
+
+### Measure the brief before certifying
+
+```sh
+python <skill-dir>/scripts/check_appellate_brief.py brief.docx --kind appellant
+```
+
+`--kind` is `appellant`, `respondent`, `reply` or `nonparty`. The script reads the DOCX
+and reports, with the subsection for each: page size, (8)(b)2.; side margins of at least
+1.25 inch and top and bottom margins of at least 1 inch, (8)(b)3.e.; body text of at
+least 13 point and block quotes of at least 11 point, and body line spacing between 1.15
+and 1.5, (8)(b)3.c.; a centered page number in every footer starting at 1, (8)(bm); and
+the words in the counted portions against the limit for that kind of brief, (8)(c). It
+exits 1 when a measurement departs from the rule or cannot be verified, for example when
+the headings STATEMENT OF THE CASE, ARGUMENT and CONCLUSION are not on their own lines or
+an image sits in the counted text. It does not read the filed PDF, tell a proportional
+serif font from another font, or read text in images, and its count is a cross-check:
+the certification under § 809.19(8g)(a) is the filer's own statement.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-11-09), U-08: Wis. Stat. § 809.19(1)(d)-(f), (8)(b)2., (8)(b)3.c. and e., (8)(bm), (8)(c)1.-3., (8g)(a)1.-2., https://docs.legis.wisconsin.gov/document/statutes/809.19(8) and .../809.19(8g), read 2026-11-09 (page banner: updated through 2025 Wis. Act 247). Second AI review pending. -->
+
 **Cross-appeals, Rule 809.19(6).** Wisconsin has no analogue to FRAP 28.1(e)(2)'s
 enlarged cross-appeal limits. Neither combined brief gets an enlarged allowance; each
 *portion* carries its own ordinary limit under (8)(c), counted separately, and each

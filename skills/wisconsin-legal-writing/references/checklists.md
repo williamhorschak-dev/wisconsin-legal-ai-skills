@@ -195,6 +195,8 @@ do not label a compliant alternative a filing blocker without a governing rule.
       not address. See `appellate.md`.
 - [ ] Confidential material in the appendix reproduced by initials with a notation
       that it was so reproduced. Rule 809.19(2)(am).
+- [ ] `check_appellate_brief.py` run on the final DOCX with the right `--kind`, and
+      every item it reports resolved or explained. § 809.19(8)(b), (bm), (c).
 - [ ] Certifications under Rule 809.19(8g)(a) and (b): **unless self-represented,
       which is exempt from certifying but not from complying.**
 - [ ] Do **not** include the repealed electronic-copy certification.

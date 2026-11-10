@@ -26,6 +26,11 @@ Wis. Stat. s. 887.015(6) form (facts first, then the false-swearing sentence and
 word/document.xml changed. Word 16.0: 2 pages, unchanged, first paragraph at 2.00 in; the Word-saved PDF,
 read with PyMuPDF, gave 2.00 in on page 1 and 1.18 in on page 2; both pages viewed by an AI agent. In the
 unfilled template the execution line and signature block fall on page 2. Not an attorney review.
+On 2026-11-09 the top margin of 10-appellate-brief.docx was raised from 0.5 in to 1.0 in to meet the
+1-inch minimum of Wis. Stat. s. 809.19(8)(b)3.e. Only word/document.xml changed. Word 16.0 and its saved
+PDF: body text had begun at 0.50 to 1.25 in on pages 2 to 5 and now begins at 1.00 in on pages 2 to 6;
+the cover is unchanged at 2.32 in; 6 pages, was 5. Pages 1 to 3 viewed by an AI agent. Not an attorney
+review.
 Content hashes bind each record to these bytes. The Word check is not renderer-independent
 layout equality, and it is not an attorney review.
 

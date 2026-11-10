@@ -135,7 +135,9 @@ appeals district.
 `scripts/wi_values.py` lists the dated numbers the references repeat (small-claims amounts,
 appellate length and form limits, counting periods) with their authority, and
 `--check-references` exits 1 when a reference file states a number that is not the one in
-force on the date given.
+force on the date given. `scripts/check_appellate_brief.py brief.docx --kind <kind>` measures
+a Court of Appeals brief against the form and length rules of § 809.19(8) and exits 1 on a
+departure; see `references/appellate.md`.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

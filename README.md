@@ -268,8 +268,11 @@ clearance could be switched off.
 - `wi_values.py` holds numbers read from the published statutes on the date it records.
   It does not watch for new acts, and it does not decide which claims a changed amount
   first applies to.
-- In two templates a section symbol can be separated from its number by a line break,
-  and the appellate template's top margin differs from the margin table in `appellate.md`.
+- In two templates a section symbol can be separated from its number by a line break.
+- `check_appellate_brief.py` measures a DOCX against Wis. Stat. § 809.19(8). It does not
+  read the filed PDF, tell a proportional serif font from another font, or read text in
+  images, and it finds the counted portions by their headings. Its word count is a
+  cross-check, not the certified count.
 - The subsequent history of cited authorities was not checked exhaustively against public
   sources where only the original opinion was read.
 - Two items in the procedure references remain marked [VERIFY]: how 2025 Wis. Act 105
