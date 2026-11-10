@@ -325,6 +325,37 @@ Every retrieved statute, rule, or ordinance file carries a header recording: sou
 date, the site's currency banner verbatim, and the operative date the version was selected for.
 Without those four lines the file cannot support a vintage claim later.
 
+**What the published page itself says about dates.** On the section pages checked, the
+legislature's site prints a currency line of the form "2023-24 Wisconsin Statutes updated
+through [act] and through all Supreme Court Orders ... filed before and in effect on [date]
+... Changes effective after [date] are designated by NOTES. (Published [date])". A page can
+therefore show text that is **not yet in force**: where an enacted amendment has a later
+effective date, the section prints the amended text, then a NOTE such as "Par. (c) is shown
+as amended eff. [date] by [act]. Prior to [date] it reads:", then the earlier text. Each
+section ends with a History note listing the acts and Supreme Court orders that created or
+amended it. An order's number is its docket number, not its date: a note can list "Sup. Ct.
+Order No. 08-02, 2009 WI 2". Preserve those lines when saving a page, name the file
+`Wis-Stat-<section> ...`, and run:
+
+```sh
+python <skill-dir>/scripts/statute_vintage.py "sources/statutes/<file>" --section <number> --operative-date <YYYY-MM-DD>
+```
+
+The script exits 1 when the section has an effective-date NOTE; when the operative date is
+earlier than the copy's publication date and the History note lists an act or order dated
+in the operative year or later, or an order with no readable year; when the copy is more
+than 45 days older than the operative date (this project's screening interval, not a legal
+safe harbor); or when the copy has no currency line, no History note, or no line for the
+section. `check_memo.py --sources` runs the same screen on every cited `Wis-Stat-` file,
+warns when one cannot be screened, and reports an error until the memo names each flagged
+act (year and number) or order (its number, or where it is printed when the note gives no
+number) in visible text in the same paragraph or table row as that file. That checks that
+the memo addresses the flag, not that it resolves it
+correctly. A clean screen does not establish the text in force: History notes are editorial,
+an act's initial-applicability and nonstatutory provisions do not appear in them, and text
+extracted from a chapter PDF is not parsed reliably. Read the act.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09, rebuilt to the second AI review by Astra, a Codex model, of 2026-11-09; this revision awaits its own second review), U-07: the currency line, effective-date NOTEs and History notes as published at https://docs.legis.wisconsin.gov/document/statutes/799.01, .../995.20 and .../809.23 (History listing "Sup. Ct. Order No. 08-02, 2009 WI 2" and "Sup. Ct. Order No. 20-07, 2021 WI 37"), read 2026-11-09 (Published 11-4-26). A description of the published layout on those pages, not a rule of law. -->
+
 **Files are load-bearing once cited.** A memo references these paths; renaming or moving a file
 after delivery silently breaks the chain. Do not reorganize `sources/` after a memo references
 it.

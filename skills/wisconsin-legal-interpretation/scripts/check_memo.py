@@ -24,6 +24,9 @@ import re
 import sys
 import unicodedata
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import statute_vintage  # noqa: E402
+
 REQUIRED_SECTIONS = [
     "Question Presented",
     "Short Answer",
@@ -1624,6 +1627,92 @@ def check_sources(body: str, frontmatter_raw: str, sources_dir: str | None, *,
             err(f"Referenced source file not found on disk: {p}")
 
 
+STATUTE_COPY_NAME = re.compile(r"^Wis-Stat-(\d{1,3}\.\d{1,4})(?!\d)", re.IGNORECASE)
+
+
+def _visible_units(body: str) -> list[str]:
+    """Paragraphs and table rows a reader sees: HTML comments removed, one unit per line of a table."""
+    visible = re.sub(r"<!--.*?-->", " ", body, flags=re.DOTALL)
+    units = []
+    for block in re.split(r"\n\s*\n", visible):
+        lines = block.split("\n")
+        if any(line.lstrip().startswith("|") for line in lines):
+            units.extend(lines)
+        else:
+            units.append(" ".join(lines))
+    return units
+
+
+def check_statute_vintage(body: str, fm: dict, sources_dir: str | None) -> None:
+    """Screen each cited statute copy against operative_date; a flagged act must be acknowledged.
+
+    A statute copy is a cited file named Wis-Stat-<section>..., the naming this skill prescribes.
+    When the screen flags an act or a Supreme Court order, the memo must name it in visible text
+    in the same paragraph or table row as that file's name: an act by year and number, an order
+    by its number or, when the History note gives none, by where it is printed ("92 Wis. 2d
+    xiii"). The check is that the memo addresses the flag, not that it resolves it correctly.
+    """
+    if not sources_dir or not os.path.isdir(sources_dir):
+        return
+    stated = re.search(r"\d{4}-\d{2}-\d{2}", fm.get("operative_date", "") or "")
+    try:
+        operative = datetime.date.fromisoformat(stated.group(0)) if stated else None
+    except ValueError:
+        operative = None
+    units = _visible_units(body)
+    for folder, _, names in os.walk(sources_dir):
+        for name in sorted(names):
+            number = STATUTE_COPY_NAME.match(name)
+            if not number or name not in body:
+                continue
+            if operative is None:
+                warn(f"Statute vintage: `{name}` was not screened because operative_date has no YYYY-MM-DD date.")
+                continue
+            path = os.path.join(folder, name)
+            try:
+                if os.path.splitext(name)[1].lower() not in (".txt", ".md", ".html", ".htm"):
+                    raise ValueError("not a text, Markdown or HTML copy")
+                if os.path.getsize(path) > 5_000_000:
+                    raise ValueError("larger than 5 MB")
+                with open(path, encoding="utf-8-sig") as handle:
+                    result = statute_vintage.screen(handle.read(), operative, number.group(1))
+                if result is None:
+                    raise ValueError("no currency line, History note or effective-date NOTE in it")
+            except (OSError, ValueError) as exc:
+                warn(f"Statute vintage: `{name}` is cited as a statute copy but could not be screened ({exc}). Save the "
+                     "section page from the legislature's site with its currency line and History note.")
+                continue
+            mine = [unit for unit in units if name in unit]
+            for item in result["flags"]:
+                identity = item["identity"]
+                if identity is None:
+                    warn(f"Statute vintage: `{name}`: {item['text']}.")
+                    continue
+                act = re.fullmatch(r"((?:19|20)\d{2}) Wis\. Act (\d+)", identity)
+                chapter = re.fullmatch(r"chapter (\d+), Laws of (\d{4})", identity)
+                order = re.search(r"No\. (\d{2}-\d+[A-Z]?)", identity)
+                printed = re.search(r"(\d{1,3}) Wis\. 2d ([ivxlcdm]+)", identity)
+                if act:
+                    wanted = rf"\b{act.group(1)}\s+Wis(?:\.|consin)\s+Act\s+{act.group(2)}\b"
+                elif chapter:
+                    wanted = (rf"\bchapter\s+{chapter.group(1)},?\s+Laws\s+of\s+{chapter.group(2)}\b"
+                              rf"|\b{chapter.group(2)}\s+c\.\s+{chapter.group(1)}\b")
+                elif order:
+                    wanted = rf"Order\s+No\.\s+{re.escape(order.group(1))}\b"
+                elif printed:
+                    wanted = rf"\b{printed.group(1)}\s+Wis\.\s*2d\s+{printed.group(2)}\b"
+                else:
+                    wanted = r"Sup(?:reme|\.)\s+C(?:our)?t\.?\s+[Oo]rder"
+                if any(re.search(wanted, unit) for unit in mine):
+                    note(f"Statute vintage: `{name}` carries a signal for {identity}, which the memo names beside that source. "
+                         "Whether the memo resolves it correctly is not checked.")
+                else:
+                    err(f"Statute vintage: `{name}` shows {item['text']}. The memo's operative date is "
+                        f"{operative.isoformat()}. Name {identity} in visible text in the same paragraph or "
+                        "table row as that source, and say which text applies on the operative date; or correct the "
+                        "operative date.")
+
+
 def main() -> int:
     # A path or name outside the console code page must not turn finished work into a failure.
     if hasattr(sys.stdout, "reconfigure"):
@@ -1672,6 +1761,7 @@ def main() -> int:
             "warning."
         )
     check_sources(body, fm_raw, args.sources, formal=args.formal)
+    check_statute_vintage(body, fm, args.sources)
 
     leftover = PLACEHOLDER.findall(body)
     if leftover:

@@ -109,7 +109,7 @@ class FormalMemoTests(unittest.TestCase):
             self.assertIn("No YAML frontmatter", result.stdout)
 
     def test_existing_source_with_spaces_is_not_truncated(self):
-        name = "Wis-Stat-809.23 (2023-24).md"
+        name = "Synthetic Rule 900.1 (2023-24).md"
         self.assert_clean(self.run_memo(memo("sources/" + name), source_name=name))
 
     def test_missing_source_with_spaces_is_still_rejected(self):
