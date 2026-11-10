@@ -83,7 +83,9 @@ analysis, or a formal memo.
 
 ## Three operating modes
 
-Pick one and say which you are in. **Default to Quick lookup.** Escalate only when the question
+Pick one and say which you are in, in plain words: a quick lookup, an analysis of a contested
+reading, or a formal memo. The numbers below are this skill's own labels; do not write "Mode 1",
+"Mode 2" or "Mode 3" in an answer. **Default to Quick lookup.** Escalate only when the question
 is genuinely contested or the user asks.
 
 ### Mode 1 — Quick lookup (default)

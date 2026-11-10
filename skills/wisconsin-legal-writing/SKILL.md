@@ -35,6 +35,8 @@ representation status, relief requested, operative dates, service method, releva
 and confidentiality status. Check admission requests and their response periods when
 discovery is involved. Check actual conferral when a motion requires it.
 
+When the user limits a draft to supplied facts or words, add no statement to the body, not
+even customary wording; offer it as a suggestion outside the draft.
 Never invent record facts, service dates, document numbers, quotations, attorney status,
 or signatures. Distinguish allegations, record evidence, inferences, and missing facts.
 Use `[DATE]`, `(Doc. __:__)`, or another unmistakable placeholder when necessary.

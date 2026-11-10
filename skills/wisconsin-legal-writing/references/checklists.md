@@ -127,7 +127,9 @@ do not label a compliant alternative a filing blocker without a governing rule.
       not this template's generic affidavit.
 - [ ] Uses the § 887.015 statutory form, with actual signature, date, and
       **city or other location, and state or country**.
-- [ ] Personal knowledge stated in paragraph 1.
+- [ ] Personal knowledge stated in paragraph 1. Where the user limits the draft to supplied
+      facts, propose that sentence outside the draft instead of adding it: every statement
+      in a declaration is the declarant's own, and the declarant decides what to state.
 - [ ] One fact per numbered paragraph; no argument, no legal conclusions.
 - [ ] Every exhibit referenced is attached and identified as a true and correct
       copy.
