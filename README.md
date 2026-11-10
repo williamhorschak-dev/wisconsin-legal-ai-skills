@@ -265,6 +265,10 @@ clearance could be switched off.
   categories in Wis. Stat. § 801.19(1)(a) in the spec text only. It cannot see exhibits,
   does not recognise every account, license or passport format, and can match numbers
   that are not protected information. It is not a redaction check.
+- `wi_values.py` holds numbers read from the published statutes on the date it records.
+  It refuses dates before the range it was verified for, does not watch for new acts, and
+  does not decide which claims a changed amount first applies to. Its reference check
+  compares numbers in listed sentences; it does not review the law.
 - In two templates a section symbol can be separated from its number by a line break.
 - The subsequent history of cited authorities was not checked exhaustively against public
   sources where only the original opinion was read.

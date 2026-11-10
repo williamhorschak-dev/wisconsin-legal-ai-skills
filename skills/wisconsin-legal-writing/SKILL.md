@@ -130,6 +130,12 @@ A final build's county must be one of the 72 counties in Wis. Stat. § 752.11(1)
 `--district COUNTY` prints its court of appeals district. The builder does not produce a
 complaint or a summons, whose captions Wis. Stat. §§ 802.04(1) and 801.09(1) require to
 carry more than it prints; it refuses them in every mode.
+`scripts/wi_values.py` lists the dated numbers the references repeat (small-claims amounts,
+appellate length and form limits, counting periods, the ordinary appeal periods) with the
+authority and conditions of each. It answers only for dates from the one its sources were
+verified for and refuses earlier ones; for a later date it reports the law as read,
+including amendments then enacted. `--check-references` exits 1 when a listed sentence in
+a reference file states a different number or can no longer be found.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested
