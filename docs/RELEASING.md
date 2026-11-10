@@ -8,7 +8,9 @@ solo-maintainer project. Do not bypass a failing check to publish.
 Before a release:
 
 1. Update `VERSION`, all three skills' `metadata.version`, release notes, and the
-   tested compatibility record. Review source-maintenance reminders and changed
+   tested compatibility record, including its claims table (test count and rebuild
+   row), and the heading and first paragraph of `docs/KNOWN-LIMITS.md`. The README
+   repeats none of these figures. Review source-maintenance reminders and changed
    template records. Describe pending checks explicitly.
 2. Refresh manifests after reviewing the changes. Run the test suite, skill/suite/
    source validators, and any required rendered-page or behavioral checks.

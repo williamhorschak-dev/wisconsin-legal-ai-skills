@@ -16,6 +16,41 @@ merely because its fixture exists. There is no published model score, legal-accu
 score, or attorney approval for this release. Current publication provides tested
 helpers and evaluation infrastructure, not a completed cross-model benchmark.
 
+## Claims and their status
+
+Moved here from the README on 2026-11-10 without changing a word. Update the test count and the rebuild row at
+every release.
+
+| Claim | Status |
+|---|---|
+| The skill packages pass the repository's checks (metadata, links, legal notice, checksums) | Run by CI on every push to `main`. |
+| The Python tools have a regression test suite | 222 tests. CI ran all 222 on Ubuntu and Windows with Python 3.10 and 3.12 at commit cad5d20 (run 42838815445), the last change merged before the version bump for this release. |
+| Release files can be rebuilt from the tagged commit | For release 2026.11.10.2, each of the four CI jobs (run 42840104777 at the tagged commit a405031) produced all nine files byte-identical to the published assets, which were built under CPython 3.12, checked 2026-11-10. For release 2026.11.10.1, each of the four CI jobs (run 42830448912 at the tagged commit 335f21b) produced all nine files byte-identical to the published assets, which were built under CPython 3.12, checked 2026-11-10. For release 2026.11.08.1, each of the four CI jobs (run 42542908238 at the tagged commit fd525a8) produced all nine files byte-identical to the published assets, checked 2026-11-08, after the five ZIPs and the checksum file first uploaded from a CPython 3.14 build were replaced with the CPython 3.12 build the same hour; the two builds had identical ZIP members and differed only in compressed bytes. For release 2026.11.07.1, each of the four CI jobs (Ubuntu and Windows, Python 3.10 and 3.12; run 42440778709 at the tagged commit a58f32e) produced all nine files byte-identical to the published assets, checked 2026-11-07. The same held for 2026.10.24.2 (run 40150567840) and 2026.10.24.1 (run 40146773285). For release 2026.09.20.2, a rebuild on CPython 3.12 on 2026-10-11 matched every published asset byte for byte; a rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. No independent rebuild of release 2026.10.13.1 was recorded. |
+| Word templates build and render | The 11 JSON-backed templates rebuild in tests. On 2026-11-07 all 11 were rebuilt with an exact-height page-1 clearance; Word 16.0 and its exported PDF place page 1 text at 2.00 in (3.00 in for the proposed order), page counts unchanged; on 2026-11-08 a second AI reviewer rendered two of them with LibreOffice 26.8.2.2 and measured a constant 0.03 in glyph-box offset from those positions, no clipping. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. No attorney reviewed them. See [TEMPLATE-QA.md](TEMPLATE-QA.md). |
+| Any model follows these skills | **No trial recorded by the project.** As of 2026-11-08, the project's release record (see below) lists no model or host trial. The 24-scenario [evaluation suite](../evals/README.md) and its harness have no recorded results. A separate exploratory evaluation is summarized after this table; it is not a certification. |
+| Claude Code, Codex, Claude upload, or ChatGPT find and use the skills | **Six rounds recorded, 2026-10-24,** all in Claude Code desktop subagents on one Windows host. No unwanted activation on any near-miss or cross-skill query in any round. Should-trigger queries that loaded their skill, one run each: on claude-haiku-5-5, 1 of 9, 3 of 9 and 3 of 9; on claude-sonnet-5-5, 6 of 9, 8 of 9 and 8 of 9 (cite-check, interpretation, writing). The interpretation description in this release gained one sentence and then passed 9 of 9 on Sonnet; two candidate sentences for cite-check did not help and were not adopted. See [the record](../evals/triggers/results/2026-10-24-claude-code-subagents.md). Codex, Claude upload and ChatGPT: not tested; layouts follow vendor documentation. |
+| The legal statements are correct and current | **Not established.** There has been no attorney review. See [KNOWN-LIMITS.md](KNOWN-LIMITS.md). |
+
+**Exploratory model evaluation, 2026-10-11 (repetition 1 only).** An AI-assisted
+assessment ran 12 fresh test cases, built on Wisconsin law or synthetic fixtures, that are not in
+the repository's 24-scenario suite. Each was answered by a new Claude Code session
+reporting the model `claude-sonnet-5-5`, once with no skill (A) and once with the text of release
+2026.09.20.2 supplied in the prompt (B). Two AI scorers, the second added on 2026-10-12,
+each rated all 24 responses from 0 to 3 for task completion against sealed expected answers
+without seeing the other's scores. They gave the same primary score to 23 of the 24 responses.
+The pooled mean was 2.04 without the skill and 2.58 with it; B scored higher in 6 cases,
+equal in 6, and lower in none, and neither scorer recorded a material legal error, an
+invented authority or check, or a failure to resist an injected instruction in either
+condition. The protocol's improvement verdict is provisional because the second repetition
+was not run, and one response that the scorers rated 2 points apart on a secondary
+dimension has not been reconciled. The limits are large: one repetition, one model, AI
+scorers only, no attorney review, isolation and tool limits enforced by instruction rather
+than by the host, and the skill text pasted in rather than installed, so the result says
+nothing about whether any host finds or starts a skill, or about the bundled scripts. Both
+scorers identified the condition of all 24 responses, so the scoring was effectively
+unblinded. Read it as an exploratory measurement of task completion, not as evidence that
+the legal content is correct. It was run on release 2026.09.20.2, not on this release.
+
 ## Record of 2026-11-10 (release 2026.11.10.2)
 
 - **CI.** The validate workflow (Ubuntu and Windows, each on Python 3.10 and 3.12) passed in
