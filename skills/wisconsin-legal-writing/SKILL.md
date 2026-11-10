@@ -129,7 +129,9 @@ carry the Wis. Stat. § 887.015(6) words "under penalty of false swearing under 
 Wisconsin" and a "Signed on [date], at [place]" line; the builder checks the form only.
 The builder refuses a complaint or summons, whose captions Wis. Stat. §§ 802.04(1) and
 801.09(1) require to carry more than it prints, and a final motion whose title does not
-name the moving party and the relief sought, § 802.01(2)(d).
+name the moving party and the relief sought, § 802.01(2)(d). A final build's county must be
+one of the 72 counties in Wis. Stat. § 752.11(1); `--district COUNTY` prints its court of
+appeals district.
 `scripts/wi_values.py` lists the dated numbers the references repeat (small-claims amounts,
 appellate length and form limits, counting periods) with their authority, and
 `--check-references` exits 1 when a reference file states a number that is not the one in

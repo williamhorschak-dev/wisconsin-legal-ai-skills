@@ -118,18 +118,24 @@ header, an eFiling reference, or another party's document title.
 
 ### Counties and courts
 
-| County | Circuit Court | Court of Appeals district |
-|---|---|---|
-| La Crosse | La Crosse County | **District IV** (Madison) |
-| Trempealeau | Trempealeau County | **District III** (Wausau) |
-| Jackson | Jackson County | District IV |
-| Monroe | Monroe County | District IV |
-| Vernon | Vernon County | District IV |
-| Buffalo | Buffalo County | District III |
-| Eau Claire | Eau Claire County | District III |
+Wis. Stat. § 752.11(1) divides the court of appeals into four districts, each made up
+of the judicial circuits for the counties listed:
 
-Wis. Stat. § 752.11(1). Note the split: La Crosse, Monroe, Vernon, and Jackson go
-to Madison; adjacent Trempealeau, Buffalo, and Eau Claire go to Wausau.
+| District | Counties | Authority |
+|---|---|---|
+| **I** | Milwaukee | § 752.11(1)(a) |
+| **II** | Kenosha, Racine, Walworth, Waukesha, Washington, Ozaukee, Sheboygan, Manitowoc, Fond du Lac, Green Lake, Winnebago, Calumet | § 752.11(1)(b) |
+| **III** | Door, Kewaunee, Brown, Oconto, Marinette, Forest, Florence, Outagamie, Menominee, Shawano, Langlade, Marathon, Lincoln, Oneida, Vilas, Taylor, Price, Iron, Ashland, Bayfield, Sawyer, Rusk, Chippewa, Eau Claire, Trempealeau, Buffalo, Pepin, Dunn, Pierce, St. Croix, Barron, Polk, Burnett, Washburn, Douglas | § 752.11(1)(c) |
+| **IV** | Rock, Green, Jefferson, Dodge, Dane, Lafayette, Iowa, Grant, Richland, Crawford, Sauk, Columbia, Marquette, Waushara, Waupaca, Portage, Wood, Adams, Juneau, Jackson, Clark, Monroe, Vernon, La Crosse | § 752.11(1)(d) |
+
+Three pairs are combined two-county circuits: Forest and Florence, Menominee and
+Shawano, Buffalo and Pepin. Note the split in the west: La Crosse, Monroe, Vernon, and
+Jackson are in District IV; adjacent Trempealeau, Buffalo, and Eau Claire are in
+District III. `build_filing.py` refuses a final build whose county is not one of these
+72 names, and `--district COUNTY` prints the district. The list says which district a
+county's circuit belongs to; read the venue provisions of ch. 752 before deciding where
+a particular appeal is heard.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-11-09), U-10: Wis. Stat. § 752.11(1)(a)-(d), https://docs.legis.wisconsin.gov/document/statutes/752.11, read 2026-11-09 (page banner: updated through 2025 Wis. Act 247); 72 counties counted. Second AI review pending. -->
 
 ### Branches and judges
 
