@@ -1,5 +1,16 @@
 # wisconsin-legal-writing
 
+## 2026.11.10.3
+
+- `SKILL.md`: a new section, "Check for a standard court form first", Wis. Stat. § 807.001,
+  and `references/court-forms.md`. Instruction text; the builder does not enforce it.
+- `references/local-rules.md` and `references/local-rules/counties.json`: an index of where
+  five counties were found posting local rules on 2026-11-10, with the other 67 counties
+  marked not yet indexed. No rule text.
+- `references/standards-of-review.md`: the dated *Kalal* status passage, rechecked 2026-11-10.
+- No script, template or input contract changed. Listed in
+  docs/LEGAL-TEXT-CHANGES-2026-11.md with sources; no second AI review; not attorney-reviewed.
+
 ## 2026.11.10.2
 
 - **Input contract change.** A final build of a motion needs `"document_type": "motion"` or a

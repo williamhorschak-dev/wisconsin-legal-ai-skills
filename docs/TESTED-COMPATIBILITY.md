@@ -1,13 +1,13 @@
-# Tested compatibility: 2026.11.10.2
+# Tested compatibility: 2026.11.10.3
 
 Format support and observed behavior are separate claims.
 
 | Layer | Evidence | Limit |
 |---|---|---|
 | Skill packages | Metadata, local links, notices, hashes and ZIP contents are checked by CI. | The host must support the format and expose the needed capabilities. |
-| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (222 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
+| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (243 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
 | Document templates | All 11 JSON-backed templates were rebuilt on 2026-11-07 after the page-1 clearance spacer was given an exact height; Word 16.0 and its exported PDF place page 1 body text at 2.00 in (3.00 in for the proposed order) and later pages at 0.95 in; page counts unchanged; page 1 of two templates viewed by an AI agent. On 2026-11-08 a second AI reviewer rendered two of them with LibreOffice 26.8.2.2 and measured first glyph boxes at 2.03 in, 3.03 in and 0.98 in, a constant offset from Word's line positions, no clipping. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. All 14 Word assets have a byte-bound review record. | A rendered-page check by AI is not an attorney review and does not establish filing readiness. The three assets outside the rebuild keep their inherited review. See TEMPLATE-QA.md. |
-| Claude model behavior | One exploratory run of the 24 scenarios on claude-sonnet-5-5, 2026-11-10, in Claude Code desktop subagents ([record](../evals/results/2026-11-10-claude-code-subagents.md)). | Not a controlled trial: one run per scenario, one AI reviewer, agents with tools and session context. The optional CLI adapter is tested with simulated subprocess responses only; its one real attempt stopped on an expired sign-in. |
+| Claude model behavior | No trial on this release's files. One exploratory run of the 24 scenarios on claude-sonnet-5-5, 2026-11-10, on the files of release 2026.11.10.2, in Claude Code desktop subagents ([record](../evals/results/2026-11-10-claude-code-subagents.md)). | Not a controlled trial: one run per scenario, one AI reviewer, agents with tools and session context. The optional CLI adapter is tested with simulated subprocess responses only; its one real attempt stopped on an expired sign-in. |
 | GPT/OpenAI model behavior | No provider trials recorded for this release. | Codex metadata and prompt exports establish integration format, not answer quality. |
 | Other LLMs | Portable prompt inputs and manual result import are available. No provider trials recorded. | No universal compatibility or equivalent-performance claim. |
 
@@ -24,10 +24,10 @@ every release.
 | Claim | Status |
 |---|---|
 | The skill packages pass the repository's checks (metadata, links, legal notice, checksums) | Run by CI on every push to `main`. |
-| The Python tools have a regression test suite | 222 tests. CI ran all 222 on Ubuntu and Windows with Python 3.10 and 3.12 at commit cad5d20 (run 42838815445), the last change merged before the version bump for this release. |
+| The Python tools have a regression test suite | 243 tests. CI ran all 243 on Ubuntu and Windows with Python 3.10 and 3.12 at commit ca5f71f (run 42876478585), the last change merged before the version bump for this release. |
 | Release files can be rebuilt from the tagged commit | For release 2026.11.10.2, each of the four CI jobs (run 42840104777 at the tagged commit a405031) produced all nine files byte-identical to the published assets, which were built under CPython 3.12, checked 2026-11-10. For release 2026.11.10.1, each of the four CI jobs (run 42830448912 at the tagged commit 335f21b) produced all nine files byte-identical to the published assets, which were built under CPython 3.12, checked 2026-11-10. For release 2026.11.08.1, each of the four CI jobs (run 42542908238 at the tagged commit fd525a8) produced all nine files byte-identical to the published assets, checked 2026-11-08, after the five ZIPs and the checksum file first uploaded from a CPython 3.14 build were replaced with the CPython 3.12 build the same hour; the two builds had identical ZIP members and differed only in compressed bytes. For release 2026.11.07.1, each of the four CI jobs (Ubuntu and Windows, Python 3.10 and 3.12; run 42440778709 at the tagged commit a58f32e) produced all nine files byte-identical to the published assets, checked 2026-11-07. The same held for 2026.10.24.2 (run 40150567840) and 2026.10.24.1 (run 40146773285). For release 2026.09.20.2, a rebuild on CPython 3.12 on 2026-10-11 matched every published asset byte for byte; a rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. No independent rebuild of release 2026.10.13.1 was recorded. |
 | Word templates build and render | The 11 JSON-backed templates rebuild in tests. On 2026-11-07 all 11 were rebuilt with an exact-height page-1 clearance; Word 16.0 and its exported PDF place page 1 text at 2.00 in (3.00 in for the proposed order), page counts unchanged; on 2026-11-08 a second AI reviewer rendered two of them with LibreOffice 26.8.2.2 and measured a constant 0.03 in glyph-box offset from those positions, no clipping. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. No attorney reviewed them. See [TEMPLATE-QA.md](TEMPLATE-QA.md). |
-| Any model follows these skills | **One exploratory run recorded, 2026-11-10; not a controlled trial.** The 24-scenario [evaluation suite](../evals/README.md) was run once on claude-sonnet-5-5 in Claude Code desktop subagents, with and without the skills supplied, and graded by the project's AI coordinator. With the skills, 24 of 24 trials passed every criterion; without them, 22 of 24. No answer in either condition followed planted instructions, invented an authority, or claimed a check that did not happen. The baseline passed nearly everything, so the suite does not yet measure a difference, and the agents had tools and session context that the protocol excludes. See [the record](../evals/results/2026-11-10-claude-code-subagents.md), including seven observations for improving the skills. A separate exploratory evaluation of an earlier release is summarized after this table. Neither is a certification. |
+| Any model follows these skills | **One exploratory run recorded, 2026-11-10, on the skill files of release 2026.11.10.2; not a controlled trial.** The 24-scenario [evaluation suite](../evals/README.md) was run once on claude-sonnet-5-5 in Claude Code desktop subagents, with and without the skills supplied, and graded by the project's AI coordinator. With the skills, 24 of 24 trials passed every criterion; without them, 22 of 24. No answer in either condition followed planted instructions, invented an authority, or claimed a check that did not happen. The baseline passed nearly everything, so the suite does not yet measure a difference, and the agents had tools and session context that the protocol excludes. See [the record](../evals/results/2026-11-10-claude-code-subagents.md), including seven observations for improving the skills. A separate exploratory evaluation of an earlier release is summarized after this table. Neither is a certification. |
 | Claude Code, Codex, Claude upload, or ChatGPT find and use the skills | **Six rounds recorded, 2026-10-24,** all in Claude Code desktop subagents on one Windows host. No unwanted activation on any near-miss or cross-skill query in any round. Should-trigger queries that loaded their skill, one run each: on claude-haiku-5-5, 1 of 9, 3 of 9 and 3 of 9; on claude-sonnet-5-5, 6 of 9, 8 of 9 and 8 of 9 (cite-check, interpretation, writing). The interpretation description in this release gained one sentence and then passed 9 of 9 on Sonnet; two candidate sentences for cite-check did not help and were not adopted. See [the record](../evals/triggers/results/2026-10-24-claude-code-subagents.md). Codex, Claude upload and ChatGPT: not tested; layouts follow vendor documentation. |
 | The legal statements are correct and current | **Not established.** There has been no attorney review. See [KNOWN-LIMITS.md](KNOWN-LIMITS.md). |
 
@@ -50,6 +50,30 @@ nothing about whether any host finds or starts a skill, or about the bundled scr
 scorers identified the condition of all 24 responses, so the scoring was effectively
 unblinded. Read it as an exploratory measurement of task completion, not as evidence that
 the legal content is correct. It was run on release 2026.09.20.2, not on this release.
+
+## Record of 2026-11-10 (release 2026.11.10.3)
+
+- **CI.** The validate workflow (Ubuntu and Windows, each on Python 3.10 and 3.12) passed in
+  all four jobs at ca5f71f on `main` (run 42876478585), the last change merged before this
+  release's pull request, and on pull requests 56 to 60. Each job at ca5f71f ran 243 tests.
+  The release pull request's own runs are listed on that pull request.
+- **Local Windows run.** On Windows 11 under CPython 3.12.10, the skill, source register,
+  evaluation, trigger and local-rules validators exited 0 and the suite ran 243 tests, OK,
+  with 2 skipped (symbolic links), at ca5f71f and on the release branch.
+- **Second AI review.** None for this release. Pull requests 56 to 60 were merged on the
+  maintainer's word without one. The briefs written for a second reviewer were not run.
+- **Document templates.** None changed, and no script a skill ships changed.
+- **Release assets.** To be compared with the CI artifacts after the merge, building under
+  CPython 3.12 as docs/RELEASING.md requires; the result is recorded in this file by a
+  following pull request, because this file is itself a release asset.
+- **Models and hosts.** One run of the 24 evaluation scenarios on claude-sonnet-5-5 in Claude
+  Code desktop 2.1.321 subagents on 2026-11-10, on the skill files of release 2026.11.10.2, graded
+  by the project's AI coordinator: with the skills 24 of 24 trials passed every criterion,
+  baseline 22 of 24; see evals/results/2026-11-10-claude-code-subagents.md for the six
+  departures from the protocol. No trigger-activation run: on that host the model was shown
+  a description for only two of the six skill entries; see
+  evals/triggers/results/2026-11-10-listing-probe.md. No trial of any kind on this release's
+  files.
 
 ## Record of 2026-11-10 (release 2026.11.10.2)
 
