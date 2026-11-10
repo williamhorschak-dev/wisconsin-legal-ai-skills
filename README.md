@@ -25,8 +25,8 @@ task in plain words.
 | What a Wisconsin statute or rule said on a date | [wisconsin-legal-interpretation](skills/wisconsin-legal-interpretation/SKILL.md) | The text, its version, the source, and what could not be confirmed |
 | An analysis of a contested reading | wisconsin-legal-interpretation | A research memo under Wisconsin's own interpretive method, with adverse authority |
 
-Results depend on your assistant and the sources it can reach. The project has no
-recorded trial of any model on the current release.
+Results depend on your assistant and the sources it can reach. The project's recorded
+model runs are few and exploratory; see [what has been tested](#what-has-been-tested).
 
 ### An example of the Word output
 
@@ -47,6 +47,8 @@ of page 1 is the clearance the builder leaves for the court's filing stamp.
   Your assistant and its tools have to supply source access.
 - It does not advise on your case, calculate deadlines you can rely on, or decide that
   a document is ready to file. A passing test, lint, or build never establishes that.
+- It does not fill in court forms. Wisconsin requires standard court forms for many
+  circuit court filings, and the writing skill asks about them before it drafts.
 - The builder makes circuit court captions only. It refuses complaints and summonses.
   A final build of a declaration or a motion needs a few structured fields, and the
   refusal names them.
@@ -109,9 +111,9 @@ protected-information number patterns and titles it does not support, and says w
 - **Release files.** CI rebuilds them from the tagged commit, and they are compared
   byte for byte with the published files.
 - **Word templates.** Rebuilt in tests and rendered in Microsoft Word.
-- **Models.** No trial is recorded for the current release. Skill activation was
-  measured in Claude Code on 2026-10-24. One exploratory evaluation was run on an
-  earlier release.
+- **Models.** Two exploratory evaluations are recorded, each one run on one model, and
+  skill activation was measured in Claude Code on 2026-10-24. None is a controlled or
+  repeated trial.
 - **Legal statements.** Not established as correct or current.
 
 The figures and their limits are in
