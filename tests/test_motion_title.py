@@ -196,15 +196,30 @@ class MotionTitleTests(unittest.TestCase):
                     self.passes(spec, draft=draft)
             extra = {**spec, "title": spec["title"] + " and for Sanctions"}
             self.refused(extra, NOT_GENERATED)
-        # An outside mover's name is not printed by the caption; a designation-only title omits it. Disclosed, not decided.
-        outside = motion("Intervenor's Motion to Compel", movers=({"name": "Casey Example", "designation": "Intervenor"},))
-        self.passes(outside)
+
+    def test_a_mover_outside_the_caption_is_always_named_in_the_title(self):
+        # The two-party caption does not print an outside mover's name, so no designation-only title is generated.
         from docx import Document
-        printed = "\n".join(paragraph.text for paragraph in Document(self.output).paragraphs)
-        self.assertNotIn("CASEY EXAMPLE", printed.upper())
-        named = {**outside, "title": "Intervenor Casey Example's Motion to Compel"}
-        self.passes(named)
-        self.assertIn("CASEY EXAMPLE", "\n".join(paragraph.text for paragraph in Document(self.output).paragraphs).upper())
+        casey = {"name": "Casey Example", "designation": "Intervenor"}
+        for draft in (False, True):
+            with self.subTest(draft=draft):
+                bare = motion("Intervenor's Motion to Compel", movers=(casey,))
+                if draft:
+                    drafted = self.builds(bare, draft=True)
+                    self.assertIn(NOT_GENERATED, drafted)
+                    self.assertNotIn("supported motion title generated", drafted)
+                else:
+                    message = self.refused(bare, NOT_GENERATED)
+                    self.assertNotIn("      Intervenor's Motion to Compel", message)
+                    self.assertIn("      Intervenor Casey Example's Motion to Compel", message)
+                    self.assertIn("      Casey Example's Motion to Compel", message)
+        for title in ("Intervenor Casey Example's Motion to Compel", "Motion of Casey Example to Compel"):
+            self.passes(motion(title, movers=(casey,)))
+            self.assertIn("CASEY EXAMPLE", "\n".join(paragraph.text for paragraph in Document(self.output).paragraphs).upper())
+        mixed = ("first_party", casey)
+        self.refused(motion("Plaintiff's and Intervenor's Joint Motion to Compel", movers=mixed, qualifier="joint"), NOT_GENERATED)
+        self.passes(motion("Plaintiff Alex Example's and Intervenor Casey Example's Joint Motion to Compel", movers=mixed, qualifier="joint"))
+        self.passes(motion("Plaintiff's and Defendant's Joint Motion to Compel", movers=("first_party", "second_party"), qualifier="joint"))
 
     def test_normalisation_is_exactly_case_whitespace_and_one_apostrophe_pair(self):
         self.passes(motion("plaintiff\u2019s   motion\tto  compel"))

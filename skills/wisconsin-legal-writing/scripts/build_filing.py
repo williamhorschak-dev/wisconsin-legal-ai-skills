@@ -113,10 +113,12 @@ must match a complete candidate generated from the supplied fields. Comparison i
 collapses whitespace and treats a straight apostrophe and U+2019 as equivalent; relief
 whitespace is also collapsed. A final build is refused otherwise, listing up to eight
 supported candidates, and --draft warns. No mover is listed twice, and joint needs two or
-more movers. A designation-only candidate is offered only when each used designation is
-unique among the normalized designation labels the generator considers. Matching a
-candidate does not establish a unique interpretation of the wording or prevent different
-fields from generating the same title.
+more movers. A designation-only candidate is offered only when every mover is a caption
+party and each used designation is unique among the caption's normalized designation
+labels. It is never offered for a mover outside the caption, because the two-party caption
+does not print that person's name; the name must be in the title. Matching a candidate does
+not establish a unique interpretation of the wording or prevent different fields from
+generating the same title.
 
 A supplied non-null document_type must be a nonempty string; null or absence leaves
 classification unspecified. A final build with an unclassified title recognized as a notice
@@ -818,12 +820,13 @@ def _motion_titles(spec, given):
                         "stipulation does not by itself make someone a mover")
     if problems:
         return [], problems
-    # A designation alone is offered only where it points at one person among the caption parties and the movers.
-    designations = [_fold(designation) for _, designation in list(caption.values())
-                    + [mover for mover in movers if mover not in caption.values()] if designation]
+    # A designation alone is offered only when every mover is a caption party, whose name the caption prints, and
+    # each used designation is unique among the caption's normalized designation labels.
+    outside = any(isinstance(key, tuple) for key in seen)
+    designations = [_fold(designation) for _, designation in caption.values()]
     styles = []
     if all(designation for _, designation in movers):
-        if all(designations.count(_fold(designation)) == 1 for _, designation in movers):
+        if not outside and all(designations.count(_fold(designation)) == 1 for _, designation in movers):
             styles.append([designation for _, designation in movers])
         styles.append([f"{designation} {name}" for name, designation in movers])
     styles.append([name for name, _ in movers])

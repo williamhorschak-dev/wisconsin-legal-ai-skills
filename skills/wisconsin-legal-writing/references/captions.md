@@ -57,13 +57,13 @@ take precedence; do not assume La Crosse County or a pro se plaintiff.
     collapses whitespace and treats a straight apostrophe and U+2019 as equivalent. Relief
     whitespace is also collapsed. A mismatch lists up to eight supported candidates; a final
     build is refused and `--draft` warns.
-  - A designation-only candidate is offered only when each used designation is unique among
-    the normalized designation labels considered by the generator. A designation-only title
-    is a tool convention. For a caption party, the caption also prints the party's name. An
-    outside mover's supplied name is not printed by the two-party caption, so choosing a
-    designation-only title can omit that name from both the caption and title. This check
-    does not decide whether that form satisfies § 802.01(2)(d); name-based styles are
-    available.
+  - A designation-only title is a tool convention. For a caption party, the caption also
+    prints the party's name. A designation-only candidate is offered only when every mover
+    is a caption party and each used designation is unique among the caption's normalized
+    designation labels. An outside mover's supplied name is not printed by the two-party
+    caption, so no designation-only candidate is generated when a mover is outside the
+    caption: the title must carry that name. This check does not decide whether a
+    designation-only title satisfies § 802.01(2)(d); name-based styles are always available.
   - Under § 802.01(2)(a) a motion may be stated in a written notice of its hearing. A
     supplied non-null `document_type` must be a nonempty string; null or absence leaves
     classification unspecified. A final build with an unclassified title recognized as a
