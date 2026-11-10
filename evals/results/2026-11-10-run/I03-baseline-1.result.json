@@ -1,0 +1,13 @@
+{
+  "trial": "I03-baseline-1",
+  "input_sha256": "e649c11fcb71d882c805cade8dcf158a2ae6f026ce5b57f4c528ffd20a59fc8d",
+  "host": "Claude Code desktop 2.1.321, one fresh Workflow subagent per trial; the subagent read the prompt from a file with the Read tool and wrote its answer with the Write tool; not a text-only session",
+  "models": [
+    "claude-sonnet-5-5"
+  ],
+  "collected_at": "2026-11-10T17:43:05.094634+00:00",
+  "status": "collected",
+  "collection": "manual import; operator must preserve raw output and disclose actual host capabilities",
+  "response": "No. Under this fictional chapter, only registered participants may request an extension, not every person.\n\n- Section 3 says an \"applicant\" may request an extension.\n- Section 2 defines an applicant as \"a registered participant who seeks an extension.\"\n- Section 1 says the chapter \"applies only to registered participants.\"\n\nTaken together, the right to request an extension belongs only to registered participants. Someone who is not registered is outside the chapter.\n\nSection 4 (liberal construction to permit access to the review process) does not change this. It governs how to read the chapter's terms. It does not remove the registration requirement the text itself sets, and it does not extend the chapter to people the text leaves out.\n\nThe staff email (\"We hope everyone can attend\") is not enacted text. It is a statement of hope, not a rule, so it does not widen eligibility.\n\nOn Taylor Example: the materials do not say whether Taylor is registered. If Taylor is registered, Taylor may request an extension. If not, Taylor may not under this chapter. That fact would need to be confirmed.\n",
+  "response_sha256": "353a77115a48585f12b25d54374cbb2c7cc31828edc15e4ae04daa968b26256d"
+}

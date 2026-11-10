@@ -25,8 +25,8 @@ task in plain words.
 | What a Wisconsin statute or rule said on a date | [wisconsin-legal-interpretation](skills/wisconsin-legal-interpretation/SKILL.md) | The text, its version, the source, and what could not be confirmed |
 | An analysis of a contested reading | wisconsin-legal-interpretation | A research memo under Wisconsin's own interpretive method, with adverse authority |
 
-Results depend on your assistant and the sources it can reach. The project has no
-recorded trial of any model on the current release.
+Results depend on your assistant and the sources it can reach. The project's recorded
+model runs are few and exploratory; see [what has been tested](#what-has-been-tested).
 
 ### An example of the Word output
 
@@ -111,9 +111,9 @@ protected-information number patterns and titles it does not support, and says w
 - **Release files.** CI rebuilds them from the tagged commit, and they are compared
   byte for byte with the published files.
 - **Word templates.** Rebuilt in tests and rendered in Microsoft Word.
-- **Models.** No trial is recorded for the current release. Skill activation was
-  measured in Claude Code on 2026-10-24. One exploratory evaluation was run on an
-  earlier release.
+- **Models.** Two exploratory evaluations are recorded, each one run on one model, and
+  skill activation was measured in Claude Code on 2026-10-24. None is a controlled or
+  repeated trial.
 - **Legal statements.** Not established as correct or current.
 
 The figures and their limits are in

@@ -29,7 +29,7 @@ class ReadmeTests(unittest.TestCase):
         text = " ".join(README.read_text(encoding="utf-8").split())
         self.assertLessEqual(len(text.split()), 1300, "the README is the short version; move detail into docs/ and link it")
         for phrase in ("is **not a licensed attorney**", "No attorney has reviewed any of it",
-                       "The project has no recorded trial of any model on the current release", "LEGAL_NOTICE.md",
+                       "recorded model runs are few and exploratory", "LEGAL_NOTICE.md",
                        "Every name, date and fact in it is invented, and it states no law",
                        "Not established as correct or current"):
             self.assertIn(phrase, text)

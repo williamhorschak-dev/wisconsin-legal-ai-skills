@@ -91,6 +91,12 @@ Commands return `0` for success, `1` for an incomplete/failed review summary, an
 `2` for invalid data or collection errors. Preparation and validation make no model
 calls. Actual results are pending unless an identified run says otherwise.
 
+### Recorded runs
+
+- [2026-11-10, claude-sonnet-5-5 in Claude Code desktop subagents](results/2026-11-10-claude-code-subagents.md):
+  one run per trial, graded by the project's AI coordinator, with the departures from
+  this protocol listed in the record. Exploratory; not a controlled comparison.
+
 ## Trigger evaluations
 
 The cases above test what a model does once it has the skills. Trigger evaluations ask
