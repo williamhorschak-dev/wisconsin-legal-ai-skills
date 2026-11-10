@@ -51,6 +51,47 @@ which s. 802.04(1) allows only in pleadings other than the complaint. This is a 
 tool, recognised from the title's opening words or document_type; it is not a rule about
 who may prepare a complaint.
 
+Declarations. A spec is an unsworn declaration when document_type is "declaration", a
+declaration object is present, or the title opens with Declaration. The builder then prints
+the closing of the form in Wis. Stat. s. 887.015(6) itself, after the body: the sentence "I
+declare under penalty of false swearing under the law of Wisconsin that the foregoing is true
+and correct." and the line "Signed on the ... day of ..., ..., at ..., ....", from
+
+    "declaration": {"use": "sworn_declaration_substitute",
+                    "purpose": "in support of Plaintiff's motion to compel in this action",
+                    "signed_on": "2026-11-09", "location": "Anytown",
+                    "state_or_country": "Wisconsin", "body_reviewed": true}
+
+A final build needs the full date, the city or other location, and the state or country.
+use is the reviewer's statement that a law of this state requires or permits a sworn
+declaration here and that the use is not one s. 887.015(4)(b) excludes; naming an excluded
+use (deposition, oath_of_office, oath_before_specified_official, recorded_under_706_or_140,
+oath_under_853_04) is refused in every mode. purpose names the intended current use in the
+reviewer's words, so the statement is tied to one use and not copied to another.
+
+The builder appends one supported closing. It cannot promise the body holds no other one.
+body_reviewed: true is the reviewer's statement that the body contains no separate
+declaration or execution closing; a final build needs it. A pattern screen backs that
+statement up: a block that mentions a penalty of false swearing or perjury, opens a sentence
+with "Signed on", "Executed on" or "Dated this", or has the declarant declare, certify,
+swear, affirm or verify that something is true is reported as a possible closing and refused
+in every mode, until the block is removed or its index is listed in not_closings, the
+reviewer's statement that it is a fact and not a closing. The screen can miss other closings
+and can match ordinary facts; it does not decide either.
+
+One restriction cannot be overridden. A body block whose raw text contains the complete
+generated sentence, including its final period, is refused after case folding and whitespace
+normalization even if its index is listed in not_closings. This comparison does not remove
+inline formatting or combine blocks. It does not guarantee that the generated document has
+no duplicate closing.
+
+Also refused in every mode: a declaration marked as a proposed order, and a declaration
+title or object with another document_type. The statute asks for "substantially" its form;
+supporting that one form is a limit of this tool, not a ruling that other wording fails.
+Every successful declaration build says so: the form was generated from the reviewer's
+stated use, date and place, and applicability, exclusion status, the body review and actual
+execution were not independently verified.
+
 Geometry reproduced from the reference corpus:
   page 8.5 x 11; L/R margins 1.0"; T/B margins 0.95"
   Century Schoolbook (or Times New Roman) 12 pt body, justified, 1.5 line spacing
@@ -62,6 +103,7 @@ Appellate briefs and letters are not supported by this caption builder.
 """
 
 import argparse
+from datetime import date
 import io
 import json
 import math
@@ -598,17 +640,168 @@ _DOCUMENT_WORD = re.compile(r"^(?:answer|motion|brief|response|reply|opposition|
                             r"affidavit|objection|stipulation|to|in|of|for|and)$", re.IGNORECASE)
 
 
-def _is_complaint_or_summons(spec):
-    title = spec.get("title") if isinstance(spec.get("title"), str) else ""
-    if spec.get("document_type") in ("complaint", "summons") or _COMPLAINT_TITLE.search(title):
+def _title_opens_as(title, pattern):
+    """True when the title opens with the pattern, directly or after a party possessive."""
+    if pattern.search(title):
         return True
     words = title.split()
     for index, word in enumerate(words[:6]):
         if _DOCUMENT_WORD.match(word.strip(".,:;")):
             return False
         if _POSSESSIVE.search(word.rstrip(".,:;")):
-            return bool(_COMPLAINT_TITLE.search(" ".join(words[index + 1:])))
+            return bool(pattern.search(" ".join(words[index + 1:])))
     return False
+
+
+def _is_complaint_or_summons(spec):
+    title = spec.get("title") if isinstance(spec.get("title"), str) else ""
+    return spec.get("document_type") in ("complaint", "summons") or _title_opens_as(title, _COMPLAINT_TITLE)
+
+
+# Unsworn declarations, Wis. Stat. s. 887.015. The builder prints the closing of the form in
+# sub. (6) itself; see the module docstring for what it records and what it cannot know.
+DECLARATION_SENTENCE = ("I declare under penalty of false swearing under the law of Wisconsin that the foregoing is "
+                        "true and correct.")
+DECLARATION_USE = "sworn_declaration_substitute"
+DECLARATION_EXCLUDED_USES = {
+    "deposition": "a deposition, s. 887.015(4)(b)1.",
+    "oath_of_office": "an oath of office, s. 887.015(4)(b)2.",
+    "oath_before_specified_official": "an oath required to be given before a specified official other than a notary "
+                                      "public, s. 887.015(4)(b)3.",
+    "recorded_under_706_or_140": "a declaration to be recorded pursuant to s. 706.06 or 706.25 or ch. 140, "
+                                 "s. 887.015(4)(b)4.",
+    "oath_under_853_04": "an oath required under s. 853.04, s. 887.015(4)(b)5.",
+}
+_DECLARATION_KEYS = ("use", "purpose", "signed_on", "location", "state_or_country", "body_reviewed", "not_closings")
+_DECLARATION_STRINGS = ("use", "purpose", "signed_on", "location", "state_or_country")
+_DECLARATION_TITLE = re.compile(r"^\W*(?:(?:" + _TITLE_QUALIFIER + r"|unsworn)\s+)*declaration\b", re.IGNORECASE)
+# Wording that may be the declarant's own closing. A match is a question for the reviewer, not a finding.
+_POSSIBLE_CLOSING = (
+    ("mentions a penalty of false swearing or perjury",
+     re.compile(r"\bpenalt(?:y|ies)\s+of\s+(?:false\s+swearing|perjury)\b", re.IGNORECASE)),
+    ("opens a sentence with signing, execution or dating words",
+     re.compile(r"(?:^|[.;:!?]\s+)\W*(?:signed|executed|dated)\s+(?:on|this|at)\b", re.IGNORECASE)),
+    ("has the declarant declare, certify, swear, affirm or verify that something is true",
+     re.compile(r"\bI\b[^.]{0,40}\b(?:declare|certify|swear|affirm|verify)\b[^.]{0,120}\b(?:true|correct|foregoing)\b",
+                re.IGNORECASE)),
+)
+DECLARATION_NOTICE = (
+    "Declaration form generated from the reviewer's stated current use ({purpose}), signing date, and place. "
+    "Applicability, exclusion status, body closing review, and actual execution have not been independently verified. "
+    "Recheck these statements before reuse for another purpose.")
+_MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+           "November", "December")
+
+
+def _ordinal(day):
+    return f"{day}{'th' if 10 <= day % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(day % 10, 'th')}"
+
+
+def _declaration_blocks(spec, *, draft=False, quiet=False):
+    """Closing blocks for an unsworn declaration, or None when the spec is another document."""
+    title, typed, given = spec["title"], spec.get("document_type"), spec.get("declaration")
+    opens = _title_opens_as(title, _DECLARATION_TITLE)
+    if typed != "declaration" and given is None and not opens:
+        return None
+    if typed is not None and typed != "declaration":
+        raise ValueError(
+            "contradictory spec: " + ("the title opens as a declaration" if opens else "a declaration object is given")
+            + f" but document_type is {_redact(repr(typed))}. Set document_type to \"declaration\", or change the title and "
+              "remove the declaration object if this is another document.")
+    if not re.search(r"\bdeclaration\b", title, re.IGNORECASE):
+        raise ValueError("contradictory spec: document_type is \"declaration\" or a declaration object is given, but the "
+                         "title does not say Declaration.")
+    if spec.get("proposed_order") or spec.get("signature_in_body"):
+        raise ValueError(
+            "contradictory spec: a declaration cannot be a proposed order or carry signature_in_body. An unsworn "
+            "declaration is a declaration in a signed record, Wis. Stat. s. 887.015(2)(g), and the form in s. 887.015(6) "
+            "ends with the signature and printed name, which the builder prints from the signature block.")
+    if not isinstance(given, dict):
+        raise ValueError(
+            "a declaration needs a declaration object, for example {\"use\": \"" + DECLARATION_USE + "\", \"purpose\": "
+            "\"in support of Plaintiff's motion to compel in this action\", \"signed_on\": \"2026-11-09\", \"location\": "
+            "\"Anytown\", \"state_or_country\": \"Wisconsin\", \"body_reviewed\": true}. The builder prints the "
+            "declaration sentence and the execution line of the form in Wis. Stat. s. 887.015(6) from it; see "
+            "references/circuit-court.md, section 3.")
+    unknown = sorted(set(given) - set(_DECLARATION_KEYS))
+    if unknown:
+        raise ValueError("declaration has unknown key(s): " + ", ".join(_redact(repr(key)) for key in unknown))
+    for key in _DECLARATION_STRINGS:
+        if given.get(key) is not None and not isinstance(given[key], str):
+            raise ValueError(f"declaration.{key} must be a string or null")
+    if "body_reviewed" in given and not isinstance(given["body_reviewed"], bool):
+        raise ValueError("declaration.body_reviewed must be true or false")
+    listed = given.get("not_closings", [])
+    if not isinstance(listed, list) or not all(isinstance(item, int) and not isinstance(item, bool) for item in listed):
+        raise ValueError("declaration.not_closings must be a list of body block numbers")
+    matched = {}
+    generated = " ".join(DECLARATION_SENTENCE.casefold().split())
+    for index, block in enumerate(spec["body"]):
+        if generated in " ".join(block.get("text", "").casefold().split()):
+            raise ValueError(f"body[{index}]: this block's raw text contains the complete sentence reserved for the "
+                             "builder-generated closing. Remove it from the input; not_closings cannot override this "
+                             "raw-text restriction.")
+        reasons = [reason for reason, pattern in _POSSIBLE_CLOSING if pattern.search(block.get("text", ""))]
+        if reasons:
+            matched[index] = reasons
+    stale = sorted(set(listed) - set(matched))
+    if stale:
+        raise ValueError("declaration.not_closings lists " + ", ".join(f"body[{index}]" for index in stale)
+                         + ", which the closing screen does not match; remove the entry so the list stays a record of "
+                           "blocks a reviewer actually looked at.")
+    open_matches = sorted(set(matched) - set(listed))
+    if open_matches:
+        raise ValueError(
+            "possible closing wording in the body:\n"
+            + "\n".join(f"body[{index}] {'; '.join(matched[index])}" for index in open_matches)
+            + "\nThe builder appends the declaration sentence and the execution line of the form in Wis. Stat. "
+              "s. 887.015(6) itself. If a block above is the declarant's own closing, remove it. If it states a fact, add "
+              "its number to declaration.not_closings. A match is a question for the reviewer, not a finding. The statute "
+              "asks for substantially its form; this builder supports that one form and does not judge whether other "
+              "wording conforms.")
+    use = given.get("use")
+    if use in DECLARATION_EXCLUDED_USES:
+        raise ValueError(
+            f"declaration.use is {use!r}: Wis. Stat. s. 887.015 does not apply to {DECLARATION_EXCLUDED_USES[use]}. "
+            "The builder does not produce an unsworn declaration for that use; see the affidavit template if a sworn "
+            "statement fits, and check what the governing law requires.")
+    problems = []
+    if use != DECLARATION_USE:
+        problems.append(
+            "declaration.use must be \"" + DECLARATION_USE + "\": the reviewer's statement that a law of this state requires "
+            "or permits a sworn declaration here, s. 887.015(4)(a), and that the use is not one s. 887.015(4)(b) excludes ("
+            + ", ".join(DECLARATION_EXCLUDED_USES) + "). The builder records that statement; it does not decide it")
+    if not (given.get("purpose") or "").strip():
+        problems.append("declaration.purpose must name the intended current use in the reviewer's words, for example "
+                        "\"in support of Plaintiff's motion to compel in this action\"; the use statement is made for that "
+                        "use and has to be made again for another")
+    if given.get("body_reviewed") is not True:
+        problems.append("declaration.body_reviewed must be true: the reviewer's statement that the body contains no "
+                        "separate declaration or execution closing. The pattern screen can miss one")
+    signed, raw = None, given.get("signed_on")
+    if isinstance(raw, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
+        try:
+            signed = date.fromisoformat(raw)
+        except ValueError:
+            signed = None
+    if signed is None:
+        problems.append("declaration.signed_on must be the full date of signing as YYYY-MM-DD; the form in s. 887.015(6) "
+                        "states the day, the month and the year")
+    place = {key: given[key].strip() if isinstance(given.get(key), str) else "" for key in ("location", "state_or_country")}
+    if not place["location"]:
+        problems.append("declaration.location must be the city or other location where the declarant signs")
+    if not place["state_or_country"]:
+        problems.append("declaration.state_or_country must be the state or country where the declarant signs; the form "
+                        "in s. 887.015(6) states both the location and the state or country")
+    if problems and not draft:
+        raise ValueError("declaration is incomplete; resolve these or use --draft:\n" + "\n".join(problems))
+    if problems and not quiet:
+        print("warning: draft declaration is incomplete:\n" + "\n".join(problems), file=sys.stderr)
+    when = (f"{_ordinal(signed.day)} day of {_MONTHS[signed.month - 1]}, {signed.year}" if signed
+            else "____ day of __________, [YEAR]")
+    return [{"type": "p", "text": DECLARATION_SENTENCE},
+            {"type": "p", "text": f"Signed on the {when}, at {place['location'] or '[CITY OR OTHER LOCATION]'}, "
+                                  f"{place['state_or_country'] or '[STATE OR COUNTRY]'}."}]
 
 
 def _validate(spec, *, draft=False, protected_info_reviewed=False):
@@ -687,6 +880,8 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
         for k in ("name", "designation"):
             if not isinstance(p.get(k), str) or not p[k].strip():
                 raise ValueError(f"{side}.{k} must be a non-empty string")
+
+    _declaration_blocks(spec, draft=draft)
 
     if spec.get("appellate"):
         raise ValueError(
@@ -802,7 +997,8 @@ def build(spec, out_path, *, draft=False, overwrite=False, protected_info_review
         _spacer(sec.first_page_header, inches=1.5)   # 0.5" + 1.5" = 2" clear
 
     build_caption(doc, spec, size)
-    build_body(doc, spec.get("body", []), size, spacing)
+    closing = _declaration_blocks(spec, draft=draft, quiet=True)
+    build_body(doc, spec.get("body", []) + (closing or []), size, spacing)
 
     if not proposed:
         # Keep the conclusion and signature connected across a page break.
@@ -817,6 +1013,9 @@ def build(spec, out_path, *, draft=False, overwrite=False, protected_info_review
     doc.save(payload)
     with out_path.open("wb" if overwrite else "xb") as output:
         output.write(payload.getvalue())
+    if closing is not None:
+        purpose = (spec["declaration"].get("purpose") or "").strip() or "none stated"
+        print(DECLARATION_NOTICE.format(purpose=_redact(" ".join(purpose.split()))), file=sys.stderr)
     return out_path
 
 
