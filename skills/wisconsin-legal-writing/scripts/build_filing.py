@@ -42,6 +42,15 @@ accepted and any other unknown county is a warning. --district COUNTY prints the
 s. 752.11(1) assigns. The check knows county names only; it does not decide proper venue
 or where an appeal is heard.
 
+Complaints and summonses are outside this builder and are refused in every mode. Wis. Stat.
+s. 802.04(1) requires a complaint's caption to carry the case classification type and code
+number and its title the names and addresses of all the parties, and s. 801.09(1) requires
+the summons to identify the court, the trial county, the classification and the parties'
+names and addresses. The builder prints the first party on each side and no classification,
+which s. 802.04(1) allows only in pleadings other than the complaint. This is a limit of the
+tool, recognised from the title's opening words or document_type; it is not a rule about
+who may prepare a complaint.
+
 Geometry reproduced from the reference corpus:
   page 8.5 x 11; L/R margins 1.0"; T/B margins 0.95"
   Century Schoolbook (or Times New Roman) 12 pt body, justified, 1.5 line spacing
@@ -579,6 +588,29 @@ def _protected(spec):
             yield f"{_redact(path)}: {category} pattern ({end - start} characters, not shown)"
 
 
+# Titles that open as a complaint or summons, after an optional party possessive and any
+# number of qualifiers: "Complaint", "Plaintiff's Fourth Amended Complaint", "Summons and Complaint".
+_TITLE_QUALIFIER = (r"(?:verified|amended|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|\d+(?:st|nd|rd|th)|"
+                    r"supplemental|class\s+action|third[- ]party|corrected|restated|proposed|consolidated)")
+_COMPLAINT_TITLE = re.compile(r"^\W*(?:" + _TITLE_QUALIFIER + r"\s+)*(?:summons|complaint)\b", re.IGNORECASE)
+_POSSESSIVE = re.compile(r"(?:'s|s'|\u2019s|s\u2019)$")
+_DOCUMENT_WORD = re.compile(r"^(?:answer|motion|brief|response|reply|opposition|notice|order|memorandum|declaration|"
+                            r"affidavit|objection|stipulation|to|in|of|for|and)$", re.IGNORECASE)
+
+
+def _is_complaint_or_summons(spec):
+    title = spec.get("title") if isinstance(spec.get("title"), str) else ""
+    if spec.get("document_type") in ("complaint", "summons") or _COMPLAINT_TITLE.search(title):
+        return True
+    words = title.split()
+    for index, word in enumerate(words[:6]):
+        if _DOCUMENT_WORD.match(word.strip(".,:;")):
+            return False
+        if _POSSESSIVE.search(word.rstrip(".,:;")):
+            return bool(_COMPLAINT_TITLE.search(" ".join(words[index + 1:])))
+    return False
+
+
 def _validate(spec, *, draft=False, protected_info_reviewed=False):
     """Validate supported structure; this is not a legal or filing certification."""
     if not isinstance(spec, dict):
@@ -626,6 +658,17 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
     for key in ("county", "case_no", "title"):
         if not isinstance(spec[key], str) or not spec[key].strip():
             raise ValueError(f"{key} must be a non-empty string")
+
+    if _is_complaint_or_summons(spec):
+        raise ValueError(
+            "this builder does not produce a complaint or a summons. Wis. Stat. s. 802.04(1) requires the complaint's "
+            "caption to include the standardized case classification type and code number approved by the director of "
+            "state courts, and its title to include the names and addresses of all the parties, any representative "
+            "capacity, and a corporation's existence and domestic or foreign status. Section 801.09(1) requires the "
+            "summons to identify the court, the trial county, the approved case classification type and code number, "
+            "and the names and addresses of the parties. The builder prints the first party on each side and no "
+            "classification, which s. 802.04(1) allows only in pleadings other than the complaint. Prepare the complaint "
+            "and summons from the court's forms or by hand.")
 
     if district_for(spec["county"]) is None:
         # A placeholder county is tolerated only in a draft; a final build always needs a listed county.

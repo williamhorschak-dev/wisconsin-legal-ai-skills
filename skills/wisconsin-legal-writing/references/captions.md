@@ -14,6 +14,20 @@ take precedence; do not assume La Crosse County or a pro se plaintiff.
   In practice, after the summons and complaint, filings carry the court/county line,
   the party block, and the case number; the classification code lives on the
   initiating documents and the electronic cover sheet.
+- **Wis. Stat. § 802.04(1)**: every pleading's caption sets out the name of the court,
+  the venue, the title of the action, the file number, and a designation. **In the
+  complaint** the caption must include the standardized case classification type and
+  code number approved by the director of state courts, and the title must include the
+  names and addresses of all the parties, any representative capacity, and, for a
+  corporation, its existence and domestic or foreign status. A pleading that commences
+  an action under § 814.61(1)(a) or § 814.62(1) or (2), and a complaint under
+  § 814.61(3), must also state in the caption, if a money judgment is claimed, whether
+  the amount claimed is greater than the amount under § 799.01(1)(d). "In pleadings
+  other than the complaint, it is sufficient to state the name of the first party on
+  each side with an appropriate indication of other parties." `build_filing.py` prints
+  that shorter caption, so it **does not build a complaint or a summons**; that is a
+  limit of the tool. Prepare those from the court's forms or by hand.
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check and second AI review by Astra, a Codex model, both 2026-11-09), U-04: Wis. Stat. § 802.04(1) and § 801.09(1), https://docs.legis.wisconsin.gov/document/statutes/802.04 and .../801.09 (page banner: updated through 2025 Wis. Act 247). -->
 - **Wis. Stat. § 802.01(2)(d)**: *every written motion* must include in its caption
   the name of the party seeking relief and a brief description of the type of relief
   sought. `PLAINTIFF'S MOTION TO COMPEL`, not `MOTION TO COMPEL`.
