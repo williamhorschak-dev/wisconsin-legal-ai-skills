@@ -1,5 +1,19 @@
 # wisconsin-legal-writing
 
+## 2026.11.10.2
+
+- **Input contract change.** A final build of a motion needs `"document_type": "motion"` or a
+  title that opens as a motion, a `motion` object (`movers` by party reference, `qualifier`,
+  `relief`, optional `with_notice`), and a title that matches one the builder generates from
+  those fields, Wis. Stat. § 802.01(2)(d). See docs/RELEASE-NOTES.md for the migration and the
+  limits. It is one supported title form, not a check of statutory compliance.
+- A supplied non-null `document_type` must be a nonempty string, for every document. A final
+  build whose title is recognized as a notice of motion or hearing must say what it is.
+- The complaint and summons refusal recognizes more party-name forms and refuses everything
+  it refused before.
+- `references/captions.md`: the motion fields. Listed in docs/LEGAL-TEXT-CHANGES-2026-11.md
+  with its source and the AI checks; not attorney-reviewed. No template changed.
+
 ## 2026.11.10.1
 
 - **Input contract change.** A declaration specification needs `"document_type": "declaration"`

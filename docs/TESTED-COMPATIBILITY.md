@@ -1,11 +1,11 @@
-# Tested compatibility: 2026.11.10.1
+# Tested compatibility: 2026.11.10.2
 
 Format support and observed behavior are separate claims.
 
 | Layer | Evidence | Limit |
 |---|---|---|
 | Skill packages | Metadata, local links, notices, hashes and ZIP contents are checked by CI. | The host must support the format and expose the needed capabilities. |
-| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (209 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
+| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (222 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
 | Document templates | All 11 JSON-backed templates were rebuilt on 2026-11-07 after the page-1 clearance spacer was given an exact height; Word 16.0 and its exported PDF place page 1 body text at 2.00 in (3.00 in for the proposed order) and later pages at 0.95 in; page counts unchanged; page 1 of two templates viewed by an AI agent. On 2026-11-08 a second AI reviewer rendered two of them with LibreOffice 26.8.2.2 and measured first glyph boxes at 2.03 in, 3.03 in and 0.98 in, a constant offset from Word's line positions, no clipping. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. All 14 Word assets have a byte-bound review record. | A rendered-page check by AI is not an attorney review and does not establish filing readiness. The three assets outside the rebuild keep their inherited review. See TEMPLATE-QA.md. |
 | Claude model behavior | No provider trials recorded for this release. | The optional CLI adapter is tested with simulated subprocess responses only. |
 | GPT/OpenAI model behavior | No provider trials recorded for this release. | Codex metadata and prompt exports establish integration format, not answer quality. |
@@ -15,6 +15,30 @@ The 24 scenarios prepare 48 paired trials per repetition. None is marked passed
 merely because its fixture exists. There is no published model score, legal-accuracy
 score, or attorney approval for this release. Current publication provides tested
 helpers and evaluation infrastructure, not a completed cross-model benchmark.
+
+## Record of 2026-11-10 (release 2026.11.10.2)
+
+- **CI.** The validate workflow (Ubuntu and Windows, each on Python 3.10 and 3.12) passed in
+  all four jobs at cad5d20 on `main` (run 42838815445), the last change merged before this
+  release's pull request, and on pull request 51. Each job at cad5d20 ran 222 tests. The
+  release pull request's own runs are listed on that pull request.
+- **Local Windows run.** On Windows 11 under CPython 3.14.5, the four validators exited 0 and
+  the suite ran 222 tests, OK, with 2 skipped (symbolic links), on the release branch.
+- **Second AI review.** The second AI reviewer (Codex, acting as "Astra") reviewed the motion
+  title generator at d24885e under CPython 3.12.14 on Windows: 219 tests and the four
+  validators reproduced; 138 attack builds with no false pass and no false refusal against
+  the stated contract; 7,008 complaint-title comparisons against `main` with no previously
+  refused title newly allowed. Its three wording findings were then applied, and the narrower
+  option it left to the maintainer was taken; those two later commits were checked by the
+  coordinating AI's tests and by CI, not by the second reviewer. This is AI review, not
+  attorney review.
+- **Document templates.** None changed. The five motion specifications gained fields that the
+  builder does not print; draft rebuilds of every template matched the reviewed files in all
+  package parts, and the second reviewer reproduced that for three of them.
+- **Release assets.** To be compared with the CI artifacts after the merge, building under
+  CPython 3.12 as docs/RELEASING.md requires; the result is recorded in this file by a
+  following pull request, because this file is itself a release asset.
+- **Models and hosts.** No new trial. The 2026-10-24 trigger-activation record stands.
 
 ## Record of 2026-11-10 (release 2026.11.10.1)
 

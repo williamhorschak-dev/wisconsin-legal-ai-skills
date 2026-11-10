@@ -1,3 +1,132 @@
+# 2026.11.10.2
+
+**This release changes an input contract.** A specification for a motion needs new structured
+fields, and one of the titles the builder generates from them, before a final build. Release
+2026.11.10.1, published earlier the same day, had no motion fields, so nothing released is being
+renamed; what changes is that a final build of a motion is now refused until the fields are
+there. No attorney reviewed any of it; the maintainer is not a lawyer; LEGAL_NOTICE.md applies.
+
+One change, in wisconsin-legal-writing. It was read against the statute by the coordinating AI
+and independently by a second AI of a different model family, which found it exact within its
+stated scope, and adopted by the maintainer at merge.
+
+## Migrating a motion specification
+
+Wis. Stat. § 802.01(2)(d) ends: "The name of the party seeking the order or relief and a brief
+description of the type of order or relief sought shall be included in the caption of every
+written motion." The builder does not read a motion's title to work out who moves or what is
+sought. The reviewer states both, and the builder generates the titles it supports.
+
+Before:
+
+```json
+"title": "Plaintiff's Motion to Compel Discovery"
+```
+
+After:
+
+```json
+"document_type": "motion",
+"motion": {"movers": ["first_party"], "qualifier": null, "relief": "to Compel Discovery"},
+"title": "Plaintiff's Motion to Compel Discovery"
+```
+
+1. `movers` lists each party seeking the order or relief by reference: `"first_party"`,
+   `"second_party"`, or `{"name": ..., "designation": ...}` for a person the two-party caption
+   does not print. No mover may be listed twice.
+2. `qualifier` is `null` or one of `amended`, `renewed`, `emergency`, `expedited`, `unopposed`,
+   `stipulated`, `agreed`, `joint`, `ex_parte`, `supplemental`. `joint` needs two or more
+   movers; consent or stipulation does not by itself make someone a mover.
+3. `relief` is placed after the word Motion as written. `with_notice: true` gives "Notice of
+   Motion and Motion".
+4. The title must match a complete candidate generated from those fields: the possessive form
+   ("Plaintiff's Motion to Compel Discovery") or the "Motion of" form, with the party's
+   designation, its name, or both. Comparison ignores case, collapses whitespace and treats a
+   straight apostrophe and U+2019 as equivalent. A final build with any other title is refused
+   and lists up to eight supported candidates; `--draft` warns, and a draft let through with a
+   different title does not get the success notice.
+5. A designation-only title is offered only when every mover is a caption party and each used
+   designation is unique in the caption. For a mover outside the caption the title must carry
+   the name, because the caption does not print it.
+6. A supplied non-null `document_type` must be a nonempty string, for every document and not
+   only motions; null or absence leaves classification unspecified. A final build whose title
+   is recognized as a notice of motion or of hearing requires the reviewer to say what it is:
+   under § 802.01(2)(a) a motion may be stated in a written notice of its hearing.
+
+A build whose title matched prints: "The title is one supported motion title generated from
+the reviewer's party references, qualifier and relief description. This is not a check of
+statutory compliance; party status, completeness, legal adequacy and document classification
+remain unverified."
+
+## Limits of the motion check
+
+- It is one supported title form. Other titles may be lawful and are refused as unsupported
+  by the tool.
+- Recognition is by English title words. A motion under a title the builder does not
+  recognize, for example "Cross-Motion for Summary Judgment", "Application for an Order" or a
+  title in another language, is not treated as a motion unless `document_type` or a `motion`
+  object says so. Classify those explicitly.
+- Identical title wording can arise from different supplied facts. Matching a candidate does
+  not establish a unique interpretation of the wording.
+- The builder does not verify that a named person is a party or a mover, that the list of
+  movers is complete, or that the relief description is legally adequate. Whether a
+  designation alone satisfies "the name of the party" is not settled by the sources read.
+- The field names `moving_parties` and `outside_caption` appeared only in unmerged review
+  branches and are not supported.
+
+## wisconsin-legal-writing
+
+- `build_filing.py`: the motion fields and generated titles described above; the five bundled
+  motion specifications and `--example` carry the fields. No Word template changed: every
+  template rebuilt in draft matched its reviewed file in all parts.
+- The complaint and summons refusal now also recognizes a party name containing "of" when it
+  is a party in the specification, and joined possessives. Every title it refused before is
+  still refused; a test freezes the earlier recognizer and compares.
+- `references/captions.md`: the final sentence of § 802.01(2)(d) quoted, and the motion fields.
+
+## cite-check and wisconsin-legal-interpretation
+
+- No change beyond the version number.
+
+## Repository
+
+- Tests: 222 (209 in release 2026.11.10.1). CI matrix unchanged.
+- docs/LEGAL-TEXT-CHANGES-2026-11.md records the change with its source, the AI checks and
+  the adopting merge.
+- README: the known-limits section describes this release.
+
+## Known issues carried forward
+
+- Subsequent history of cited authorities was not exhaustively checked against public
+  sources.
+- The Kalal status sentence (oral argument in Abby Windows listed for 2026-11-10) must be
+  rechecked in the week of 2026-11-11; the small-claims passage must be re-edited on
+  2027-01-01.
+- The source register does not yet have records for every provision the new checks rely on;
+  it watches chapter files, not the individual sections.
+- The evidence log does not detect deleted lines.
+- Version detection in cite_check.py is phrase matching on the reviewer's annotation; it
+  has no operative-date model.
+- Trigger activation is measured on one host and two models; the every-query rule still
+  fails for cite-check and for the writing skill on this host. The results narrative
+  mislabels two query splits and evals/README.md still says no results are recorded; both
+  are corrected with the next dataset change.
+- The source checker drops the redirect target from a record when a same-host redirect was
+  followed successfully; the request log keeps both hops.
+- Two items remain marked [VERIFY]: how 2025 Wis. Act 105 applies to a claim made before
+  January 1, 2027 in an action commenced after it, and the signing date of the 2025
+  La Crosse County local rules.
+- Three questions the reviews raised are not settled by the public sources read: whether a
+  party designation alone is "the name of the party" in a motion caption, § 802.01(2)(d);
+  whether 11 points is a minimum or an exact size for block quotes and footnotes,
+  § 809.19(8)(b)3.c.; and whether that paragraph's body-text numbers reach headings.
+- Five checks were built and not shipped because they could not be made exact; the notes for
+  release 2026.11.10.1 list them. None has a replacement.
+
+The three skills remain independently usable. These changes do not certify legal
+accuracy, filing readiness, or the permissibility of a particular legal-service
+deployment.
+
 # 2026.11.10.1
 
 **This release changes an input contract.** A declaration specification written for an earlier
