@@ -86,6 +86,15 @@ version, not merely the latest edition. Verify citations, pincites, quotations, 
 treatment, and proposition support. If `cite-check` is available, use it for that work;
 otherwise perform the same checks with available tools and disclose missing checks.
 
+`scripts/wi_values.py` transcribes the dated numbers the references repeat (small-claims
+amounts, appellate length and form values, counting values, the ordinary appeal periods)
+from the statutes as published on the date it records, with the authority and conditions
+of each. It refuses dates before that publication, and a later-date answer applies that
+publication's schedule only. `--check-references` compares the numbers in a fixed list of
+reference statements with the table: exit 1 for a disagreement, exit 3 when a managed
+statement was reworded or duplicated and could not be measured. It does not examine other
+prose or later law.
+
 Compute deadlines only from the applicable current rule, triggering event, service
 details, orders, and actual calendar. Distinguish service-triggered periods from filing,
 entry, and fixed-date deadlines. Do not add mail/electronic-service days automatically.
