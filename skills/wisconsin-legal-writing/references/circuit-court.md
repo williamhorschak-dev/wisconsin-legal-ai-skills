@@ -218,6 +218,39 @@ not a question. Fill in the day, month and year, and the city or other location 
 the state or country where the declarant actually signs.
 <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check and second AI review by Astra, a Codex model, both 2026-11-09), U-03: Wis. Stat. § 887.015(3) and (6), https://docs.legis.wisconsin.gov/document/statutes/887.015 (page banner: updated through 2025 Wis. Act 247). No decision on the substantial conformity of any alternative wording was read. -->
 
+**What the builder does with a declaration.** `build_filing.py` treats a spec as a
+declaration when `document_type` is `"declaration"`, a `declaration` object is present, or
+the title opens with Declaration. It then prints the declaration sentence and the execution
+line above itself, after the body, from four fields:
+
+```json
+"document_type": "declaration",
+"declaration": {
+  "use": "sworn_declaration_substitute",
+  "signed_on": "2026-11-09",
+  "location": "Anytown",
+  "state_or_country": "Wisconsin"
+}
+```
+
+- A final build needs the full date of signing and both the city or other location and
+  the state or country. `--draft` prints blanks for what is missing and warns.
+- `use` is the reviewer's statement that a law of this state requires or permits a sworn
+  declaration for this purpose, § 887.015(4)(a), and that the use is not one of the five
+  listed above. Naming one of them (`deposition`, `oath_of_office`,
+  `oath_before_specified_official`, `recorded_under_706_or_140`, `oath_under_853_04`) is
+  refused in every mode. A missing value is refused in a final build. The builder records
+  the statement; it does not decide it.
+- The body must not carry its own declaration or execution wording; the builder refuses it
+  so the document cannot end with two closings or with a different one.
+- A declaration marked as a proposed order, and a declaration title or object with another
+  `document_type`, are refused as contradictory.
+
+Supporting one form is a limit of the tool. The statute asks for "substantially" its form,
+and the builder does not judge whether other wording conforms. It cannot tell whether the
+declarant signed, on that date, at that place.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09, rebuilt to the second AI review by Astra, a Codex model, of 2026-11-09; this revision awaits its own second review), U-03b: Wis. Stat. § 887.015(2)(g), (4)(a), (4)(b)1.-5. and (6), https://docs.legis.wisconsin.gov/document/statutes/887.015, read 2026-11-09 (Published 11-4-26). No decision on the substantial conformity of any alternative wording was read. -->
+
 **Content requirements are unchanged.** Wis. Stat. § 802.08(3) still says
 "affidavits," and requires personal knowledge and evidentiary facts admissible in
 evidence. Copies of referenced papers must be attached and served **if not already

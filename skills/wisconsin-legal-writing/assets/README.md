@@ -14,7 +14,7 @@ before replacing bundled assets. Existing outputs need an explicit `--overwrite`
 | `02-brief` | Brief in support. INTRODUCTION → BACKGROUND → ARGUMENT → CONCLUSION. |
 | `03-brief-in-opposition` | Brief opposing another party's motion. |
 | `04-discovery-response` | Interrogatories, RFPs, RFAs, with the default objection formula. |
-| `05-declaration` | **Default.** Wis. Stat. § 887.015 unsworn declaration. No notary. |
+| `05-declaration` | **Default.** Wis. Stat. § 887.015 unsworn declaration. No notary. The builder prints the closing sentence and execution line from the `declaration` object. |
 | `05b-affidavit` | Ordinary notarized affidavit when required or chosen; not a substitute for specialized excluded instruments. |
 | `06-proposed-order` | .docx, 3″ top margin, no judicial signature block. |
 | `07-motion-to-enlarge-time` | § 801.15(2)(a): pick the right tier in the first sentence. |

@@ -130,6 +130,13 @@ A final build's county must be one of the 72 counties in Wis. Stat. § 752.11(1)
 `--district COUNTY` prints its court of appeals district. The builder does not produce a
 complaint or a summons, whose captions Wis. Stat. §§ 802.04(1) and 801.09(1) require to
 carry more than it prints; it refuses them in every mode.
+For a declaration (`document_type: "declaration"`, a `declaration` object, or a title that
+opens with Declaration) the builder prints the closing of the form in Wis. Stat. § 887.015(6)
+itself from the `declaration` object. A final build needs the full signing date, the location
+and the state or country, and the reviewer's `use` statement; an excluded use under
+§ 887.015(4)(b), other closing wording in the body, and contradictory type or order flags
+are refused in every mode. That is the form this tool supports, not a ruling on other
+wording. See `references/circuit-court.md` §3.
 `scripts/wi_values.py` lists the dated numbers the references repeat (small-claims amounts,
 appellate length and form limits, counting periods, the ordinary appeal periods) with the
 authority and conditions of each. It answers only for dates from the one its sources were

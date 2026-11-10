@@ -27,6 +27,10 @@ word/document.xml changed. Word 16.0: 2 pages, unchanged, first paragraph at 2.0
 gave 2.00 in on page 1 and 1.18 in on page 2, measured with PyMuPDF and again by a second AI reviewer with
 Poppler; both pages viewed by both AI reviewers. In the unfilled template the execution line and signature
 block fall on page 2. Not an attorney review.
+Later on 2026-11-09 05-declaration.json moved its two closing paragraphs into a structured declaration
+object, from which the builder prints the same two paragraphs. A draft rebuild with make_templates.py
+matched the reviewed 05-declaration.docx byte for byte in all 18 parts of the package, so the DOCX was not
+replaced and its recorded checksum and render stand. A test compares the built text with the reviewed file.
 On 2026-11-09 the top margin of 10-appellate-brief.docx was raised from 0.5 in to 1.0 in to meet the
 1-inch minimum of Wis. Stat. s. 809.19(8)(b)3.e. Only word/document.xml changed and no text changed. In
 the Word 16.0 render, body text had begun at 0.50, 0.75, 1.25 and 0.50 in on pages 2 to 5 and now begins
