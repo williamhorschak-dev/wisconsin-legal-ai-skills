@@ -5,6 +5,20 @@ This tool does not discover citations, evaluate holdings, run a citator, or cont
 any source. Only plain-text quote matching is automated: the quote command labels a
 quotation VERIFIED, QUOTE_ALTERED, MISATTRIBUTED or UNRESOLVED against the archived
 text. Other results are reviewer attestations.
+
+Unpublished Wisconsin Court of Appeals opinions. A case use marked
+"unpublished_wis_ct_app": true in the inventory needs a citability check. Rule 809.23(3)
+concerns court of appeals decisions; do not mark a circuit court decision or another
+jurisdiction's opinion merely because it is unpublished. Wis. Stat. s. 809.23(3)(a) bars
+citing an unpublished opinion as
+precedent or authority except to support claim preclusion, issue preclusion or the law of
+the case; s. 809.23(3)(b) allows citing one for persuasive value only if it was issued on
+or after July 1, 2009 and is authored by a member of a three-judge panel or by a single
+judge under s. 752.31(2), not a per curiam opinion, memorandum opinion, summary disposition
+order or other order; s. 809.23(3)(c) requires filing and serving a copy with the paper
+that cites it. The tool refuses a citability pass whose recorded facts do not meet those
+conditions. It does not find unpublished opinions or read the opinion to confirm the
+recorded facts; marking the use and recording the facts are the reviewer's.
 Requires Python 3.10+; standard library only. Run --help for commands.
 """
 import argparse
@@ -36,6 +50,11 @@ NEAR_RATIO = 0.7
 NEAR_MIN_WORDS = 4
 # A version line with one of these phrases says the file is not the text in force now.
 # Phrase matching on a reviewer annotation; its absence does not establish the version in force.
+# Wis. Stat. s. 809.23(3): purposes for which an unpublished opinion may be cited, and the
+# kinds of unpublished disposition. Only "authored" may be cited for persuasive value.
+CITABILITY_PURPOSES = ("persuasive", "claim_preclusion", "issue_preclusion", "law_of_the_case")
+OPINION_TYPES = ("authored", "per_curiam", "memorandum", "summary_disposition", "other_order")
+PERSUASIVE_FROM = "2009-07-01"
 NOT_IN_FORCE = re.compile(r"\b(?:not (?:yet )?in (?:force|effect)|no longer in (?:force|effect)|prior to|superseded|repealed)\b", re.I)
 
 
@@ -94,6 +113,8 @@ def required_checks(use):
         checks = {"citation", "pincite", "treatment", "proposition", "format"}
     if use.get("quote"):
         checks.add("verbatim")
+    if use.get("unpublished_wis_ct_app"):
+        checks.add("citability")
     return checks
 
 
@@ -112,6 +133,12 @@ def inventory(path, document):
             raise ValueError(f"duplicate citation use: {use['id']}")
         if use["kind"] not in {"case", "statute", "regulation", "rule", "record"}:
             raise ValueError(f"unsupported kind: {use['kind']}")
+        if "unpublished" in use:
+            raise ValueError("use unpublished_wis_ct_app for an unpublished Wisconsin Court of Appeals opinion; Wis. Stat. "
+                             "s. 809.23(3) does not govern a circuit court decision or another jurisdiction's opinion, "
+                             "so a bare unpublished flag is not accepted")
+        if "unpublished_wis_ct_app" in use and (not isinstance(use["unpublished_wis_ct_app"], bool) or use["kind"] != "case"):
+            raise ValueError("unpublished_wis_ct_app must be true or false and applies only to a case use")
         if "quote" in use and (not isinstance(use["quote"], str) or not normalized(use["quote"])):
             raise ValueError("quote must contain non-empty text after normalization; omit it when there is no quote")
         ids.add(use["id"])
@@ -358,6 +385,43 @@ def check_quote_label(entry, use, root):
         raise ValueError("exact-text label does not match the archived text")
 
 
+def check_citability(entry):
+    """Refuse a citability pass that Wis. Stat. s. 809.23(3) does not allow on the recorded facts."""
+    facts = entry.get("citability")
+    if facts is None and entry["result"] != "pass":
+        return
+    if not isinstance(facts, dict) or facts.get("purpose") not in CITABILITY_PURPOSES:
+        raise ValueError("citability needs a citability object whose purpose is persuasive, claim_preclusion, "
+                         "issue_preclusion or law_of_the_case (Wis. Stat. s. 809.23(3)(a)-(b))")
+    if "opinion_type" in facts and facts["opinion_type"] not in OPINION_TYPES:
+        raise ValueError("citability opinion_type must be authored, per_curiam, memorandum, summary_disposition or other_order")
+    if "issued" in facts:
+        try:
+            issued = datetime.strptime(facts["issued"], "%Y-%m-%d").date().isoformat() if isinstance(facts["issued"], str) else None
+        except ValueError:
+            issued = None
+        if issued is None or issued != facts["issued"]:
+            raise ValueError("citability issued must be the opinion's date as YYYY-MM-DD, zero-padded")
+    if "copy_filed_and_served" in facts and not isinstance(facts["copy_filed_and_served"], bool):
+        raise ValueError("citability copy_filed_and_served must be true or false")
+    if entry["result"] != "pass":
+        return
+    if facts["purpose"] == "persuasive":
+        if facts.get("opinion_type") != "authored":
+            raise ValueError("citability pass refused: Wis. Stat. s. 809.23(3)(b) allows citing an unpublished opinion "
+                             "for persuasive value only if it is authored by a member of a three-judge panel or by a "
+                             "single judge under s. 752.31(2); a per curiam opinion, memorandum opinion, summary "
+                             "disposition order or other order is not an authored opinion. Record opinion_type "
+                             "authored from the opinion itself, or record fail")
+        if "issued" not in facts or facts["issued"] < PERSUASIVE_FROM:
+            raise ValueError("citability pass refused: Wis. Stat. s. 809.23(3)(b) reaches only an unpublished opinion "
+                             "issued on or after July 1, 2009; record the issue date from the opinion, or record fail")
+    if facts.get("copy_filed_and_served") is not True:
+        raise ValueError("citability pass refused: Wis. Stat. s. 809.23(3)(c) requires a party citing an unpublished "
+                         "opinion to file and serve a copy with the brief or other paper; record "
+                         "copy_filed_and_served true once the copy is with the filing, or record caution")
+
+
 def validate_entry(entry, inv, root):
     if not isinstance(entry, dict):
         raise ValueError("each evidence entry must be a JSON object")
@@ -405,6 +469,10 @@ def validate_entry(entry, inv, root):
             raise ValueError("passing checks need file, sha256, locator and matched source evidence")
         if entry["check"] == "treatment" and use["kind"] == "case" and (not isinstance(entry.get("citator"), str) or not entry["citator"].strip()):
             raise ValueError("case treatment cannot pass without a named citator; use caution for a free-source screen")
+    if entry["check"] == "citability":
+        check_citability(entry)
+    elif "citability" in entry:
+        raise ValueError("citability facts belong only on a citability check")
     if entry.get("file"):
         path = source_path(root, entry["file"])
         if entry.get("sha256") != digest(path):
@@ -596,6 +664,12 @@ def report(inv, entries, reach=None):
                 parts = [f"{name}: {entry['result']} ({evidence})"]
                 if name == "verbatim":
                     parts.append(quote_label(entry, use["quote"]))
+                if name == "citability" and isinstance(entry.get("citability"), dict):
+                    facts = entry["citability"]
+                    parts.append("s. 809.23(3) facts recorded by the reviewer: purpose " + facts["purpose"].replace("_", " ")
+                                 + f", opinion type {str(facts.get('opinion_type', 'not recorded')).replace('_', ' ')}"
+                                 + f", issued {facts.get('issued', 'not recorded')}"
+                                 + ", copy filed and served: " + {True: "yes", False: "no"}.get(facts.get("copy_filed_and_served"), "not recorded"))
                 if entry.get("version_compared"):
                     parts.append(f"compared against version: {entry['version_compared']}")
                 origin = entry.get("provenance_origin")
@@ -607,6 +681,13 @@ def report(inv, entries, reach=None):
         f"Inventory SHA-256 (canonical JSON): `{inventory_digest(inv)}`", "",
         "RECORDED PASS means every required check has a passing evidence record. It is not an independent finding of legal accuracy, good-law status, or filing readiness. Citation inventory completeness and manual judgments require review. Exact text matching does not verify attribution, pagination, or proposition support. For quotations only VERIFIED supports a pass; QUOTE_ALTERED, MISATTRIBUTED and UNRESOLVED do not. The evidence log is an ordinary local file: this tool detects a changed draft, source or inventory, but not a deleted, inserted or hand-edited log line.", "",
         "| Use | Citation | Proposition | Status | Checks and evidence |", "|---|---|---|---|---|", *rows, "",
+        *(["Unpublished Wisconsin Court of Appeals opinions: "
+           + "; ".join(f"{use['id']} {use['citation']}" for use in inv["uses"] if use.get("unpublished_wis_ct_app"))
+           + ". Wis. Stat. s. 809.23(3)(c): a party citing an unpublished opinion shall file and serve a copy of the opinion "
+             "with the brief or other paper in which it is cited. An archived copy in the sources folder is not a filed or "
+             "served copy. The citability facts above are the reviewer's record; the tool applied the conditions of "
+             "s. 809.23(3)(a)-(c) to them and did not read the opinion.", ""]
+          if any(use.get("unpublished_wis_ct_app") for use in inv["uses"]) else []),
         *reachability(inv, entries, reach),
         "## Evidence records", "",
         "The records below preserve source hashes, locators, matched text, methods, and reviewer notes. Corrected drafts require a new inventory and log; prior runs remain unchanged.", "", "```json", json.dumps(entries, indent=2, ensure_ascii=False), "```", ""
