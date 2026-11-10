@@ -193,8 +193,7 @@ America." Do not carry the Wisconsin form into a federal filing.
 [CAPTION]
 DECLARATION OF [NAME] IN SUPPORT OF PLAINTIFF'S MOTION TO COMPEL
 
-Pursuant to Wis. Stat. § 887.015, I declare the following to be true under penalty
-of false swearing under the law of Wisconsin.
+I, [NAME], state the following under Wis. Stat. § 887.015:
 
 1. I am the Plaintiff in this action and make this declaration on personal
    knowledge.
@@ -202,11 +201,22 @@ of false swearing under the law of Wisconsin.
    conclusions.]
 3. Attached as Exhibit A is a true and correct copy of ___.
 
-Signed on the ____ day of __________, 2026, at [CITY], Wisconsin.
+I declare under penalty of false swearing under the law of Wisconsin that the
+foregoing is true and correct.
+
+Signed on the ____ day of __________, 2026, at [CITY OR OTHER LOCATION], [STATE OR
+COUNTRY].
 
 Electronically signed by [NAME]
 [NAME]
 ```
+
+The declaration sentence follows the facts and uses the statute's own words, as the
+form in § 887.015(6) does. The statute requires a declaration "in substantially the
+following form", not these exact words; the template uses them so that conformity is
+not a question. Fill in the day, month and year, and the city or other location and
+the state or country where the declarant actually signs.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check and second AI review by Astra, a Codex model, both 2026-11-09), U-03: Wis. Stat. § 887.015(3) and (6), https://docs.legis.wisconsin.gov/document/statutes/887.015 (page banner: updated through 2025 Wis. Act 247). No decision on the substantial conformity of any alternative wording was read. -->
 
 **Content requirements are unchanged.** Wis. Stat. § 802.08(3) still says
 "affidavits," and requires personal knowledge and evidentiary facts admissible in
