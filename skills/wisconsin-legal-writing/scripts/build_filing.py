@@ -77,8 +77,13 @@ with "Signed on", "Executed on" or "Dated this", or has the declarant declare, c
 swear, affirm or verify that something is true is reported as a possible closing and refused
 in every mode, until the block is removed or its index is listed in not_closings, the
 reviewer's statement that it is a fact and not a closing. The screen can miss other closings
-and can match ordinary facts; it does not decide either. The one exception is a block that
-repeats the generated sentence word for word, which is always refused.
+and can match ordinary facts; it does not decide either.
+
+One restriction cannot be overridden. A body block whose raw text contains the complete
+generated sentence, including its final period, is refused after case folding and whitespace
+normalization even if its index is listed in not_closings. This comparison does not remove
+inline formatting or combine blocks. It does not guarantee that the generated document has
+no duplicate closing.
 
 Also refused in every mode: a declaration marked as a proposed order, and a declaration
 title or object with another document_type. The statute asks for "substantially" its form;
@@ -733,8 +738,9 @@ def _declaration_blocks(spec, *, draft=False, quiet=False):
     generated = " ".join(DECLARATION_SENTENCE.casefold().split())
     for index, block in enumerate(spec["body"]):
         if generated in " ".join(block.get("text", "").casefold().split()):
-            raise ValueError(f"body[{index}] repeats the declaration sentence the builder prints after the body; remove "
-                             "it. This one is not a question for the reviewer: the sentence would appear twice.")
+            raise ValueError(f"body[{index}]: this block's raw text contains the complete sentence reserved for the "
+                             "builder-generated closing. Remove it from the input; not_closings cannot override this "
+                             "raw-text restriction.")
         reasons = [reason for reason, pattern in _POSSIBLE_CLOSING if pattern.search(block.get("text", ""))]
         if reasons:
             matched[index] = reasons

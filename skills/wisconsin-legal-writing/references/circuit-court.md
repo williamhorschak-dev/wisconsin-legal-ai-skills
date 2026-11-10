@@ -252,6 +252,12 @@ line above itself, after the body, from the reviewer's statements:
   this", or has the declarant declare or certify that something is true is reported as a
   *possible* closing and refused until it is removed or its block number is listed in
   `not_closings`. The screen may miss other closings or match ordinary facts.
+- One restriction cannot be overridden. A body block whose raw text contains the complete
+  generated sentence, including its final period, is refused after case folding and
+  whitespace normalization even if its number is listed in `not_closings`. This comparison
+  does not remove inline formatting or combine blocks; other possible-closing matches
+  require removal or the reviewer's explicit statement. It does not guarantee that the
+  generated document has no duplicate closing.
 - A declaration marked as a proposed order, and a declaration title or object with another
   `document_type`, are refused as contradictory.
 
@@ -260,7 +266,7 @@ and the builder does not judge whether other wording conforms. Every successful 
 prints that the form was generated from the reviewer's stated use, date and place, and
 that applicability, exclusion status, the body review and actual execution were not
 independently verified.
-<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09, rebuilt to the second AI review by Astra, a Codex model, of 2026-11-09; revised 2026-11-10 to that reviewer's second report, findings R42-01 and R42-02; verification of this revision pending), U-03b: Wis. Stat. § 887.015(2)(g), (4)(a), (4)(b)1.-5. and (6), https://docs.legis.wisconsin.gov/document/statutes/887.015, read 2026-11-09 (Published 11-4-26). No decision on the substantial conformity of any alternative wording was read. -->
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09, rebuilt to the second AI review by Astra, a Codex model, of 2026-11-09; revised 2026-11-10 to that reviewer's second report, findings R42-01 and R42-02, which that reviewer verified as fixed the same day, and to its wording finding V45-01), U-03b: Wis. Stat. § 887.015(2)(g), (4)(a), (4)(b)1.-5. and (6), https://docs.legis.wisconsin.gov/document/statutes/887.015, read 2026-11-09 (Published 11-4-26). No decision on the substantial conformity of any alternative wording was read. -->
 
 **Content requirements are unchanged.** Wis. Stat. § 802.08(3) still says
 "affidavits," and requires personal knowledge and evidentiary facts admissible in

@@ -165,7 +165,23 @@ class DeclarationTests(unittest.TestCase):
                 with self.subTest(repeated=text, draft=draft):
                     spec = declaration(not_closings=[2])
                     spec["body"].append({"type": "p", "text": text})
-                    self.refused(spec, "body[2] repeats the declaration sentence the builder prints", draft=draft)
+                    message = self.refused(spec, "body[2]: this block's raw text contains the complete sentence reserved for "
+                                           "the builder-generated closing", draft=draft)
+                    self.assertIn("not_closings cannot override this raw-text restriction", message)
+                    self.assertNotIn("twice", message)
+        for draft in (False, True):
+            with self.subTest(unprinted_block=True, draft=draft):
+                spec = declaration()
+                spec["body"].append({"type": "blank", "text": SENTENCE})
+                message = self.refused(spec, "raw text contains the complete sentence reserved", draft=draft)
+                self.assertNotIn("twice", message)
+            with self.subTest(formatted_word=True, draft=draft):
+                # The comparison is of raw text: inline markup makes this an ordinary screen match the reviewer resolves.
+                spec = declaration()
+                spec["body"].append({"type": "p", "text": SENTENCE.replace("Wisconsin", "**Wisconsin**")})
+                self.refused(spec, "possible closing wording in the body:\nbody[2] ", draft=draft)
+                spec["declaration"]["not_closings"] = [2]
+                self.assertIn(NOTICE, self.build(spec, draft=draft)[1])
         spec = declaration()
         spec["body"] += [
             {"type": "num", "text": "2. I signed the synthetic lease on March 3, 2026."},
