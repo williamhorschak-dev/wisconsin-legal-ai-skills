@@ -209,7 +209,7 @@ See [the full example](skills/wisconsin-legal-interpretation/references/syntheti
 | Claim | Status |
 |---|---|
 | The skill packages pass the repository's checks (metadata, links, legal notice, checksums) | Run by CI on every push to `main`. |
-| The Python tools have a regression test suite | 182 tests. CI ran all 182 on Ubuntu and Windows with Python 3.10 and 3.12 at commit 07d4396 (run 42541808087), the last change merged before the version bump for this release. |
+| The Python tools have a regression test suite | 209 tests. CI ran all 209 on Ubuntu and Windows with Python 3.10 and 3.12 at commit bf195c2 (run 42829200727), the last change merged before the version bump for this release. |
 | Release files can be rebuilt from the tagged commit | For release 2026.11.08.1, each of the four CI jobs (run 42542908238 at the tagged commit fd525a8) produced all nine files byte-identical to the published assets, checked 2026-11-08, after the five ZIPs and the checksum file first uploaded from a CPython 3.14 build were replaced with the CPython 3.12 build the same hour; the two builds had identical ZIP members and differed only in compressed bytes. For release 2026.11.07.1, each of the four CI jobs (Ubuntu and Windows, Python 3.10 and 3.12; run 42440778709 at the tagged commit a58f32e) produced all nine files byte-identical to the published assets, checked 2026-11-07. The same held for 2026.10.24.2 (run 40150567840) and 2026.10.24.1 (run 40146773285). For release 2026.09.20.2, a rebuild on CPython 3.12 on 2026-10-11 matched every published asset byte for byte; a rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. No independent rebuild of release 2026.10.13.1 was recorded. |
 | Word templates build and render | The 11 JSON-backed templates rebuild in tests. On 2026-11-07 all 11 were rebuilt with an exact-height page-1 clearance; Word 16.0 and its exported PDF place page 1 text at 2.00 in (3.00 in for the proposed order), page counts unchanged; on 2026-11-08 a second AI reviewer rendered two of them with LibreOffice 26.8.2.2 and measured a constant 0.03 in glyph-box offset from those positions, no clipping. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. No attorney reviewed them. See [TEMPLATE-QA.md](docs/TEMPLATE-QA.md). |
 | Any model follows these skills | **No trial recorded by the project.** As of 2026-11-08, the project's release record (see below) lists no model or host trial. The 24-scenario [evaluation suite](evals/README.md) and its harness have no recorded results. A separate exploratory evaluation is summarized after this table; it is not a certification. |
@@ -238,9 +238,9 @@ scorers identified the condition of all 24 responses, so the scoring was effecti
 unblinded. Read it as an exploratory measurement of task completion, not as evidence that
 the legal content is correct. It was run on release 2026.09.20.2, not on this release.
 
-## Known limits of the bundled tools (release 2026.11.08.1)
+## Known limits of the bundled tools (release 2026.11.10.1)
 
-These describe the files in release 2026.11.08.1. Release 2026.11.08.1 widens the builder's placeholder screen, rebuilds the source checker so that temporary failures, refusals and changed sources are reported apart, refreshes the source register and updates one dated passage on the AI rule petitions. Release 2026.11.07.1 corrected one layout defect of
+These describe the files in release 2026.11.10.1. Release 2026.11.10.1 adds seven changes that enforce Wisconsin rules in the tools: a protected-information screen, a county check, a refusal of complaints and summonses, a generated declaration closing (which changes the declaration input contract; see the release notes), a corrected appellate template margin, an unpublished-opinion citation check, and a lookup table of dated values. Six further checks were built, reviewed and not shipped because they could not be made exact; the release notes list them. Release 2026.11.08.1 widened the builder's placeholder screen, rebuilds the source checker so that temporary failures, refusals and changed sources are reported apart, refreshes the source register and updates one dated passage on the AI rule petitions. Release 2026.11.07.1 corrected one layout defect of
 the two 2026.10.24 releases: the page-1 clearance band was built from line breaks, so its
 height depended on the renderer and a proposed order's gap came out well over 3 inches.
 Defects of release 2026.10.13.1 corrected in 2026.10.24.1, all found by a third
@@ -265,6 +265,18 @@ clearance could be switched off.
   categories in Wis. Stat. § 801.19(1)(a) in the spec text only. It cannot see exhibits,
   does not recognise every account, license or passport format, and can match numbers
   that are not protected information. It is not a redaction check.
+- The builder generates one declaration closing, the form in Wis. Stat. § 887.015(6), from the
+  reviewer's statements of use, purpose, signing date and place. It does not verify that a
+  law permits a sworn declaration for the purpose, that the use is not excluded, that the
+  body holds no other closing, or that anyone signed. Its screen for possible closing
+  wording can miss a closing and can match an ordinary fact. Other wording is refused as
+  unsupported by the tool, not as legally defective.
+- The builder refuses a complaint or a summons by the opening words of the title or the
+  declared type. A complaint under an unusual title is not recognised. The county check
+  knows the 72 county names; it does not decide venue or where an appeal is heard.
+- The unpublished-opinion check in the citation tool applies Wis. Stat. § 809.23(3) to
+  facts the reviewer records. It does not read the opinion and does not find unpublished
+  opinions the inventory fails to mark.
 - In two templates a section symbol can be separated from its number by a line break.
 - The subsequent history of cited authorities was not checked exhaustively against public
   sources where only the original opinion was read.

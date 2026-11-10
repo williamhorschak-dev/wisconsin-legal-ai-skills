@@ -1,11 +1,11 @@
-# Tested compatibility: 2026.11.08.1
+# Tested compatibility: 2026.11.10.1
 
 Format support and observed behavior are separate claims.
 
 | Layer | Evidence | Limit |
 |---|---|---|
 | Skill packages | Metadata, local links, notices, hashes and ZIP contents are checked by CI. | The host must support the format and expose the needed capabilities. |
-| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (182 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
+| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (209 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
 | Document templates | All 11 JSON-backed templates were rebuilt on 2026-11-07 after the page-1 clearance spacer was given an exact height; Word 16.0 and its exported PDF place page 1 body text at 2.00 in (3.00 in for the proposed order) and later pages at 0.95 in; page counts unchanged; page 1 of two templates viewed by an AI agent. On 2026-11-08 a second AI reviewer rendered two of them with LibreOffice 26.8.2.2 and measured first glyph boxes at 2.03 in, 3.03 in and 0.98 in, a constant offset from Word's line positions, no clipping. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. All 14 Word assets have a byte-bound review record. | A rendered-page check by AI is not an attorney review and does not establish filing readiness. The three assets outside the rebuild keep their inherited review. See TEMPLATE-QA.md. |
 | Claude model behavior | No provider trials recorded for this release. | The optional CLI adapter is tested with simulated subprocess responses only. |
 | GPT/OpenAI model behavior | No provider trials recorded for this release. | Codex metadata and prompt exports establish integration format, not answer quality. |
@@ -15,6 +15,34 @@ The 24 scenarios prepare 48 paired trials per repetition. None is marked passed
 merely because its fixture exists. There is no published model score, legal-accuracy
 score, or attorney approval for this release. Current publication provides tested
 helpers and evaluation infrastructure, not a completed cross-model benchmark.
+
+## Record of 2026-11-10 (release 2026.11.10.1)
+
+- **CI.** The validate workflow (Ubuntu and Windows, each on Python 3.10 and 3.12) passed in
+  all four jobs at bf195c2 on `main` (run 42829200727), the last change merged before this
+  release's pull request, and on each of the eight pull requests merged on 2026-11-09 and
+  2026-11-10 (24, 34, 35, 36, 37, 38, 45 and 49). Each job at bf195c2 ran 209 tests. The
+  release pull request's own runs are listed on that pull request.
+- **Local Windows run.** On Windows 11 under CPython 3.14.5, the four validators exited 0 and
+  the suite ran 209 tests, OK, with 2 skipped (symbolic links), on the release branch.
+- **Second AI review.** A second AI of a different model family (Codex, acting as the
+  reviewer "Astra") reran the suite and the four validators under CPython 3.12.14 on Windows
+  at each stage it reviewed, and attacked each check with inputs the tests did not cover. Its
+  last pass on the declaration generator ran 117 attack cases and found no false pass against
+  the stated contract. Its reviews are why six further checks were not shipped; see the
+  release notes. This is AI review, not attorney review.
+- **Document templates.** Two changed in this cycle. `05-declaration.docx` was rebuilt on
+  2026-11-09 in the order of the form in Wis. Stat. § 887.015(6): Word 16.0, 2 pages, first
+  paragraph at 2.00 in; a second AI reviewer measured the Word-saved PDF with Poppler. The
+  later move of its closing into a structured object changed the specification only: a draft
+  rebuild matched the reviewed file in all 18 package parts, reproduced by the second
+  reviewer. `10-appellate-brief.docx` had its top margin raised from 0.5 in to 1.0 in: Word
+  16.0, 6 pages (5 before), pages 2 to 6 beginning at 1.00 in, measured by both reviewers.
+  The other twelve templates are byte-identical to release 2026.11.08.1.
+- **Release assets.** To be compared with the CI artifacts after the merge, building under
+  CPython 3.12 as docs/RELEASING.md requires; the result is recorded in this file by a
+  following pull request, because this file is itself a release asset.
+- **Models and hosts.** No new trial. The 2026-10-24 trigger-activation record stands.
 
 ## Record of 2026-11-08 (release 2026.11.08.1)
 
