@@ -73,11 +73,11 @@
       "new_render_this_release": false
     },
     "10-appellate-brief.docx": {
-      "sha256": "cf87d30f99aec9c52d619570953dcc87df5995558d71f611d077f2e400d78ea2",
-      "review_status": "text-checked",
-      "review_date": "2026-10-13",
-      "review_basis": "Appendix certification (CERTIFICATION BY ATTORNEY) replaced with the full text of Wis. Stat. s. 809.19(8g)(b)1., read from the live chapter 809 PDF (2023-24 Wis. Stats., published 10-1-26) on 2026-10-13; the cross-reference reads s. 809.23(3)(a) or (b). The form text was copied from the statute and has not been reviewed by an attorney. Text read back with python-docx; no rendered-page review of this edit.",
-      "new_render_this_release": false
+      "sha256": "e8b725d45af61380e5046bd1e188f3e2021f2b6129fb2ae243d83c9b0527db45",
+      "review_status": "layout-checked",
+      "review_date": "2026-11-09",
+      "review_basis": "On 2026-11-09 the page top margin was changed from 0.5 in to 1.0 in (w:pgMar w:top 720 to 1440 in word/document.xml; no other part and no text changed) because Wis. Stat. s. 809.19(8)(b)3.e. requires a minimum 1-inch margin at the top and bottom. Rendered in Microsoft Word 16.0 with Century Schoolbook installed and saved as PDF, read with PyMuPDF: before the change body text began at 2.32 in on the cover and at 0.50, 0.75, 1.25 and 0.50 in on pages 2 to 5; after it, at 2.32 in on the cover and at 1.00 in on each of pages 2 to 6. The page count went from 5 to 6. Pages 1 to 3 were viewed by an AI agent (Claude). A second AI reviewer (Astra, Codex) measured the same Word-saved PDFs with Poppler (old: 2.3211, 0.5009, 0.7509, 1.2495, 0.5009 in; new: 2.3211 in on the cover and 1.0011 in on pages 2 to 6), viewed all six new pages, saw no clipping, and confirmed that only word/document.xml differs and paragraph text is unchanged; it did not run a second layout engine. The page-margin setting is not proof of a clear margin in every document built from the template: headers, tables, text boxes and positioned objects can intrude. Earlier record: appendix certification replaced with the full text of s. 809.19(8g)(b)1. on 2026-10-13, read back with python-docx. Nothing was reviewed by an attorney.",
+      "new_render_this_release": true
     },
     "11-motion-attorney-signed.docx": {
       "sha256": "cc69fc3514f04aeaecb03820a2adb53ca9f0d6e820ca9d31a4f389a3c0f6f4d5",
