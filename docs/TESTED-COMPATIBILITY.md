@@ -39,9 +39,16 @@ helpers and evaluation infrastructure, not a completed cross-model benchmark.
   reviewer. `10-appellate-brief.docx` had its top margin raised from 0.5 in to 1.0 in: Word
   16.0, 6 pages (5 before), pages 2 to 6 beginning at 1.00 in, measured by both reviewers.
   The other twelve templates are byte-identical to release 2026.11.08.1.
-- **Release assets.** To be compared with the CI artifacts after the merge, building under
-  CPython 3.12 as docs/RELEASING.md requires; the result is recorded in this file by a
-  following pull request, because this file is itself a release asset.
+- **Release assets.** The release was built from the clean checkout at 335f21b under CPython
+  3.12.10; BUILD.json names that commit with `dirty` and `preview` false. The artifacts of
+  the validate run for the push of 335f21b to `main` (run 42830448912) were downloaded: the
+  four matrix jobs produced nine files byte-identical to one another and to the local build.
+  The draft release's nine assets were downloaded before publication and every SHA-256
+  matched the local build. The maintainer published on 2026-11-10 14:16 UTC. The public
+  assets were then downloaded: all nine match the local build and the CI artifacts byte for
+  byte, and SHA256SUMS.txt verifies against the downloads. The copy of this file inside the
+  release says the check had not been made yet, because the file is itself an asset; this
+  repository copy records the result.
 - **Models and hosts.** No new trial. The 2026-10-24 trigger-activation record stands.
 
 ## Record of 2026-11-08 (release 2026.11.08.1)
