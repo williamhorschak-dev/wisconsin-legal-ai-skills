@@ -6,6 +6,13 @@
   "bold_court_line": false,
   "appellate": false,
   "proposed_order": false,
+  "document_type": "motion",
+  "motion": {
+    "moving_parties": [
+      "Defendant"
+    ],
+    "relief": "to [RELIEF]"
+  },
   "first_party": {
     "name": "STATE OF WISCONSIN",
     "designation": "Plaintiff"

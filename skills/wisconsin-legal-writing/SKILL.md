@@ -138,6 +138,13 @@ statements, the full signing date, the location and the state or country, and
 the body that the reviewer has not resolved, and contradictory type or order flags are
 refused in every mode. The builder generates one supported form from those statements; it
 does not verify applicability or execution. See `references/circuit-court.md` §3.
+For a motion (`document_type: "motion"`, a `motion` object, or a title that opens as a
+motion) the reviewer states who moves and what is sought in `"motion": {"moving_parties":
+[...], "relief": "..."}`, and the builder checks one supported title form against it under
+Wis. Stat. § 802.01(2)(d): each mover a distinct party named in the title, the relief
+description present, and nothing else in the title. A final build is refused otherwise, and
+a notice of motion or hearing must say whether it is the motion. The builder does not
+verify who moves or whether the description is adequate. See `references/captions.md`.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

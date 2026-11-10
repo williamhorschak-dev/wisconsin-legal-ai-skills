@@ -28,9 +28,30 @@ take precedence; do not assume La Crosse County or a pro se plaintiff.
   that shorter caption, so it **does not build a complaint or a summons**; that is a
   limit of the tool. Prepare those from the court's forms or by hand.
   <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check and second AI review by Astra, a Codex model, both 2026-11-09), U-04: Wis. Stat. § 802.04(1) and § 801.09(1), https://docs.legis.wisconsin.gov/document/statutes/802.04 and .../801.09 (page banner: updated through 2025 Wis. Act 247). -->
-- **Wis. Stat. § 802.01(2)(d)**: *every written motion* must include in its caption
-  the name of the party seeking relief and a brief description of the type of relief
-  sought. `PLAINTIFF'S MOTION TO COMPEL`, not `MOTION TO COMPEL`.
+- **Wis. Stat. § 802.01(2)(d)**, final sentence: "The name of the party seeking the order or
+  relief and a brief description of the type of order or relief sought shall be included in
+  the caption of every written motion." `PLAINTIFF'S MOTION TO COMPEL`, not `MOTION TO
+  COMPEL`. For a motion, `build_filing.py` takes the reviewer's statement of who moves and
+  what is sought, `"motion": {"moving_parties": ["Plaintiff"], "relief": "to Compel
+  Discovery"}`, and checks one supported title form against it. A final build is refused
+  unless each moving party is a party in the spec (or is listed again in `outside_caption`
+  when the caption does not print that person), no party is listed twice, the title names
+  each mover by name or designation and contains the relief description, and the title
+  holds nothing else: a word that is not a declared mover, the relief description or motion
+  boilerplate is refused. `--draft` warns instead.
+  - The reviewer identifies each party seeking relief. A joint motion needs at least two
+    distinct moving parties; consent or stipulation does not by itself identify an
+    additional mover.
+  - The builder accepts a designation because the caption prints the party's name beside
+    it. That is a convention of this two-party caption, not a ruling that a designation
+    alone is enough in every court.
+  - Under § 802.01(2)(a) a motion may be stated in a written notice of its hearing. A title
+    that opens as a notice of motion or of hearing is refused in a final build until
+    `document_type` says whether it is the motion.
+  - Every successful motion build says what was not verified: party status, the
+    completeness of the list of movers, the legal adequacy of the description, and whether
+    the document is the motion or a separate notice.
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09; rebuilt twice to the reviews by Astra, a Codex model, of 2026-11-09, findings B26-02 and R43-01 to R43-04; this revision awaits its own review), U-04b: Wis. Stat. § 802.01(2)(a) and (d), https://docs.legis.wisconsin.gov/document/statutes/802.01, read 2026-11-09 (Published 11-4-26). Whether a designation alone satisfies "the name of the party" is not settled by the sources read. -->
 - **Wis. Stat. § 809.81(9)**: appellate captions must carry the full name of each
   party as in the circuit court and designate each party's status in *both* courts
   (`Plaintiff-Appellant`, `Defendant-Respondent`).
