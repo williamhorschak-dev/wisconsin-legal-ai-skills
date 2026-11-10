@@ -196,15 +196,16 @@ The *Kalal* framework has been under active pressure from two directions:
   from determining what statutes actually mean, and the intrinsic/extrinsic line was disputed
   there.
 
-**Status as checked October 12, 2026.** In *SEIU Healthcare Wisconsin v. WERC*, 2025 WI 29,
-the majority opinion for a unanimous Court applied *Kalal* (cover; ¶¶ 9-12), while Justice
-Dallet's concurrence, joined by three other justices (four of seven), proposed a broader,
-holistic approach (cover; ¶ 65). The clerk's Table of Pending Cases (p. 9) lists *Abby
-Windows, LLC v. LIRC*, No. 2024AP1013, accepted 06/16/2026, with oral argument scheduled for
-November 10, 2026 on whether to revisit and modify the *Kalal* framework. Apply *Kalal* as
-explained in *SEIU* unless later controlling authority changes it, and check the case's
-current status before relying on that framework.
-<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-10-12), L-008 and K-1: one identical dated status sentence in canons.md section 1.6, standards-of-review.md and the interpretation README. Sources: SEIU, 2025 WI 29, cover, ¶¶ 9-12, ¶ 65 (https://www.wicourts.gov/sc/order/DisplayDocImage.pdf?docId=977376); Clerk's Table of Pending Cases, p. 9, No. 2024AP1013 (https://www.wicourts.gov/sc/SCCASES.pdf), both read 2026-10-12. No citator content. Recheck on 2026-11-10 and on decision. -->
+**Status as checked October 12 and November 10, 2026.** In *SEIU Healthcare Wisconsin v.
+WERC*, 2025 WI 29, the majority opinion for a unanimous Court applied *Kalal* (cover;
+¶¶ 9-12), while Justice Dallet's concurrence, joined by three other justices (four of seven),
+proposed a broader, holistic approach (cover; ¶ 65) (read October 12). The clerk's Table of
+Pending Cases, as read on November 10 (p. 9), lists *Abby Windows, LLC v. LIRC*, No.
+2024AP1013, accepted 06/16/2026, with "Oral Arg.: 11/10/2026", on whether to revisit and
+modify the *Kalal* framework, and shows no decision in the case. Whether the argument was
+held was not checked. Apply *Kalal* as explained in *SEIU* unless later controlling
+authority changes it, and check the case's current status before relying on that framework.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-10; second AI review pending), L-008, K-1 and K-2: one identical dated status passage in canons.md section 1.6, standards-of-review.md and the interpretation README. Sources: SEIU, 2025 WI 29, cover, ¶¶ 9-12, ¶ 65 (https://www.wicourts.gov/sc/order/DisplayDocImage.pdf?docId=977376), read 2026-10-12 and not re-read; Clerk's Table of Pending Cases, p. 9, No. 2024AP1013 (https://www.wicourts.gov/sc/SCCASES.pdf), read 2026-11-10 (file properties: created 2026-10-15; SHA-256 d6e8daf17fb245d3c9605c3e50198af2855af221236e10f5adaa88c41b09c3f9). The table's first page says that after a decision the oral argument date is replaced by the decision date and an abbreviated mandate. No citator content. Recheck when the table changes and on decision. -->
 
 **Operating rule.** *Kalal*, as clarified by *SEIU*, controls until an opinion says otherwise,
 and every memo applies it. At the start of any run that turns on interpretive method:
