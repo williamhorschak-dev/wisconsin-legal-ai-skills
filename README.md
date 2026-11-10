@@ -269,6 +269,10 @@ clearance could be switched off.
   It refuses dates before the range it was verified for, does not watch for new acts, and
   does not decide which claims a changed amount first applies to. Its reference check
   compares numbers in listed sentences; it does not review the law.
+- `check_appellate_brief.py` reads a DOCX, not the rendered page. It does not examine the
+  cover, tables, statement of issues, signature block or certifications, the font family,
+  or combined briefs, and its word count is a cross-check that exits 3 when it is within
+  1 percent of the limit. Exit 0 covers only the checks it lists as measured.
 - In two templates a section symbol can be separated from its number by a line break.
 - The subsequent history of cited authorities was not checked exhaustively against public
   sources where only the original opinion was read.

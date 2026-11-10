@@ -259,6 +259,56 @@ enlarged cross-appeal limits. Neither combined brief gets an enlarged allowance;
 cross portion takes its own white cover page with a signature only at its end.
 Read § 809.19(6)(b)2. and (6)(c)2. if this ever arises.
 
+### Measuring a brief, `scripts/check_appellate_brief.py`
+
+```sh
+python <skill-dir>/scripts/check_appellate_brief.py brief.docx --kind appellant
+```
+
+`--kind` is `appellant`, `respondent`, `reply` or `nonparty`; add
+`--no-statement-of-case` for a respondent's brief that omits the statement, as
+§ 809.19(3)(a)2. allows. The script reads the DOCX, not a rendered page, and takes its
+numbers from `wi_values.py`. It exits **0** only when everything below was measured and
+passed, **1** when a measured value departs from the rule, and **3** when nothing
+measured departs but something in scope could not be measured. Exit 3 is not a pass.
+
+- **Page setup, (8)(b)2. and 3.e.** Every section is 8.5 by 11 inches with side margins
+  of at least 1.25 inches and top and bottom margins of at least 1 inch.
+- **Pagination, (8)(bm).** Every footer Word will print, in every section, has a PAGE
+  field in a centered paragraph; numbering is Arabic, starts at 1 and is not restarted.
+- **Length, (8)(c).** The words from the statement of the case (from the argument for a
+  reply or nonparty brief, or a respondent who omits the statement) through the
+  conclusion, with the footnotes cited there. It counts to the first date, signature or
+  certification line after the conclusion and again through the end of the file. It
+  passes only when the larger count is under the limit by 1 percent, and reports a
+  departure only when the smaller count is over by 1 percent. In between it exits 3:
+  its count can differ from a word processor's, and it cannot be sure where the
+  conclusion ends. The 1 percent is this project's screening margin, not a tolerance in
+  the rule.
+- **Text form, (8)(b)3.c.** In those same paragraphs: body text of at least 13 points
+  spaced 1.15 to 1.5 lines; or, for a paragraph indented at least half an inch or in a
+  quotation style, single-spaced text of at least 11 points. Footnotes single-spaced in
+  at least 11 points.
+
+It exits 3 for a table, picture, drawing or text box in the counted portions (under
+§ 809.19(8g)(a)2. the word count "shall include the words of any text included in the
+brief in the form of an image", and the script cannot read them); tracked changes;
+endnotes; a brief titled a combined brief or with a second ARGUMENT or CONCLUSION
+heading; a missing section heading; fixed line spacing, which the rule allows when
+"equivalent" and the script does not judge; a heading outside the body numbers, because
+the script does not decide whether those numbers reach headings; a page number placed by
+a tab, table or text box; and numbering restarted at a number other than 1.
+
+It does not examine the cover, the tables of contents and authorities, the statement of
+issues, the signature block or the certifications; the font family; the use of italics
+and bold; whether an indented paragraph really is a quotation; the rendered page; or the
+content. It treats 11 points as a minimum for block quotes and footnotes and does not
+apply the page limits for monospaced or handwritten briefs. Counsel must submit the
+signed certification of form and length, § 809.19(8g)(a)1., and may use a commercial word
+processor's count, (8g)(a)2.; a self-represented filer must still meet the form and
+length rules. The script's count is a cross-check, not the certified count.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09, rebuilt to the second AI review by Astra, a Codex model, of 2026-11-09; this revision awaits its own second review), U-08b: Wis. Stat. § 809.19(1)(d)-(f), (3)(a)2., (6)(b)2., (c)2. and (e), (8)(b)2., 3.c. and 3.e., (8)(bm), (8)(c)1.-3., (8g)(a)1.-2., https://docs.legis.wisconsin.gov/document/statutes/809.19, read 2026-11-09 (Published 11-4-26). Whether the body-text numbers reach headings, and whether 11 points is a minimum or an exact size, were not researched. -->
+
 ---
 
 ## Cover, Rule 809.19(9)

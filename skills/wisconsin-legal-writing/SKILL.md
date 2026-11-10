@@ -143,6 +143,12 @@ motion) the reviewer states who moves and what is sought in `"motion": {"moving_
 written motion, so a final build is refused unless the title names each mover and contains
 the relief description; contradictory type or order flags are refused in every mode. The
 builder does not judge whether the description is adequate. See `references/captions.md`.
+`scripts/check_appellate_brief.py brief.docx --kind appellant|respondent|reply|nonparty`
+measures a Court of Appeals brief against Wis. Stat. § 809.19(8): page setup, pagination,
+length of the counted portions, and text form. Exit 0 means every check it makes was
+measured and passed; exit 1 is a measured departure; exit 3 means something in scope could
+not be measured (a table or image in the counted text, a combined brief, fixed line
+spacing, a count too close to the limit) and is not a pass. See `references/appellate.md`.
 `scripts/wi_values.py` lists the dated numbers the references repeat (small-claims amounts,
 appellate length and form limits, counting periods, the ordinary appeal periods) with the
 authority and conditions of each. It answers only for dates from the one its sources were
