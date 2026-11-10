@@ -1,0 +1,13 @@
+{
+  "trial": "W06-baseline-1",
+  "input_sha256": "f04de56a8fd5d7deb1a5e3a5ebfc493e11daf9b42e4ccd443c2c32eb94e70e1b",
+  "host": "Claude Code desktop 2.1.321, one fresh Workflow subagent per trial; the subagent read the prompt from a file with the Read tool and wrote its answer with the Write tool; not a text-only session",
+  "models": [
+    "claude-sonnet-5-5"
+  ],
+  "collected_at": "2026-11-10T17:43:14.589673+00:00",
+  "status": "collected",
+  "collection": "manual import; operator must preserve raw output and disclose actual host capabilities",
+  "response": "STATE OF WISCONSIN          CIRCUIT COURT          [COUNTY NAME] COUNTY\n[COURT LEVEL / BRANCH, if applicable]\n\nALEX EXAMPLE,\n        [Plaintiff / Defendant / Petitioner / Respondent - role not supplied],\n\n    v.                                          Case No. [CASE NUMBER]\n                                                Case Classification Code: [CODE, if required]\n\n[OPPOSING PARTY NAME],\n        [Plaintiff / Defendant / Petitioner / Respondent - role not supplied].\n\n[DOCUMENT TITLE, e.g., MOTION / BRIEF / AFFIDAVIT - not supplied]\n\n----------------------------------------------------------------------\n\nNotes on the placeholders:\n\n1. County: not supplied. Fill in the county where the action is filed.\n2. Court level: not supplied. The heading above assumes a circuit court layout. If the filing is in the Court of Appeals or the Supreme Court, the caption format is different (it uses the appeal number, the circuit court case number, and the lower court's name), and I can rework the skeleton once you confirm the level.\n3. Opposing party: not supplied. Enter the full name as it appears in the court's caption.\n4. Case number: not supplied. Enter it exactly as shown on court records.\n5. Alex Example's role (plaintiff, defendant, petitioner, respondent, or other) is also not supplied. Choose the correct designation.\n6. Add a branch or judge line, the case classification code, or a document title line only if your court or the type of filing requires them.\n",
+  "response_sha256": "60d0ffa798adf8cbabde7611c991fcadc34a4a841f3d9dd7dbc9a551169fb9f8"
+}

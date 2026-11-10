@@ -257,6 +257,28 @@
       "legally_reviewed_at": null,
       "currency_url": null,
       "currency_line": null
+    },
+    {
+      "id": "standard-court-forms",
+      "authority": "Wis. Stat. 807.001(1)-(4) and Wis. Stat. 758.18(1)-(2); Wisconsin Court System pages on circuit court forms and mandatory use of court forms",
+      "url": "https://docs.legis.wisconsin.gov/document/statutes/807.001",
+      "proposition": "Parties in civil actions and proceedings in circuit court shall use the standard court forms adopted by the judicial conference (807.001(1)); a form may be supplemented with additional material (2); a court may not dismiss, refuse a filing or strike a pleading for failure to use a standard form but shall require a corrected form within 10 days and may impose statutory fees or costs (3); where no standard form was created a party may use a format consistent with any statutory or court requirement (4). The judicial conference adopts the forms and identifies forms for voluntary use by self-represented litigants (758.18(1)-(2)). The court system publishes the forms at wicourts.gov/forms1/circuit/index.htm.",
+      "operative_version": "Official section pages read 2026-11-10 (banner: updated through 2025 Wis. Act 247); court system pages read 2026-11-10; SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-10; second AI review pending). No decision applying either section was read; s. 971.025 was not read.",
+      "status": "needs_primary_review",
+      "last_reviewed": null,
+      "review_scope": "Statutory text of the two sections and three court system pages, each read once. The monthly checker tests only this url; it does not detect changes to the forms pages or to any form.",
+      "review_basis": "docs/LEGAL-TEXT-CHANGES-2026-11.md (U-09).",
+      "affected_files": [
+        "skills/wisconsin-legal-writing/references/court-forms.md",
+        "skills/wisconsin-legal-writing/references/circuit-court.md",
+        "skills/wisconsin-legal-writing/SKILL.md"
+      ],
+      "review_interval_days": 180,
+      "retrieved_at": "2026-11-10",
+      "page_changed_at": null,
+      "legally_reviewed_at": null,
+      "currency_url": null,
+      "currency_line": null
     }
   ]
 }

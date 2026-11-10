@@ -1,0 +1,13 @@
+{
+  "trial": "I01-baseline-1",
+  "input_sha256": "9079d2bc36b6286ed94d06e2414e0440cc776020aa4f422da5e8cf13ad291cb0",
+  "host": "Claude Code desktop 2.1.321, one fresh Workflow subagent per trial; the subagent read the prompt from a file with the Read tool and wrote its answer with the Write tool; not a text-only session",
+  "models": [
+    "claude-sonnet-5-5"
+  ],
+  "collected_at": "2026-11-10T17:43:03.608626+00:00",
+  "status": "collected",
+  "collection": "manual import; operator must preserve raw output and disclose actual host capabilities",
+  "response": "On March 1, 2022, fictional Rule 2 read as Version A:\n\n\"Members may request a paper copy.\"\n\nVersion A is effective January 1, 2021 through December 31, 2022, so March 1, 2022 falls inside it. Version B (\"Members may request an electronic copy.\") takes effect January 1, 2023, so it did not apply yet.\n\nThis answer rests only on the supplied text, which describes itself as invented training material and not independently authenticated law.\n",
+  "response_sha256": "e0b30ea4f5006a3074d3d9d5307703fe9160ca3f47e7bd478dac8e1f4b715fdf"
+}
