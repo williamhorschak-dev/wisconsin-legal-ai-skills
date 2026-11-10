@@ -265,6 +265,9 @@ clearance could be switched off.
   categories in Wis. Stat. § 801.19(1)(a) in the spec text only. It cannot see exhibits,
   does not recognise every account, license or passport format, and can match numbers
   that are not protected information. It is not a redaction check.
+- `wi_values.py` holds numbers read from the published statutes on the date it records.
+  It does not watch for new acts, and it does not decide which claims a changed amount
+  first applies to.
 - In two templates a section symbol can be separated from its number by a line break,
   and the appellate template's top margin differs from the margin table in `appellate.md`.
 - The subsequent history of cited authorities was not checked exhaustively against public

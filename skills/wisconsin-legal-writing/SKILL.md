@@ -130,6 +130,10 @@ Wisconsin" and a "Signed on [date], at [place]" line; the builder checks the for
 The builder refuses a complaint or summons, whose captions Wis. Stat. §§ 802.04(1) and
 801.09(1) require to carry more than it prints, and a final motion whose title does not
 name the moving party and the relief sought, § 802.01(2)(d).
+`scripts/wi_values.py` lists the dated numbers the references repeat (small-claims amounts,
+appellate length and form limits, counting periods) with their authority, and
+`--check-references` exits 1 when a reference file states a number that is not the one in
+force on the date given.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested
