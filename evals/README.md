@@ -91,6 +91,12 @@ Commands return `0` for success, `1` for an incomplete/failed review summary, an
 `2` for invalid data or collection errors. Preparation and validation make no model
 calls. Actual results are pending unless an identified run says otherwise.
 
+### Recorded runs
+
+- [2026-11-10, claude-sonnet-5-5 in Claude Code desktop subagents](results/2026-11-10-claude-code-subagents.md):
+  one run per trial, graded by the project's AI coordinator, with the departures from
+  this protocol listed in the record. Exploratory; not a controlled comparison.
+
 ## Trigger evaluations
 
 The cases above test what a model does once it has the skills. Trigger evaluations ask
@@ -101,14 +107,18 @@ message belongs elsewhere? The query sets follow the
 read on 2026-10-13.
 
 Each skill has `evals/triggers/<skill>/eval_queries.json`: 20 queries written for this
-project from invented facts. Nine should trigger the skill. Six are near-misses that
+project from invented facts (21 for the writing skill since dataset version 2). Nine should
+trigger the skill (ten for writing). Six are near-misses that
 share vocabulary but belong elsewhere (a Minnesota or federal-court question, a request
 for advice about a real matter, a citation-format question with no sources, a deadline
 calculation, a will or a resume). Five are cross-skill cases that belong to one of the
 other two skills. Each entry has `query` and `should_trigger` as in the guidance, plus
 `expected_skill` (the skill that should trigger, or null), `category`, and `split`
-(`train` for 12 queries, `validation` for 8, with both kinds of query in each). The
-split is fixed. Use the train queries when revising a description and keep validation
+(`train` for 12 queries, 13 for writing, and `validation` for 8, with both kinds of query in
+each). The split is fixed, and [datasets.json](triggers/datasets.json) fixes each version of
+the three files by hash and count. A result belongs to the version it was collected on;
+change a query file only by adding a version, and do not pool results across versions.
+The split is fixed. Use the train queries when revising a description and keep validation
 results out of that process. Departures from the guidance are listed under "Differences
 from the guidance" below.
 
@@ -127,8 +137,11 @@ triggers; the report also shows whether the expected skill did.
 
 ### What this measures and what it does not
 
-A pass says that, on these 20 queries per skill, with this host, model, and installed
-skill set, the description behaved as labeled in the runs you recorded. A small fixed
+A pass says that, on these queries, with this host, model, and installed
+skill set, the description behaved as labeled in the runs you recorded. Before a run,
+confirm that the host actually shows the model each skill's description: a host with many
+skills installed may list a skill by name only, and then the run does not test the
+description (see the [2026-11-10 probe](triggers/results/2026-11-10-listing-probe.md)). A small fixed
 holdout does not establish general reliability: different phrasing, a longer
 conversation, other installed skills, or another model can change the outcome. Results
 vary by host and model and across runs of the same one, and hosts differ in how a
@@ -216,4 +229,4 @@ queries cannot influence the result, and use a throwaway workspace.
 - The guidance sketches a shell loop. `scripts/trigger_eval.py` replaces it with the
   same trigger-rate and threshold rules, and adds the offline mode.
 - The guidance names no skill-level pass rule or precision and recall. Those are this
-  project's additions. No results are recorded in this repository.
+  project's additions. Recorded results are under `evals/triggers/results/`.

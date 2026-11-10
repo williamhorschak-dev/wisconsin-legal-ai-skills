@@ -1,0 +1,13 @@
+{
+  "trial": "W01-baseline-1",
+  "input_sha256": "9ec2c81bafd23803209bb98c2b6342493193068f84bcf7eef4387869ef655768",
+  "host": "Claude Code desktop 2.1.321, one fresh Workflow subagent per trial; the subagent read the prompt from a file with the Read tool and wrote its answer with the Write tool; not a text-only session",
+  "models": [
+    "claude-sonnet-5-5"
+  ],
+  "collected_at": "2026-11-10T17:43:10.325459+00:00",
+  "status": "collected",
+  "collection": "manual import; operator must preserve raw output and disclose actual host capabilities",
+  "response": "I request a copy of the attached schedule.\n\nThe copy will help me check the dates.\n\nAlex Example, self-represented.\n\nSignature status: unsigned draft.\n",
+  "response_sha256": "1751ee2b6648645977511c5a41665b7f213b9d698e0f48b7a01440922a1979f5"
+}

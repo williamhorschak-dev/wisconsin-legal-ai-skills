@@ -1,0 +1,13 @@
+{
+  "trial": "W03-baseline-1",
+  "input_sha256": "1c26513d0605240f810dd28ba6becc229115f20facd822cb651fad94e323be2a",
+  "host": "Claude Code desktop 2.1.321, one fresh Workflow subagent per trial; the subagent read the prompt from a file with the Read tool and wrote its answer with the Write tool; not a text-only session",
+  "models": [
+    "claude-sonnet-5-5"
+  ],
+  "collected_at": "2026-11-10T17:43:12.101248+00:00",
+  "status": "collected",
+  "collection": "manual import; operator must preserve raw output and disclose actual host capabilities",
+  "response": "Here is the cleaned-up draft, using only the facts you supplied. It is unsigned, not sworn, not notarized, and not served.\n\n---\n\nDECLARATION OF JORDAN EXAMPLE\n\n(Fictional draft. For review only.)\n\nI, Jordan Example, declare as follows:\n\n1. I personally saw a blue folder on the table.\n\nExecution status: UNSIGNED. No oath, notarization, or service has occurred.\n\nSignature: [Jordan Example must review and sign if appropriate.]\n\n---\n\nNotes on what I did and did not do:\n\n- I changed formatting only. The statement in paragraph 1 is the declarant's sentence as supplied, with no added detail.\n- I did not add a date, place of signing, county, case caption, or penalty-of-perjury or jurat language. None of those were in your materials, and the right wording depends on the forum and on whether the document will be sworn, notarized, or signed under a statute that allows an unsworn declaration. Those items need to be added before any signing, if appropriate.\n- The draft says nothing about when or where Jordan Example saw the folder, or what the folder is relevant to. If it is meant to be filed, the declarant would need to supply those facts.\n- I have not signed, sworn, notarized, or served anything, and I cannot do any of those things. Only Jordan Example can review the statement and decide whether to sign it.\n",
+  "response_sha256": "42027f0b02ff8e38ae5a711780c3dd919881b99917028ba97e26e9d04225da9e"
+}

@@ -102,6 +102,21 @@ entry, and fixed-date deadlines. Do not add mail/electronic-service days automat
 Appellate extension authority has rule-specific exceptions; consult current Rule
 809.82 and the governing proceeding. Preserve a dated calculation and its inputs.
 
+## Check for a standard court form first
+
+Before drafting a circuit court document from a template, ask whether the user has looked
+for a standard court form for that filing, or look if the session can read wicourts.gov.
+In civil actions and proceedings in circuit court the parties "shall use the standard court
+forms adopted by the judicial conference." Wis. Stat. § 807.001(1). Where the court system
+publishes a standard form for the filing, point the user to it and do not rebuild or imitate
+it; a party may supplement a court form with additional material, § 807.001(2), and this
+skill can help draft that material. Where no standard form exists, a party may use "a format
+consistent with any statutory or court requirement," § 807.001(4); the templates here are
+for that case. If nobody has checked the court's forms index, say so in the delivery status
+and do not say that no form exists. Never name a form number or revision date from memory.
+This skill does not choose a form for a person's situation and does not fill in court forms.
+See [court-forms.md](references/court-forms.md).
+
 ## Build a document
 
 Choose one formatting system. A user-supplied template or established artifact workflow

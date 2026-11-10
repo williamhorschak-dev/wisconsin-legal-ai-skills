@@ -1,0 +1,1138 @@
+[
+ {
+  "trial": "C01-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C01-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C01-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C01-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C01-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C01-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C02-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C02-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C02-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C02-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C02-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C02-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C03-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C03-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C03-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C03-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C03-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C03-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C04-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C04-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C04-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C04-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C04-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C04-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C05-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C05-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C05-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C05-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C05-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C05-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C06-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C06-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C06-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C06-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C06-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C06-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C07-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C07-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C07-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C07-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C07-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C07-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C08-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C08-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C08-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "C08-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "C08-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "C08-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I01-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I01-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I01-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I01-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I01-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I01-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I02-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I02-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I02-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I02-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I02-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I02-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I03-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I03-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I03-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I03-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I03-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I03-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I04-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I04-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I04-baseline-1.response.txt"
+   ],
+   [
+    "Write",
+    "I04-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I04-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I04-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "I04-with-skills-1.prompt.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": false,
+  "answer_copied_from_transcript_by_coordinator": true
+ },
+ {
+  "trial": "I05-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I05-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I05-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I05-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I05-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "I05-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "I05-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I05-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I06-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I06-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I06-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I06-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I06-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "I06-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I06-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I07-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I07-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I07-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I07-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I07-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "I07-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "I07-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I07-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I08-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I08-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I08-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "I08-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "I08-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "I08-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "I08-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W01-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W01-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W01-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W01-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W01-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "W01-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W01-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W02-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W02-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W02-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W02-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W02-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "W02-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W02-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W03-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W03-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W03-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W03-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W03-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "W03-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W03-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W04-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W04-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W04-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W04-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W04-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "W04-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W04-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W05-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W05-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W05-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W05-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W05-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "W05-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W05-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W06-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W06-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W06-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "W06-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "W06-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "W06-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "W06-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "X01-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "X01-baseline-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "X01-baseline-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "X01-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "X01-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "X01-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "X01-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "X01-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "X01-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ },
+ {
+  "trial": "X02-baseline-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "X02-baseline-1.prompt.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": false,
+  "answer_copied_from_transcript_by_coordinator": true
+ },
+ {
+  "trial": "X02-with-skills-1",
+  "models_in_transcript": [
+   "claude-sonnet-5-5"
+  ],
+  "tool_calls": [
+   [
+    "Read",
+    "X02-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "X02-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "X02-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "X02-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "X02-with-skills-1.prompt.txt"
+   ],
+   [
+    "Read",
+    "X02-with-skills-1.prompt.txt"
+   ],
+   [
+    "Write",
+    "X02-with-skills-1.response.txt"
+   ],
+   [
+    "StructuredOutput",
+    ""
+   ]
+  ],
+  "answer_written_by_agent": true,
+  "answer_copied_from_transcript_by_coordinator": false
+ }
+]

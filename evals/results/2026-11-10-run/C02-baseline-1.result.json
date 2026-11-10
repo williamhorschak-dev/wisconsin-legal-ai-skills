@@ -1,0 +1,13 @@
+{
+  "trial": "C02-baseline-1",
+  "input_sha256": "e918ea7344059f82262abe8f7a73a832ab5a7989b36a75931c35d7d4cdefd5be",
+  "host": "Claude Code desktop 2.1.321, one fresh Workflow subagent per trial; the subagent read the prompt from a file with the Read tool and wrote its answer with the Write tool; not a text-only session",
+  "models": [
+    "claude-sonnet-5-5"
+  ],
+  "collected_at": "2026-11-10T17:42:57.811156+00:00",
+  "status": "collected",
+  "collection": "manual import; operator must preserve raw output and disclose actual host capabilities",
+  "response": "The draft claim is not supported. \"Fictional Example v. Harbor requires acceptance of every late application\" overstates what the supplied opinion says, and I would not use it.\n\nWhat the majority says (Workshop Decision A):\n- Paragraph 4: \"The committee may accept a late application if the applicant shows a documented outage.\" This is permissive (\"may\"), not mandatory (\"requires\"). It is also conditional: it applies only where the applicant shows a documented outage.\n- Paragraph 5: \"We do not decide applications without a documented outage.\" The majority expressly leaves open what happens to late applications that have no documented outage. The opinion cannot be read to require acceptance of \"every\" late application.\n\nWhere the claim's wording seems to come from:\n- Paragraph 12 is labeled DISSENT: \"Every late application should be accepted.\" A dissent is not the holding of the court and has no precedential force. The word \"should\" is also not \"requires.\"\n- The publisher's headnote (\"All late applications accepted.\") is expressly not part of the opinion. It is an editorial summary and does not match the majority text. Do not cite it as authority for what the court held.\n\nSuggested correction. A claim the packet can support would read something like: \"In Fictional Example v. Harbor, Workshop Decision A, the majority stated that the committee may accept a late application where the applicant shows a documented outage (para. 4), and it did not decide applications lacking a documented outage (para. 5).\" If you want to cite the dissent, label it as a dissent, for example: \"The dissent would have accepted every late application (para. 12).\"\n\nLimits of this check: I reviewed only the excerpts in the packet, which describes itself as an invented training set. I have not checked any real decision, and I have not checked later history or current legal treatment. I had no citator or research tools, so nothing here says whether the case is still good law.\n",
+  "response_sha256": "d05597090ef06185017898169ad45e137e3740238a6f3a13639044729a97b115"
+}

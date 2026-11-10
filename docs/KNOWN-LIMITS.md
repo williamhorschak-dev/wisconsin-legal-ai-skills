@@ -44,6 +44,10 @@ clearance could be switched off.
 - The builder refuses a complaint or a summons by the opening words of the title or the
   declared type. A complaint under an unusual title is not recognised. The county check
   knows the 72 county names; it does not decide venue or where an appeal is heard.
+- Neither the builder nor any script checks whether a standard court form exists for a
+  filing. Wis. Stat. § 807.001(1) requires the standard forms in civil actions and
+  proceedings in circuit court; `references/court-forms.md` tells the assistant to ask, and
+  nothing enforces the answer.
 - The county local-rules index (`references/local-rules.md`) records where five counties were
   checked on one day and what each posted document printed about itself. It holds no rule
   text, does not say what any rule requires, does not confirm that a posted set is complete
@@ -84,8 +88,8 @@ sources; no attorney has reviewed them. Each one is listed with its source in
 [LEGAL-TEXT-CHANGES-2026-10.md](LEGAL-TEXT-CHANGES-2026-10.md). The check also
 found that the Wisconsin Supreme Court had accepted review of whether to modify the
 *Kalal* interpretive framework in *Abby Windows, LLC v. Labor & Industry Review
-Commission*, No. 2024AP1013, and that the case is scheduled
-for oral argument on November 10, 2026. Monetary limits in the references, including the
+Commission*, No. 2024AP1013. The clerk's table of pending cases, read again on
+November 10, 2026, listed oral argument for that day and showed no decision. Monetary limits in the references, including the
 small-claims limit, are affected by 2025 Wis. Act 105, which takes effect on
 January 1, 2027 (Act section 5). The small-claims passage now carries a dated note about
 it. Do not rely on any amount, deadline, or rule in a reference file without
