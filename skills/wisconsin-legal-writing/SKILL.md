@@ -130,6 +130,14 @@ A final build's county must be one of the 72 counties in Wis. Stat. § 752.11(1)
 `--district COUNTY` prints its court of appeals district. The builder does not produce a
 complaint or a summons, whose captions Wis. Stat. §§ 802.04(1) and 801.09(1) require to
 carry more than it prints; it refuses them in every mode.
+For a declaration (`document_type: "declaration"`, a `declaration` object, or a title that
+opens with Declaration) the builder prints the closing of the form in Wis. Stat. § 887.015(6)
+itself from the `declaration` object. A final build needs the reviewer's `use` and `purpose`
+statements, the full signing date, the location and the state or country, and
+`body_reviewed: true`. An excluded use under § 887.015(4)(b), possible closing wording in
+the body that the reviewer has not resolved, and contradictory type or order flags are
+refused in every mode. The builder generates one supported form from those statements; it
+does not verify applicability or execution. See `references/circuit-court.md` §3.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

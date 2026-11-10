@@ -6,6 +6,15 @@
   "bold_court_line": false,
   "appellate": false,
   "proposed_order": false,
+  "document_type": "declaration",
+  "declaration": {
+    "use": "[sworn_declaration_substitute, after checking Wis. Stat. § 887.015(4); see circuit-court.md section 3]",
+    "purpose": "[WHAT THIS DECLARATION WILL BE USED FOR, for example in support of Plaintiff's motion to compel in this action]",
+    "signed_on": null,
+    "location": "[CITY OR OTHER LOCATION]",
+    "state_or_country": "[STATE OR COUNTRY]",
+    "body_reviewed": false
+  },
   "first_party": {
     "name": "[PARTY ONE]",
     "designation": "Plaintiff"
@@ -31,14 +40,6 @@
     {
       "type": "num",
       "text": "3. Attached as Exhibit A is a true and correct copy of [document], which I [received from / sent to / obtained from] [source] on [date]."
-    },
-    {
-      "type": "p",
-      "text": "I declare under penalty of false swearing under the law of Wisconsin that the foregoing is true and correct."
-    },
-    {
-      "type": "p",
-      "text": "Signed on the ____ day of __________, [YEAR], at [CITY OR OTHER LOCATION], [STATE OR COUNTRY]."
     }
   ],
   "signature": {
