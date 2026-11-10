@@ -27,7 +27,9 @@ Python's `hashlib.sha256(Path(path).read_bytes()).hexdigest()`). Synthetic examp
 
 Kinds: `case`, `statute`, `regulation`, `rule`, `record`. For authorities the required
 checks are `citation`, `pincite`, `treatment`, `proposition`, and `format`; for records,
-`record`, `pincite`, and `format`. A non-empty quote adds `verbatim`. Record separate
+`record`, `pincite`, and `format`. A non-empty quote adds `verbatim`. A `case` use for an
+unpublished Wisconsin Court of Appeals opinion carries `"unpublished_wis_ct_app": true`,
+which adds `citability` (see below). Record separate
 uses for different propositions, locators, and short forms. Omit `quote` when there is
 no quotation; an empty or normalization-only quotation is invalid. Omitting a use or quote
 from the inventory cannot be detected automatically; review the inventory itself.
@@ -64,6 +66,37 @@ validates their hash and the field structure; it cannot authenticate a URL,
 determine the operative legal version, or prove that a visual comparison occurred.
 For native text with no separate original, omit both original fields and describe
 the method accurately. Keep this evidence private to the authorized matter.
+
+Mark each unpublished **Wisconsin Court of Appeals** opinion for the § 809.23(3) check. Do
+not apply this gate merely because a circuit court decision or another jurisdiction's
+opinion is unpublished: Rule 809.23(3) "read in context, concerns only court of appeals
+decisions." *Ryan v. Estate of Sheppard*, 2010 WI App 105, ¶ 9 n.3 (quoting *Brandt v.
+LIRC*, 160 Wis. 2d 353, 363, 466 N.W.2d 673 (Ct. App. 1991)). The tool rejects a bare
+`unpublished` flag for that reason. A `citability` record carries the facts § 809.23(3)
+turns on, read from the opinion itself:
+
+```json
+{
+  "citability": {
+    "purpose": "persuasive",
+    "opinion_type": "authored",
+    "issued": "2020-03-03",
+    "copy_filed_and_served": true
+  }
+}
+```
+
+`purpose` is `persuasive`, `claim_preclusion`, `issue_preclusion`, or `law_of_the_case`.
+`opinion_type` is `authored`, `per_curiam`, `memorandum`, `summary_disposition`, or
+`other_order`; `authored` means authored by a member of a three-judge panel or by a single
+judge under § 752.31(2), and the record's `matched` text should be the passage of the
+opinion that shows it. `issued` is a zero-padded `YYYY-MM-DD` date. The tool refuses a `pass` for a persuasive purpose unless the opinion is
+authored and issued on or after July 1, 2009, § 809.23(3)(b), and refuses any `pass`
+unless `copy_filed_and_served` is true, § 809.23(3)(c). The three preclusion and
+law-of-the-case purposes of § 809.23(3)(a) are not limited by date or authorship. The tool
+applies the statute's conditions to the recorded facts; it does not read the opinion, and
+it does not find unpublished opinions that the inventory fails to mark.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check and second AI review by Astra, a Codex model, both 2026-11-09), U-02: Wis. Stat. § 809.23(3)(a)-(c), https://docs.legis.wisconsin.gov/document/statutes/809.23 (page banner: updated through 2025 Wis. Act 247); Ryan v. Estate of Sheppard, 2010 WI App 105, n.3 (published; footnote read by both reviewers; the paragraph number is the second reviewer's), https://www.wicourts.gov/ca/opinion/DisplayDocument.html?content=html&seqNo=51987. All read 2026-11-09. No citator content. -->
 
 Add `provenance_origin` to each new entry: `retrieved_this_session`, `user_supplied`,
 or `remembered` (recalled without the source in front of the reviewer). Records without

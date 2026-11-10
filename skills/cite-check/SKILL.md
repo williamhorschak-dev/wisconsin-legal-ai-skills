@@ -85,6 +85,11 @@ unreachable, name it and the authorities it limits. Do not say that no citation 
 verified when other authorities were checked.
 
 `RECORDED PASS` means every required check has passing evidence entered by a reviewer.
+Mark every unpublished Wisconsin Court of Appeals opinion `"unpublished_wis_ct_app": true`
+in the inventory: the tool then requires a `citability` record and refuses a pass that Wis.
+Stat. § 809.23(3) does not allow on the recorded purpose, authorship, issue date and
+filed-and-served copy. The rule concerns court of appeals decisions; a circuit court or
+out-of-state opinion is not marked merely because it is unpublished.
 It is not the tool's independent certification. Missing checks appear as `UNVERIFIED`;
 failed checks appear as `FLAGGED`. Never promote an incomplete review because a report
 was successfully generated. Keep format defects visible separately from substance.

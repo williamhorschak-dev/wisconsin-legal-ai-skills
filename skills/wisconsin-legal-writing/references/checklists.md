@@ -30,8 +30,10 @@ do not label a compliant alternative a filing blocker without a governing rule.
       roman. In an appellate table of authorities, case names are plain.
 - [ ] If the document was built from a spec, every case name in a body block is
       wrapped in `*asterisks*`: an unmarked name comes out roman.
-- [ ] Every unpublished opinion cited is authored, post-July-2009, cited only for
-      persuasive value, and a copy is filed and served. Rule 809.23(3).
+- [ ] Every unpublished Wisconsin Court of Appeals opinion cited is either cited to
+      support claim preclusion, issue preclusion or the law of the case, or is an
+      authored opinion issued on or after July 1, 2009 cited for persuasive value; in
+      every case a copy is filed and served with the paper. Rule 809.23(3)(a)-(c).
 - [ ] Every record reference has a document number.
 - [ ] In a circuit court filing, protected information (a social security, employer or
       taxpayer identification, financial account, driver license or passport number) is
