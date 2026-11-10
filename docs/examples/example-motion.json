@@ -1,0 +1,67 @@
+{
+  "county": "La Crosse",
+  "court": "CIRCUIT COURT",
+  "case_no": "2025CV000123",
+  "font": "Century Schoolbook",
+  "bold_court_line": false,
+  "appellate": false,
+  "proposed_order": false,
+  "document_type": "motion",
+  "motion": {
+    "movers": ["first_party"],
+    "qualifier": null,
+    "relief": "to Enlarge Time to Respond to Discovery"
+  },
+  "first_party": {
+    "name": "JANE Q. EXAMPLE",
+    "designation": "Plaintiff"
+  },
+  "second_party": {
+    "name": "JONES SUPPLY, LLC",
+    "designation": "Defendant"
+  },
+  "title": "Plaintiff's Motion to Enlarge Time to Respond to Discovery",
+  "body": [
+    {
+      "type": "p",
+      "text": "*Example only. Every name, date and fact in this document is invented. It is not a filing and it states no law.*"
+    },
+    {
+      "type": "p",
+      "text": "Plaintiff Jane Q. Example moves the Court for an order enlarging by 14 days the time to respond to Defendant's First Set of Interrogatories."
+    },
+    {
+      "type": "h1",
+      "text": "Grounds"
+    },
+    {
+      "type": "num",
+      "text": "1. Defendant served its First Set of Interrogatories on March 2, 2026."
+    },
+    {
+      "type": "num",
+      "text": "2. The interrogatories ask for records that Plaintiff has requested from a third party and has not yet received."
+    },
+    {
+      "type": "num",
+      "text": "3. On March 20, 2026, Plaintiff asked Defendant to agree to a 14-day extension and has received no answer."
+    },
+    {
+      "type": "num",
+      "text": "4. The time to respond has not yet run, and no hearing or trial date depends on the responses."
+    },
+    {
+      "type": "p",
+      "text": "WHEREFORE, Plaintiff asks the Court to enlarge the time to respond to Defendant's First Set of Interrogatories by 14 days."
+    }
+  ],
+  "signature": {
+    "style": "pro_se",
+    "date": "March 23, 2026",
+    "name": "Jane Q. Example",
+    "role": "Plaintiff, self-represented",
+    "address": "123 Main Street, Anytown, WI 54000",
+    "phone": "(555) 555-0100",
+    "email": "jane@example.invalid"
+  }
+}
