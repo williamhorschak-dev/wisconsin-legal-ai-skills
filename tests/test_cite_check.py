@@ -142,6 +142,76 @@ class CitationEvidenceTests(unittest.TestCase):
         self.assertIn("purpose persuasive, opinion type authored, issued 2020-03-03, copy filed and served: yes", text)
         self.assertIn("An archived copy in the sources folder is not a filed or served copy", text)
 
+    def test_scr_80_02_rules_flag_mechanical_departures_only(self):
+        clean = (
+            "Smith v. Jones, 2016 WI 44, \u00b6 30, 369 Wis. 2d 9, 879 N.W.2d 609.",
+            "Doe v. Roe, 2021 WI App 37, \u00b6\u00b6 24-25, 398 Wis. 2d 558, 961 N.W.2d 884.",
+            "Smith, 2016 WI 44, \u00b6 43.",
+            "Smith, 369 Wis. 2d 9, \u00b6 12.",
+            "Smith v. Jones, 214 Wis. 2d 408, 412, 571 N.W.2d 100 (1997).",
+            "Doe v. Roe, 214 Wis. 2d 408, 571 N.W.2d 100 (Ct. App. 1997).",
+            "Wis. Stat. \u00a7 809.19(8)(c)1. and 2025 Wis. Act 105 are not case citations.",
+            "Smith v. Jones, 214 Wis. 2d 408, 412. See also Doe v. Roe, 2016 WI 5, \u00b6 9, 366 Wis. 2d 1, 873 N.W.2d 1.",
+            "Smith v. Jones, 214 Wis. 2d 408, 412; Doe v. Roe, 2016 WI 5, \u00b6 9, 366 Wis. 2d 1, 873 N.W.2d 1 (2016).",
+        )
+        for text in clean:
+            with self.subTest(clean=text):
+                self.assertEqual(checker.scr_80_02_problems(text), [])
+        flagged = {
+            "Smith v. Jones, 2016 WI 44 at 12, 369 Wis. 2d 9, 879 N.W.2d 609.": "SCR 80.02(3)(b)",
+            "Smith v. Jones, 2016 WI 44, 369 Wis. 2d 9, 15, 879 N.W.2d 609.": "not to page 15",
+            "Smith v. Jones, 369 Wis. 2d 9, 879 N.W.2d 609 (2016).": "SCR 80.02(1)(a)",
+            "Doe v. Roe, 398 Wis. 2d 558, 961 N.W.2d 884 (Ct. App. 2021).": "without its public domain citation",
+            "Smith v. Jones, 2016 WI 44, 879 N.W.2d 609, 369 Wis. 2d 9.": "Wisconsin Reports citation comes before",
+            "Smith v. Jones, 369 Wis. 2d 9, 2016 WI 44.": "public domain citation comes first",
+            "Smith v. Jones, 2016, WI 44, \u00b6 30.": "SCR 80.001",
+            "Doe v. Roe, 2021 WI App. 37, \u00b6 24.": "no period after App",
+            "Smith v. Jones, 1998 WI 14, \u00b6 3.": "on or after January 1, 2000",
+        }
+        for text, expected in flagged.items():
+            with self.subTest(flagged=text):
+                problems = checker.scr_80_02_problems(text)
+                self.assertTrue(problems)
+                self.assertIn(expected, " | ".join(problems))
+
+    def test_format_pass_is_refused_for_a_case_citation_that_departs_from_scr_80_02(self):
+        self.inv["uses"][0].update(kind="case", citation="Smith v. Jones, 369 Wis. 2d 9, 879 N.W.2d 609 (2016)")
+        self.save_inventory()
+        with self.assertRaisesRegex(ValueError, "format pass refused.*SCR 80.02\\(1\\)\\(a\\)"):
+            checker.validate_entry(self.evidence("format"), self.inv, self.sources)
+        checker.validate_entry(self.evidence("format", "caution"), self.inv, self.sources)
+        checker.validate_entry(self.evidence("citation"), self.inv, self.sources)
+        self.inv["uses"][0]["citation"] = "Smith v. Jones, 2016 WI 44, \u00b6 30, 369 Wis. 2d 9, 879 N.W.2d 609"
+        self.save_inventory()
+        checker.validate_entry(self.evidence("format"), self.inv, self.sources)
+
+    def test_lint_command_reads_text_and_docx_and_exits_one_on_departures(self):
+        import zipfile
+        draft = self.root / "brief.md"
+        draft.write_text("Synthetic. Smith v. Jones, 2016 WI 44 at 12. Doe v. Roe, 2021 WI App 37, \u00b6 24.\n", encoding="utf-8")
+        run = lambda path: subprocess.run([sys.executable, str(SCRIPT), "lint", "--document", str(path)],
+                                          capture_output=True, text=True, encoding="utf-8",
+                                          env={**os.environ, "PYTHONIOENCODING": "utf-8"})
+        result = run(draft)
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn("SCR 80.02(3)(b)", result.stdout)
+        self.assertIn("1 departure(s)", result.stdout)
+        draft.write_text("Synthetic. Smith v. Jones, 2016 WI 44, \u00b6 12.\n", encoding="utf-8")
+        self.assertEqual(run(draft).returncode, 0)
+        word = self.root / "brief.docx"
+        body = ('<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'
+                '<w:p><w:r><w:t>Smith v. Jones, 369 Wis. 2d 9, </w:t></w:r><w:r><w:t>879 N.W.2d 609 (2016).</w:t></w:r></w:p>'
+                '</w:body></w:document>')
+        with zipfile.ZipFile(word, "w") as archive:
+            archive.writestr("word/document.xml", body)
+        result = run(word)
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn("SCR 80.02(1)(a)", result.stdout)
+        missing = subprocess.run([sys.executable, str(SCRIPT), "report", "--document", str(draft)],
+                                 capture_output=True, text=True, encoding="utf-8")
+        self.assertEqual(missing.returncode, 2)
+        self.assertIn("requires --inventory, --sources and --log", missing.stderr)
+
     def test_append_preserves_accepted_log_endings(self):
         for ending in (b"", b"\n", b"\r\n", b"\r"):
             with self.subTest(ending=ending):

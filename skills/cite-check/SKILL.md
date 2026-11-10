@@ -88,6 +88,8 @@ verified when other authorities were checked.
 Mark every unpublished Wisconsin opinion `"unpublished": true` in the inventory: the tool
 then requires a `citability` record and refuses a pass that Wis. Stat. § 809.23(3) does not
 allow on the recorded purpose, authorship, issue date and filed-and-served copy.
+Run `cite_check.py lint --document <draft>` first: it exits 1 on a mechanical departure
+from SCR 80.02, and the tool refuses a `format` pass for a case citation with one.
 It is not the tool's independent certification. Missing checks appear as `UNVERIFIED`;
 failed checks appear as `FLAGGED`. Never promote an incomplete review because a report
 was successfully generated. Keep format defects visible separately from substance.

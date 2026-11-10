@@ -16,6 +16,16 @@ order or other order; s. 809.23(3)(c) requires filing and serving a copy with th
 that cites it. The tool refuses a citability pass whose recorded facts do not meet those
 conditions. It does not find unpublished opinions or read the opinion to confirm the
 recorded facts; marking the use and recording the facts are the reviewer's.
+
+Wisconsin citation form. SCR 80.02 sets the form for citing published Wisconsin opinions
+in documents filed with the court of appeals or the supreme court: the public domain
+citation first when it exists, then Wisconsin Reports, then North Western Reporter, SCR
+80.02(1); page pinpoints for opinions before January 1, 2000 and paragraph pinpoints from
+that date, SCR 80.02(3). The tool refuses a format pass for a case use whose citation text
+breaks one of those mechanical rules, and the lint command applies the same rules to a
+whole draft and exits 1 when it finds a departure. It reads citation text only: it does
+not find every citation, check that a cited volume or number is right, or apply the rest
+of the citation manual.
 Requires Python 3.10+; standard library only. Run --help for commands.
 """
 import argparse
@@ -52,6 +62,18 @@ NEAR_MIN_WORDS = 4
 CITABILITY_PURPOSES = ("persuasive", "claim_preclusion", "issue_preclusion", "law_of_the_case")
 OPINION_TYPES = ("authored", "per_curiam", "memorandum", "summary_disposition", "other_order")
 PERSUASIVE_FROM = "2009-07-01"
+# SCR 80.001 (public domain citation form "2000 WI 14", "2001 WI App 9") and SCR 80.02.
+PUBLIC_DOMAIN = re.compile(r"\b((?:19|20)\d{2}) WI( App)? (\d+)\b")
+WIS_REPORTS = re.compile(r"\b\d{1,3} Wis\. ?2d \d+")
+NW_BEFORE_WIS = re.compile(r"\b\d{1,3} N\.W\.2d \d+,\s*(?:\d+,\s*)?\d{1,3} Wis\. ?2d \d+")
+WIS_BEFORE_PUBLIC_DOMAIN = re.compile(
+    r"\b\d{1,3} (?:Wis\. ?2d|N\.W\.2d) \d+(?:,\s*(?:\d{1,3} (?:Wis\. ?2d|N\.W\.2d) \d+|\d+))*,\s*"
+    r"(?:19|20)\d{2} WI(?: App)? \d+\b")
+MALFORMED_PUBLIC_DOMAIN = re.compile(
+    r"\b(?:19|20)\d{2},\s*WI(?: App)?\s+\d+\b|\b(?:19|20)\d{2}\s+WI\s+App\.\s*\d+"
+    r"|\b(?:19|20)\d{2}\s+(?:Wi|wi)\s+(?:App\s+)?\d+\b|\b(?:19|20)\d{2}\s+WI\s+(?:APP|app)\s+\d+\b")
+PAGE_PIN = re.compile(r",\s*(?:at\s+)?(\d+)(?:[-\u2013]\d+)?\s*(?=[,(.;]|$)")
+YEAR_PARENTHETICAL = re.compile(r"\((?:[^()\n]{0,30}?\s)?((?:19|20)\d{2})\)")
 NOT_IN_FORCE = re.compile(r"\b(?:not (?:yet )?in (?:force|effect)|no longer in (?:force|effect)|prior to|superseded|repealed)\b", re.I)
 
 
@@ -378,6 +400,65 @@ def check_quote_label(entry, use, root):
         raise ValueError("exact-text label does not match the archived text")
 
 
+def scr_80_02_problems(text):
+    """Mechanical departures from SCR 80.02 in citation text; an empty list is not approval."""
+    problems = []
+
+    def add(rule, message, start, end):
+        excerpt = " ".join(text[max(0, start - 30):min(len(text), end + 40)].split())
+        problems.append(f"{rule}: {message}: \"{excerpt}\"")
+
+    for match in MALFORMED_PUBLIC_DOMAIN.finditer(text):
+        add("SCR 80.001", "a public domain citation takes the form 2000 WI 14 or 2001 WI App 9, with no comma "
+            "after the year and no period after App", match.start(), match.end())
+    for match in PUBLIC_DOMAIN.finditer(text):
+        if int(match.group(1)) < 2000:
+            add("SCR 80.01(2)-(3)", "public domain citations begin with opinions issued or ordered published on or "
+                "after January 1, 2000", match.start(), match.end())
+        if re.match(r",?\s*at\s+\d+", text[match.end():match.end() + 20]):
+            add("SCR 80.02(3)(b)", "an opinion issued on or after January 1, 2000 is cited to paragraph numbers, "
+                "not pages", match.start(), match.end() + 12)
+    for match in NW_BEFORE_WIS.finditer(text):
+        add("SCR 80.02(1)", "the Wisconsin Reports citation comes before the North Western Reporter citation",
+            match.start(), match.end())
+    for match in WIS_BEFORE_PUBLIC_DOMAIN.finditer(text):
+        add("SCR 80.02(1)", "the public domain citation comes first", match.start(), match.end())
+    for match in WIS_REPORTS.finditer(text):
+        before = text[max(0, match.start() - 45):match.start()]
+        after = text[match.end():match.end() + 110]
+        # Stop at the end of this citation: a semicolon, a line break, or a sentence end.
+        after = re.split(r";|\n|\.\s+(?!(?:App|Ct|2d|Jan|Feb|Mar|Apr|Aug|Sept|Oct|Nov|Dec)\b)(?=[A-Z*_])",
+                         after, maxsplit=1)[0]
+        cited = [found for found in PUBLIC_DOMAIN.finditer(before) if not re.search(r"[;\n]", before[found.end():])]
+        year = YEAR_PARENTHETICAL.search(after)
+        modern = bool(cited) and int(cited[-1].group(1)) >= 2000 or bool(year) and int(year.group(1)) >= 2000
+        if not cited and year and int(year.group(1)) >= 2000:
+            add("SCR 80.02(1)(a)", f"an opinion dated {year.group(1)} is cited without its public domain citation, "
+                "which comes first when it exists", match.start(), match.end())
+        pin = PAGE_PIN.match(after)
+        if modern and pin:
+            add("SCR 80.02(3)(b)", "an opinion issued on or after January 1, 2000 is cited to paragraph numbers, "
+                f"not to page {pin.group(1)}", match.start(), match.end() + pin.end())
+    return problems
+
+
+def document_text(path):
+    """Plain text of a .txt, .md or .docx draft for the lint command."""
+    path = Path(path)
+    suffix = path.suffix.lower()
+    if suffix in TEXT_SUFFIXES:
+        return path.read_text(encoding="utf-8-sig")
+    if suffix == ".docx":
+        import zipfile
+        from xml.etree import ElementTree
+        namespace = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+        with zipfile.ZipFile(path) as archive:
+            root = ElementTree.fromstring(archive.read("word/document.xml"))
+        return "\n".join("".join(node.text or "" for node in paragraph.iter(namespace + "t"))
+                         for paragraph in root.iter(namespace + "p"))
+    raise ValueError("lint reads a .txt, .md or .docx draft")
+
+
 def check_citability(entry):
     """Refuse a citability pass that Wis. Stat. s. 809.23(3) does not allow on the recorded facts."""
     facts = entry.get("citability")
@@ -462,6 +543,11 @@ def validate_entry(entry, inv, root):
             raise ValueError("passing checks need file, sha256, locator and matched source evidence")
         if entry["check"] == "treatment" and use["kind"] == "case" and (not isinstance(entry.get("citator"), str) or not entry["citator"].strip()):
             raise ValueError("case treatment cannot pass without a named citator; use caution for a free-source screen")
+    if entry["check"] == "format" and entry["result"] == "pass" and use["kind"] == "case":
+        departures = scr_80_02_problems(use["citation"])
+        if departures:
+            raise ValueError("format pass refused: the citation text departs from SCR 80.02; correct the draft and "
+                             "start a new run, or record fail or caution with the reason: " + " | ".join(departures))
     if entry["check"] == "citability":
         check_citability(entry)
     elif "citability" in entry:
@@ -692,11 +778,11 @@ def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(errors="replace")
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("record", "quote", "report"))
-    parser.add_argument("--inventory", required=True, type=Path)
+    parser.add_argument("command", choices=("record", "quote", "report", "lint"))
+    parser.add_argument("--inventory", type=Path)
     parser.add_argument("--document", required=True, type=Path)
-    parser.add_argument("--sources", required=True, type=Path)
-    parser.add_argument("--log", required=True, type=Path)
+    parser.add_argument("--sources", type=Path)
+    parser.add_argument("--log", type=Path)
     parser.add_argument("--entry", type=Path, help="JSON evidence for record")
     parser.add_argument("--use", help="inventory use id for quote")
     parser.add_argument("--file", help="archive-relative .txt/.md source for quote")
@@ -705,7 +791,18 @@ def main():
     parser.add_argument("--provenance-origin", choices=ORIGINS, help="how the quote source text reached this session")
     parser.add_argument("--sources-status", type=Path, help="JSON reachability per source for report")
     args = parser.parse_args()
+    if args.command != "lint" and not all((args.inventory, args.sources, args.log)):
+        parser.error(f"{args.command} requires --inventory, --sources and --log")
     try:
+        if args.command == "lint":
+            departures = scr_80_02_problems(document_text(args.document))
+            for line in departures:
+                print(line)
+            print(f"{len(departures)} departure(s) from SCR 80.02 found in the citation forms this command recognises. "
+                  "It does not find every citation, verify volumes, pages or paragraph numbers, or apply any other "
+                  "citation rule; SCR 80.02 by its terms governs documents filed with the court of appeals or the "
+                  "supreme court.")
+            return 1 if departures else 0
         inv = inventory(args.inventory, args.document)
         if args.command == "record":
             if not args.entry:

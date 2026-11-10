@@ -67,6 +67,25 @@ determine the operative legal version, or prove that a visual comparison occurre
 For native text with no separate original, omit both original fields and describe
 the method accurately. Keep this evidence private to the authorized matter.
 
+A `format` pass for a `case` use is refused when the use's citation text departs from
+SCR 80.02 in a way the tool can see: a public domain citation pinned by page, SCR
+80.02(3)(b); an opinion dated 2000 or later cited to Wisconsin Reports with no public
+domain citation, or with its citations out of order, SCR 80.02(1); a page pinpoint on an
+opinion from 2000 or later; a malformed public domain citation, SCR 80.001. Correct the
+draft and start a new run, or record `fail` or `caution` with the reason. To apply the
+same rules to a whole draft before building the inventory:
+
+```sh
+python <skill-dir>/scripts/cite_check.py lint --document draft.docx
+```
+
+`lint` reads `.txt`, `.md` and `.docx`, prints each departure with its rule, and exits 1
+when it finds one. It recognises only the citation forms named above. It does not find
+every citation, verify a volume, page or paragraph number, or apply any other citation
+rule, and SCR 80.02(1) by its terms governs documents filed with the court of appeals or
+the supreme court; use it elsewhere as the convention this skill follows.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-11-09), U-06: SCR 80.001, 80.01(2)-(3), 80.02(1)-(3), https://www.wicourts.gov/sc/rules/chap80.pdf, pp. 332-334, read 2026-11-09. Second AI review pending. -->
+
 A `citability` record carries the facts Wis. Stat. § 809.23(3) turns on, read from the
 opinion itself:
 
