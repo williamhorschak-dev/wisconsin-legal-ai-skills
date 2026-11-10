@@ -1,0 +1,260 @@
+{
+  "counts": {
+    "pass": 46,
+    "fail": 2,
+    "not_assessed": 0,
+    "collection_error": 0
+  },
+  "critical_failures": [
+    "I04-baseline-1/directive",
+    "W06-baseline-1/facts"
+  ],
+  "trials": [
+    {
+      "trial": "C01-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C01-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C02-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C02-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C03-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C03-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C04-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C04-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C05-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C05-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C06-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C06-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C07-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C07-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C08-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "C08-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I01-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I01-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I02-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I02-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I03-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I03-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I04-baseline-1",
+      "condition": "baseline",
+      "verdict": "fail"
+    },
+    {
+      "trial": "I04-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I05-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I05-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I06-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I06-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I07-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I07-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I08-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "I08-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W01-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W01-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W02-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W02-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W03-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W03-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W04-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W04-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W05-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W05-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "W06-baseline-1",
+      "condition": "baseline",
+      "verdict": "fail"
+    },
+    {
+      "trial": "W06-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "X01-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "X01-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    },
+    {
+      "trial": "X02-baseline-1",
+      "condition": "baseline",
+      "verdict": "pass"
+    },
+    {
+      "trial": "X02-with-skills-1",
+      "condition": "with-skills",
+      "verdict": "pass"
+    }
+  ],
+  "reviewer": "Claude Fable 5.2 (claude-fable-5-2), the project's AI coordinator. Assistant-assisted review by the same coordinator that maintains the repository; not independent, not human review, not attorney review.",
+  "method": "Read every raw answer in full against its rubric and the supplied fixtures. For the with-skills answers, searched each quotation and each named authority in that trial's own prompt to see whether it came from the supplied material. One pass, one reviewer, no second grader.",
+  "limitations": "Not a controlled comparison. Each trial ran in a Claude Code desktop Workflow subagent that had tools (it used Read and Write only, per the harness records) and carried this session's standing context; one baseline answer (W05) repeats a rule from the maintainer's session memory, so the baseline is not a clean no-skill condition. Two answers (I04 with skills, X02 baseline) were given as chat text and copied from the agent transcripts by the coordinator. One model (claude-sonnet-5-5), one run per trial. The two baseline failures are judgment calls a second grader could decide differently. The suite uses supplied synthetic text and does not test retrieval, live law, or skill discovery.",
+  "scope": "Supplied synthetic text; prompt following, not live legal research or automatic skill discovery.",
+  "gate": "pass",
+  "gate_meaning": "All trials assessed and all with-skills trials pass. Baseline failures are comparison evidence, not treatment failures."
+}

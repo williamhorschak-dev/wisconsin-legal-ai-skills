@@ -1,0 +1,13 @@
+{
+  "trial": "I01-with-skills-1",
+  "input_sha256": "8befff0611632c5b1cadfb8eb96843c476d1af8804bc3365ba461c37fae29b09",
+  "host": "Claude Code desktop 2.1.321, one fresh Workflow subagent per trial; the subagent read the prompt from a file with the Read tool and wrote its answer with the Write tool; not a text-only session",
+  "models": [
+    "claude-sonnet-5-5"
+  ],
+  "collected_at": "2026-11-10T17:43:03.980222+00:00",
+  "status": "collected",
+  "collection": "manual import; operator must preserve raw output and disclose actual host capabilities",
+  "response": "Mode 1 - quick lookup.\n\nOn March 1, 2022, the supplied archive identifies Version A of Fictional Workshop Rule 2 as the operative text. Version A is effective January 1, 2021 through December 31, 2022, and March 1, 2022 falls inside that period.\n\n> \"Members may request a paper copy.\"\n\nSource: the supplied document fixtures/versions.md, Version A. I did not independently retrieve or authenticate it. It is supplied training text, not verified law, and I have no source or citator tools here, so nothing was checked against any outside source. The date I relied on is the date stated in the supplied archive, not a date verified from a source.\n\nVersion B (\"Members may request an electronic copy.\") took effect January 1, 2023, so it does not apply to March 1, 2022.\n\nThis answers the supplied-text question only. Choosing the version by date does not create a contested interpretation, so I have not done an interpretive analysis or predicted any outcome.\n",
+  "response_sha256": "10d43d5b2666c750ea789123c49fb2a967769eb1bd21c19ce146c4d30835be52"
+}
