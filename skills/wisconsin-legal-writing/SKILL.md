@@ -127,7 +127,9 @@ the number. `--draft` warns instead, and `--protected-info-reviewed` builds afte
 been checked. It is a pattern screen of the spec only: it misses formats it does not know,
 does not see exhibits, and is not a redaction check. See `references/circuit-court.md`.
 A final build's county must be one of the 72 counties in Wis. Stat. § 752.11(1);
-`--district COUNTY` prints its court of appeals district.
+`--district COUNTY` prints its court of appeals district. The builder does not produce a
+complaint or a summons, whose captions Wis. Stat. §§ 802.04(1) and 801.09(1) require to
+carry more than it prints; it refuses them in every mode.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

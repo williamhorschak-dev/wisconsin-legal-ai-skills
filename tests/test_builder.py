@@ -344,6 +344,35 @@ class FilingBuilderTests(unittest.TestCase):
             listed = [name.strip() for name in row.group(1).split(",")]
             self.assertEqual(sorted(listed), sorted(counties))
 
+    def test_complaint_and_summons_titles_are_refused_in_every_mode(self):
+        refused = ("Complaint", "Summons and Complaint", "Amended Complaint for Damages", "VERIFIED COMPLAINT",
+                   "Third-Party Complaint", "Summons", "Plaintiff's Complaint for Damages", "Fourth Amended Complaint",
+                   "Plaintiffs' Second Amended Complaint", "Plaintiff Jane Q. Example's Complaint",
+                   "Defendant\u2019s Third-Party Complaint", "Proposed Amended Complaint", "2nd Amended Summons")
+        for title in refused:
+            for draft in (False, True):
+                with self.subTest(title=title, draft=draft):
+                    spec = filing()
+                    spec["title"] = title
+                    with self.assertRaises(ValueError) as caught:
+                        builder.build(spec, self.output, draft=draft)
+                    self.assertIn("802.04(1)", str(caught.exception))
+                    self.assertIn("801.09(1) requires the summons to identify the court", str(caught.exception))
+                    self.assertFalse(self.output.exists())
+        for kind in ("complaint", "summons"):
+            typed = filing()
+            typed["document_type"] = kind
+            with self.assertRaisesRegex(ValueError, "does not produce a complaint or a summons"):
+                builder.build(typed, self.output)
+        for title in ("Defendant's Answer to Complaint", "Plaintiff's Motion to Amend Complaint",
+                      "Defendant's Brief in Support of Motion to Dismiss the Complaint",
+                      "Defendant's Answer to Plaintiff's Complaint", "Answer to Plaintiff's Amended Complaint",
+                      "Order Dismissing Plaintiff's Complaint", "Plaintiff's Reply to Defendant's Counterclaim"):
+            with self.subTest(builds=title):
+                spec = filing()
+                spec["title"] = title
+                builder.build(spec, self.output, overwrite=True)
+
     def test_generated_non_draft_does_not_invent_blank_attorney_date(self):
         spec = filing()
         spec["signature"] = {
