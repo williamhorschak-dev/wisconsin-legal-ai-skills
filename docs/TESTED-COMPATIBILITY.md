@@ -35,9 +35,16 @@ helpers and evaluation infrastructure, not a completed cross-model benchmark.
 - **Document templates.** None changed. The five motion specifications gained fields that the
   builder does not print; draft rebuilds of every template matched the reviewed files in all
   package parts, and the second reviewer reproduced that for three of them.
-- **Release assets.** To be compared with the CI artifacts after the merge, building under
-  CPython 3.12 as docs/RELEASING.md requires; the result is recorded in this file by a
-  following pull request, because this file is itself a release asset.
+- **Release assets.** The release was built from the clean checkout at a405031 under CPython
+  3.12.10; BUILD.json names that commit with `dirty` and `preview` false. The artifacts of
+  the validate run for the push of a405031 to `main` (run 42840104777) were downloaded: the
+  four matrix jobs produced nine files byte-identical to one another and to the local build.
+  The draft release's nine assets were downloaded before publication and every SHA-256
+  matched the local build. The maintainer published on 2026-11-10 15:05 UTC. The public
+  assets were then downloaded: all nine match the local build and the CI artifacts byte for
+  byte, and SHA256SUMS.txt verifies against the downloads. The copy of this file inside the
+  release says the check had not been made yet, because the file is itself an asset; this
+  repository copy records the result.
 - **Models and hosts.** No new trial. The 2026-10-24 trigger-activation record stands.
 
 ## Record of 2026-11-10 (release 2026.11.10.1)
