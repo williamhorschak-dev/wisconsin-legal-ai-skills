@@ -325,6 +325,59 @@ Every retrieved statute, rule, or ordinance file carries a header recording: sou
 date, the site's currency banner verbatim, and the operative date the version was selected for.
 Without those four lines the file cannot support a vintage claim later.
 
+**What the published page itself says about dates.** On the section pages checked, the
+legislature's site prints a currency line of the form "2023-24 Wisconsin Statutes updated
+through [act] and through all Supreme Court Orders ... filed before and in effect on [date]
+... Changes effective after [date] are designated by NOTES. (Published [date])". A page can
+therefore show text that is **not yet in force**: where an enacted amendment has a later
+effective date, the section prints the amended text, then a NOTE such as "Par. (c) is shown
+as amended eff. [date] by [act]. Prior to [date] it reads:", then the earlier text. On the
+checked pages, the statutory text is followed by a History note listing acts and Supreme
+Court orders; editorial notes and annotations may follow. An order's number is its docket
+number, not its date: a note can list "Sup. Ct. Order No. 08-02, 2009 WI 2". Preserve those
+lines when saving a page, name the file `Wis-Stat-<section> ...`, and run:
+
+```sh
+python <skill-dir>/scripts/statute_vintage.py "sources/statutes/<file>" --section <number> --operative-date <YYYY-MM-DD>
+```
+
+The script reads the History note whole or not at all. Every entry must fit a form it
+knows: an act or chapter law with each of its numbers, a Supreme Court order in the
+shapes the published notes use, or a renumbering. An entry that fits none is reported
+word for word and flagged. The script exits 1:
+
+- when the section has an effective-date NOTE;
+- when the operative date is earlier than the copy's publication date and the History note
+  has an entry dated in the year before the operative year or later, an entry whose note
+  gives an effective date after the operative date, an entry with no year, an entry it
+  cannot read, or no closing period, which is how a cut-off copy shows;
+- when the copy is more than 45 days older than the operative date;
+- when the copy has no currency line, no History note, or no line for the section.
+
+The 45 days and the one-year look-back are this project's screening choices, not law. An
+act or order can take effect in a later year than the year it is dated, so an entry dated
+the year before the operative year is flagged too; a longer delay is not detected. The
+year shown for an order is the year appearing in the order's citation; it does not
+establish the order's adoption date or effective date.
+
+`check_memo.py --sources` runs the same screen on every cited `Wis-Stat-` file and warns
+when one cannot be screened. For each flagged entry it reports an error until the memo
+carries a plain-text line of this form, with the identity exactly as the screen prints it:
+
+```text
+Vintage acknowledgement: <source file name> | <identity> | <what the memo does about it>
+```
+
+The line may be a list item. It may not contain a link, an image or HTML, so the identity
+cannot sit in a link title or other text a reader does not see; a mention in a table,
+a footnote or a sentence elsewhere does not count. On success the linter says that the
+named source and the full identity occur together in such a line. This checks the
+recorded identity only; it does not establish that the source version or the legal
+analysis is correct. A clean screen does not establish the text in force: History notes
+are editorial, an act's initial-applicability and nonstatutory provisions do not appear in
+them, and text extracted from a chapter PDF is not parsed reliably. Read the act.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09; rebuilt twice to the reviews by Astra, a Codex model, of 2026-11-09, findings C32-01 to C32-05 and V40-1 to V40-4; this revision awaits its own review), U-07: the currency line, effective-date NOTEs and History notes as published at https://docs.legis.wisconsin.gov/document/statutes/799.01, .../995.20, .../808.04, .../801.15 and .../809.23 (History listing "Sup. Ct. Order No. 08-02, 2009 WI 2" and "Sup. Ct. Order No. 20-07, 2021 WI 37"), read 2026-11-09 (Published 11-4-26). A description of the published layout on those pages, not a rule of law. The History grammar was run against 136 notes in pages saved that day and read every entry; other pages may use forms it does not know, which it flags. -->
+
 **Files are load-bearing once cited.** A memo references these paths; renaming or moving a file
 after delivery silently breaks the chain. Do not reorganize `sources/` after a memo references
 it.

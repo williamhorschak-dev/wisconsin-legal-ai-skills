@@ -24,6 +24,9 @@ import re
 import sys
 import unicodedata
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import statute_vintage  # noqa: E402
+
 REQUIRED_SECTIONS = [
     "Question Presented",
     "Short Answer",
@@ -1624,6 +1627,91 @@ def check_sources(body: str, frontmatter_raw: str, sources_dir: str | None, *,
             err(f"Referenced source file not found on disk: {p}")
 
 
+STATUTE_COPY_NAME = re.compile(r"^Wis-Stat-(\d{1,3}\.\d{1,4})(?!\d)", re.IGNORECASE)
+VINTAGE_LINE = "Vintage acknowledgement:"
+VINTAGE_FORBIDDEN = "<>[]"
+
+
+def _vintage_acknowledgements(body: str) -> list[str]:
+    """Plain-text acknowledgement lines: "Vintage acknowledgement: <source file> | <identity> | <what the memo does>".
+
+    HTML comments are removed first. A line may carry a list marker. A line containing a link, an image
+    or HTML (any of < > [ ]) is an error and acknowledges nothing, so an identity cannot sit in a link
+    title or other text a reader does not see.
+    """
+    visible = re.sub(r"<!--.*?-->", "", body, flags=re.DOTALL)
+    found = []
+    for line in visible.split("\n"):
+        text = re.sub(r"^\s*(?:[-*+]\s+)?", "", line)
+        if not text.startswith(VINTAGE_LINE):
+            continue
+        field = text[len(VINTAGE_LINE):].strip()
+        if any(mark in field for mark in VINTAGE_FORBIDDEN):
+            err(f"A `{VINTAGE_LINE}` line must be plain text: no links, images or HTML (none of {' '.join(VINTAGE_FORBIDDEN)}). "
+                "Write the source file name and the act or order in words a reader sees.")
+            continue
+        found.append(field)
+    return found
+
+
+def check_statute_vintage(body: str, fm: dict, sources_dir: str | None) -> None:
+    """Screen each cited statute copy against operative_date; every flagged History entry must be acknowledged.
+
+    A statute copy is a cited file named Wis-Stat-<section>..., the naming this skill prescribes. For each
+    act, order or other History entry the screen flags, the memo needs a plain-text line
+
+        Vintage acknowledgement: <source file name> | <identity as the screen prints it> | <what the memo does about it>
+
+    The check is that the named source and the full identity occur together in such a line. It does not
+    establish that the source version or the legal analysis is correct.
+    """
+    if not sources_dir or not os.path.isdir(sources_dir):
+        return
+    stated = re.search(r"\d{4}-\d{2}-\d{2}", fm.get("operative_date", "") or "")
+    try:
+        operative = datetime.date.fromisoformat(stated.group(0)) if stated else None
+    except ValueError:
+        operative = None
+    acknowledgements = _vintage_acknowledgements(body)
+    for folder, _, names in os.walk(sources_dir):
+        for name in sorted(names):
+            number = STATUTE_COPY_NAME.match(name)
+            if not number or name not in body:
+                continue
+            if operative is None:
+                warn(f"Statute vintage: `{name}` was not screened because operative_date has no YYYY-MM-DD date.")
+                continue
+            path = os.path.join(folder, name)
+            try:
+                if os.path.splitext(name)[1].lower() not in (".txt", ".md", ".html", ".htm"):
+                    raise ValueError("not a text, Markdown or HTML copy")
+                if os.path.getsize(path) > 5_000_000:
+                    raise ValueError("larger than 5 MB")
+                with open(path, encoding="utf-8-sig") as handle:
+                    result = statute_vintage.screen(handle.read(), operative, number.group(1))
+                if result is None:
+                    raise ValueError("no currency line, History note or effective-date NOTE in it")
+            except (OSError, ValueError) as exc:
+                warn(f"Statute vintage: `{name}` is cited as a statute copy but could not be screened ({exc}). Save the "
+                     "section page from the legislature's site with its currency line and History note.")
+                continue
+            mine = [field for field in acknowledgements if name in field]
+            for item in result["flags"]:
+                identity = item["identity"]
+                if identity is None:
+                    warn(f"Statute vintage: `{name}`: {item['text']}.")
+                    continue
+                exact = re.compile(r"(?<![\w-])" + re.escape(identity) + r"(?![\w-])")
+                if any(exact.search(field) for field in mine):
+                    note(f"Statute vintage: `{name}` and {identity} occur together in a plain-text acknowledgement line. This "
+                         "checks the recorded identity only; it does not establish that the source version or the legal "
+                         "analysis is correct.")
+                else:
+                    err(f"Statute vintage: `{name}` shows {item['text']} The memo's operative date is {operative.isoformat()}. "
+                        f"Say which text applies on that date and add this plain-text line, or correct the operative date:\n"
+                        f"      {VINTAGE_LINE} {name} | {identity} | <what the memo does about it>")
+
+
 def main() -> int:
     # A path or name outside the console code page must not turn finished work into a failure.
     if hasattr(sys.stdout, "reconfigure"):
@@ -1672,6 +1760,7 @@ def main() -> int:
             "warning."
         )
     check_sources(body, fm_raw, args.sources, formal=args.formal)
+    check_statute_vintage(body, fm, args.sources)
 
     leftover = PLACEHOLDER.findall(body)
     if leftover:

@@ -94,6 +94,14 @@ Deliver: the **primary text for the requested operative date**, the **operative 
 the **citation**, the **direct source** the text was retrieved from, and the **date verified**.
 For a historical lookup, identify the version and its effective period. If the applicable
 version cannot be established, disclose that limitation; do not silently use current text.
+Run `scripts/statute_vintage.py <saved page> --section <number> --operative-date <date>` on
+each saved statute page: it reads the page's currency line, effective-date NOTEs and every
+entry of the History note, and exits 1 when the copy may not show the text in force on that
+date or when it cannot read an entry. `check_memo.py --sources` runs the same screen on
+every cited `Wis-Stat-<section>` file and reports an error until the memo carries a plain
+line `Vintage acknowledgement: <source file> | <identity> | <what the memo does>` for each
+flagged entry. A flag is a reason to read the act; a clean screen is not a finding that
+the text was in force. See `references/sources.md`.
 
 No files written, no authority table, no red team, no memo scaffolding, and no interview: do
 not open with questions about forum, posture, or depth for a question that has one answer.

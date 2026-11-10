@@ -273,6 +273,11 @@ clearance could be switched off.
   signing date of the 2025 La Crosse County local rules.
 - Version detection in the citation tool is phrase matching on the reviewer's own
   annotation; it has no model of which text is in force on a given date.
+- `statute_vintage.py` screens one saved section page in the layout the legislature's site
+  publishes. The memo linter runs it only on cited files named `Wis-Stat-<section>`. It
+  compares by year with a one-year look-back and flags copies over 45 days old; both are
+  project screening choices. A clean screen is not a finding of the text in force, and an
+  acknowledgement line records that the memo names an entry, not that it resolves it.
 
 ## Keeping it current
 
