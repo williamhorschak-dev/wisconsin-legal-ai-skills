@@ -24,6 +24,9 @@ import re
 import sys
 import unicodedata
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import statute_vintage  # noqa: E402
+
 REQUIRED_SECTIONS = [
     "Question Presented",
     "Short Answer",
@@ -1624,6 +1627,51 @@ def check_sources(body: str, frontmatter_raw: str, sources_dir: str | None, *,
             err(f"Referenced source file not found on disk: {p}")
 
 
+def check_statute_vintage(body: str, fm: dict, sources_dir: str | None) -> None:
+    """Screen cited statute copies against operative_date; a flagged act must be addressed.
+
+    Wisconsin's published statutes mark a pending amendment with an effective-date NOTE and
+    list amending acts in each section's History note. When a saved copy the memo cites
+    carries such a signal for an act, the memo must mention that act; otherwise it may be
+    quoting text that was not in force on its own operative date.
+    """
+    if not sources_dir or not os.path.isdir(sources_dir):
+        return
+    stated = re.search(r"\d{4}-\d{2}-\d{2}", fm.get("operative_date", "") or "")
+    if not stated:
+        return
+    try:
+        operative = datetime.date.fromisoformat(stated.group(0))
+    except ValueError:
+        return
+    for folder, _, names in os.walk(sources_dir):
+        for name in sorted(names):
+            if os.path.splitext(name)[1].lower() not in (".txt", ".md", ".html", ".htm") or name not in body:
+                continue
+            path = os.path.join(folder, name)
+            try:
+                if os.path.getsize(path) > 5_000_000:
+                    continue
+                with open(path, encoding="utf-8-sig") as handle:
+                    raw = handle.read()
+            except (OSError, ValueError):
+                continue
+            number = re.search(r"(?<!\d)(\d{1,3}\.\d{1,4})(?!\d)", name)
+            result = statute_vintage.screen(raw, operative, number.group(1) if number else None)
+            if result is None:
+                continue
+            for item in result["flags"]:
+                act = re.search(r"Wis\. Act (\d+)", item["act"] or "")
+                if act and not re.search(rf"\bAct\s+{act.group(1)}\b", body):
+                    err(f"Statute vintage: `{name}` shows {item['text']}. The memo's operative date is "
+                        f"{operative.isoformat()} and the memo never mentions {item['act']}. Say which text applies "
+                        "on the operative date and cite the act, or correct the operative date.")
+                elif act:
+                    note(f"Statute vintage: `{name}` carries a signal for {item['act']}, which the memo mentions.")
+                else:
+                    warn(f"Statute vintage: `{name}`: {item['text']}.")
+
+
 def main() -> int:
     # A path or name outside the console code page must not turn finished work into a failure.
     if hasattr(sys.stdout, "reconfigure"):
@@ -1672,6 +1720,7 @@ def main() -> int:
             "warning."
         )
     check_sources(body, fm_raw, args.sources, formal=args.formal)
+    check_statute_vintage(body, fm, args.sources)
 
     leftover = PLACEHOLDER.findall(body)
     if leftover:

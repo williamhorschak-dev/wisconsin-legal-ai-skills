@@ -325,6 +325,30 @@ Every retrieved statute, rule, or ordinance file carries a header recording: sou
 date, the site's currency banner verbatim, and the operative date the version was selected for.
 Without those four lines the file cannot support a vintage claim later.
 
+**What the published page itself says about dates.** The legislature's statutes pages
+carry a currency line of the form "2023-24 Wisconsin Statutes updated through [act] and
+through all Supreme Court Orders ... filed before and in effect on [date] ... Changes
+effective after [date] are designated by NOTES. (Published [date])". So a page can show
+text that is **not yet in force**: where an enacted amendment has a later effective date,
+the section prints the amended text, then a NOTE such as "Par. (c) is shown as amended
+eff. [date] by [act]. Prior to [date] it reads:", then the earlier text. Each section also
+ends with a History note listing the acts and Supreme Court orders that created or amended
+it. Save the page with those lines intact, then run:
+
+```sh
+python <skill-dir>/scripts/statute_vintage.py "sources/statutes/<file>" --section <number> --operative-date <YYYY-MM-DD>
+```
+
+The script exits 1 when the copy has an effective-date NOTE, when the operative date is
+earlier than the copy's publication date and the History note lists an act or court order
+from the operative year or later, when the copy is more than 45 days older than the
+operative date, or when it has no currency line or History note to screen. `check_memo.py
+--sources` runs the same screen on every statute copy the memo cites and reports an error
+when a flagged act is never mentioned in the memo. A clean screen does not establish the
+text in force: History notes are editorial, and an act's initial-applicability and
+nonstatutory provisions do not appear in them. Read the act.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-11-09), U-07: the currency line, an effective-date NOTE and a History note as published at https://docs.legis.wisconsin.gov/document/statutes/799.01 (NOTEs for pars. (c) and (d) (intro.), amended eff. 1-1-27 by 2025 Wis. Act 105) and https://docs.legis.wisconsin.gov/document/statutes/995.20, read 2026-11-09 (Published 11-4-26). The description is of the published format, not of any rule of law. Second AI review pending. -->
+
 **Files are load-bearing once cited.** A memo references these paths; renaming or moving a file
 after delivery silently breaks the chain. Do not reorganize `sources/` after a memo references
 it.
