@@ -268,6 +268,11 @@ clearance could be switched off.
 - In two templates a section symbol can be separated from its number by a line break.
 - The subsequent history of cited authorities was not checked exhaustively against public
   sources where only the original opinion was read.
+- `wi_values.py` is a lookup transcribed from the statutes published for the date it
+  records and read on a later date it also records. It refuses earlier dates. A later-date
+  answer applies that publication's schedule only, not a survey of what was enacted
+  afterwards. It does not check that the reference files state the same numbers, and it
+  does not decide which rule governs or which claims a changed amount first applies to.
 - Two items in the procedure references remain marked [VERIFY]: how 2025 Wis. Act 105
   applies to a claim made before January 1, 2027 in an action commenced after it, and the
   signing date of the 2025 La Crosse County local rules.
