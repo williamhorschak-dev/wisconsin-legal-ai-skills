@@ -1,5 +1,25 @@
 # wisconsin-legal-writing
 
+## 2026.11.10.1
+
+- **Input contract change.** A declaration specification needs `"document_type": "declaration"`
+  and a `declaration` object (`use`, `purpose`, `signed_on`, `location`, `state_or_country`,
+  `body_reviewed`, optional `not_closings`), and must not type its own closing. The builder
+  prints the declaration sentence and execution line of the form in Wis. Stat. § 887.015(6)
+  and, on success, says what was not verified. See docs/RELEASE-NOTES.md for the migration.
+- `build_filing.py`: a final build is refused on a protected-information number pattern,
+  § 801.19 (`--protected-info-reviewed` after checking a match); on a county that is not one
+  of the 72 in § 752.11(1) (`--district COUNTY` prints the district); and, in every mode, on a
+  complaint or summons, §§ 802.04(1) and 801.09(1).
+- `assets/05-declaration.json` and `.docx`: order and wording of the statutory form.
+  `assets/10-appellate-brief.docx`: top margin 1 inch, § 809.19(8)(b)3.e. Both rendered in
+  Word and recorded in docs/TEMPLATE-QA.md. No other template changed.
+- `scripts/wi_values.py`, new: a lookup of dated numbers transcribed from the statutes
+  published for 2026-11-04. It does not check the reference files.
+- `references/circuit-court.md`, `captions.md`, `checklists.md`: passages on § 801.19, the
+  county table, the complaint caption and the declaration fields. Each is listed in
+  docs/LEGAL-TEXT-CHANGES-2026-11.md with its source and both AI checks; not attorney-reviewed.
+
 ## 2026.11.08.1
 
 - `build_filing.py`: the final-mode placeholder screen now also refuses nonempty single-line

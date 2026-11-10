@@ -1,3 +1,143 @@
+# 2026.11.10.1
+
+**This release changes an input contract.** A declaration specification written for an earlier
+release needs new structured fields, and renewed review of the facts they state, before a
+final build. The tools perform only the documented mechanical checks or form generation; a
+successful output is conditional on the reviewer's statements and is not filing approval. No
+attorney reviewed any of it; the maintainer is not a lawyer; LEGAL_NOTICE.md applies.
+
+Seven changes that enforce Wisconsin rules in the tools, each read against the statute by the
+coordinating AI and independently by a second AI of a different model family, and adopted by
+the maintainer at merge. Six further checks were built and not shipped; they are listed below
+so that nobody looks for them.
+
+## Migrating a declaration specification
+
+Before, a declaration typed its own closing as body paragraphs. Now the builder prints the
+closing of the form in Wis. Stat. § 887.015(6) itself.
+
+1. Remove the declaration sentence and the "Signed on ..." line from `body`.
+2. Add `"document_type": "declaration"` and a `declaration` object:
+
+   ```json
+   "declaration": {
+     "use": "sworn_declaration_substitute",
+     "purpose": "in support of Plaintiff's motion to compel in this action",
+     "signed_on": "2026-11-09",
+     "location": "Anytown",
+     "state_or_country": "Wisconsin",
+     "body_reviewed": true
+   }
+   ```
+
+3. `use` is the reviewer's statement that a law of this state requires or permits a sworn
+   declaration here and that the use is not one § 887.015(4)(b) excludes. `purpose` names the
+   intended current use; make the statement again before reusing a specification for another
+   purpose. `body_reviewed: true` is the reviewer's statement that the body holds no separate
+   declaration or execution closing.
+4. If the builder reports "possible closing wording", either remove the block or, if it is a
+   fact, list its number in `not_closings`. A block whose raw text contains the complete
+   generated sentence is refused even if listed.
+5. A declaration cannot also be a proposed order, carry `signature_in_body`, or have another
+   `document_type`. `--draft` prints blanks for a missing date or place and warns; it does not
+   excuse a malformed object or an excluded use.
+
+Every successful declaration build prints that applicability, exclusion status, the body
+review and actual execution were not independently verified.
+
+## wisconsin-legal-writing
+
+- **Protected information, Wis. Stat. § 801.19.** A final build is refused when the
+  specification's text matches a social security, employer or taxpayer identification,
+  financial account, driver license or passport number pattern. The refusal names the spec
+  path and category and never repeats the number. `--draft` warns;
+  `--protected-info-reviewed` builds after a match has been checked. It is a pattern screen of
+  the specification only: it does not see exhibits and is not a redaction check.
+  circuit-court.md has a new section on § 801.19.
+- **County, Wis. Stat. § 752.11(1).** A final build's county must be one of the 72 counties
+  the statute lists. `--district COUNTY` prints the court of appeals district it assigns.
+  captions.md carries the full table. The check knows county names; it does not decide venue.
+- **Complaints and summonses.** The builder refuses them in every mode. Wis. Stat.
+  §§ 802.04(1) and 801.09(1) require a complaint's caption and a summons to carry more than
+  the builder prints. This is a limit of the tool, recognised from the title's opening words
+  or `document_type`.
+- **Declarations, Wis. Stat. § 887.015.** Template 05 follows the order of the statutory form,
+  and the builder generates the closing from the reviewer's statements; see the migration
+  section above. `05-declaration.docx` was rebuilt once in this cycle and reviewed in Word.
+- **Appellate brief template.** `10-appellate-brief.docx` had a 0.5 inch top margin. It is now
+  1 inch, the minimum in Wis. Stat. § 809.19(8)(b)3.e. No text changed.
+- **`scripts/wi_values.py`**, new: a lookup of 25 dated numbers the references repeat,
+  transcribed from the statutes published for 2026-11-04 and read on 2026-11-09, with the
+  authority and conditions of each. It refuses earlier dates, and a later-date answer applies
+  that publication's schedule only. It is a lookup, not a check: it does not read the
+  reference files.
+
+## cite-check
+
+- **Unpublished Court of Appeals opinions, Wis. Stat. § 809.23(3).** An authority marked
+  `"unpublished_wis_ct_app": true` needs a `citability` record with the purpose, the opinion
+  type, the issue date and whether a copy was filed and served. The tool refuses a pass for a
+  persuasive purpose unless the opinion is authored and issued on or after July 1, 2009, and
+  refuses any pass unless a copy is filed and served. A bare `unpublished` flag is rejected,
+  because the rule concerns court of appeals decisions. The tool applies the conditions to
+  the recorded facts; it does not read the opinion.
+
+## wisconsin-legal-interpretation
+
+- No change beyond the version number.
+
+## Built and not shipped
+
+Each of these was reviewed by the second AI and found not exact within its stated scope. The
+maintainer's rule is that a tool that cannot be exact does not ship. None is in this release
+and none has a replacement.
+
+- A day counter under Wis. Stat. § 801.15.
+- A check of Wisconsin citation form under SCR 80.02.
+- A checker of appellate brief form and length under Wis. Stat. § 809.19(8).
+- A screen of saved statute pages against an operative date.
+- A check that the reference files state the numbers in `wi_values.py`.
+- A check of motion titles under Wis. Stat. § 802.01(2)(d). One further attempt, as a
+  generator of the title from structured fields, is under review and is not in this release.
+
+## Repository
+
+- Tests: 209 (182 in the last release). CI matrix unchanged.
+- docs/LEGAL-TEXT-CHANGES-2026-11.md records every legal-text change of this release with
+  its source, both AI checks and the adopting merge.
+- README: the known-limits section describes this release, including the new screens and
+  the declaration generator.
+
+## Known issues carried forward
+
+- Subsequent history of cited authorities was not exhaustively checked against public
+  sources.
+- The Kalal status sentence (oral argument in Abby Windows listed for 2026-11-10) must be
+  rechecked in the week of 2026-11-11; the small-claims passage must be re-edited on
+  2027-01-01.
+- The source register does not yet have records for every provision the new checks rely on;
+  it watches chapter files, not the individual sections.
+- The evidence log does not detect deleted lines.
+- Version detection in cite_check.py is phrase matching on the reviewer's annotation; it
+  has no operative-date model.
+- Trigger activation is measured on one host and two models; the every-query rule still
+  fails for cite-check and for the writing skill on this host. The results narrative
+  mislabels two query splits and evals/README.md still says no results are recorded; both
+  are corrected with the next dataset change.
+- The source checker drops the redirect target from a record when a same-host redirect was
+  followed successfully; the request log keeps both hops.
+- Two items remain marked [VERIFY]: how 2025 Wis. Act 105 applies to a claim made before
+  January 1, 2027 in an action commenced after it, and the signing date of the 2025
+  La Crosse County local rules.
+- Three questions the reviews raised are not settled by the public sources read: whether a
+  party designation alone is "the name of the party" in a motion caption, § 802.01(2)(d);
+  whether 11 points is a minimum or an exact size for block quotes and footnotes,
+  § 809.19(8)(b)3.c.; and whether that paragraph's body-text numbers reach headings.
+
+The three skills remain independently usable. These changes do not certify legal
+accuracy, filing readiness, or the permissibility of a particular legal-service
+deployment.
+
 # 2026.11.08.1
 
 A maintenance release: a wider placeholder screen in the document builder, a rebuilt source
