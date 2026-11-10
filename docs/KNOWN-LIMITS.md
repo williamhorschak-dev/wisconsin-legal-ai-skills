@@ -44,6 +44,11 @@ clearance could be switched off.
 - The builder refuses a complaint or a summons by the opening words of the title or the
   declared type. A complaint under an unusual title is not recognised. The county check
   knows the 72 county names; it does not decide venue or where an appeal is heard.
+- The county local-rules index (`references/local-rules.md`) records where five counties were
+  checked on one day and what each posted document printed about itself. It holds no rule
+  text, does not say what any rule requires, does not confirm that a posted set is complete
+  or current, and does not notice when a county replaces a file. Sixty-seven counties are
+  not yet indexed. One check was incomplete and one linked document was not read.
 - The unpublished-opinion check in the citation tool applies Wis. Stat. § 809.23(3) to
   facts the reviewer records. It does not read the opinion and does not find unpublished
   opinions the inventory fails to mark.
