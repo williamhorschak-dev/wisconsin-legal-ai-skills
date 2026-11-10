@@ -153,6 +153,152 @@ class CitationEvidenceTests(unittest.TestCase):
         self.assertIn("purpose persuasive, opinion type authored, issued 2020-03-03, copy filed and served: yes", text)
         self.assertIn("An archived copy in the sources folder is not a filed or served copy", text)
 
+    FULL = "Smith v. Jones, 2016 WI 44, \u00b6 30, 369 Wis. 2d 9, 879 N.W.2d 609"
+
+    def scr(self, citation, **facts):
+        base = {"context": "initial", "forum": "appellate", "court": "supreme", "issued": "2016-06-01",
+                "has_paragraph_numbers": True, "reporter_citations_available": True}
+        base.update(facts)
+        self.inv["uses"][0].update(kind="case", citation=citation, scr_80_02={k: v for k, v in base.items() if v is not None})
+        self.save_inventory()
+        checker.inventory(self.inventory_path, self.document)
+
+    def format_problem(self, citation, **facts):
+        self.scr(citation, **facts)
+        try:
+            checker.validate_entry(self.evidence("format"), self.inv, self.sources)
+        except ValueError as exc:
+            return str(exc)
+        return ""
+
+    def test_initial_citation_needs_every_available_reference_in_order(self):
+        self.assertEqual(self.format_problem(self.FULL), "")
+        self.assertIn("SCR 80.02(1)(b)", self.format_problem("Smith v. Jones, 2016 WI 44, \u00b6 30, 879 N.W.2d 609"))
+        self.assertIn("SCR 80.02(1)(c)", self.format_problem("Smith v. Jones, 2016 WI 44, \u00b6 30, 369 Wis. 2d 9"))
+        self.assertIn("SCR 80.02(1)(a)", self.format_problem("Smith v. Jones, 369 Wis. 2d 9, 879 N.W.2d 609 (2016)"))
+        both = self.format_problem("Smith v. Jones, 2016 WI 44, \u00b6 30")
+        self.assertIn("(1)(b)", both)
+        self.assertIn("(1)(c)", both)
+        self.assertIn("in the order public domain citation", self.format_problem("Smith v. Jones, 2016 WI 44, 879 N.W.2d 609, 369 Wis. 2d 9"))
+        self.assertEqual(self.format_problem("Smith v. Jones, 2026 WI 3, \u00b6 12", issued="2026-02-01", reporter_citations_available=False), "")
+        convention = self.format_problem("Smith v. Jones, 369 Wis. 2d 9, 879 N.W.2d 609 (2016)", forum="other")
+        self.assertIn("project convention following SCR 80.02", convention)
+        self.assertIn("governs documents filed with the court of appeals or the supreme court", convention)
+
+    def test_subsequent_citation_may_use_one_reference(self):
+        for citation in ("Smith, 369 Wis. 2d 9, \u00b6 12, 879 N.W.2d 609 (2016).", "Smith, 2016 WI 44, \u00b6 43.",
+                         "Smith, 369 Wis. 2d 9, \u00b6 12.", "Smith, 879 N.W.2d 609, \u00b6 12.", "Id., \u00b6 30."):
+            with self.subTest(citation=citation):
+                self.assertEqual(self.format_problem(citation, context="subsequent"), "")
+        self.assertIn("SCR 80.02(2)", self.format_problem("Smith, supra.", context="subsequent"))
+        self.assertIn("SCR 80.02(1)(b)", self.format_problem("Smith, 2016 WI 44, \u00b6 43.", context="initial"))
+
+    def test_pinpoint_rule_follows_issue_and_publication_dates(self):
+        modern_page = ("Smith, 879 N.W.2d 609, 615 (2016).", "Smith, 2016 WI 44 at 12.", "Id. at 15.", "Smith, 369 Wis. 2d 9, 15.")
+        for citation in modern_page:
+            with self.subTest(modern=citation):
+                self.assertIn("(3)(b)", self.format_problem(citation, context="subsequent"))
+        old = dict(context="subsequent", issued="1997-05-01", has_paragraph_numbers=False)
+        self.assertEqual(self.format_problem("Smith, 214 Wis. 2d 408, 412.", **old), "")
+        self.assertIn("(3)(a)", self.format_problem("Smith, 214 Wis. 2d 408, \u00b6 12.", **old))
+        bridge = dict(context="subsequent", court="court_of_appeals", issued="1999-12-15", ordered_published="2000-01-26")
+        self.assertEqual(self.format_problem("Smith, 2000 WI App 14 at 12.", has_paragraph_numbers=False, **bridge), "")
+        self.assertIn("(3)(c)", self.format_problem("Smith, 2000 WI App 14, \u00b6 12.", has_paragraph_numbers=False, **bridge))
+        self.assertEqual(self.format_problem("Smith, 2000 WI App 14, \u00b6 12.", has_paragraph_numbers=True, **bridge), "")
+        self.assertIn("(3)(c)", self.format_problem("Smith, 2000 WI App 14 at 12.", has_paragraph_numbers=True, **bridge))
+        unpublished_era = dict(context="subsequent", court="court_of_appeals", issued="1998-03-01", ordered_published="1998-04-20",
+                               has_paragraph_numbers=False)
+        self.assertEqual(self.format_problem("Smith, 218 Wis. 2d 1, 5.", **unpublished_era), "")
+        self.assertIn("none exists", self.format_problem("Smith, 1998 WI App 14, 218 Wis. 2d 1, 5.", **unpublished_era))
+
+    def test_format_pass_needs_facts_for_wisconsin_and_ambiguous_citations(self):
+        for citation in (self.FULL, "Smith, 369 Wis. 2d 9, \u00b6 12.", "Smith, 879 N.W.2d 609, 615 (2016).", "Id. at 15."):
+            with self.subTest(citation=citation):
+                self.inv["uses"][0].update(kind="case", citation=citation)
+                self.inv["uses"][0].pop("scr_80_02", None)
+                self.save_inventory()
+                with self.assertRaisesRegex(ValueError, "records no scr_80_02 facts"):
+                    checker.validate_entry(self.evidence("format"), self.inv, self.sources)
+                checker.validate_entry(self.evidence("format", "caution"), self.inv, self.sources)
+        for citation in ("Doe v. Roe, 550 U.S. 544, 555 (2007).", "Doe v. Roe, 900 F.3d 100, 105 (7th Cir. 2018)."):
+            self.inv["uses"][0].update(kind="case", citation=citation)
+            self.save_inventory()
+            checker.validate_entry(self.evidence("format"), self.inv, self.sources)
+        for citation in ("Roe v. Doe, 900 N.W.2d 100, 105 (Minn. 2017).", "Id. at 15."):
+            self.inv["uses"][0].update(kind="case", citation=citation, scr_80_02="not_applicable")
+            self.save_inventory()
+            checker.validate_entry(self.evidence("format"), self.inv, self.sources)
+        self.inv["uses"][0].update(citation=self.FULL, scr_80_02="not_applicable")
+        self.save_inventory()
+        with self.assertRaisesRegex(ValueError, "not_applicable, but the citation is in Wisconsin form"):
+            checker.validate_entry(self.evidence("format"), self.inv, self.sources)
+        self.inv["uses"][0].update(citation="Smith v. Jones, 2016, WI 44, \u00b6 30.", scr_80_02="not_applicable")
+        self.save_inventory()
+        with self.assertRaisesRegex(ValueError, "SCR 80.001"):
+            checker.validate_entry(self.evidence("format"), self.inv, self.sources)
+
+    def test_scr_facts_are_validated_in_the_inventory(self):
+        cases = (
+            (dict(context="first"), "context must be initial or subsequent"),
+            (dict(forum="circuit"), "forum must be appellate"),
+            (dict(court="circuit"), "court must be supreme or court_of_appeals"),
+            (dict(issued="2016-6-1"), "zero-padded"),
+            (dict(court="court_of_appeals"), "ordered_published"),
+            (dict(has_paragraph_numbers="yes"), "must be true or false"),
+            (dict(reporter_citations_available=None), "must be true or false"),
+        )
+        for facts, message in cases:
+            with self.subTest(facts=facts):
+                with self.assertRaisesRegex(ValueError, message):
+                    self.scr(self.FULL, **facts)
+        self.inv["uses"][0].update(kind="rule", scr_80_02="not_applicable")
+        self.save_inventory()
+        with self.assertRaisesRegex(ValueError, "applies only to a case use"):
+            checker.inventory(self.inventory_path, self.document)
+        self.inv["uses"][0].update(kind="case", scr_80_02={"context": "initial", "extra": 1})
+        self.save_inventory()
+        with self.assertRaisesRegex(ValueError, "only:"):
+            checker.inventory(self.inventory_path, self.document)
+
+    def test_lint_reports_syntax_departures_and_refuses_to_certify_what_needs_context(self):
+        import zipfile
+        run = lambda path: subprocess.run([sys.executable, str(SCRIPT), "lint", "--document", str(path)],
+                                          capture_output=True, text=True, encoding="utf-8",
+                                          env={**os.environ, "PYTHONIOENCODING": "utf-8"})
+        draft = self.root / "brief.md"
+        draft.write_text("Synthetic. No authority is cited here; see Doe v. Roe, 550 U.S. 544 (2007).\n", encoding="utf-8")
+        self.assertEqual(run(draft).returncode, 0)
+        one_line = "Synthetic. Smith v. Jones, 2016 WI 44, \u00b6 30, 369 Wis. 2d 9, 879 N.W.2d 609.\n"
+        draft.write_text(one_line, encoding="utf-8")
+        first = run(draft)
+        self.assertEqual(first.returncode, 3, first.stdout)
+        self.assertIn("1 Wisconsin citation(s) found that this command cannot check", first.stdout)
+        draft.write_text(one_line.replace("\u00b6 30, 369", "\u00b6 30,\n369"), encoding="utf-8")
+        wrapped = run(draft)
+        self.assertEqual((wrapped.returncode, wrapped.stdout.count("NOT CHECKED")), (3, 1))
+        draft.write_text("Smith v. Jones, 2016 WI 44, \u00b6 30.\n\nDoe v. Roe, 369 Wis. 2d 9, \u00b6 4.\n", encoding="utf-8")
+        self.assertEqual(run(draft).stdout.count("NOT CHECKED"), 2)
+        draft.write_text("Synthetic. Smith v. Jones, 2016, WI 44 at 12.\n", encoding="utf-8")
+        bad = run(draft)
+        self.assertEqual(bad.returncode, 1)
+        self.assertIn("DEPARTURE  SCR 80.001", bad.stdout)
+        ns = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"'
+        part = lambda tag, text: f'<w:{tag} {ns}><w:p><w:r><w:t>{text}</w:t></w:r></w:p></w:{tag}>'
+        for name, tag in (("word/document.xml", "document"), ("word/footnotes.xml", "footnotes"), ("word/endnotes.xml", "endnotes")):
+            with self.subTest(part=name):
+                word = self.root / (tag + ".docx")
+                with zipfile.ZipFile(word, "w") as archive:
+                    archive.writestr("word/document.xml", part("document", "Synthetic body." if tag != "document" else "Smith v. Jones, 2016, WI 44 at 12."))
+                    if tag != "document":
+                        archive.writestr(name, part(tag, "Smith v. Jones, 2016, WI 44 at 12."))
+                result = run(word)
+                self.assertEqual(result.returncode, 1, result.stdout)
+                self.assertIn("SCR 80.001", result.stdout)
+        missing = subprocess.run([sys.executable, str(SCRIPT), "report", "--document", str(draft)],
+                                 capture_output=True, text=True, encoding="utf-8")
+        self.assertEqual(missing.returncode, 2)
+        self.assertIn("requires --inventory, --sources and --log", missing.stderr)
+
     def test_append_preserves_accepted_log_endings(self):
         for ending in (b"", b"\n", b"\r\n", b"\r"):
             with self.subTest(ending=ending):

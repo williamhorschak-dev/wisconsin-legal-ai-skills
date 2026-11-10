@@ -67,6 +67,58 @@ determine the operative legal version, or prove that a visual comparison occurre
 For native text with no separate original, omit both original fields and describe
 the method accurately. Keep this evidence private to the authorized matter.
 
+**Wisconsin citation form.** A `case` use for a published Wisconsin opinion carries the facts
+SCR 80.02 turns on, read from the opinion and the draft:
+
+```json
+{
+  "scr_80_02": {
+    "context": "initial",
+    "forum": "appellate",
+    "court": "court_of_appeals",
+    "issued": "2021-04-27",
+    "ordered_published": "2021-05-26",
+    "has_paragraph_numbers": true,
+    "reporter_citations_available": true
+  }
+}
+```
+
+`context` is `initial` for the table of cases of a brief and the first citation in a
+document, and `subsequent` after that. `forum` is `appellate` for a document filed with the
+court of appeals or the supreme court, the documents SCR 80.02(1) governs, and `other`
+elsewhere, where this skill follows the rule as a convention and the tool's message says so.
+`ordered_published` is required for a court of appeals opinion. With those facts the tool
+refuses a `format` pass when:
+
+- an initial citation lacks the public domain citation although one exists (a supreme court
+  opinion issued, or a court of appeals opinion ordered published, on or after January 1,
+  2000, SCR 80.01(2)-(3)), lacks the Wisconsin Reports or North Western Reporter citation
+  although `reporter_citations_available` is true, or gives them out of order, SCR 80.02(1);
+- a subsequent citation includes none of the three, SCR 80.02(2) (an `id.` form is accepted);
+- the pinpoint is the wrong kind: pages for an opinion issued and published before 2000,
+  SCR 80.02(3)(a); paragraphs for one issued on or after January 1, 2000, (3)(b); and for one
+  issued before and ordered published after that date, paragraphs if they exist and pages if
+  not, (3)(c);
+- the public domain citation is malformed, SCR 80.001.
+
+A citation in Wisconsin form, a bare North Western Reporter citation, or an `id.` form with no
+`scr_80_02` facts cannot pass `format`: record the facts, or `"scr_80_02": "not_applicable"`
+for an authority that is not a published Wisconsin opinion. Record `caution` or `fail` when
+the draft departs on purpose. To look over a whole draft first:
+
+```sh
+python <skill-dir>/scripts/cite_check.py lint --document draft.docx
+```
+
+`lint` reads `.txt`, `.md` and `.docx` (body, footnotes and endnotes). It exits 1 for a
+malformed public domain citation, 3 when it finds Wisconsin citations, which it lists and
+cannot check without the facts above, and 0 only when it finds none. It does not find every
+citation, resolve `id.` chains, check that a later citation is consistent with an earlier
+one, verify a volume, page or paragraph number, or apply any other citation rule. The facts
+are the reviewer's record; the tool applies the rule to them and does not read the opinion.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09, revised to the second AI review by Astra, a Codex model, of 2026-11-09; this revision awaits its own second review), U-06: SCR 80.001, 80.01(2)-(3), 80.02(1)-(3), https://www.wicourts.gov/sc/rules/chap80.pdf, pp. 332-334, read 2026-11-09 by both reviewers. -->
+
 Mark each unpublished **Wisconsin Court of Appeals** opinion for the § 809.23(3) check. Do
 not apply this gate merely because a circuit court decision or another jurisdiction's
 opinion is unpublished: Rule 809.23(3) "read in context, concerns only court of appeals

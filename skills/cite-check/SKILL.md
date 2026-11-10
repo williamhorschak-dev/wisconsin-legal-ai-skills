@@ -90,6 +90,11 @@ in the inventory: the tool then requires a `citability` record and refuses a pas
 Stat. § 809.23(3) does not allow on the recorded purpose, authorship, issue date and
 filed-and-served copy. The rule concerns court of appeals decisions; a circuit court or
 out-of-state opinion is not marked merely because it is unpublished.
+For each published Wisconsin opinion record `scr_80_02` facts in the inventory (initial or
+subsequent citation, forum, court, issue and publication dates, paragraph numbering): the tool
+refuses a `format` pass that SCR 80.02 does not allow on those facts, and one for a Wisconsin
+citation with no facts. `cite_check.py lint --document <draft>` lists the Wisconsin citations in
+a draft and exits non-zero unless it finds none; it does not check them.
 It is not the tool's independent certification. Missing checks appear as `UNVERIFIED`;
 failed checks appear as `FLAGGED`. Never promote an incomplete review because a report
 was successfully generated. Keep format defects visible separately from substance.
