@@ -21,6 +21,12 @@ bytes) to PDF with LibreOffice 26.8.2.2 and measured the first glyph box with Py
 page 1), 0.984 in (motion page 2) and 3.034 in (proposed order page 1), Century Schoolbook embedded, no
 clipping; the constant 0.034 in is the glyph box sitting below the line top that Word reports. The other
 twelve templates have not been rendered outside Word. Not an attorney review.
+On 2026-11-09 05-declaration.docx was rebuilt after its spec moved to the order and wording of the
+Wis. Stat. s. 887.015(6) form (facts first, then the false-swearing sentence and the execution line). Only
+word/document.xml changed. Word 16.0: 2 pages, unchanged, first paragraph at 2.00 in; the Word-saved PDF
+gave 2.00 in on page 1 and 1.18 in on page 2, measured with PyMuPDF and again by a second AI reviewer with
+Poppler; both pages viewed by both AI reviewers. In the unfilled template the execution line and signature
+block fall on page 2. Not an attorney review.
 Content hashes bind each record to these bytes. The Word check is not renderer-independent
 layout equality, and it is not an attorney review.
 
