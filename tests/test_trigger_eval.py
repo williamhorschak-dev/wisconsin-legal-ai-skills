@@ -1,4 +1,5 @@
 """Test trigger-evaluation scoring with fake predictions; no model or network is involved."""
+import hashlib
 import contextlib
 import io
 import json
@@ -61,11 +62,21 @@ class TriggerEvalTests(unittest.TestCase):
     def test_committed_query_files_match_the_documented_shape(self):
         self.assertEqual(set(self.sets), {CC, INT, WL})
         everything = []
+        manifest = json.loads((ROOT / "evals/triggers/datasets.json").read_text(encoding="utf-8"))
+        self.assertEqual([v["version"] for v in manifest["versions"]], list(range(1, manifest["current"] + 1)))
+        declared = manifest["versions"][-1]["files"]
+        self.assertEqual(set(declared), set(self.sets))
         for name, items in self.sets.items():
-            self.assertEqual(len(items), 20)
+            # The committed files are the current dataset version, byte for byte (LF line endings).
+            data = (ROOT / "evals/triggers" / name / trigger_eval.QUERY_FILE).read_bytes().replace(b"\r\n", b"\n")
+            self.assertEqual(hashlib.sha256(data).hexdigest(), declared[name]["sha256"], f"{name}: query file changed; add a dataset version")
+            self.assertEqual(len(items), declared[name]["queries"])
             counts = {c: sum(1 for i in items if i["category"] == c) for c in trigger_eval.CATEGORIES}
-            self.assertEqual(counts, {"positive": 9, "near-miss": 6, "cross-skill": 5})
-            self.assertEqual(sum(1 for i in items if i["split"] == "train"), 12)
+            self.assertEqual(counts, {"positive": declared[name]["positive"], "near-miss": declared[name]["near_miss"],
+                                      "cross-skill": declared[name]["cross_skill"]})
+            self.assertEqual(sum(1 for i in items if i["split"] == "train"), declared[name]["train"])
+            self.assertGreaterEqual(declared[name]["positive"], 9)
+            self.assertEqual((declared[name]["near_miss"], declared[name]["cross_skill"], declared[name]["validation"]), (6, 5, 8))
             for split in trigger_eval.SPLITS:
                 part = [i for i in items if i["split"] == split]
                 self.assertTrue(any(i["should_trigger"] for i in part) and any(not i["should_trigger"] for i in part))

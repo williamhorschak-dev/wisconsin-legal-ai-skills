@@ -138,5 +138,12 @@
     "expected_skill": "wisconsin-legal-writing",
     "category": "positive",
     "split": "train"
+  },
+  {
+    "query": "The hearing notice in my Wisconsin small claims case went to my old address. Write a one-page letter to the judge for the court file that gives my new address and asks that future notices go there, with a copy line for the other side. I don't have a lawyer.",
+    "should_trigger": true,
+    "expected_skill": "wisconsin-legal-writing",
+    "category": "positive",
+    "split": "train"
   }
 ]
