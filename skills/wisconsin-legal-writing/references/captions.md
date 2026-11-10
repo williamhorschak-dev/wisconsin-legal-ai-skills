@@ -51,23 +51,32 @@ take precedence; do not assume La Crosse County or a pro se plaintiff.
     Motion and Motion".
   - From these the builder generates, for example, "Plaintiff's Motion to Compel Discovery"
     and "Motion of Plaintiff to Compel Discovery", and the same with the party's name or
-    its designation and name. The title in the spec must be one of them, compared without
-    regard to case, spacing or apostrophe style. A final build is refused otherwise and
-    lists the titles; `--draft` warns.
-  - A designation alone is offered only when it identifies one person. Accepting it is a
-    convention of this two-party caption, which prints the name beside it, not a ruling
-    that a designation alone is enough in every court.
-  - Under § 802.01(2)(a) a motion may be stated in a written notice of its hearing. A title
-    that opens as a notice of motion or of hearing is refused in a final build until
-    `document_type` says whether it is the motion.
+    its designation and name. The title must match a complete candidate generated from the
+    supplied fields. This does not establish a unique interpretation of the wording or
+    prevent different fields from generating the same title. Comparison ignores case,
+    collapses whitespace and treats a straight apostrophe and U+2019 as equivalent. Relief
+    whitespace is also collapsed. A mismatch lists up to eight supported candidates; a final
+    build is refused and `--draft` warns.
+  - A designation-only candidate is offered only when each used designation is unique among
+    the normalized designation labels considered by the generator. A designation-only title
+    is a tool convention. For a caption party, the caption also prints the party's name. An
+    outside mover's supplied name is not printed by the two-party caption, so choosing a
+    designation-only title can omit that name from both the caption and title. This check
+    does not decide whether that form satisfies § 802.01(2)(d); name-based styles are
+    available.
+  - Under § 802.01(2)(a) a motion may be stated in a written notice of its hearing. A
+    supplied non-null `document_type` must be a nonempty string; null or absence leaves
+    classification unspecified. A final build with an unclassified title recognized as a
+    notice of motion or hearing requires the reviewer to identify the document type.
+    Unrecognized titles without a `motion` object or motion `document_type` do not enter
+    this check, so reviewers must explicitly classify motions the title recognizer misses.
 
   This generates one supported title form from the reviewer's statements; it is not a check
-  of statutory compliance, and other lawful titles are refused as unsupported by the tool. A
-  motion under a title the builder does not recognise, with no `document_type` and no
-  `motion` object, is not treated as a motion. Party status, the completeness of the list
-  of movers, the legal adequacy of the description and the classification of the document
-  are not verified, and a build whose title was generated says so.
-  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09; rebuilt three times to the reviews by Astra, a Codex model, of 2026-11-09 and 2026-11-10, findings B26-02, R43-01 to R43-04 and R46-01 to R46-03; this revision awaits its own review), U-04b: Wis. Stat. § 802.01(2)(a) and (d), https://docs.legis.wisconsin.gov/document/statutes/802.01, read 2026-11-09 (Published 11-4-26). Whether a designation alone satisfies "the name of the party" is not settled by the sources read. -->
+  of statutory compliance, and other lawful titles are refused as unsupported by the tool.
+  Party status, the completeness of the list of movers, the legal adequacy of the
+  description and the classification of the document are not verified, and a build whose
+  title matched a generated candidate says so.
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09; rebuilt three times to the reviews by Astra, a Codex model, of 2026-11-09 and 2026-11-10, findings B26-02, R43-01 to R43-04 and R46-01 to R46-03; that reviewer found the generator exact within its stated scope on 2026-11-10 and its wording findings R51-01 to R51-03 are applied here), U-04b: Wis. Stat. § 802.01(2)(a) and (d), https://docs.legis.wisconsin.gov/document/statutes/802.01, read 2026-11-09 (Published 11-4-26). Whether a designation alone satisfies "the name of the party" is not settled by the sources read. -->
 - **Wis. Stat. § 809.81(9)**: appellate captions must carry the full name of each
   party as in the circuit court and designate each party's status in *both* courts
   (`Plaintiff-Appellant`, `Defendant-Respondent`).

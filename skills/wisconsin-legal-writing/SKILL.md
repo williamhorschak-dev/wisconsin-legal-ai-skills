@@ -149,9 +149,12 @@ For a motion (`document_type: "motion"`, a `motion` object, or a title that open
 recognised motion words) the reviewer states who moves and what is sought in `"motion":
 {"movers": ["first_party"], "qualifier": null, "relief": "..."}`, and the builder generates
 the supported titles under Wis. Stat. § 802.01(2)(d). A final build is refused unless the
-title is one of them, and a notice of motion or hearing must say whether it is the motion.
-It is one supported title form, not a check of statutory compliance, and the builder does
-not verify who moves or whether the description is adequate. See `references/captions.md`.
+title matches one of them. A final build with an unclassified title recognized as a notice
+of motion or hearing requires the reviewer to identify the document type. Unrecognized
+titles without a `motion` object or motion `document_type` do not enter this check, so
+classify explicitly any motion the title recognizer misses. It is one supported title form,
+not a check of statutory compliance, and the builder does not verify who moves or whether
+the description is adequate. See `references/captions.md`.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

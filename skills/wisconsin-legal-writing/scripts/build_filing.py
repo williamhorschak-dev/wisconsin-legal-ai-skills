@@ -109,19 +109,26 @@ unopposed, stipulated, agreed, joint, ex_parte, supplemental). relief is put aft
 Motion as written. with_notice: true gives "Notice of Motion and Motion". From these the
 builder generates "Plaintiff's Motion to Compel Discovery", "Motion of Plaintiff to Compel
 Discovery" and the same with the party's name or designation and name. The spec's title
-must be one of them, compared without regard to case, spacing or apostrophe style. A final
-build is refused otherwise, with the titles listed, and --draft warns. No mover is listed
-twice; joint needs two or more movers; a designation alone is offered only when it
-identifies one person. A title that opens as a notice of motion or of hearing, with no
-document_type, is refused in a final build until the reviewer says whether it is the written
-motion; s. 802.01(2)(a) lets a motion be stated in a written notice of its hearing. Refused
-in every mode: a motion object or motion title with another document_type, a motion marked
-as a proposed order, unknown keys and fields of the wrong type.
+must match a complete candidate generated from the supplied fields. Comparison ignores case,
+collapses whitespace and treats a straight apostrophe and U+2019 as equivalent; relief
+whitespace is also collapsed. A final build is refused otherwise, listing up to eight
+supported candidates, and --draft warns. No mover is listed twice, and joint needs two or
+more movers. A designation-only candidate is offered only when each used designation is
+unique among the normalized designation labels the generator considers. Matching a
+candidate does not establish a unique interpretation of the wording or prevent different
+fields from generating the same title.
+
+A supplied non-null document_type must be a nonempty string; null or absence leaves
+classification unspecified. A final build with an unclassified title recognized as a notice
+of motion or of hearing requires the reviewer to identify the document type; s. 802.01(2)(a)
+lets a motion be stated in a written notice of its hearing. Refused in every mode: a motion
+object or motion title with another document_type, a motion marked as a proposed order,
+unknown keys and fields of the wrong type.
 
 This generates one supported title form from the reviewer's statements. It is not a check
-of statutory compliance, and other lawful titles are refused as unsupported by the tool. A
-motion under a title the recogniser does not know, with no document_type and no motion
-object, is not treated as a motion at all. Every build whose title is one of the generated
+of statutory compliance, and other lawful titles are refused as unsupported by the tool.
+Unrecognized titles without a motion object or motion document_type do not enter this
+check, so reviewers must explicitly classify motions the title recognizer misses. Every build whose title is one of the generated
 titles says that party status, completeness, legal adequacy and document classification
 remain unverified; a draft let through with a different title gets the warning instead.
 

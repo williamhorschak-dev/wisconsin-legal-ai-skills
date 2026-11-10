@@ -179,6 +179,46 @@ class MotionTitleTests(unittest.TestCase):
         collision["signature"]["name"] = "Respondent"
         self.passes(collision)
 
+    def test_documented_limits_one_title_can_come_from_different_fields(self):
+        # The second review's collisions. Each title is a candidate for the fields supplied, so each builds with the
+        # conditional notice. The title cannot be read back into its fields, and the tool does not claim it can.
+        alone = motion("Motion of Plaintiff and Defendant to Compel")
+        alone["first_party"]["name"] = alone["signature"]["name"] = "Plaintiff and Defendant"
+        both = motion("Motion of Plaintiff and Defendant to Compel", movers=("first_party", "second_party"))
+        both["first_party"]["name"] = both["signature"]["name"] = "Plaintiff and Defendant"
+        of_name = motion("Motion of Alex of Morgan to Compel")
+        of_name["first_party"]["name"] = of_name["signature"]["name"] = "Alex of Morgan"
+        of_relief = motion("Motion of Alex to Compel".replace("Alex to", "Alex of Morgan to"), relief="of Morgan to Compel")
+        of_relief["first_party"]["name"] = of_relief["signature"]["name"] = "Alex"
+        for spec in (alone, both, of_name, of_relief):
+            for draft in (False, True):
+                with self.subTest(fields=spec["motion"], name=spec["first_party"]["name"], draft=draft):
+                    self.passes(spec, draft=draft)
+            extra = {**spec, "title": spec["title"] + " and for Sanctions"}
+            self.refused(extra, NOT_GENERATED)
+        # An outside mover's name is not printed by the caption; a designation-only title omits it. Disclosed, not decided.
+        outside = motion("Intervenor's Motion to Compel", movers=({"name": "Casey Example", "designation": "Intervenor"},))
+        self.passes(outside)
+        from docx import Document
+        printed = "\n".join(paragraph.text for paragraph in Document(self.output).paragraphs)
+        self.assertNotIn("CASEY EXAMPLE", printed.upper())
+        named = {**outside, "title": "Intervenor Casey Example's Motion to Compel"}
+        self.passes(named)
+        self.assertIn("CASEY EXAMPLE", "\n".join(paragraph.text for paragraph in Document(self.output).paragraphs).upper())
+
+    def test_normalisation_is_exactly_case_whitespace_and_one_apostrophe_pair(self):
+        self.passes(motion("plaintiff\u2019s   motion\tto  compel"))
+        self.passes(motion("Plaintiff's Motion to Compel Discovery", relief="  to Compel\n Discovery "))
+        for mark in ("\u2018", "\u02bc", "\uff07", "`"):
+            with self.subTest(apostrophe=repr(mark)):
+                self.refused(motion(f"Plaintiff{mark}s Motion to Compel"), NOT_GENERATED)
+        self.refused(motion("Plaintiff's Motion to Compel."), NOT_GENERATED)
+        self.passes(motion("Plaintiff's Motion to Compel.", relief="to Compel."))
+        many = motion("placeholder", movers=tuple({"name": f"Party{number} Jones"} for number in range(5)))
+        message = self.refused(many, NOT_GENERATED)
+        self.assertEqual(message.count("\n      "), 8)
+        self.assertGreater(len(builder._motion_titles(many, many["motion"])[0]), 8)
+
     def test_names_are_used_as_written(self):
         for name in ("José Example", "Zoë Müller-Example", "Мария Пример", "山田 太郎", "Acme+ (Holdings) Co.", "Chris Jones"):
             with self.subTest(name=name):
@@ -249,6 +289,16 @@ class MotionTitleTests(unittest.TestCase):
         other = filing()
         other["document_type"] = 0
         self.refused(other, "document_type must be a non-empty string")
+        # absent and null are the same thing: unspecified
+        for title, expected in (("Plaintiff's Motion to Compel", "a written motion needs a motion object"),
+                                ("Notice of Hearing", "document_type does not say whether")):
+            absent, null = filing(), filing()
+            absent["title"] = null["title"] = title
+            null["document_type"] = None
+            self.assertEqual(self.refused(absent, expected), self.refused(null, expected))
+        untitled = filing()
+        untitled["document_type"] = None
+        self.assertEqual(self.builds(untitled), "")
 
     def test_contradictions_and_wrong_types_are_refused_in_every_mode(self):
         good = "Plaintiff's Motion to Compel"
@@ -287,7 +337,8 @@ class MotionTitleTests(unittest.TestCase):
                   "Withdrawal of Plaintiff's Motion to Compel", "Plaintiff's Reply in Support of Motion to Compel",
                   "Synthetic motion for testing", "Answer to Complaint",
                   # stated limits: these may be motions, and are checked only when document_type or a motion object says so
-                  "Cross-Motion for Summary Judgment", "Aviso de Audiencia")
+                  "Cross-Motion for Summary Judgment", "Plaintiff's Cross-Motion for Summary Judgment", "Aviso de Audiencia",
+                  "Amended Notice of Hearing", "Application for an Order Compelling Discovery")
         for title in titles:
             with self.subTest(title=title):
                 spec = filing()
@@ -296,6 +347,8 @@ class MotionTitleTests(unittest.TestCase):
         typed = filing()
         typed["title"], typed["document_type"] = "Cross-Motion for Summary Judgment", "motion"
         self.refused(typed, "a written motion needs a motion object")
+        typed["motion"] = {"movers": ["first_party"], "relief": "for Summary Judgment"}
+        self.refused(typed, NOT_GENERATED)
         order = filing()
         order["title"] = "Order Granting Plaintiff's Motion to Compel"
         order["proposed_order"], order["signature"] = True, None
