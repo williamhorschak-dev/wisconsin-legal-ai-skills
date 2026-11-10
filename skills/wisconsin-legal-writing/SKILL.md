@@ -57,6 +57,7 @@ when revising a file. For drafting, load only the relevant references:
 | Proposed order | [circuit-court.md](references/circuit-court.md) §5 | `assets/06-proposed-order.json` |
 | Enlargement or reconsideration | [circuit-court.md](references/circuit-court.md) §§8–9 | `assets/07-motion-to-enlarge-time.json`, `assets/08-motion-for-reconsideration.json` |
 | Letter | [letters.md](references/letters.md) | `assets/09-letter-to-court.docx` |
+| Where a county posts its local rules | [local-rules.md](references/local-rules.md): status and date first, never a rule's content | none |
 | Appeal | [appellate.md](references/appellate.md), [standards-of-review.md](references/standards-of-review.md) | `assets/10-appellate-brief.docx` |
 | Public records, small claims, substitution, jury instructions | Relevant section of [practice-areas.md](references/practice-areas.md) and the current official form/instruction | See that reference |
 | Objective research memo | [memoranda.md](references/memoranda.md), [memo-worked-example.md](references/memo-worked-example.md) | `assets/13-memorandum.docx` |
@@ -70,6 +71,8 @@ county, party status, or objection formula is not a universal legal requirement.
 
 - `[MANDATORY RULE]`: verify the statute or court rule and its applicability.
 - `[LOCAL RULE]`: verify the county, scope, current text, and any amendments.
+  [local-rules.md](references/local-rules.md) lists where each checked county was found
+  posting its rules and on what date; it holds no rule text, so read the county's copy.
 - `[COURT ORDER]`: check the actual order and statutory limits on what it can change.
 - `[DEFAULT STYLE]`: a preference the user may change. Caption geometry, the supplied
   fonts, most circuit-court typography, and avoiding em dashes fall here.

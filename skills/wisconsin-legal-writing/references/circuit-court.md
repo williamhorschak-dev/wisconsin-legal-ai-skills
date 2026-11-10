@@ -652,6 +652,11 @@ are not permission to enlarge every deadline.
 Local rules bind eFiled documents through § 801.18(8)(c) ("including page limits"),
 so they have to be checked, not assumed.
 
+For any other county, [local-rules.md](local-rules.md) is an index of where each checked
+county was found posting its rules, with the date of the check. It holds no rule text and
+most counties are not yet indexed. Give the county's status and date from that index, then
+read the county's own copy before stating anything a rule requires.
+
 If offline PDF copies of the county rules are kept locally (for example the 2025 La
 Crosse rules and the Consumer Credit Complaint Checklist), **that does not change
 anything below** — they are convenience copies, not a re-verification. Do not treat the

@@ -48,6 +48,11 @@ clearance could be switched off.
   filing. Wis. Stat. § 807.001(1) requires the standard forms in civil actions and
   proceedings in circuit court; `references/court-forms.md` tells the assistant to ask, and
   nothing enforces the answer.
+- The county local-rules index (`references/local-rules.md`) records where five counties were
+  checked on one day and what each posted document printed about itself. It holds no rule
+  text, does not say what any rule requires, does not confirm that a posted set is complete
+  or current, and does not notice when a county replaces a file. Sixty-seven counties are
+  not yet indexed. One check was incomplete and one linked document was not read.
 - The unpublished-opinion check in the citation tool applies Wis. Stat. § 809.23(3) to
   facts the reviewer records. It does not read the opinion and does not find unpublished
   opinions the inventory fails to mark.

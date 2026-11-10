@@ -123,3 +123,22 @@ structured provenance records origin, retrieval timestamp, operative version,
 extraction method, and an original-file/hash link. That is evidence for a specific
 run, not content for the public register. Do not publish private or licensed source
 archives as maintenance examples.
+
+## County local-rules index
+
+`skills/wisconsin-legal-writing/references/local-rules/counties.json` records where a county
+was found posting circuit court local rules, and `references/local-rules.md` is rendered from
+it. `python scripts/local_rules.py validate` enforces the rules below and
+`python scripts/local_rules.py render` rewrites the Markdown; a test fails if the two differ.
+
+- A published field comes only from a page on a county or court site that was fetched for
+  the record, or from reading the fetched document. Survey notes and earlier passes are leads.
+- One request per address, one retry, the site's robots rules read first. A refused or
+  failed request is recorded as an incomplete check, not as a finding.
+- A document on any other host is recorded by its link only. The two approved exceptions
+  (one named document each for Adams and Vilas) are fixed in the script.
+- No rule text, no summary of a rule, and no topic description goes in the file. The
+  `digest` field is reserved and the validator refuses any value in it.
+- A wisbar.org address is refused anywhere in the file.
+- The monthly source check does not read this index. A changed county file is found only
+  when someone checks the county again.
