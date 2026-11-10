@@ -21,6 +21,16 @@ for third-party signatures and notarization; do not sign for another person.
 person's name, mailing address, electronic mail address, telephone number, and
 state bar number if applicable.
 
+**A draft that is not signed.** `Electronically signed by [NAME]` is one of the two
+forms a signature takes on an eFiled document, as stated above. When the supplied draft
+or the user says the document is unsigned, or the signer has not yet adopted the text,
+do not write a person's name on that line in the text you return. Leave a bracketed
+placeholder such as `[signature line: NAME signs here]`, keep any statement of the
+draft's unsigned status, and say in the delivery note that only the signer can add the
+signature. The builder prints the line from the specification because it cannot know
+whether the signer has adopted the text; a file it builds is a draft for the signer to
+read and adopt, and the delivery note says so.
+
 ---
 
 Sources: [ch. 801](https://docs.legis.wisconsin.gov/statutes/statutes/801.pdf),

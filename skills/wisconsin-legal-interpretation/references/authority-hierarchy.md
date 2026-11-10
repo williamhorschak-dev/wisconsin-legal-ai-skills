@@ -308,9 +308,15 @@ Votes:           <majority | lead opinion, no majority | per curiam>
 Subsequent hist: <citator result, source, date checked>
 Statute vintage: <text construed vs. text in force at operative date — same / differs how>
 Retrieved:       <path in sources/ | URL | date>
-How found:       <search-for-proposition | citator | cited-in-brief | recalled-and-confirmed*>
+How found:       <search-for-proposition | citator | cited-in-brief | recalled-and-confirmed* | skill-reference-not-retrieved*>
 ```
 
 `recalled-and-confirmed` is permitted but is **always** flagged to the requester regardless of how well
 the authority checks out. Confirming that a remembered case exists is not confirming that it
 holds what you remembered. That gap is where hallucinated law survives verification.
+
+`skill-reference-not-retrieved` marks a quotation or citation copied from this skill's own
+reference files when the source itself was not opened in this run. A skill file is not a
+retrieved primary source. The entry is always flagged to the requester, carries
+`[UNVERIFIED]`, and is never recorded as `recalled-and-confirmed`, because nothing was
+confirmed.
