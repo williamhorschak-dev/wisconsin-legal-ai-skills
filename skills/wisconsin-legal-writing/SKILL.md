@@ -145,6 +145,16 @@ statements, the full signing date, the location and the state or country, and
 the body that the reviewer has not resolved, and contradictory type or order flags are
 refused in every mode. The builder generates one supported form from those statements; it
 does not verify applicability or execution. See `references/circuit-court.md` §3.
+For a motion (`document_type: "motion"`, a `motion` object, or a title that opens with
+recognised motion words) the reviewer states who moves and what is sought in `"motion":
+{"movers": ["first_party"], "qualifier": null, "relief": "..."}`, and the builder generates
+the supported titles under Wis. Stat. § 802.01(2)(d). A final build is refused unless the
+title matches one of them. A final build with an unclassified title recognized as a notice
+of motion or hearing requires the reviewer to identify the document type. Unrecognized
+titles without a `motion` object or motion `document_type` do not enter this check, so
+classify explicitly any motion the title recognizer misses. It is one supported title form,
+not a check of statutory compliance, and the builder does not verify who moves or whether
+the description is adequate. See `references/captions.md`.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

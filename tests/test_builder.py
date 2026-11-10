@@ -371,6 +371,8 @@ class FilingBuilderTests(unittest.TestCase):
             with self.subTest(builds=title):
                 spec = filing()
                 spec["title"] = title
+                if title.startswith("Plaintiff's Motion"):
+                    spec["motion"] = {"movers": ["first_party"], "relief": "to Amend Complaint"}
                 builder.build(spec, self.output, overwrite=True)
 
     def test_generated_non_draft_does_not_invent_blank_attorney_date(self):

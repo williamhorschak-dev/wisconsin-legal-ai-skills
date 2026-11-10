@@ -28,9 +28,55 @@ take precedence; do not assume La Crosse County or a pro se plaintiff.
   that shorter caption, so it **does not build a complaint or a summons**; that is a
   limit of the tool. Prepare those from the court's forms or by hand.
   <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check and second AI review by Astra, a Codex model, both 2026-11-09), U-04: Wis. Stat. § 802.04(1) and § 801.09(1), https://docs.legis.wisconsin.gov/document/statutes/802.04 and .../801.09 (page banner: updated through 2025 Wis. Act 247). -->
-- **Wis. Stat. § 802.01(2)(d)**: *every written motion* must include in its caption
-  the name of the party seeking relief and a brief description of the type of relief
-  sought. `PLAINTIFF'S MOTION TO COMPEL`, not `MOTION TO COMPEL`.
+- **Wis. Stat. § 802.01(2)(d)**, final sentence: "The name of the party seeking the order or
+  relief and a brief description of the type of order or relief sought shall be included in
+  the caption of every written motion." `PLAINTIFF'S MOTION TO COMPEL`, not `MOTION TO
+  COMPEL`. For a motion, `build_filing.py` does not read the title to work out who moves or
+  what is sought. The reviewer states both, and the builder generates the titles it
+  supports:
+
+  ```json
+  "document_type": "motion",
+  "motion": {"movers": ["first_party"], "qualifier": null, "relief": "to Compel Discovery"}
+  ```
+
+  - `movers` lists each party seeking the order or relief by reference: `"first_party"`,
+    `"second_party"`, or `{"name": ..., "designation": ...}` for a person the two-party
+    caption does not print. No mover may be listed twice.
+  - `qualifier` is `null` or one of `amended`, `renewed`, `emergency`, `expedited`,
+    `unopposed`, `stipulated`, `agreed`, `joint`, `ex_parte`, `supplemental`. A joint motion
+    needs at least two distinct moving parties; consent or stipulation does not by itself
+    identify an additional mover.
+  - `relief` is placed after the word Motion as written. `with_notice: true` gives "Notice of
+    Motion and Motion".
+  - From these the builder generates, for example, "Plaintiff's Motion to Compel Discovery"
+    and "Motion of Plaintiff to Compel Discovery", and the same with the party's name or
+    its designation and name. The title must match a complete candidate generated from the
+    supplied fields. This does not establish a unique interpretation of the wording or
+    prevent different fields from generating the same title. Comparison ignores case,
+    collapses whitespace and treats a straight apostrophe and U+2019 as equivalent. Relief
+    whitespace is also collapsed. A mismatch lists up to eight supported candidates; a final
+    build is refused and `--draft` warns.
+  - A designation-only title is a tool convention. For a caption party, the caption also
+    prints the party's name. A designation-only candidate is offered only when every mover
+    is a caption party and each used designation is unique among the caption's normalized
+    designation labels. An outside mover's supplied name is not printed by the two-party
+    caption, so no designation-only candidate is generated when a mover is outside the
+    caption: the title must carry that name. This check does not decide whether a
+    designation-only title satisfies § 802.01(2)(d); name-based styles are always available.
+  - Under § 802.01(2)(a) a motion may be stated in a written notice of its hearing. A
+    supplied non-null `document_type` must be a nonempty string; null or absence leaves
+    classification unspecified. A final build with an unclassified title recognized as a
+    notice of motion or hearing requires the reviewer to identify the document type.
+    Unrecognized titles without a `motion` object or motion `document_type` do not enter
+    this check, so reviewers must explicitly classify motions the title recognizer misses.
+
+  This generates one supported title form from the reviewer's statements; it is not a check
+  of statutory compliance, and other lawful titles are refused as unsupported by the tool.
+  Party status, the completeness of the list of movers, the legal adequacy of the
+  description and the classification of the document are not verified, and a build whose
+  title matched a generated candidate says so.
+  <!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (coordinator check 2026-11-09; rebuilt three times to the reviews by Astra, a Codex model, of 2026-11-09 and 2026-11-10, findings B26-02, R43-01 to R43-04 and R46-01 to R46-03; that reviewer found the generator exact within its stated scope on 2026-11-10 and its wording findings R51-01 to R51-03 are applied here), U-04b: Wis. Stat. § 802.01(2)(a) and (d), https://docs.legis.wisconsin.gov/document/statutes/802.01, read 2026-11-09 (Published 11-4-26). Whether a designation alone satisfies "the name of the party" is not settled by the sources read. -->
 - **Wis. Stat. § 809.81(9)**: appellate captions must carry the full name of each
   party as in the circuit court and designate each party's status in *both* courts
   (`Plaintiff-Appellant`, `Defendant-Respondent`).
