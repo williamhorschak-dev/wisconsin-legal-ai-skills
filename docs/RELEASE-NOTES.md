@@ -1,3 +1,102 @@
+# 2026.11.10.3
+
+No input contract changes and no change to any script a skill ships. This release adds
+reference text and an index to wisconsin-legal-writing, updates one dated passage, and records
+the first run of the evaluation scenarios.
+
+**None of these changes had a second AI review.** Each was read against its public sources by
+the coordinating AI only and adopted by the maintainer at merge. No attorney reviewed any of
+it; the maintainer is not a lawyer; LEGAL_NOTICE.md applies.
+
+## wisconsin-legal-writing
+
+- **Standard court forms come first.** Wis. Stat. § 807.001(1) says that in civil actions and
+  proceedings in circuit court the parties "shall use the standard court forms adopted by the
+  judicial conference." `SKILL.md` now tells the assistant to ask about a standard form before
+  drafting from a template, and the new `references/court-forms.md` quotes § 807.001 in full,
+  says where the court system publishes the forms, and sets five session steps. It lists no
+  forms, does not choose a form for a person's situation, and does not say what a court will
+  do when a standard form is not used. Nothing in the builder enforces the step.
+- **County local-rules index.** `references/local-rules.md` and
+  `references/local-rules/counties.json` record where a county was found posting its circuit
+  court local rules and what each posted document prints about itself. Five counties were
+  checked on 2026-11-10: Wood and Waukesha (rules found posted), Adams (a link found; the
+  document, on an outside host, was not read), Menominee (no copy found on the two pages read)
+  and Milwaukee (check incomplete; nothing read). The other 67 counties are marked not yet
+  indexed and carry only the clerk website the state court system lists. The index holds no
+  rule text and says nothing about what any rule requires.
+- The draft-review prompt pack now carries `court-forms.md`. It does not carry the index.
+
+## wisconsin-legal-interpretation
+
+- The dated status passage on the pending review of the *Kalal* framework was rechecked on
+  2026-11-10 against the clerk's Table of Pending Cases. The table still lists oral argument
+  for that day in *Abby Windows, LLC v. LIRC*, No. 2024AP1013, and shows no decision. The
+  passage now gives both check dates and says that whether the argument was held was not
+  checked. The same passage in the writing skill's `standards-of-review.md` matches.
+
+## cite-check
+
+- No change beyond the version number.
+
+## Repository
+
+- **First run of the 24 evaluation scenarios**, recorded under `evals/results/`: one run on
+  claude-sonnet-5-5 in Claude Code desktop subagents, graded by the project's AI coordinator.
+  With the skills supplied 24 of 24 trials passed every criterion; without them 22 of 24. It
+  ran on the skill files of release 2026.11.10.2. It is not a controlled comparison and does not show
+  that the skills improve answers; the record lists its departures from the protocol and
+  seven observations for later work.
+- **Trigger dataset version 2**: one train query for a letter to the court, and
+  `evals/triggers/datasets.json`, which fixes each version of the query files by hash. A note
+  records that the test host showed the model a description for only two of six skill
+  entries, so no trigger run was made and the writing description is unchanged.
+- `scripts/local_rules.py` validates the county index and renders its Markdown. It refuses
+  rule text in the reserved field, any wisbar.org address, details for a document that was
+  not read, and a finding for a county whose request failed.
+- Tests: 243 (222 in release 2026.11.10.2). CI matrix unchanged.
+- README: unchanged by this release. Per-release figures are in the compatibility record
+  and `docs/KNOWN-LIMITS.md`.
+
+## Known issues carried forward
+
+- The changes in this release had no second AI review.
+- The county index covers five counties checked once. It does not notice when a county
+  replaces a file. Milwaukee's check was incomplete and the Adams document was not read.
+- The evaluation run's seven observations are not yet acted on: with-skills answers are
+  longer; the interpretation skill's mode labels reach the user; one answer put
+  "Electronically signed by" on the signature line of a draft marked unsigned; one
+  declaration answer added a sentence beyond the supplied facts; three answers said a
+  reference the workflow names was not supplied; one memo used a provenance label that did
+  not fit; and the dated *Kalal* sentence is repeated in answers.
+- Trigger activation has not been measured on a host confirmed to show each description.
+  Whether that affected the 2026-10-24 rounds is not known. The 2026-10-24 results narrative
+  mislabels two query splits.
+- The *Kalal* status passage must be rechecked when the clerk's table changes and on
+  decision; the small-claims passage must be re-edited on 2027-01-01.
+- Subsequent history of cited authorities was not exhaustively checked against public
+  sources.
+- The source register watches chapter files, not individual sections, and the monthly check
+  does not read the county index.
+- The evidence log does not detect deleted lines.
+- Version detection in cite_check.py is phrase matching on the reviewer's annotation; it
+  has no operative-date model.
+- The source checker drops the redirect target from a record when a same-host redirect was
+  followed successfully; the request log keeps both hops.
+- Two items remain marked [VERIFY]: how 2025 Wis. Act 105 applies to a claim made before
+  January 1, 2027 in an action commenced after it, and the signing date of the 2025
+  La Crosse County local rules.
+- Three questions the reviews raised are not settled by the public sources read: whether a
+  party designation alone is "the name of the party" in a motion caption, § 802.01(2)(d);
+  whether 11 points is a minimum or an exact size for block quotes and footnotes,
+  § 809.19(8)(b)3.c.; and whether that paragraph's body-text numbers reach headings.
+- Five checks were built and not shipped because they could not be made exact; the notes for
+  release 2026.11.10.1 list them. None has a replacement.
+
+The three skills remain independently usable. These changes do not certify legal
+accuracy, filing readiness, or the permissibility of a particular legal-service
+deployment.
+
 # 2026.11.10.2
 
 **This release changes an input contract.** A specification for a motion needs new structured
