@@ -33,10 +33,12 @@ do not label a compliant alternative a filing blocker without a governing rule.
 - [ ] Every unpublished opinion cited is authored, post-July-2009, cited only for
       persuasive value, and a copy is filed and served. Rule 809.23(3).
 - [ ] Every record reference has a document number.
-- [ ] No social security, employer or taxpayer identification, financial account,
-      driver license or passport number appears in the document or in any exhibit;
-      exhibits are redacted copies, and a number that is required by law or necessary
-      to the action goes on the court's protected information form. § 801.19(2)(c).
+- [ ] In a circuit court filing, protected information (a social security, employer or
+      taxpayer identification, financial account, driver license or passport number) is
+      omitted from original documents and redacted from the publicly filed copy of an
+      exhibit; information that is required by law or necessary to the action goes
+      through the protected information form, including an unredacted attachment when
+      redaction is impracticable. § 801.19(2)(c)1.-3.
 - [ ] Signature block carries name, address, email, and phone. § 802.05(1).
 - [ ] Signature fits the filing method: electronic signature or imaged handwritten
       signature for eFiling; handwritten signature for a paper party. § 801.18(12).

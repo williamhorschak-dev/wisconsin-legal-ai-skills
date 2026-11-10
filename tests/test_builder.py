@@ -217,7 +217,7 @@ class FilingBuilderTests(unittest.TestCase):
                 with self.assertRaises(ValueError) as caught:
                     builder.build(spec, self.output)
                 message = str(caught.exception)
-                self.assertIn("801.19(2)(c)", message)
+                self.assertIn("801.19(2)(c)1.", message)
                 self.assertIn(f"body[0].text: {category} pattern", message)
                 for digits in re.findall(r"\d{4,}", text):
                     self.assertNotIn(digits, message)
@@ -239,6 +239,42 @@ class FilingBuilderTests(unittest.TestCase):
                 spec["body"][0]["text"] = text
                 builder.build(spec, self.output, overwrite=True)
                 self.assertIn(text, self.text())
+
+    def test_no_diagnostic_repeats_a_protected_number_even_in_brackets_or_keys(self):
+        spec = filing()
+        spec["body"][0]["text"] = "Her number is [123-45-6789] and card <4111 1111 1111 1111>."
+        spec["metadata"] = {"SSN 987-65-4321": "[TBD value]"}
+        for options in ((), ("--protected-info-reviewed",)):
+            with self.subTest(options=options):
+                result = self.cli(spec, *options)
+                self.assertEqual(result.returncode, 2, result.stderr)
+                printed = result.stdout + result.stderr
+                for secret in ("123-45-6789", "6789", "4111", "987-65-4321", "4321"):
+                    self.assertNotIn(secret, printed)
+                self.assertFalse(self.output.exists())
+        refused = self.cli(spec).stderr
+        self.assertIn("body[0].text: social security number pattern", refused)
+        self.assertIn("801.19(2)(c)1.", refused)
+        masked = self.cli(spec, "--protected-info-reviewed").stderr
+        self.assertIn('body[0].text: "[###-##-####]"', masked)
+        self.assertIn("placeholder markers need review", masked)
+        ordinary = filing()
+        ordinary["body"][0]["text"] = "On [DATE] at 123 Main Street."
+        self.assertIn('body[0].text: "[DATE]"', self.cli(ordinary).stderr)
+
+    def test_separated_social_security_and_iban_shaped_account_tokens_are_matched(self):
+        for text, category in (("Synthetic SSN is 123 45 6789.", "social security number"),
+                               ("Her social security number, 123.45.6789, was listed.", "social security number"),
+                               ("The digits 123 45 6789 appear alone.", "social security number"),
+                               ("Fictional account IBAN is GB99EXAM00000000000000.", "financial account number")):
+            with self.subTest(text=text):
+                spec = filing()
+                spec["body"][0]["text"] = text
+                with self.assertRaises(ValueError) as caught:
+                    builder.build(spec, self.output)
+                self.assertIn(f"body[0].text: {category} pattern", str(caught.exception))
+                self.assertNotIn("6789", str(caught.exception))
+                self.assertNotIn("GB99", str(caught.exception))
 
     def test_protected_information_draft_warns_and_reviewed_flag_builds(self):
         spec = filing()

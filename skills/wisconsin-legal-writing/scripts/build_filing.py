@@ -22,13 +22,17 @@ Intentional matches, including bracketed quotations and literal X runs, still ne
 --draft. Draft content is unchanged.
 
 Protected-information screen. Wis. Stat. s. 801.19(1)(a) names five kinds of protected
-information (social security, employer or taxpayer identification, financial account,
-driver license and passport numbers), and s. 801.19(2)(c) requires a party to omit them
-from documents filed in circuit court. Without --draft the builder refuses a spec whose
-text matches one of the number patterns below and names the spec path and the category
-without echoing the number; with --draft it warns. --protected-info-reviewed builds
-anyway after the user has confirmed a match is not protected information. The screen
-reads only the spec. It does not see exhibits, does not recognise every number format,
+information in a circuit court record (social security, employer or taxpayer
+identification, financial account, driver license and passport numbers). For an original
+document filed in circuit court, s. 801.19(2)(c)1. requires the party to omit it and, when
+it is required by law or necessary to the action, to submit it separately on the protected
+information form. Without --draft the builder refuses a spec whose text matches one of the
+number patterns below, naming the spec path and the category; with --draft it warns.
+--protected-info-reviewed builds after the user has confirmed a match is not protected
+information. The screen runs before the placeholder screen, and every diagnostic this
+script prints replaces the digits of a matched number with #, so a refusal never repeats
+the number. The screen is a pattern match on the spec only: it does not see exhibits, does
+not recognise every number format, can match numbers that are not protected information,
 and is not a redaction or compliance check.
 
 Geometry reproduced from the reference corpus:
@@ -455,7 +459,7 @@ def _placeholders(spec):
                 start <= match.start() and match.end() <= end for start, end in masks
             ):
                 continue
-            yield f"{path}: {json.dumps(match.group())}"
+            yield _redact(f"{path}: {json.dumps(match.group(), ensure_ascii=False)}")
 
 
 # Wis. Stat. s. 801.19(1)(a): the five kinds of protected information. Each pattern's last
@@ -466,7 +470,8 @@ _PI_NOT_DATE_OR_PHONE = r"(?!\d{4}-\d{2}-\d{2}(?!\d))(?!\(?\d{3}\)?[ .-]\d{3}[ .
 _PROTECTED = (
     ("social security number", re.compile(r"(?<![\w-])\d{3}-\d{2}-\d{4}(?![\w-])")),
     ("social security number", re.compile(
-        r"(?:social\s+security|\bSSN\b|\bSS\s*#)" + _PI_GAP + r"(?<!\d)(\d{9})(?!\d)", re.IGNORECASE)),
+        r"(?:social\s+security|\bSSN\b|\bSS\s*#)" + _PI_GAP + r"(?<!\d)(\d{3}[ .-]?\d{2}[ .-]?\d{4})(?!\d)", re.IGNORECASE)),
+    ("social security number", re.compile(r"(?<![\w.-])\d{3} \d{2} \d{4}(?![\w.-])")),
     ("employer or taxpayer identification number", re.compile(r"(?<![\w-])\d{2}-\d{7}(?![\w-])")),
     ("employer or taxpayer identification number", re.compile(
         r"(?:\bF?EIN\b|\bI?TIN\b|taxpayer\s+identification|employer\s+identification|\btax\s+id\b)"
@@ -474,6 +479,8 @@ _PROTECTED = (
     ("financial account number", re.compile(
         r"(?:account|\bacct\b|routing|\bIBAN\b|credit\s+card|debit\s+card|card\s+(?:no|number)|loan\s+(?:no|number))"
         + _PI_GAP + r"(?<!\w)" + _PI_NOT_DATE_OR_PHONE + r"((?:\d[ -]?){7,18}\d)(?!\w)", re.IGNORECASE)),
+    ("financial account number", re.compile(
+        r"(?i:account|\bacct\b|\bIBAN\b)" + _PI_GAP + r"(?<!\w)((?=[A-Z0-9]*\d{4})[A-Z]{2}\d{2}[A-Z0-9]{10,30})(?!\w)")),
     ("driver license number", re.compile(
         r"(?:driver'?s?\s+licen[sc]e|operator'?s?\s+licen[sc]e|\bDL\s*(?:no|number|#))"
         + _PI_GAP + r"(?<!\w)" + _PI_NOT_DATE_OR_PHONE
@@ -484,14 +491,26 @@ _PROTECTED = (
 )
 _CARD = re.compile(r"(?<![\w-])(?:\d[ -]?){12,18}\d(?![\w-])")
 _PROTECTED_MESSAGE = (
-    "possible protected information. Wis. Stat. s. 801.19(2)(c) requires a party to omit a "
-    "social security number, an employer or taxpayer identification number, a financial "
-    "account number, a driver license number and a passport number from documents filed in "
-    "circuit court, and to submit one that is required by law or necessary to the action "
-    "separately on the court's protected information form. Remove or mask each item below, "
-    "or build with --protected-info-reviewed after confirming a match is not protected "
-    "information. This screen reads only the spec; it does not review exhibits and is not "
-    "a redaction check:\n")
+    "possible protected information. For an original document filed in circuit court, Wis. Stat. "
+    "s. 801.19(2)(c)1. requires the party to omit protected information (a social security "
+    "number, an employer or taxpayer identification number, a financial account number, a "
+    "driver license number, a passport number) and, when it is required by law or necessary to "
+    "the action, to submit it separately on the protected information form. Remove or mask each "
+    "item below, or build with --protected-info-reviewed after confirming a match is not "
+    "protected information. This is a pattern screen of the spec only; it does not review "
+    "exhibits and is not a redaction check:\n")
+
+
+def _redact(text):
+    """Replace the digits of every protected-number match with # so no diagnostic repeats one."""
+    spans = [match.span(match.lastindex or 0) for _, pattern in _PROTECTED for match in pattern.finditer(text)]
+    spans += [match.span() for match in _CARD.finditer(text) if _luhn(re.sub(r"\D", "", match.group()))]
+    chars = list(text)
+    for start, end in spans:
+        for index in range(start, end):
+            if chars[index].isalnum():
+                chars[index] = "#"
+    return "".join(chars)
 
 
 def _luhn(digits):
@@ -519,7 +538,7 @@ def _protected(spec):
             if any(start < other_end and other_start < end for other_start, other_end in seen):
                 continue
             seen.add((start, end))
-            yield f"{path}: {category} pattern ({end - start} characters, not shown)"
+            yield f"{_redact(path)}: {category} pattern ({end - start} characters, not shown)"
 
 
 def _validate(spec, *, draft=False, protected_info_reviewed=False):
@@ -550,6 +569,12 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
             raise ValueError("each body block must be an object with string text")
         if block.get("type", "p") not in {"p", "h1", "h2", "h3", "num", "quote", "answer", "ordered", "blank"}:
             raise ValueError(f"unknown block type: {block.get('type')!r}")
+    if not protected_info_reviewed:
+        protected = list(_protected(spec))
+        if protected and draft:
+            print("warning: " + _PROTECTED_MESSAGE + "\n".join(protected), file=sys.stderr)
+        elif protected:
+            raise ValueError(_PROTECTED_MESSAGE + "\n".join(protected))
     if not draft:
         placeholders = list(_placeholders(spec))
         if placeholders:
@@ -557,12 +582,6 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
                 "placeholder markers need review; resolve them or use --draft "
                 "(also for intentional legal brackets):\n" + "\n".join(placeholders)
             )
-    if not protected_info_reviewed:
-        protected = list(_protected(spec))
-        if protected and draft:
-            print("warning: " + _PROTECTED_MESSAGE + "\n".join(protected), file=sys.stderr)
-        elif protected:
-            raise ValueError(_PROTECTED_MESSAGE + "\n".join(protected))
     missing = [k for k in REQUIRED_TOP if not spec.get(k)]
     if missing:
         raise ValueError("spec is missing required key(s): " + ", ".join(missing))
