@@ -163,6 +163,8 @@ class DeclarationTests(unittest.TestCase):
             with self.subTest(title=title):
                 spec = filing()
                 spec["title"] = title
+                if title.startswith("Plaintiff's Motion"):
+                    spec["motion"] = {"moving_parties": ["Plaintiff"], "relief": "to Strike Defendant's Declaration"}
                 lines, _ = self.build(spec)
                 self.assertNotIn(SENTENCE, lines)
         order = filing()

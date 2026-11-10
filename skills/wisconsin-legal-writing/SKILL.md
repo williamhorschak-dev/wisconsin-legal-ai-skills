@@ -137,6 +137,12 @@ and the state or country, and the reviewer's `use` statement; an excluded use un
 § 887.015(4)(b), other closing wording in the body, and contradictory type or order flags
 are refused in every mode. That is the form this tool supports, not a ruling on other
 wording. See `references/circuit-court.md` §3.
+For a motion (`document_type: "motion"`, a `motion` object, or a title that opens as a
+motion) the reviewer states who moves and what is sought in `"motion": {"moving_parties":
+[...], "relief": "..."}`. Wis. Stat. § 802.01(2)(d) requires both in the caption of every
+written motion, so a final build is refused unless the title names each mover and contains
+the relief description; contradictory type or order flags are refused in every mode. The
+builder does not judge whether the description is adequate. See `references/captions.md`.
 `scripts/wi_values.py` lists the dated numbers the references repeat (small-claims amounts,
 appellate length and form limits, counting periods, the ordinary appeal periods) with the
 authority and conditions of each. It answers only for dates from the one its sources were
