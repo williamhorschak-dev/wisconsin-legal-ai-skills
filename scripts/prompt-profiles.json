@@ -5,7 +5,7 @@
   },
   "draft-review": {
     "skill": "wisconsin-legal-writing",
-    "references": ["references/review.md", "references/circuit-court.md", "references/signature-blocks.md", "references/synthetic-example.md"]
+    "references": ["references/review.md", "references/circuit-court.md", "references/court-forms.md", "references/signature-blocks.md", "references/synthetic-example.md"]
   },
   "interpretation-lookup": {
     "skill": "wisconsin-legal-interpretation",

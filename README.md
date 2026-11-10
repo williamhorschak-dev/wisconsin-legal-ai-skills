@@ -47,6 +47,8 @@ of page 1 is the clearance the builder leaves for the court's filing stamp.
   Your assistant and its tools have to supply source access.
 - It does not advise on your case, calculate deadlines you can rely on, or decide that
   a document is ready to file. A passing test, lint, or build never establishes that.
+- It does not fill in court forms. Wisconsin requires standard court forms for many
+  circuit court filings, and the writing skill asks about them before it drafts.
 - The builder makes circuit court captions only. It refuses complaints and summonses.
   A final build of a declaration or a motion needs a few structured fields, and the
   refusal names them.

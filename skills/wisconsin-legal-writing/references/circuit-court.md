@@ -6,6 +6,10 @@ Where things go, in order, for each document type. Wisconsin circuit courts impo
 documents. Check the county's local rules and the judge's scheduling order before
 assuming there is no cap.
 
+Before using any structure below, check whether the court system publishes a standard
+form for the filing. Wis. Stat. § 807.001(1) requires the standard forms in civil actions
+and proceedings in circuit court; see [court-forms.md](court-forms.md).
+
 ---
 
 ## 1. Motion
