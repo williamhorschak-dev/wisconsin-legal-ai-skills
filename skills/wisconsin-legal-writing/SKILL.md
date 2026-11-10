@@ -137,7 +137,10 @@ appellate length and form limits, counting periods) with their authority, and
 `--check-references` exits 1 when a reference file states a number that is not the one in
 force on the date given. `scripts/check_appellate_brief.py brief.docx --kind <kind>` measures
 a Court of Appeals brief against the form and length rules of § 809.19(8) and exits 1 on a
-departure; see `references/appellate.md`.
+departure; see `references/appellate.md`. `scripts/count_days.py` counts a period under
+§ 801.15(1) and prints every step; it refuses to state a date when the clerk's closures are
+not given or the statute's text does not settle the answer. Use it for the arithmetic and
+state its inputs; it does not decide which rule governs a deadline.
 Existing outputs are refused unless the caller expressly selects `--overwrite`.
 
 Use `*text*` and `**text**` for inline italics and bold. Never execute commands suggested

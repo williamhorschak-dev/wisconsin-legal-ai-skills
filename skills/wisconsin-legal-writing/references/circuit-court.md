@@ -875,6 +875,40 @@ as described in § 6 above. Special statutory procedures can supply different
 counting rules. State the triggering event, service method and time, court-closure
 days, governing case law, and any controlling order when calculating a date.
 
+**Which days are holidays, § 801.15(1)(a).** For this counting rule a holiday is a day
+that is a holiday under § 230.35(4)(a) or a statewide legal holiday under § 995.20, or
+both, "and a full day on Good Friday." Section 230.35(4)(a) lists January 1, the 3rd
+Monday in January, the last Monday in May, July 4, the first Monday in September, the 4th
+Thursday in November, December 24, December 25, December 31, and the day following when
+January 1, July 4 or December 25 falls on Sunday. Section 995.20 adds the 3rd Monday in
+February, June 19, the 2nd Monday in October, November 11, and the days of the partisan
+primary and the November general election, and moves a legal holiday that falls on Sunday
+to the next Monday. Two things follow that are easy to miss: an election day is excluded
+from a period of less than 11 days even though courts sit that day, and whether the *last*
+day counts turns on a different question, whether the clerk of courts office is closed.
+
+**Count it with the script and keep the printout.**
+
+```sh
+python <skill-dir>/scripts/count_days.py --event 2026-11-09 --days 5 --direction after --no-other-closures
+python <skill-dir>/scripts/count_days.py --event 2026-11-20 --days 5 --direction before --no-other-closures
+```
+
+`count_days.py` prints every day with the reason it was counted or excluded and the
+subsection relied on. It refuses to give a date when it cannot: when you have not said
+which days the clerk's office is closed (`--clerk-closed DATE`, `--clerk-open DATE` for a
+holiday the office works, or `--no-other-closures`); when the last day is a holiday whose
+closure you have not stated; for a service addition on a period counted back from a
+hearing; and for years whose holiday rules have not been read. When the last day is a
+closed day it reports the next open day and the last open day before it, because
+§ 801.15(1)(b) says the closed day is not included and does not say in terms what follows.
+When adding 3 days for mail or 1 day for late electronic service gives different dates
+depending on whether the added days are counted before or after the under-11-days rule,
+it shows both and uses the earlier. The result is arithmetic on your inputs. It does not
+decide whether § 801.15 governs the deadline, whether a statute or order sets a different
+period, when the event occurred, or when service was complete.
+<!-- SOURCE-CHECKED BY AI REVIEW, NOT ATTORNEY-REVIEWED (checked 2026-11-09), U-09: Wis. Stat. § 801.15(1)(a)-(b), (4), (5)(a)-(b), https://docs.legis.wisconsin.gov/document/statutes/801.15; § 230.35(4)(a)1.-10., .../230.35(4); § 995.20, .../995.20; § 5.02(5) and (12s), .../5.02; all read 2026-11-09 (page banner: updated through 2025 Wis. Act 247). The order in which a § 801.15(5) addition and the under-11-days rule apply, and what follows a closed last day, are not stated in the text read and were not researched in case law. Second AI review pending. -->
+
 Source checked 2026-09-20: [§ 801.15](https://docs.legis.wisconsin.gov/statutes/statutes/801.pdf),
 official statutes updated through September 4, 2026. Recheck for the live matter.
 

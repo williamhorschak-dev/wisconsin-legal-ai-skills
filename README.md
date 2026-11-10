@@ -273,6 +273,11 @@ clearance could be switched off.
   read the filed PDF, tell a proportional serif font from another font, or read text in
   images, and it finds the counted portions by their headings. Its word count is a
   cross-check, not the certified count.
+- `count_days.py` does arithmetic under Wis. Stat. § 801.15(1) for 2026 and 2027 only. It
+  does not decide whether that section governs a deadline, does not know when the clerk's
+  office is closed unless told, and where the statute's text leaves a question open (a
+  closed last day; the order of a service addition and the under-11-days rule) it reports
+  the earlier date rather than resolving it. No case law was researched for it.
 - The subsequent history of cited authorities was not checked exhaustively against public
   sources where only the original opinion was read.
 - Two items in the procedure references remain marked [VERIFY]: how 2025 Wis. Act 105
