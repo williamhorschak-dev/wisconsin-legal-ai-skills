@@ -145,30 +145,45 @@ it. `python scripts/local_rules.py validate` enforces the rules below and
 
 ## Federal source survey register
 
-[federal-sources.json](federal-sources.json) records a survey of official federal sources read
-on 2026-11-13 for a planned skill for the United States District Courts in Wisconsin. No such
-skill exists in this repository yet, and the register supports no statement of law. It is kept
-apart from [legal-sources.json](legal-sources.json), whose records each tie a proposition to
-the files that state it; this file ties nothing to any file.
+[federal-sources.json](federal-sources.json) records a survey of official federal responses
+fetched on 2026-11-13 for a planned skill for the United States District Courts in Wisconsin.
+No such skill exists in this repository yet, and the register supports no statement of law. It
+is kept apart from [legal-sources.json](legal-sources.json), whose records each tie a
+proposition to the files that state it; this file ties nothing to any file.
 
-`python scripts/federal_sources.py validate` enforces the rules below and exits 2 when one is
-broken. It reads the one file and requests nothing.
+`python scripts/federal_sources.py validate` checks the file's structure and the lexical rules
+below and exits 2 for invalid input. It reads one file and requests nothing. A person must
+compare the records with the saved response bodies, read the free text in every field for
+what it means, and judge the account of how the survey was run and how much was read. A
+passing result establishes neither that the survey followed its own method nor any legal
+review.
 
-- A record describes a response that was fetched: its address, the title on its face or its
-  link label, the date its face printed and what kind of date that is (or that none was
-  printed), its format and page count, how much of it was read, and the SHA-256 and size of
-  the response. Request times are in UTC.
+- A record describes a response that was fetched: its address; a title from its face, from
+  its link label, or a descriptive one; any recorded date and its kind; format and PDF page
+  count; how much the original survey read; and the response hash and size. No recorded date
+  means that no date for the item as a whole was identified in what was inspected, not that
+  the file contains no date. A date that belongs to a linked work or to an order inside a
+  packet is said to be so in the note. Request times are in UTC, in whole seconds, taken at
+  the end of each response.
 - An address must be `https` on a permitted host: uscourts.gov and its subdomains,
-  uscode.house.gov, or govinfo.gov. Every host with a record needs its own entry showing that
-  its robots file was requested first, with the Crawl-delay it set.
+  uscode.house.gov, or govinfo.gov. It has one plain spelling: lower-case host labels, a path,
+  no fragment, no white space, control character or backslash. Every host with a record needs
+  its own entry recording its robots response and any crawl delay it published, dated no later
+  than the host's first record. A host entry does not prove how requests were spaced. The
+  register's `method` says where the survey did not keep to a published delay.
 - No rule text, no summary of a rule and no proposition goes in the file. The validator
-  refuses any field it does not know, so adding one takes a schema change and a review.
+  refuses any field it does not know and any repeated member, so adding a field takes a schema
+  change and a review. It cannot read a sentence for its meaning: a person reviews the free
+  text.
 - `legally_reviewed_at` is null in every record and the validator refuses any other value.
-- The names of paid legal databases and wisbar.org are refused anywhere in the file, and so
-  are en and em dashes.
+- Every string is plain ASCII once decoded; typography on a source's face is transcribed. Each
+  string is checked, after one level of percent-decoding, for the names of paid legal databases
+  and wisbar.org where one starts a word, and for en and em dashes. A person reviews indirect
+  references, wording split across fields, and any claim of legal review.
 - `not_reached` lists addresses that failed or were not requested, with the reason. An
-  address disallowed by a host's robots file was never requested.
-- The response bodies are kept outside this repository. A hash here lets a later reader see
-  that a page changed; it does not show what changed or whether any law did.
+  address disallowed by a host's robots file was never requested, and that reason is accepted
+  only for a host whose robots file was read.
+- The response bodies are kept outside this repository. A different hash establishes that the
+  response bytes changed; it does not show what changed or whether any law did.
 - The monthly source check does not read this register. Most of the district court pages in
   it print no date, so a change is found only by fetching the page again and comparing hashes.

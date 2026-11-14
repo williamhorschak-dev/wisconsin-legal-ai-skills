@@ -9,12 +9,12 @@ and never opens a network connection.
   python scripts/federal_sources.py validate
 """
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 import re
 import sys
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTER = ROOT / "docs/federal-sources.json"
@@ -28,14 +28,15 @@ NOT_REACHED_KEYS = {"url", "reason", "note"}
 ISSUERS = ("U.S. Courts", "U.S. Code (GPO)", "7th Cir.", "E.D. Wis.", "W.D. Wis.")
 TITLE_SOURCES = ("face", "link_label", "descriptive")
 FORMATS = ("html", "pdf")
-DATE_KINDS = ("edition", "effective", "amendment", "revision", "entry", "update_notice", "projection", "none_printed")
+DATE_KINDS = ("edition", "effective", "amendment", "revision", "entry", "update_notice", "projection", "drafted",
+              "order_date", "unlabeled_mark", "none_printed")
 READ_EXTENTS = ("full", "part", "keyword", "links", "date_only", "not_read")
 REASONS = ("http_404", "redirect_to_http", "script_redirect", "robots_disallow")
 # A robots request answered 404 means the host has no robots file; any other answer but 200 is not a reading.
 ROBOTS_STATUSES = (200, 404)
 
 SHA = re.compile(r"[0-9a-f]{64}\Z")
-SOURCE_ID = re.compile(r"S-[0-9]{2,3}\Z")
+SOURCE_ID = re.compile(r"S-(?:0[1-9]|[1-9][0-9]{1,2})\Z")
 STAMP = "%Y-%m-%dT%H:%M:%SZ"
 MAX_TITLE, MAX_NOTE = 300, 400
 # Paid databases and bar association copies are never sources here, and nothing read on one is recorded here.
@@ -45,18 +46,26 @@ DASHES = ("\u2013", "\u2014")
 
 def permitted(host):
     """uscourts.gov and its subdomains, uscode.house.gov, govinfo.gov and www.govinfo.gov."""
-    host = (host or "").lower()
+    if not isinstance(host, str) or len(host) > 253:
+        return False
+    if not all(re.fullmatch(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?", label)
+               for label in host.split(".")):
+        return False
     return (host == "uscourts.gov" or host.endswith(".uscourts.gov")
             or host in ("uscode.house.gov", "govinfo.gov", "www.govinfo.gov"))
 
 
 def _official(url):
     """An https address on a permitted host, with no user name, password or port."""
-    if not isinstance(url, str):
+    if (not isinstance(url, str) or not url.startswith("https://")
+            or not url.isascii() or re.search(r"[\x00-\x20\x7f\\#]", url)
+            or re.search(r"%(?![0-9A-Fa-f]{2})", url)):
+        return False
+    if url.endswith("?"):
         return False
     try:
         parts = urlsplit(url)
-        return parts.scheme == "https" and parts.netloc == (parts.hostname or "") and permitted(parts.hostname)
+        return parts.scheme == "https" and parts.netloc == (parts.hostname or "") and permitted(parts.hostname) and bool(parts.path)
     except ValueError:
         return False
 
@@ -65,8 +74,10 @@ def _stamp(value):
     if not isinstance(value, str):
         return False
     try:
-        datetime.strptime(value, STAMP)
-        return True
+        if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z", value):
+            return False
+        stamp = datetime.strptime(value, STAMP).replace(tzinfo=timezone.utc)
+        return stamp <= datetime.now(timezone.utc)
     except ValueError:
         return False
 
@@ -108,7 +119,7 @@ def validate(data):
     errors = []
     if not _keys("register", data, TOP_KEYS, errors):
         return errors
-    if data["schema_version"] != 1 or isinstance(data["schema_version"], bool):
+    if type(data["schema_version"]) is not int or data["schema_version"] != 1:
         errors.append("register: schema_version must be 1")
     for key in ("scope", "method", "permitted_hosts"):
         if not _text(data[key], 1000):
@@ -121,14 +132,20 @@ def validate(data):
         errors.append("register: no sources")
 
     for text in _strings(data):
-        low = text.lower()
+        if not text.isascii():
+            errors.append("register: decoded strings must be ASCII; transcribe typography explicitly")
+        decoded = unquote(text)
+        if not decoded.isascii():
+            errors.append("register: non-ASCII percent escapes need source review")
+        low = decoded.casefold()
         for word in FORBIDDEN_WORDS:
-            if word in low:
+            # A name counts where it starts a word, so "Alexis" and "Midwest Law" are not refused.
+            if re.search("(?<![a-z])" + re.escape(word), low):
                 errors.append(f"register: the word {word!r} may not appear anywhere in this file")
         if any(dash in text for dash in DASHES):
             errors.append(f"register: an en dash or em dash appears in {text[:40]!r}")
 
-    robots_read = set()
+    robots_read = {}
     for position, host in enumerate(data["hosts"]):
         label = f"hosts[{position}]"
         if not _keys(label, host, HOST_KEYS, errors):
@@ -143,13 +160,16 @@ def validate(data):
         if host["robots_url"] != f"https://{name}/robots.txt":
             errors.append(f"{label}: robots_url must be https://{name}/robots.txt")
         status = host["robots_status"]
-        if isinstance(status, bool) or status not in ROBOTS_STATUSES:
+        if type(status) is not int or status not in ROBOTS_STATUSES:
             errors.append(f"{label}: robots_status must be 200, or 404 for a host with no robots file")
-        elif (status == 200) != (isinstance(host["robots_sha256"], str) and bool(SHA.match(host["robots_sha256"]))):
+        elif ((status == 200 and not (isinstance(host["robots_sha256"], str) and SHA.fullmatch(host["robots_sha256"])))
+              or (status == 404 and host["robots_sha256"] is not None)):
             errors.append(f"{label}: robots_sha256 is the hash of a robots file that was read, and null when there is none")
         else:
-            robots_read.add(name)
+            robots_read[name] = host
         delay = host["crawl_delay_seconds"]
+        if status == 404 and delay is not None:
+            errors.append(f"{label}: a missing robots file cannot specify a crawl delay")
         if delay is not None and (isinstance(delay, bool) or not isinstance(delay, (int, float)) or not 0 < delay <= 120):
             errors.append(f"{label}: crawl_delay_seconds must be null or a number of seconds up to 120")
         if not _stamp(host["retrieved_at_utc"]):
@@ -165,17 +185,22 @@ def validate(data):
         label = str(source["id"])
         if not isinstance(source["id"], str) or not SOURCE_ID.match(source["id"]):
             errors.append(f"{label}: id must look like S-09")
-        if source["id"] in ids:
+        elif source["id"] in ids:
             errors.append(f"{label}: duplicate id")
-        ids.add(source["id"])
+        else:
+            ids.add(source["id"])
         if not _official(source["url"]):
             errors.append(f"{label}: url must be an https address on a permitted host")
         else:
             if source["url"] in urls:
                 errors.append(f"{label}: duplicate url")
             urls.add(source["url"])
-            if urlsplit(source["url"]).hostname not in robots_read:
+            reading = robots_read.get(urlsplit(source["url"]).hostname)
+            if reading is None:
                 errors.append(f"{label}: no robots reading is recorded for its host")
+            elif _stamp(reading["retrieved_at_utc"]) and _stamp(source["retrieved_at_utc"]):
+                if datetime.strptime(reading["retrieved_at_utc"], STAMP) > datetime.strptime(source["retrieved_at_utc"], STAMP):
+                    errors.append(f"{label}: source precedes its robots reading")
         if source["issuer"] not in ISSUERS:
             errors.append(f"{label}: issuer must be one of {', '.join(ISSUERS)}")
         if not _text(source["title"], MAX_TITLE):
@@ -209,6 +234,7 @@ def validate(data):
             errors.append(f"{label}: legally_reviewed_at stays null in this file; a reviewed proposition is recorded in "
                           "docs/legal-sources.json by a qualified reviewer, never here and never by a script")
 
+    missed = set()
     for position, item in enumerate(data["not_reached"]):
         label = f"not_reached[{position}]"
         if not _keys(label, item, NOT_REACHED_KEYS, errors):
@@ -217,11 +243,31 @@ def validate(data):
             errors.append(f"{label}: url must be an https address on a permitted host")
         elif item["url"] in urls:
             errors.append(f"{label}: {item['url']} is also listed as a source")
+        else:
+            if item["url"] in missed:
+                errors.append(f"{label}: duplicate not_reached address")
+            missed.add(item["url"])
+            reading = robots_read.get(urlsplit(item["url"]).hostname)
+            if reading is None or (item["reason"] == "robots_disallow" and reading["robots_status"] != 200):
+                errors.append(f"{label}: reason needs a matching robots reading")
         if item["reason"] not in REASONS:
             errors.append(f"{label}: reason must be one of {', '.join(REASONS)}")
         if not _text(item["note"], MAX_NOTE):
             errors.append(f"{label}: note must be text of at most {MAX_NOTE} characters")
     return errors
+
+
+def _unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON member: {key!r}")
+        result[key] = value
+    return result
+
+
+def _invalid_constant(value):
+    raise ValueError(f"not a JSON number: {value}")
 
 
 def main(argv=None):
@@ -230,7 +276,8 @@ def main(argv=None):
     parser.add_argument("--register", default=str(REGISTER), help="register to read (default: docs/federal-sources.json)")
     args = parser.parse_args(argv)
     try:
-        data = json.loads(Path(args.register).read_text(encoding="utf-8"))
+        data = json.loads(Path(args.register).read_text(encoding="utf-8"),
+                          object_pairs_hook=_unique_object, parse_constant=_invalid_constant)
     except (OSError, ValueError) as exc:
         print(f"federal_sources: {exc}", file=sys.stderr)
         return 2
@@ -238,7 +285,9 @@ def main(argv=None):
     if errors:
         print("federal_sources: " + "\n".join(errors), file=sys.stderr)
         return 2
-    print(f"Validated {len(data['sources'])} federal source records on {len(data['hosts'])} hosts; "
+    print(f"Validated {len(data['sources'])} federal source records across "
+          f"{len({urlsplit(row['url']).hostname for row in data['sources']})} source hosts; "
+          f"{len(data['hosts'])} host readings; "
           "no address was requested and legal currency was not checked.")
     return 0
 
