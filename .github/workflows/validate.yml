@@ -23,6 +23,7 @@ jobs:
       - run: python scripts/evaluate.py validate
       - run: python scripts/trigger_eval.py validate
       - run: python scripts/source_registry.py validate
+      - run: python scripts/federal_sources.py validate
       - run: python -m unittest discover -s tests -v
       - run: python scripts/build_release.py --out dist/release
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4, verified 2026-09-20
