@@ -5,8 +5,7 @@ invented example for each skill. The [README](../README.md) carries the short ve
 
 ## Set up
 
-Everything below was run on Windows with the files from release
-`v2026.09.20.2` unless the text says otherwise. Hosts differ; see [TESTED-COMPATIBILITY.md](TESTED-COMPATIBILITY.md).
+For dated operating system, host and release checks, see [TESTED-COMPATIBILITY.md](TESTED-COMPATIBILITY.md).
 
 **1. Download.** From the [latest release](https://github.com/williamhorschak-dev/wisconsin-legal-ai-skills/releases/latest),
 put `SHA256SUMS.txt` and the files you want in a new empty folder.
@@ -18,63 +17,58 @@ put `SHA256SUMS.txt` and the files you want in a new empty folder.
 | `evaluation-suite.zip` | 24 synthetic test scenarios, for people who want to test a model themselves. |
 | `BUILD.json`, `RELEASE-NOTES.md`, `TESTED-COMPATIBILITY.md` | Build record, release notes, and the testing record. |
 
-**2. Check the download.** Windows PowerShell, in the folder with the files:
-
-```powershell
-Get-Content SHA256SUMS.txt | ForEach-Object {
-  $hash, $name = $_ -split '\s+', 2
-  if (Test-Path $name) {
-    $ok = (Get-FileHash $name -Algorithm SHA256).Hash.ToLower() -eq $hash
-    "{0}  {1}" -f ($(if ($ok) {'OK'} else {'MISMATCH'})), $name
-  }
-}
-```
-
-macOS or Linux: `sha256sum -c SHA256SUMS.txt` (it expects every listed file to be in the folder).
-A checksum shows the file matches the published one. It does not show the content is correct.
-
-**3. Install a skill.** Extract the ZIP into your host's skills folder. Each ZIP
-has one top-level folder, so extract into the skills folder itself.
+**2. Choose an installation folder.** For a single project, start in the project's root.
+For a personal installation, use the personal folder in this table. Install one skill at a time.
 
 | Host | Project folder | Personal folder |
 |---|---|---|
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
 | Codex | `.agents/skills/` | `~/.agents/skills/` |
 
-Windows PowerShell, from your project folder (replace the path to the ZIPs):
+**3. Verify and install the ZIP.** Save [the PowerShell installer](../scripts/install_release_skill.ps1)
+using GitHub's **Download raw file** button, or use it from a clone. If you saved the script and
+release files in your Downloads folder, run this from your project in PowerShell.
 
 ```powershell
-New-Item -ItemType Directory -Force .claude\skills | Out-Null
-Expand-Archive C:\path\to\cite-check.zip -DestinationPath .claude\skills
-Expand-Archive C:\path\to\wisconsin-legal-writing.zip -DestinationPath .claude\skills
-Expand-Archive C:\path\to\wisconsin-legal-interpretation.zip -DestinationPath .claude\skills
+& "$HOME/Downloads/install_release_skill.ps1" -Archive "$HOME/Downloads/cite-check.zip" -SkillsDirectory ".claude/skills"
 ```
 
-macOS or Linux: `mkdir -p .claude/skills && unzip /path/to/cite-check.zip -d .claude/skills`.
-(`unzip` was run on Windows Git Bash for `cite-check.zip` only. Use `.agents/skills`
-for Codex.)
+The installer requires exactly one checksum for the chosen ZIP in the release's
+`SHA256SUMS.txt`. It checks the copy it will unpack and moves the complete skill into
+place. Success names the ZIP and its destination. On a repeat install it stops. To compare an
+upgrade with your existing copy, point `-SkillsDirectory` at a separate folder outside your
+host. You can then decide which personal edits to keep.
 
-`Expand-Archive` stops with an error if the skill folder already exists, which
-protects your edits. Adding `-Force` overwrites local changes without warning.
+**Without PowerShell.** From the download folder, run `shasum -a 256 cite-check.zip` on
+macOS or `sha256sum cite-check.zip` on Linux. Find the one line ending in two spaces and
+`cite-check.zip` in the published checksum list. Continue only if the file exists, the entry
+appears exactly once and all 64 characters of the two hashes agree. Unpack into a new,
+empty folder outside the host. If the host already has a folder named `cite-check`, keep
+the unpacked copy separate. Otherwise move just the unpacked `cite-check` folder into the
+host's skills folder. Substitute the appropriate filename and folder for either other skill.
 
-**4. Check the installed skill.** Each skill folder carries `MANIFEST.sha256`.
-From inside one skill folder, `sha256sum -c MANIFEST.sha256` works, or in PowerShell:
+**4. Check an installed copy.** Open the individual skill folder. Its `MANIFEST.sha256` lists
+the files shipped with it. Run `shasum -a 256 -c MANIFEST.sha256` on macOS or
+`sha256sum -c MANIFEST.sha256` on Linux. In PowerShell, run the following from that folder.
 
 ```powershell
-Get-Content MANIFEST.sha256 | ForEach-Object {
-  $hash, $path = $_ -split '  ', 2
-  if ((Get-FileHash $path -Algorithm SHA256).Hash.ToLower() -ne $hash) { "MISMATCH $path" }
+$records = @(Get-Content -LiteralPath MANIFEST.sha256 -ErrorAction Stop)
+if ($records.Count -eq 0) { throw "Empty skill manifest." }
+foreach ($record in $records) {
+    if ($record -cnotmatch '^([0-9a-f]{64})  (.+)$') { throw "Invalid manifest line." }
+    $expected, $file = $Matches[1], $Matches[2]
+    if ((Get-FileHash -LiteralPath $file -Algorithm SHA256 -ErrorAction Stop).Hash -ne $expected) {
+        throw "Checksum mismatch for $file"
+    }
 }
+"Verified $($records.Count) listed files."
 ```
-
-No output means every file matches. The repository's own `scripts/skill_tools.py` and
-`tests/` are not in the ZIPs, so the maintainer commands in [CONTRIBUTING.md](../CONTRIBUTING.md) do not
-run in an installed copy.
 
 **5. Use it.** Ask for the task in plain words, or name the skill: `/cite-check`
-in Claude Code, `$cite-check` in Codex. The project has not recorded a test that
-either host finds and starts the skill; the folder layout follows each product's
-documentation as of 2026-09-20.
+in Claude Code, `$cite-check` in Codex. On one Windows host, Claude Code desktop subagents
+selected skills from an earlier release in the [October trials](../evals/triggers/results/2026-10-24-claude-code-subagents.md).
+A [November probe](../evals/triggers/results/2026-11-10-listing-probe.md) found duplicate listings and
+incomplete descriptions. Discovery on a clean installation of this release and in Codex remains unmeasured.
 
 Other hosts:
 
