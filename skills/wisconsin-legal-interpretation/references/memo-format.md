@@ -143,6 +143,9 @@ Rules:
   now. Blank is not an answer.
 - Anything not retrieved carries `[UNVERIFIED]` in the row and is called out in the Short Answer
   if the conclusion leans on it.
+- For a citation or quotation copied from a skill reference when the source was not opened,
+  enter `skill-reference-not-retrieved` under How found and flag the row to the requester.
+  See [the classification block](authority-hierarchy.md#8-the-authority-classification-block).
 
 ---
 

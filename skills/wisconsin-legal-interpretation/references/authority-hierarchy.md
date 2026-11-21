@@ -307,7 +307,7 @@ Standard of rev: <de novo | clearly erroneous | erroneous exercise of discretion
 Votes:           <majority | lead opinion, no majority | per curiam>
 Subsequent hist: <citator result, source, date checked>
 Statute vintage: <text construed vs. text in force at operative date — same / differs how>
-Retrieved:       <path in sources/ | URL | date>
+Retrieved:       <path in sources/ | URL | date | not retrieved this run>
 How found:       <search-for-proposition | citator | cited-in-brief | recalled-and-confirmed* | skill-reference-not-retrieved*>
 ```
 

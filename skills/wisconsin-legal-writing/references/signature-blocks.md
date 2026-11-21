@@ -21,23 +21,25 @@ for third-party signatures and notarization; do not sign for another person.
 person's name, mailing address, electronic mail address, telephone number, and
 state bar number if applicable.
 
-**A draft that is not signed.** `Electronically signed by [NAME]` is one of the two
-forms a signature takes on an eFiled document, as stated above. When the supplied draft
-or the user says the document is unsigned, or the signer has not yet adopted the text,
-do not write a person's name on that line in the text you return. Leave a bracketed
-placeholder such as `[signature line: NAME signs here]`, keep any statement of the
-draft's unsigned status, and say in the delivery note that only the signer can add the
-signature. When you build a Word file for such a draft, set `"unsigned": true` in the
-signature spec so the file has a blank signature line; see "A blank signature line in a
-Word file" below. The builder cannot know whether the signer has adopted the text. A file
-it builds is a draft for the signer to read and adopt, and the delivery note says so.
-
 ---
 
 Sources: [ch. 801](https://docs.legis.wisconsin.gov/statutes/statutes/801.pdf),
 [ch. 802](https://docs.legis.wisconsin.gov/statutes/statutes/802.pdf), and
 [ch. 809](https://docs.legis.wisconsin.gov/statutes/statutes/809.pdf), checked
 September 20, 2026. Verify current requirements before filing.
+
+## Returning an unsigned draft
+
+When the supplied draft or the user says the document is unsigned, keep any statement
+of that status. In a text reply, leave a placeholder such as `[signature line]` where
+the person would sign. Outside the draft, tell the user that the draft is unsigned
+and leave the decision to sign it to the signer.
+
+For a Word file with a generated self-represented or attorney block, set
+`"unsigned": true` in `signature` and keep the supplied name in `signature.name`. The
+builder draws the blank line. The text placeholder belongs only in the text reply.
+See [A blank signature line in a Word file](#a-blank-signature-line-in-a-word-file)
+for other layouts, conflicts and unsigned declarations.
 
 ## Default signature-line styling
 
