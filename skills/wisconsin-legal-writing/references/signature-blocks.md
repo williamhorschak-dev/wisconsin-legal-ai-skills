@@ -43,11 +43,11 @@ statutory requirement or a reason by itself to reject another compliant block.
 The builder does this automatically for both signature styles. If you are hand-
 building a document, italicize that one line and nothing else in the block.
 
-## A Word file for a document nobody has signed
+## A blank signature line in a Word file
 
-The builder prints `Electronically signed by [Name]` from the name in the spec. It cannot
-know whether that person has signed. When the supplied draft or the user says the document
-is unsigned, add `"unsigned": true` to the signature spec:
+In a generated self-represented or attorney block, the builder normally prints
+`Electronically signed by [Name]` from the supplied name. When the supplied draft or the
+user says the document is unsigned, set the boolean field as shown below.
 
 ```json
 "signature": {
@@ -58,15 +58,19 @@ is unsigned, add `"unsigned": true` to the signature spec:
 ```
 
 The builder then prints a blank rule where the signature line would be and keeps the typed
-name and the contact lines under it. Nothing in the file says that anyone signed, and each
-such build prints a note saying so. The key works for both signature styles, with or
-without `--draft`. Take the key out only when the signer says to print the electronic
-signature line. Do not decide that for the signer.
+name and contact lines. A note on standard error reports the blank line. The builder
+preserves supplied text, including the body and any signature date. If the supplied
+text says this document was signed, ask the user to resolve the conflict. When changing
+an unsigned draft, remove the key or set it to `false` only if the signer directs you
+to print the electronic signature line. The key works with or without `--draft`.
+
+Keep `signature: null` for proposed orders and for affidavits that place the affiant's
+signature in the body. In the latter layout, inspect the signature line before the jurat.
 
 A declaration is narrower. Its closing line begins "Signed on", so the builder refuses
 `"unsigned": true` together with a full `declaration.signed_on` date. An unsigned
-declaration builds only with `--draft` and without that date, and the closing line then
-prints with blanks.
+declaration builds only with `--draft` and without a valid signing date. The closing
+then prints a blank day, month and year. Any supplied location still appears.
 
 The blank rule is this tool's layout and the key records what the user said. Neither is a
 check of who signed or of how a document must be signed; see Requirements above.

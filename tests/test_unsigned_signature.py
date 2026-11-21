@@ -21,6 +21,7 @@ from test_declaration import declaration
 
 
 RULE = "_" * 30
+EXPECTED_NOTICE = "note: signature.unsigned is true. The generated signature line is blank."
 
 
 def attorney():
@@ -52,7 +53,7 @@ class UnsignedSignatureTests(unittest.TestCase):
         self.assertNotIn("lectronically", saved)
         self.assertNotIn("signed by", saved.lower())
         self.assertEqual(sum(RULE in paragraph.text for paragraph in paragraphs), 1)
-        self.assertIn(builder.UNSIGNED_NOTICE, notes)
+        self.assertIn(EXPECTED_NOTICE, notes.splitlines())
 
     def test_self_represented_block_keeps_the_typed_lines_under_a_blank_rule(self):
         for draft in (True, False):
@@ -81,7 +82,7 @@ class UnsignedSignatureTests(unittest.TestCase):
 
     def test_without_the_statement_the_electronic_line_is_unchanged(self):
         for make in (filing, attorney):
-            for change in ({}, {"unsigned": False}, {"unsigned": None}):
+            for change in ({}, {"unsigned": False}):
                 with self.subTest(style=make.__name__, change=change):
                     spec = make()
                     spec["signature"].update(change)
@@ -93,7 +94,7 @@ class UnsignedSignatureTests(unittest.TestCase):
                     self.assertNotIn("unsigned", notes)
 
     def test_only_true_or_false_is_a_statement(self):
-        for value in ("true", "yes", 1, 0, [], {}):
+        for value in (None, "true", "yes", 1, 0, [], {}):
             for draft in (True, False):
                 with self.subTest(value=value, draft=draft):
                     spec = filing()
@@ -110,15 +111,27 @@ class UnsignedSignatureTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "contradictory spec: signature.unsigned is true"):
                     builder.build(dated, self.output, draft=draft)
                 self.assertFalse(self.output.exists())
-        blank = declaration(signed_on=None)
-        blank["signature"]["unsigned"] = True
-        with self.assertRaisesRegex(ValueError, "declaration is incomplete"):
-            builder.build(blank, self.output)
-        paragraphs, notes = self.build(blank, draft=True)
-        text = "\n".join(paragraph.text for paragraph in paragraphs)
-        self.assertIn("Signed on the ____ day of __________, [YEAR], at ", text)
-        self.assertEqual(text.count("Signed on"), 1)
-        self.assert_says_nobody_signed(paragraphs, notes)
+        for raw, refusal in ((None, "declaration is incomplete"), ("[SIGNING DATE]", "placeholder markers")):
+            with self.subTest(signed_on=raw):
+                blank = declaration(signed_on=raw)
+                blank["signature"]["unsigned"] = True
+                with self.assertRaisesRegex(ValueError, refusal):
+                    builder.build(blank, self.output)
+                paragraphs, notes = self.build(blank, draft=True)
+                text = "\n".join(paragraph.text for paragraph in paragraphs)
+                self.assertIn("Signed on the ____ day of __________, [YEAR], at Anytown, Wisconsin.", text)
+                self.assertEqual(text.count("Signed on"), 1)
+                self.assert_says_nobody_signed(paragraphs, notes)
+
+    def test_blank_signature_line_preserves_supplied_body_text(self):
+        spec = filing()
+        statement = "I signed this document."
+        spec["body"] = [{"type": "p", "text": statement}]
+        spec["signature"]["unsigned"] = True
+        paragraphs, notes = self.build(spec, draft=True)
+        self.assertIn(statement, [p.text for p in paragraphs])
+        self.assertTrue(any(RULE in p.text for p in paragraphs))
+        self.assertIn(EXPECTED_NOTICE, notes.splitlines())
 
     def test_command_line_reports_the_blank_line_and_a_proposed_order_ignores_the_key(self):
         source = Path(self.temporary.name) / "spec.json"
@@ -133,7 +146,7 @@ class UnsignedSignatureTests(unittest.TestCase):
         spec["signature"]["unsigned"] = True
         result = run(spec, "--draft")
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn(builder.UNSIGNED_NOTICE, result.stderr)
+        self.assertIn(EXPECTED_NOTICE, result.stderr.splitlines())
         self.assertIn(RULE, "\n".join(paragraph.text for paragraph in Document(self.output).paragraphs))
 
         spec["signature"]["unsigned"] = "true"
@@ -148,7 +161,7 @@ class UnsignedSignatureTests(unittest.TestCase):
         order["body"] = [{"type": "ordered", "text": "Synthetic ordered paragraph."}]
         result = run(order)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertNotIn(builder.UNSIGNED_NOTICE, result.stderr)
+        self.assertNotIn(EXPECTED_NOTICE, result.stderr)
         self.assertNotIn(RULE, "\n".join(paragraph.text for paragraph in Document(self.output).paragraphs))
 
 

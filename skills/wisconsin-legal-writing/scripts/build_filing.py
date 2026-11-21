@@ -136,11 +136,11 @@ remain unverified; a draft let through with a different title gets the warning i
 
 Unsigned documents. The builder prints "Electronically signed by <name>" on the signature
 line from signature.name; it cannot know whether that person has signed. "unsigned": true in
-the signature object is the reviewer's statement that nobody has signed yet. The builder then
-prints a blank rule on that line, keeps the typed name and contact lines, and says on every
-such build that the document does not state that anyone signed it. It works for both
-signature styles, with or without --draft. Refused in every mode: a value other than true or
-false, and "unsigned": true together with a full declaration.signed_on date, because the
+the signature object requests a blank line in the generated signature block. The builder
+keeps the typed name and contact lines and reports the blank line on standard error.
+It preserves supplied text elsewhere. The option works for the self-represented and attorney
+blocks, with or without --draft. In either block the key, if present, must be true or false.
+The builder refuses "unsigned": true together with a full declaration.signed_on date because the
 declaration's closing line would then state a day of signing. An unsigned declaration
 therefore builds only with --draft. The key records a statement; it does not check who signed
 or how a document must be signed.
@@ -177,8 +177,7 @@ DESIGNATION_INDENT = Inches(1.5)  # 2160 twips
 CASENO_INDENT = Inches(3.5)       # 5040 twips
 SIG_INDENT = Inches(3.0)        # pro se block; holds "Electronically signed by <name>" on one line
 SIGNATURE_RULE = "_" * 30       # the blank signature line printed when signature.unsigned is true
-UNSIGNED_NOTICE = ("note: signature.unsigned is true. The signature line is blank and the document does not state "
-                   "that anyone signed it. Only the signer can add the signature.")
+UNSIGNED_NOTICE = "note: signature.unsigned is true. The generated signature line is blank."
 ATTY_INDENT = Inches(2.75)      # attorney block: wider, the firm name and bar line need room
 DEFAULT_FONT = "Century Schoolbook"
 ALLOWED_FONTS = ("Century Schoolbook", "Times New Roman")
@@ -1190,14 +1189,14 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
     for key in ("style", "name", "role", "firm", "dba", "bar_no", "for_party", "address", "city_state_zip", "phone", "email", "date"):
         if sig.get(key) is not None and not isinstance(sig[key], str):
             raise ValueError(f"signature.{key} must be a string")
-    if sig.get("unsigned") is not None and not isinstance(sig["unsigned"], bool):
+    if "unsigned" in sig and not isinstance(sig["unsigned"], bool):
         raise ValueError("signature.unsigned must be true or false")
     given = spec.get("declaration")
     if sig.get("unsigned") is True and isinstance(given, dict) and _signing_date(given.get("signed_on")):
         raise ValueError(
             "contradictory spec: signature.unsigned is true, but declaration.signed_on gives a day of signing and the "
             "closing line would print it after the words \"Signed on\". Remove declaration.signed_on and build the "
-            "unsigned declaration with --draft, or remove signature.unsigned once the declarant has signed.")
+            "unsigned declaration with --draft. Print the electronic signature line only at the signer's direction.")
 
     style = sig.get("style", "pro_se")
     if style == "pro_se":
