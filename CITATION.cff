@@ -1,11 +1,10 @@
-# Update version and date-released at each release.
+# Add date-released when the publication date is known.
 cff-version: 1.2.0
 message: "If you use this software, please cite it using these metadata. Citing it does not imply review or approval by any court, bar, or attorney."
 type: software
 title: "Wisconsin Legal AI Skills"
 abstract: "Agent Skills (SKILL.md folders), prompt exports, and small Python tools for Wisconsin legal research, citation checking, and court-document drafting. Published by a nonlawyer as general information and software; not legal advice or legal services."
 version: "2026.11.21.1"
-date-released: 2026-11-21
 license: MIT
 authors:
   - family-names: Horschak
