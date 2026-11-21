@@ -43,6 +43,34 @@ statutory requirement or a reason by itself to reject another compliant block.
 The builder does this automatically for both signature styles. If you are hand-
 building a document, italicize that one line and nothing else in the block.
 
+## A Word file for a document nobody has signed
+
+The builder prints `Electronically signed by [Name]` from the name in the spec. It cannot
+know whether that person has signed. When the supplied draft or the user says the document
+is unsigned, add `"unsigned": true` to the signature spec:
+
+```json
+"signature": {
+  "unsigned": true,
+  "name": "Jane Q. Example",
+  "role": "Plaintiff, self-represented"
+}
+```
+
+The builder then prints a blank rule where the signature line would be and keeps the typed
+name and the contact lines under it. Nothing in the file says that anyone signed, and each
+such build prints a note saying so. The key works for both signature styles, with or
+without `--draft`. Take the key out only when the signer says to print the electronic
+signature line. Do not decide that for the signer.
+
+A declaration is narrower. Its closing line begins "Signed on", so the builder refuses
+`"unsigned": true` together with a full `declaration.signed_on` date. An unsigned
+declaration builds only with `--draft` and without that date, and the closing line then
+prints with blanks.
+
+The blank rule is this tool's layout and the key records what the user said. Neither is a
+check of who signed or of how a document must be signed; see Requirements above.
+
 ---
 
 ## Pro se block, when the signer is self-represented
