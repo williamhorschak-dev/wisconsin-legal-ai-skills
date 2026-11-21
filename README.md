@@ -21,8 +21,8 @@ task in plain words.
 | A circuit court motion, brief, discovery response, declaration or proposed order | [wisconsin-legal-writing](skills/wisconsin-legal-writing/SKILL.md) | An editable Word draft with caption, headings, numbered paragraphs and signature block, built by a script |
 | A review of a filing you wrote | wisconsin-legal-writing | Prioritized corrections that keep your facts and requested relief |
 | A letter to the court, an appellate brief or a research memo | wisconsin-legal-writing | Text that follows the supplied Word template. The builder script does not create these three |
-| A check of the citations in a draft | [cite-check](skills/cite-check/SKILL.md) | A table of quotation, pinpoint and proposition checks against sources the session can read |
-| What a Wisconsin statute or rule said on a date | [wisconsin-legal-interpretation](skills/wisconsin-legal-interpretation/SKILL.md) | The text, its version, the source, and what could not be confirmed |
+| A check of the citations in a draft | [cite-check](skills/cite-check/SKILL.md) | A table of quotation, pinpoint and proposition checks. [See a matching quotation that does not support the argument](skills/cite-check/references/synthetic-example.md). |
+| What a Wisconsin statute or rule said on a date | [wisconsin-legal-interpretation](skills/wisconsin-legal-interpretation/SKILL.md) | The text, its version, source and limits. [See how the requested date changes the answer](skills/wisconsin-legal-interpretation/references/synthetic-example.md). |
 | An analysis of a contested reading | wisconsin-legal-interpretation | A research memo under Wisconsin's own interpretive method, with adverse authority |
 
 Results depend on your assistant and the sources it can reach. The project's recorded
@@ -75,8 +75,8 @@ For Claude Code:
 
 1. From the [latest release](https://github.com/williamhorschak-dev/wisconsin-legal-ai-skills/releases/latest),
    download the skill ZIPs you want and `SHA256SUMS.txt`.
-2. Extract each ZIP into `.claude/skills/` in your project, or `~/.claude/skills/`
-   for every project. Each ZIP holds one folder.
+2. [Verify and install your chosen ZIP](docs/SETUP.md#set-up) into `.claude/skills/`
+   in your project, or `~/.claude/skills/` for every project. An existing copy may contain personal edits.
 3. Ask for a task in plain words, or name the skill, for example `/cite-check`.
 
 [SETUP.md](docs/SETUP.md) has the commands, the download and install checks, Codex, and
@@ -153,6 +153,7 @@ in operations management. He publishes these tools and general reference materia
 he does not provide legal services through this project.
 
 - [Website](https://www.williamhorschak.com)
+- [Substack](https://substack.com/@williamhorschak)
 - [LinkedIn](https://www.linkedin.com/in/williamhorschak)
 - [GitHub](https://github.com/williamhorschak-dev)
 
