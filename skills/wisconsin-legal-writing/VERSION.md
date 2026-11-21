@@ -1,5 +1,22 @@
 # wisconsin-legal-writing
 
+## 2026.11.21.1
+
+- **Input contract change for generated signature blocks.** `"unsigned": true` in the `signature` object leaves the signature line
+  of a generated self-represented or attorney block blank and keeps the typed name and
+  contact lines. Release 2026.11.10.3 ignored this key as a signature option. Omission needs no
+  change, `false` keeps the electronic line, and nonboolean values are refused.
+  Move unrelated metadata out of the field. Only `true` conflicts with a valid
+  `declaration.signed_on` date and requires `--draft` for a declaration. Supplied body text
+  and `signature.date` are preserved. See docs/RELEASE-NOTES.md.
+- `references/signature-blocks.md`: two new sections, "Returning an unsigned draft" and
+  "A blank signature line in a Word file".
+- `SKILL.md` and `references/checklists.md` instruct the writer to keep the factual account
+  within the user's limit. Keep the declaration sentence and execution line when drafting
+  the § 887.015 form. For an exact copy or formatting only, flag missing wording separately.
+- No writing template changed. Listed in docs/LEGAL-TEXT-CHANGES-2026-11.md, rows U-11 and U-12,
+  with the AI reviews; not attorney-reviewed.
+
 ## 2026.11.10.3
 
 - `SKILL.md`: a new section, "Check for a standard court form first", Wis. Stat. § 807.001,
