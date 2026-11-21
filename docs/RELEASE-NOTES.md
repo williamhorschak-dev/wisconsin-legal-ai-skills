@@ -1,3 +1,112 @@
+# 2026.11.21.1
+
+One optional key is added to the document builder's input, and instruction text in two skills
+is revised in response to four observations from the evaluation run of 2026-11-10. No template
+changed. A specification written for release 2026.11.10.3 builds as before unless its
+signature object already carried a key named `unsigned`.
+
+Pull requests 66 and 63, which carry these changes, were each reviewed by a second AI reviewer
+before the maintainer's merge, and each review's patch was applied as written. Rows U-12 and
+U-11 of docs/LEGAL-TEXT-CHANGES-2026-11.md name the reviews. **No model has been run on the
+revised instruction text**, so nothing shows that an assistant follows it. No attorney reviewed
+any of it; the maintainer is not a lawyer; LEGAL_NOTICE.md applies.
+
+## wisconsin-legal-writing
+
+- **Input addition: `"unsigned": true` in the `signature` object.** In a generated
+  self-represented or attorney signature block the builder prints "Electronically signed by"
+  and the supplied name, in a `--draft` build as well as a final one; it cannot know whether
+  that person has signed. With `"unsigned": true` it prints a blank rule on that line, keeps
+  the typed name and contact lines, and reports the blank line on standard error. The key
+  works with or without `--draft`. If present it must be `true` or `false`. The builder
+  refuses `"unsigned": true` together with a full `declaration.signed_on` date, because the
+  declaration's closing line would then state a day of signing; an unsigned declaration
+  builds only with `--draft`. The key records a statement. It does not check who signed or
+  how a document must be signed.
+- **Returning an unsigned draft.** `references/signature-blocks.md` has two new sections.
+  When the supplied draft or the user says the document is unsigned, the assistant is told to
+  keep that status, to leave a placeholder such as `[signature line]` in a text reply, to tell
+  the user outside the draft that it is unsigned, and to leave signing to the signer. For a
+  generated Word block it sets the key and keeps the supplied name. A proposed order, and an
+  affidavit with its signature in the body, keep `signature: null`. If supplied text says the
+  document was signed, the assistant asks the user to resolve the conflict.
+- **Drafts limited to supplied facts or words.** `SKILL.md` and `references/checklists.md`
+  now say to keep the factual account within the user's limit and to suggest any further
+  factual assertion outside the draft. A declaration on the Wis. Stat. § 887.015 form keeps
+  its declaration sentence and execution line. When asked only to format or copy, the
+  assistant keeps the supplied words and flags missing form wording outside the draft.
+- No new legal source was read for these changes. They rely on the form and the source
+  description already in the repository.
+
+## wisconsin-legal-interpretation
+
+- **The kind of answer is stated in plain words.** `SKILL.md` tells the assistant to say
+  whether the answer is a quick lookup, an analysis of a contested reading or a formal memo,
+  and not to write "Mode 1", "Mode 2" or "Mode 3". The skill's completed example, and the two
+  prompt profiles that carry it (`interpretation-analysis.md` and `interpretation-lookup.md`),
+  now open with "Quick lookup."
+- **A label for material copied from a skill reference.** The authority classification block
+  has a new How found value, `skill-reference-not-retrieved`, for a quotation or citation
+  copied from the skill's own reference files when the source was not opened in the run. The
+  entry is always flagged to the requester and carries `[UNVERIFIED]`. The memo template, the
+  memo format rules and the red-team checklist name it. No script a skill ships reads the
+  field.
+
+## cite-check
+
+- No change beyond the version number.
+
+## Repository
+
+- Tests: 250 (243 in release 2026.11.10.3). The seven new tests cover the unsigned key. CI
+  matrix unchanged.
+- `docs/TESTED-COMPATIBILITY.md` states the skill-listing probe of 2026-11-10 as it was
+  recorded: one subagent reported about 550 skills and saw descriptions for two of this
+  project's six entries. No trigger trials ran that day.
+- README: unchanged by this release. Per-release figures are in the compatibility record
+  and `docs/KNOWN-LIMITS.md`.
+
+## Known issues carried forward
+
+- No model has been run on the instruction text revised in this release.
+- `--draft` alone does not blank the signature line. The builder prints "Electronically
+  signed by" and the name unless the specification says `"unsigned": true`, and nothing
+  checks whether a document was signed.
+- Three of the evaluation run's seven observations are not acted on: with-skills answers are
+  longer; three answers said a reference the workflow names was not supplied; and the dated
+  *Kalal* sentence is repeated in answers.
+- The *Kalal* status passage was last checked on 2026-11-10, the day the clerk's table listed
+  oral argument in *Abby Windows, LLC v. LIRC*, No. 2024AP1013. It has not been rechecked
+  since. It must be rechecked when the clerk's table changes and on decision; the
+  small-claims passage must be re-edited on 2027-01-01.
+- The county index covers five counties checked once. It does not notice when a county
+  replaces a file. Milwaukee's check was incomplete and the Adams document was not read.
+- Trigger activation has not been measured on a host confirmed to show each description.
+  Whether that affected the 2026-10-24 rounds is not known. The 2026-10-24 results narrative
+  mislabels two query splits.
+- Subsequent history of cited authorities was not exhaustively checked against public
+  sources.
+- The source register watches chapter files, not individual sections, and the monthly check
+  does not read the county index.
+- The evidence log does not detect deleted lines.
+- Version detection in cite_check.py is phrase matching on the reviewer's annotation; it
+  has no operative-date model.
+- The source checker drops the redirect target from a record when a same-host redirect was
+  followed successfully; the request log keeps both hops.
+- Two items remain marked [VERIFY]: how 2025 Wis. Act 105 applies to a claim made before
+  January 1, 2027 in an action commenced after it, and the signing date of the 2025
+  La Crosse County local rules.
+- Three questions the reviews raised are not settled by the public sources read: whether a
+  party designation alone is "the name of the party" in a motion caption, § 802.01(2)(d);
+  whether 11 points is a minimum or an exact size for block quotes and footnotes,
+  § 809.19(8)(b)3.c.; and whether that paragraph's body-text numbers reach headings.
+- Five checks were built and not shipped because they could not be made exact; the notes for
+  release 2026.11.10.1 list them. None has a replacement.
+
+The three skills remain independently usable. These changes do not certify legal
+accuracy, filing readiness, or the permissibility of a particular legal-service
+deployment.
+
 # 2026.11.10.3
 
 No input contract changes and no change to any script a skill ships. This release adds

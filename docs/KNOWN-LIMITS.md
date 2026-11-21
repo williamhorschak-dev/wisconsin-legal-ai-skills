@@ -1,9 +1,9 @@
-# Known limits of the bundled tools (release 2026.11.10.3)
+# Known limits of the bundled tools (release 2026.11.21.1)
 
 What the bundled tools do not do, and which earlier defects each release corrected. Update the heading and the
 first paragraph at every release. The [README](../README.md) carries a short summary.
 
-These describe the files in release 2026.11.10.3. Release 2026.11.10.3 changes no tool and no input contract: it adds an instruction to ask about a standard court form before drafting, a county local-rules index that covers five counties, and a recheck of one dated status passage, none of which had a second AI review. Release 2026.11.10.2, published the same day, added one change: the builder generates the supported titles of a motion from the reviewer's statements of who moves and what is sought, and refuses a final build whose title is not one of them (this changes the motion input contract; see the release notes). Release 2026.11.10.1, published the same day, added seven changes that enforce Wisconsin rules in the tools: a protected-information screen, a county check, a refusal of complaints and summonses, a generated declaration closing (which changes the declaration input contract; see the release notes), a corrected appellate template margin, an unpublished-opinion citation check, and a lookup table of dated values. Six further checks were built, reviewed and not shipped because they could not be made exact; the release notes list them. Release 2026.11.08.1 widened the builder's placeholder screen, rebuilds the source checker so that temporary failures, refusals and changed sources are reported apart, refreshes the source register and updates one dated passage on the AI rule petitions. Release 2026.11.07.1 corrected one layout defect of
+These describe the files in release 2026.11.21.1. Release 2026.11.21.1 adds one optional key to the builder's input, `signature.unsigned`, which leaves the generated signature line blank (see the release notes), and revises instruction text on unsigned drafts, on drafts limited to supplied facts, on how an interpretation answer names its kind, and on labelling material copied from a skill reference; no model has been run on the revised text. Release 2026.11.10.3 changed no tool and no input contract: it added an instruction to ask about a standard court form before drafting, a county local-rules index that covers five counties, and a recheck of one dated status passage, none of which had a second AI review. Release 2026.11.10.2, published the same day, added one change: the builder generates the supported titles of a motion from the reviewer's statements of who moves and what is sought, and refuses a final build whose title is not one of them (this changes the motion input contract; see the release notes). Release 2026.11.10.1, published the same day, added seven changes that enforce Wisconsin rules in the tools: a protected-information screen, a county check, a refusal of complaints and summonses, a generated declaration closing (which changes the declaration input contract; see the release notes), a corrected appellate template margin, an unpublished-opinion citation check, and a lookup table of dated values. Six further checks were built, reviewed and not shipped because they could not be made exact; the release notes list them. Release 2026.11.08.1 widened the builder's placeholder screen, rebuilds the source checker so that temporary failures, refusals and changed sources are reported apart, refreshes the source register and updates one dated passage on the AI rule petitions. Release 2026.11.07.1 corrected one layout defect of
 the two 2026.10.24 releases: the page-1 clearance band was built from line breaks, so its
 height depended on the renderer and a proposed order's gap came out well over 3 inches.
 Defects of release 2026.10.13.1 corrected in 2026.10.24.1, all found by a third
@@ -34,6 +34,12 @@ clearance could be switched off.
   body holds no other closing, or that anyone signed. Its screen for possible closing
   wording can miss a closing and can match an ordinary fact. Other wording is refused as
   unsupported by the tool, not as legally defective.
+- In a generated signature block the builder prints "Electronically signed by" and the
+  supplied name, in a draft build as well as a final one, unless the specification says
+  `"unsigned": true` in its signature object. The key records what the reviewer said. The
+  builder does not know whether anyone signed, and nothing in it checks who signed or how a
+  document must be signed. With the key, a declaration builds only as a draft and without
+  a signing date.
 - The builder generates one supported form of motion title, under Wis. Stat. § 802.01(2)(d),
   from the reviewer's party references, qualifier and relief description. Other lawful
   titles are refused as unsupported. It recognises a motion by English title words, so a
