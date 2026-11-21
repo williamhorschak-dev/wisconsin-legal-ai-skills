@@ -28,6 +28,19 @@ Sources: [ch. 801](https://docs.legis.wisconsin.gov/statutes/statutes/801.pdf),
 [ch. 809](https://docs.legis.wisconsin.gov/statutes/statutes/809.pdf), checked
 September 20, 2026. Verify current requirements before filing.
 
+## Returning an unsigned draft
+
+When the supplied draft or the user says the document is unsigned, keep any statement
+of that status. In a text reply, leave a placeholder such as `[signature line]` where
+the person would sign. Outside the draft, tell the user that the draft is unsigned
+and leave the decision to sign it to the signer.
+
+For a Word file with a generated self-represented or attorney block, set
+`"unsigned": true` in `signature` and keep the supplied name in `signature.name`. The
+builder draws the blank line. The text placeholder belongs only in the text reply.
+See [A blank signature line in a Word file](#a-blank-signature-line-in-a-word-file)
+for other layouts, conflicts and unsigned declarations.
+
 ## Default signature-line styling
 
 **`Electronically signed by [Name]` is set in italics.** It stands in for the

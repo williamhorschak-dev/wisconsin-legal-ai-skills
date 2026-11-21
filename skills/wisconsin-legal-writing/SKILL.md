@@ -35,6 +35,12 @@ representation status, relief requested, operative dates, service method, releva
 and confidentiality status. Check admission requests and their response periods when
 discovery is involved. Check actual conferral when a motion requires it.
 
+When the user limits a draft to supplied facts or words, keep the factual account within
+that limit. Suggest any additional factual assertion outside the draft. For a declaration
+using the § 887.015 form, keep its declaration sentence and execution line separate from
+the factual account. Leave missing signing details blank in an unsigned draft.
+If the user asks only for formatting or an exact copy, preserve the supplied words
+and flag any missing form wording outside the draft.
 Never invent record facts, service dates, document numbers, quotations, attorney status,
 or signatures. Distinguish allegations, record evidence, inferences, and missing facts.
 Use `[DATE]`, `(Doc. __:__)`, or another unmistakable placeholder when necessary.
