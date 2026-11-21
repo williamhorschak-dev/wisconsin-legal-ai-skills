@@ -84,6 +84,8 @@ Assume something in this memo does not exist. Find it.
 - Does every statutory subsection cited actually exist in the version cited?
 - Any authority marked `recalled-and-confirmed`: does it actually hold the proposition, or was
   only its existence confirmed? This is the highest-yield check in the whole protocol.
+- For a row marked `skill-reference-not-retrieved`, check that the requester can see the
+  `[UNVERIFIED]` flag and that the memo makes no claim of primary-source verification.
 - Any parallel citation blended from two cases? Any suspiciously apt case name?
 
 **A `NOT FOUND` is a fire alarm.** Report it immediately and separately; never substitute a
