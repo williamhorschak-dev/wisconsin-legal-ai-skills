@@ -116,6 +116,8 @@ when controlling text or authority forecloses the alternative.>
 
 ## Authority Table
 
+<!-- For How found, use the values in references/authority-hierarchy.md §8. -->
+
 | # | Citation | Cited for | Binding? | Citable? | Vintage OK? | Copy | How found | Evidence |
 |---|---|---|---|---|---|---|---|---|
 | 1 | | | | | | | | |

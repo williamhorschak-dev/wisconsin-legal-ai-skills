@@ -28,6 +28,19 @@ Sources: [ch. 801](https://docs.legis.wisconsin.gov/statutes/statutes/801.pdf),
 [ch. 809](https://docs.legis.wisconsin.gov/statutes/statutes/809.pdf), checked
 September 20, 2026. Verify current requirements before filing.
 
+## Returning an unsigned draft
+
+When the supplied draft or the user says the document is unsigned, keep any statement
+of that status. In a text reply, leave a placeholder such as `[signature line]` where
+the person would sign. Outside the draft, tell the user that the draft is unsigned
+and leave the decision to sign it to the signer.
+
+For a Word file with a generated self-represented or attorney block, set
+`"unsigned": true` in `signature` and keep the supplied name in `signature.name`. The
+builder draws the blank line. The text placeholder belongs only in the text reply.
+See [A blank signature line in a Word file](#a-blank-signature-line-in-a-word-file)
+for other layouts, conflicts and unsigned declarations.
+
 ## Default signature-line styling
 
 **`Electronically signed by [Name]` is set in italics.** It stands in for the
@@ -42,6 +55,38 @@ statutory requirement or a reason by itself to reject another compliant block.
 
 The builder does this automatically for both signature styles. If you are hand-
 building a document, italicize that one line and nothing else in the block.
+
+## A blank signature line in a Word file
+
+In a generated self-represented or attorney block, the builder normally prints
+`Electronically signed by [Name]` from the supplied name. When the supplied draft or the
+user says the document is unsigned, set the boolean field as shown below.
+
+```json
+"signature": {
+  "unsigned": true,
+  "name": "Jane Q. Example",
+  "role": "Plaintiff, self-represented"
+}
+```
+
+The builder then prints a blank rule where the signature line would be and keeps the typed
+name and contact lines. A note on standard error reports the blank line. The builder
+preserves supplied text, including the body and any signature date. If the supplied
+text says this document was signed, ask the user to resolve the conflict. When changing
+an unsigned draft, remove the key or set it to `false` only if the signer directs you
+to print the electronic signature line. The key works with or without `--draft`.
+
+Keep `signature: null` for proposed orders and for affidavits that place the affiant's
+signature in the body. In the latter layout, inspect the signature line before the jurat.
+
+A declaration is narrower. Its closing line begins "Signed on", so the builder refuses
+`"unsigned": true` together with a full `declaration.signed_on` date. An unsigned
+declaration builds only with `--draft` and without a valid signing date. The closing
+then prints a blank day, month and year. Any supplied location still appears.
+
+The blank rule is this tool's layout and the key records what the user said. Neither is a
+check of who signed or of how a document must be signed; see Requirements above.
 
 ---
 

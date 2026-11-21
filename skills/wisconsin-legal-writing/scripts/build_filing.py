@@ -134,6 +134,17 @@ check, so reviewers must explicitly classify motions the title recognizer misses
 titles says that party status, completeness, legal adequacy and document classification
 remain unverified; a draft let through with a different title gets the warning instead.
 
+Unsigned documents. The builder prints "Electronically signed by <name>" on the signature
+line from signature.name; it cannot know whether that person has signed. "unsigned": true in
+the signature object requests a blank line in the generated signature block. The builder
+keeps the typed name and contact lines and reports the blank line on standard error.
+It preserves supplied text elsewhere. The option works for the self-represented and attorney
+blocks, with or without --draft. In either block the key, if present, must be true or false.
+The builder refuses "unsigned": true together with a full declaration.signed_on date because the
+declaration's closing line would then state a day of signing. An unsigned declaration
+therefore builds only with --draft. The key records a statement; it does not check who signed
+or how a document must be signed.
+
 Geometry reproduced from the reference corpus:
   page 8.5 x 11; L/R margins 1.0"; T/B margins 0.95"
   Century Schoolbook (or Times New Roman) 12 pt body, justified, 1.5 line spacing
@@ -165,6 +176,8 @@ RIGHT_TAB = Inches(6.5)          # 9360 twips
 DESIGNATION_INDENT = Inches(1.5)  # 2160 twips
 CASENO_INDENT = Inches(3.5)       # 5040 twips
 SIG_INDENT = Inches(3.0)        # pro se block; holds "Electronically signed by <name>" on one line
+SIGNATURE_RULE = "_" * 30       # the blank signature line printed when signature.unsigned is true
+UNSIGNED_NOTICE = "note: signature.unsigned is true. The generated signature line is blank."
 ATTY_INDENT = Inches(2.75)      # attorney block: wider, the firm name and bar line need room
 DEFAULT_FONT = "Century Schoolbook"
 ALLOWED_FONTS = ("Century Schoolbook", "Times New Roman")
@@ -460,7 +473,10 @@ def build_signature(doc, sig, size):
         # roman. Both the pro se and the firm documents in the corpus do this.
         lines = []
         if sig.get("name"):
-            lines.append(("Electronically signed by " + sig["name"], True))
+            if sig.get("unsigned") is True:
+                lines.append((SIGNATURE_RULE, False))
+            else:
+                lines.append(("Electronically signed by " + sig["name"], True))
             lines.append((sig["name"], False))
         for key in ("role", "address", "phone", "email"):
             if sig.get(key):
@@ -507,8 +523,11 @@ def build_signature(doc, sig, size):
         if sig.get("dba"):
             right(sig["dba"])
         gap()
-        # Italic: this line stands in for the handwritten signature.
-        right("Electronically signed by " + sig["name"], italic=True)
+        if sig.get("unsigned") is True:
+            right(SIGNATURE_RULE)
+        else:
+            # Italic: this line stands in for the handwritten signature.
+            right("Electronically signed by " + sig["name"], italic=True)
         right(sig["name"], bold=True)
         right("State Bar No. " + sig["bar_no"])
         right(sig["for_party"])
@@ -946,6 +965,16 @@ def _ordinal(day):
     return f"{day}{'th' if 10 <= day % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(day % 10, 'th')}"
 
 
+def _signing_date(raw):
+    """The day a declaration says it was signed on, or None unless signed_on is a full ISO date."""
+    if isinstance(raw, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
+        try:
+            return date.fromisoformat(raw)
+        except ValueError:
+            return None
+    return None
+
+
 def _declaration_blocks(spec, *, draft=False, quiet=False):
     """Closing blocks for an unsworn declaration, or None when the spec is another document."""
     title, typed, given = spec["title"], spec.get("document_type"), spec.get("declaration")
@@ -1027,12 +1056,7 @@ def _declaration_blocks(spec, *, draft=False, quiet=False):
     if given.get("body_reviewed") is not True:
         problems.append("declaration.body_reviewed must be true: the reviewer's statement that the body contains no "
                         "separate declaration or execution closing. The pattern screen can miss one")
-    signed, raw = None, given.get("signed_on")
-    if isinstance(raw, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
-        try:
-            signed = date.fromisoformat(raw)
-        except ValueError:
-            signed = None
+    signed = _signing_date(given.get("signed_on"))
     if signed is None:
         problems.append("declaration.signed_on must be the full date of signing as YYYY-MM-DD; the form in s. 887.015(6) "
                         "states the day, the month and the year")
@@ -1165,6 +1189,14 @@ def _validate(spec, *, draft=False, protected_info_reviewed=False):
     for key in ("style", "name", "role", "firm", "dba", "bar_no", "for_party", "address", "city_state_zip", "phone", "email", "date"):
         if sig.get(key) is not None and not isinstance(sig[key], str):
             raise ValueError(f"signature.{key} must be a string")
+    if "unsigned" in sig and not isinstance(sig["unsigned"], bool):
+        raise ValueError("signature.unsigned must be true or false")
+    given = spec.get("declaration")
+    if sig.get("unsigned") is True and isinstance(given, dict) and _signing_date(given.get("signed_on")):
+        raise ValueError(
+            "contradictory spec: signature.unsigned is true, but declaration.signed_on gives a day of signing and the "
+            "closing line would print it after the words \"Signed on\". Remove declaration.signed_on and build the "
+            "unsigned declaration with --draft. Print the electronic signature line only at the signer's direction.")
 
     style = sig.get("style", "pro_se")
     if style == "pro_se":
@@ -1265,6 +1297,8 @@ def build(spec, out_path, *, draft=False, overwrite=False, protected_info_review
     doc.save(payload)
     with out_path.open("wb" if overwrite else "xb") as output:
         output.write(payload.getvalue())
+    if not proposed and (spec.get("signature") or {}).get("unsigned") is True:
+        print(UNSIGNED_NOTICE, file=sys.stderr)
     if _check_motion(spec, draft=draft, quiet=True) is True:
         print(MOTION_NOTICE, file=sys.stderr)
     if closing is not None:

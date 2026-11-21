@@ -11,7 +11,7 @@ lookup is enough. Use only these supplied versions; no source tools are availabl
   request a paper copy."
 - Version B, effective January 1, 2023: "Members may request an electronic copy."
 
-**Completed response:** Mode 1 — quick lookup. For March 1, 2022, the supplied
+**Completed response:** Quick lookup. For March 1, 2022, the supplied
 archive identifies Version A as operative:
 
 > Members may request a paper copy.
