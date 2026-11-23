@@ -15,7 +15,7 @@ description: >-
 license: MIT
 compatibility: Instructions work in any text-capable host. The optional memo linter scripts/check_memo.py needs Python 3.10 or later and the standard library only, and never fetches anything. Current-law checks need the host's own source access; the script reads local files.
 metadata:
-  version: "2026.11.10.3"
+  version: "2026.11.21.1"
 ---
 
 # Wisconsin Legal Interpretation
@@ -83,7 +83,9 @@ analysis, or a formal memo.
 
 ## Three operating modes
 
-Pick one and say which you are in. **Default to Quick lookup.** Escalate only when the question
+Pick one and say which you are in, in plain words: a quick lookup, an analysis of a contested
+reading, or a formal memo. The numbers below are this skill's own labels; do not write "Mode 1",
+"Mode 2" or "Mode 3" in an answer. **Default to Quick lookup.** Escalate only when the question
 is genuinely contested or the user asks.
 
 ### Mode 1 — Quick lookup (default)

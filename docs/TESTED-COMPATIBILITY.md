@@ -1,17 +1,17 @@
-# Tested compatibility: 2026.11.10.3
+# Tested compatibility: 2026.11.21.1
 
 Format support and observed behavior are separate claims.
 
 | Layer | Evidence | Limit |
 |---|---|---|
 | Skill packages | Metadata, local links, notices, hashes and ZIP contents are checked by CI. | The host must support the format and expose the needed capabilities. |
-| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (243 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
+| Python helpers | Windows/Linux, Python 3.10/3.12 CI matrix; regression and integrity tests (250 in this release). Local Windows runs are recorded below. | Passing code tests do not establish legal accuracy. |
 | Document templates | All 11 JSON-backed templates were rebuilt on 2026-11-07 after the page-1 clearance spacer was given an exact height; Word 16.0 and its exported PDF place page 1 body text at 2.00 in (3.00 in for the proposed order) and later pages at 0.95 in; page counts unchanged; page 1 of two templates viewed by an AI agent. On 2026-11-08 a second AI reviewer rendered two of them with LibreOffice 26.8.2.2 and measured first glyph boxes at 2.03 in, 3.03 in and 0.98 in, a constant offset from Word's line positions, no clipping. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. All 14 Word assets have a byte-bound review record. | A rendered-page check by AI is not an attorney review and does not establish filing readiness. The three assets outside the rebuild keep their inherited review. See TEMPLATE-QA.md. |
 | Claude model behavior | No trial on this release's files. One exploratory run of the 24 scenarios on claude-sonnet-5-5, 2026-11-10, on the files of release 2026.11.10.2, in Claude Code desktop subagents ([record](../evals/results/2026-11-10-claude-code-subagents.md)). | Not a controlled trial: one run per scenario, one AI reviewer, agents with tools and session context. The optional CLI adapter is tested with simulated subprocess responses only; its one real attempt stopped on an expired sign-in. |
 | GPT/OpenAI model behavior | No provider trials recorded for this release. | Codex metadata and prompt exports establish integration format, not answer quality. |
 | Other LLMs | Portable prompt inputs and manual result import are available. No provider trials recorded. | No universal compatibility or equivalent-performance claim. |
 
-The 24 scenarios prepare 48 paired trials per repetition. None is marked passed
+The 24 scenarios prepare 24 pairs (48 trials) per repetition. None is marked passed
 merely because its fixture exists. There is no published model score, legal-accuracy
 score, or attorney approval for this release. Current publication provides tested
 helpers and evaluation infrastructure, not a completed cross-model benchmark.
@@ -24,11 +24,11 @@ every release.
 | Claim | Status |
 |---|---|
 | The skill packages pass the repository's checks (metadata, links, legal notice, checksums) | Run by CI on every push to `main`. |
-| The Python tools have a regression test suite | 243 tests. CI ran all 243 on Ubuntu and Windows with Python 3.10 and 3.12 at commit ca5f71f (run 42876478585), the last change merged before the version bump for this release. |
-| Release files can be rebuilt from the tagged commit | For release 2026.11.10.2, each of the four CI jobs (run 42840104777 at the tagged commit a405031) produced all nine files byte-identical to the published assets, which were built under CPython 3.12, checked 2026-11-10. For release 2026.11.10.1, each of the four CI jobs (run 42830448912 at the tagged commit 335f21b) produced all nine files byte-identical to the published assets, which were built under CPython 3.12, checked 2026-11-10. For release 2026.11.08.1, each of the four CI jobs (run 42542908238 at the tagged commit fd525a8) produced all nine files byte-identical to the published assets, checked 2026-11-08, after the five ZIPs and the checksum file first uploaded from a CPython 3.14 build were replaced with the CPython 3.12 build the same hour; the two builds had identical ZIP members and differed only in compressed bytes. For release 2026.11.07.1, each of the four CI jobs (Ubuntu and Windows, Python 3.10 and 3.12; run 42440778709 at the tagged commit a58f32e) produced all nine files byte-identical to the published assets, checked 2026-11-07. The same held for 2026.10.24.2 (run 40150567840) and 2026.10.24.1 (run 40146773285). For release 2026.09.20.2, a rebuild on CPython 3.12 on 2026-10-11 matched every published asset byte for byte; a rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. No independent rebuild of release 2026.10.13.1 was recorded. |
+| The Python tools have a regression test suite | 250 tests. CI ran all 250 on Ubuntu and Windows with Python 3.10 and 3.12 at commit 6e5a373 (run 44960169632), the last change merged before the version bump for this release. |
+| Release files can be rebuilt from the tagged commit | For release 2026.11.21.1, each of the four CI jobs (run 44960976620 at the tagged commit 05a3543) produced all nine files byte-identical to the published assets, which were built under CPython 3.12, checked 2026-11-21. For release 2026.11.10.3, each of the four CI jobs (run 42899650850 at the tagged commit 3db0caa) produced all nine files byte-identical to the published assets, which were built under CPython 3.12, checked 2026-11-10. For release 2026.11.10.2, each of the four CI jobs (run 42840104777 at the tagged commit a405031) produced all nine files byte-identical to the published assets, which were built under CPython 3.12, checked 2026-11-10. For release 2026.11.10.1, each of the four CI jobs (run 42830448912 at the tagged commit 335f21b) produced all nine files byte-identical to the published assets, which were built under CPython 3.12, checked 2026-11-10. For release 2026.11.08.1, each of the four CI jobs (run 42542908238 at the tagged commit fd525a8) produced all nine files byte-identical to the published assets, checked 2026-11-08, after the five ZIPs and the checksum file first uploaded from a CPython 3.14 build were replaced with the CPython 3.12 build the same hour; the two builds had identical ZIP members and differed only in compressed bytes. For release 2026.11.07.1, each of the four CI jobs (Ubuntu and Windows, Python 3.10 and 3.12; run 42440778709 at the tagged commit a58f32e) produced all nine files byte-identical to the published assets, checked 2026-11-07. The same held for 2026.10.24.2 (run 40150567840) and 2026.10.24.1 (run 40146773285). For release 2026.09.20.2, a rebuild on CPython 3.12 on 2026-10-11 matched every published asset byte for byte; a rebuild on 3.14 had identical contents but different ZIP bytes, because the compression library differs. No independent rebuild of release 2026.10.13.1 was recorded. |
 | Word templates build and render | The 11 JSON-backed templates rebuild in tests. On 2026-11-07 all 11 were rebuilt with an exact-height page-1 clearance; Word 16.0 and its exported PDF place page 1 text at 2.00 in (3.00 in for the proposed order), page counts unchanged; on 2026-11-08 a second AI reviewer rendered two of them with LibreOffice 26.8.2.2 and measured a constant 0.03 in glyph-box offset from those positions, no clipping. The 2026-10-24 rebuild was independently rendered and measured by a second AI reviewer. No attorney reviewed them. See [TEMPLATE-QA.md](TEMPLATE-QA.md). |
 | Any model follows these skills | **One exploratory run recorded, 2026-11-10, on the skill files of release 2026.11.10.2; not a controlled trial.** The 24-scenario [evaluation suite](../evals/README.md) was run once on claude-sonnet-5-5 in Claude Code desktop subagents, with and without the skills supplied, and graded by the project's AI coordinator. With the skills, 24 of 24 trials passed every criterion; without them, 22 of 24. No answer in either condition followed planted instructions, invented an authority, or claimed a check that did not happen. The baseline passed nearly everything, so the suite does not yet measure a difference, and the agents had tools and session context that the protocol excludes. See [the record](../evals/results/2026-11-10-claude-code-subagents.md), including seven observations for improving the skills. A separate exploratory evaluation of an earlier release is summarized after this table. Neither is a certification. |
-| Claude Code, Codex, Claude upload, or ChatGPT find and use the skills | **Six rounds recorded, 2026-10-24,** all in Claude Code desktop subagents on one Windows host. No unwanted activation on any near-miss or cross-skill query in any round. Should-trigger queries that loaded their skill, one run each: on claude-haiku-5-5, 1 of 9, 3 of 9 and 3 of 9; on claude-sonnet-5-5, 6 of 9, 8 of 9 and 8 of 9 (cite-check, interpretation, writing). The interpretation description in this release gained one sentence and then passed 9 of 9 on Sonnet; two candidate sentences for cite-check did not help and were not adopted. See [the record](../evals/triggers/results/2026-10-24-claude-code-subagents.md). Codex, Claude upload and ChatGPT: not tested; layouts follow vendor documentation. |
+| Claude Code, Codex, Claude upload, or ChatGPT find and use the skills | **Six rounds recorded, 2026-10-24,** all in Claude Code desktop subagents on one Windows host. No unwanted activation on any near-miss or cross-skill query in any round. Should-trigger queries that loaded their skill, one run each: on claude-haiku-5-5, 1 of 9, 3 of 9 and 3 of 9; on claude-sonnet-5-5, 6 of 9, 8 of 9 and 8 of 9 (cite-check, interpretation, writing). The interpretation description adopted in release 2026.10.24.2 passed 9 of 9 should-trigger queries on Sonnet in round 5; two candidate sentences for cite-check did not help and were not adopted. See [the record](../evals/triggers/results/2026-10-24-claude-code-subagents.md). On 2026-11-10 one subagent reported about 550 skills and descriptions for two of the six entries for this project: the installed interpretation skill and a second copy of the writing skill. The coordinating session saw the same pattern. The installed writing description and both cite-check descriptions were absent from those listings. No trigger trials were run that day. The listings from the 2026-10-24 rounds are unknown ([probe record](../evals/triggers/results/2026-11-10-listing-probe.md)). Codex, Claude upload and ChatGPT: not tested; layouts follow vendor documentation. |
 | The legal statements are correct and current | **Not established.** There has been no attorney review. See [KNOWN-LIMITS.md](KNOWN-LIMITS.md). |
 
 **Exploratory model evaluation, 2026-10-11 (repetition 1 only).** An AI-assisted
@@ -51,6 +51,48 @@ scorers identified the condition of all 24 responses, so the scoring was effecti
 unblinded. Read it as an exploratory measurement of task completion, not as evidence that
 the legal content is correct. It was run on release 2026.09.20.2, not on this release.
 
+## Record of 2026-11-21 (release 2026.11.21.1)
+
+- **CI.** The validate workflow (Ubuntu and Windows, each on Python 3.10 and 3.12) passed in
+  all four jobs at 6e5a373 on `main` (run 44960169632), the last change merged before this
+  release's pull request, and on pull requests 66, 67, 63, 68 and 62. Each job at 6e5a373 ran
+  250 tests. PR 69 run 44953295228 ran all 250 in each job. Its test merge at 947e84f had
+  the same tree as PR head 1cfbecb.
+- **Local Windows run.** The PR author reports five validators passing under CPython 3.14.5
+  on Windows 11 (skill, source register, evaluation, trigger and local rules), with 250 tests
+  run and two symbolic-link skips at 5ed5709 and on the release branch. The author's local
+  3.12 environment lacked PyYAML and python-docx. During release review a separate Windows
+  3.12.10 environment with those dependencies built the clean PR head.
+- **Second AI review.** Codex reviewed W02 and W03 in PR 63 on November 20. On November 21,
+  Astra reviewed PR 66 and the integrated PR 63. Each merged tree matches its Astra patch.
+  Rows U-12 and U-11 in docs/LEGAL-TEXT-CHANGES-2026-11.md record the writing changes.
+  PRs 67 and 68 recorded adoption. No separate second review is recorded for those two PRs.
+- **Document templates.** The interpretation Markdown memo template changed. The Word assets
+  and JSON filing templates did not. The only shipped script change was in `build_filing.py`.
+  U-12 records a November 21 Word 16.0 check of two generated unsigned files before PR 66's
+  review patch. Those files are outside the repository. During release review the same two
+  fictional specifications were rebuilt at 1cfbecb with `--draft` and `unsigned: true`.
+  Each DOCX matched its earlier copy across all 18 uncompressed parts. Both files were
+  opened in Word 16.0 and all four exported pages were inspected. Each second page shows
+  a blank signature rule and typed identification.
+- **Release assets.** The release was built from the clean checkout at 05a3543 under CPython
+  3.12.10, in a virtual environment holding the packages pinned in requirements-dev.txt;
+  BUILD.json names that commit with `dirty` and `preview` false. The artifacts of the
+  validate run for the push of 05a3543 to `main` (run 44960976620) were downloaded: the
+  four matrix jobs produced nine files byte-identical to one another and to the local build.
+  The draft release's nine assets were downloaded before publication and every one matched
+  the local build. The project's AI coordinator published the release on the maintainer's
+  instruction on 2026-11-21 23:23 UTC. The tag v2026.11.21.1 is at 05a3543. The public
+  assets were then downloaded without signing in: all nine match the local build and the CI
+  artifacts byte for byte, and SHA256SUMS.txt verifies against the downloads. The copy of
+  this file inside the release says the comparison was pending, because the file is itself
+  an asset; this repository copy records the result.
+- **Models and hosts.** No model trial is recorded on the final files of this release. The instruction text
+  revised in this release responds to four observations from the run of 2026-11-10 on the
+  skill files of release 2026.11.10.2. Whether a model follows the revised text has not been
+  measured. The PR 63 author reported six spot checks on earlier wording. Those did not
+  cover I07 or the final unsigned Word guidance. No trigger-activation run.
+
 ## Record of 2026-11-10 (release 2026.11.10.3)
 
 - **CI.** The validate workflow (Ubuntu and Windows, each on Python 3.10 and 3.12) passed in
@@ -63,9 +105,16 @@ the legal content is correct. It was run on release 2026.09.20.2, not on this re
 - **Second AI review.** None for this release. Pull requests 56 to 60 were merged on the
   maintainer's word without one. The briefs written for a second reviewer were not run.
 - **Document templates.** None changed, and no script a skill ships changed.
-- **Release assets.** To be compared with the CI artifacts after the merge, building under
-  CPython 3.12 as docs/RELEASING.md requires; the result is recorded in this file by a
-  following pull request, because this file is itself a release asset.
+- **Release assets.** The release was built from the clean checkout at 3db0caa under CPython
+  3.12.10; BUILD.json names that commit with `dirty` and `preview` false. The artifacts of
+  the validate run for the push of 3db0caa to `main` (run 42899650850) were downloaded: the
+  four matrix jobs produced nine files byte-identical to one another and to the local build.
+  The draft release's nine assets were downloaded before publication and every one matched
+  the local build. The maintainer published on 2026-11-10 23:17 UTC. The public assets were
+  then downloaded: all nine match the local build and the CI artifacts byte for byte, and
+  SHA256SUMS.txt verifies against the downloads. The copy of this file inside the release
+  says the check had not been made yet, because the file is itself an asset; this
+  repository copy records the result.
 - **Models and hosts.** One run of the 24 evaluation scenarios on claude-sonnet-5-5 in Claude
   Code desktop 2.1.321 subagents on 2026-11-10, on the skill files of release 2026.11.10.2, graded
   by the project's AI coordinator: with the skills 24 of 24 trials passed every criterion,
