@@ -37,10 +37,16 @@ def guide_block(marker):
 
 
 def run_text(shell, text, cwd, *options):
-    """Run command text as if it were typed into a PowerShell window started in cwd."""
+    """Run command text as if it were typed into a newly opened PowerShell window in cwd.
+
+    A window a reader opens works out its own module path. A test process started from PowerShell 7 hands
+    down PowerShell 7's, and Windows PowerShell given that path cannot load its own commands, Get-FileHash
+    among them. So the inherited module path is left out, as it would be in a new window.
+    """
     encoded = base64.b64encode(text.encode("utf-16-le")).decode("ascii")
+    env = {key: value for key, value in os.environ.items() if key.upper() != "PSMODULEPATH"}
     return subprocess.run([shell, "-NoProfile", "-NonInteractive", *options, "-EncodedCommand", encoded],
-                          cwd=cwd, capture_output=True, text=True, errors="replace", timeout=120)
+                          cwd=cwd, env=env, capture_output=True, text=True, errors="replace", timeout=120)
 
 
 def write_release(folder, name="cite-check.zip", members=None):
