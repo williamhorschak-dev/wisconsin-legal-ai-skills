@@ -2,8 +2,12 @@
 
 The guide tests use disposable downloads and project folders. Windows controls exercise Restricted
 and a local checkout under RemoteSigned. Host discovery is outside these tests.
+
+All but three of these tests start PowerShell from Python, write a ZIP and move folders. Antivirus
+software that watches behavior can take that for an attack and block Python. So those tests run on
+GitHub, and on a person's own machine only when WI_RUN_POWERSHELL_TESTS=1 is set. Anywhere else they are
+skipped and say why. Commands are passed to PowerShell in the open, never encoded.
 """
-import base64
 import hashlib
 import os
 from pathlib import Path
@@ -18,8 +22,13 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "install_release_skill.ps1"
 GUIDE = ROOT / "docs" / "SETUP.md"
-SHELL = shutil.which("pwsh") or shutil.which("powershell")
-WINDOWS_SHELLS = [shell for shell in (shutil.which("powershell"), shutil.which("pwsh")) if shell] if os.name == "nt" else []
+ON_GITHUB = os.environ.get("GITHUB_ACTIONS") == "true"
+ASKED_FOR = ON_GITHUB or os.environ.get("WI_RUN_POWERSHELL_TESTS") == "1"
+WHY_SKIPPED = "starts PowerShell: runs on GitHub, or locally with WI_RUN_POWERSHELL_TESTS=1 where PowerShell is installed"
+# Looking for a program on the path starts nothing.
+SHELL = (shutil.which("pwsh") or shutil.which("powershell")) if ASKED_FOR else None
+WINDOWS_SHELLS = ([shell for shell in (shutil.which("powershell"), shutil.which("pwsh")) if shell]
+                  if os.name == "nt" and ASKED_FOR else [])
 INSTALL_STEP = "**Optional PowerShell installer.**"
 
 
@@ -33,10 +42,12 @@ def guide_block(marker):
 
 
 def run_text(shell, text, cwd, *options, fresh=False):
-    """Preserve the parent environment unless a test explicitly requests shell defaults."""
-    encoded = base64.b64encode(text.encode("utf-16-le")).decode("ascii")
+    """Run command text in a PowerShell started in cwd. The text is one readable argument.
+
+    Preserve the parent environment unless a test explicitly requests shell defaults.
+    """
     env = {key: value for key, value in os.environ.items() if key.upper() != "PSMODULEPATH"} if fresh else None
-    return subprocess.run([shell, "-NoProfile", "-NonInteractive", *options, "-EncodedCommand", encoded],
+    return subprocess.run([shell, "-NoProfile", "-NonInteractive", *options, "-Command", text],
                           cwd=cwd, env=env, capture_output=True, text=True, errors="replace", timeout=120)
 
 
@@ -52,7 +63,23 @@ def write_release(folder, name="cite-check.zip", members=None):
     return path, row
 
 
-@unittest.skipUnless(SHELL, "PowerShell is required to exercise the installer")
+class WhereTheseTestsRun(unittest.TestCase):
+    def test_github_runs_them_and_does_not_skip_them(self):
+        if not ASKED_FOR:
+            self.assertIsNone(SHELL)
+            self.assertEqual(WINDOWS_SHELLS, [])
+        if ON_GITHUB:
+            self.assertTrue(SHELL, "GitHub's machine has no PowerShell, so these tests would check nothing")
+            if os.name == "nt":
+                self.assertEqual(len(WINDOWS_SHELLS), 2, "both Windows PowerShell and PowerShell 7 are expected there")
+
+    def test_no_command_is_passed_to_powershell_in_encoded_form(self):
+        source = Path(__file__).read_text(encoding="utf-8")
+        for hidden in ("Encoded" + "Command", "base" + "64"):
+            self.assertNotIn(hidden, source)
+
+
+@unittest.skipUnless(SHELL, WHY_SKIPPED)
 class ReleaseInstallTests(unittest.TestCase):
     def setUp(self):
         temp = tempfile.TemporaryDirectory()
@@ -158,7 +185,7 @@ class GuideInstallCommand(unittest.TestCase):
         self.assertNotIn("ExecutionPolicy", command)
         self.assertNotIn("Bypass", GUIDE.read_text(encoding="utf-8"))
 
-    @unittest.skipUnless(SHELL, "PowerShell is required")
+    @unittest.skipUnless(SHELL, WHY_SKIPPED)
     def test_optional_command_installs_in_the_current_shell(self):
         shells = WINDOWS_SHELLS or [SHELL]
         options = ["-ExecutionPolicy", "RemoteSigned"] if os.name == "nt" else []
@@ -171,7 +198,7 @@ class GuideInstallCommand(unittest.TestCase):
         result = run_text(SHELL, self.command(), self.project("inherited project"), *options)
         self.assertEqual(result.returncode, 0, result.stderr)
 
-    @unittest.skipUnless(WINDOWS_SHELLS, "script policy applies on Windows only")
+    @unittest.skipUnless(WINDOWS_SHELLS, "script policy applies on Windows only; " + WHY_SKIPPED)
     def test_optional_command_stops_under_restricted(self):
         project = self.project("restricted project")
         for shell in WINDOWS_SHELLS:
@@ -183,7 +210,7 @@ class GuideInstallCommand(unittest.TestCase):
                 self.assertIn("Restricted refused the script", result.stdout)
                 self.assertFalse((project / ".claude").exists())
 
-    @unittest.skipUnless(WINDOWS_SHELLS, "Windows by-hand move")
+    @unittest.skipUnless(WINDOWS_SHELLS, "Windows by-hand move; " + WHY_SKIPPED)
     def test_pasted_move_under_restricted_preserves_a_personal_edit(self):
         project = self.project("manual project")
         unpacked = self.downloads / "wi-unpacked"
@@ -205,7 +232,7 @@ class GuideInstallCommand(unittest.TestCase):
                 project = self.project("another " + Path(shell).stem)
 
 
-@unittest.skipUnless(SHELL, "PowerShell is required to run the guide's pasted commands")
+@unittest.skipUnless(SHELL, WHY_SKIPPED)
 class GuidePastedChecks(unittest.TestCase):
     def setUp(self):
         temp = tempfile.TemporaryDirectory()
@@ -242,7 +269,7 @@ class GuidePastedChecks(unittest.TestCase):
                 self.assertNotEqual(result.returncode, 0)
                 self.assertNotIn("OK  ", result.stdout)
 
-    @unittest.skipUnless(WINDOWS_SHELLS, "Windows PowerShell path handling")
+    @unittest.skipUnless(WINDOWS_SHELLS, "Windows PowerShell path handling; " + WHY_SKIPPED)
     def test_pasted_checks_in_a_project_with_brackets(self):
         folder = self.folder / "Workshop [65]"
         folder.mkdir()
