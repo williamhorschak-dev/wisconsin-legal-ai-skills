@@ -38,6 +38,12 @@ python -m unittest discover -s tests -v
 python scripts/skill_tools.py package --out dist/skills
 ```
 
+The tests in `tests/test_release_installer.py` start PowerShell from Python, write a ZIP and
+move folders. Antivirus software that watches behavior can take that for an attack and block
+Python, as one product did during review on 2026-11-23. Those tests therefore run on GitHub
+and are skipped on your own machine, where the test run says so. To run them yourself, set
+`WI_RUN_POWERSHELL_TESTS=1` first and expect your antivirus to object.
+
 Choose a new package output directory. After reviewed changes to a skill, refresh
 manifests with `python scripts/skill_tools.py manifest`. The queries in `evals/triggers/`
 and `scripts/trigger_eval.py` test whether each skill's description triggers, as
