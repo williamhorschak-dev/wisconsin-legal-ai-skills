@@ -107,13 +107,13 @@ protected-information number patterns and titles it does not support, and says w
 ## What has been tested
 
 - **Scripts.** A regression suite runs on Ubuntu and Windows with Python 3.10 and
-  3.12 on every change.
+  3.12 on pull requests and pushes to `main`.
 - **Release files.** CI rebuilds them from the tagged commit, and they are compared
   byte for byte with the published files.
 - **Word templates.** Rebuilt in tests and rendered in Microsoft Word.
 - **Models.** Two exploratory evaluations are recorded, each one run on one model, and
-  skill activation was measured in Claude Code on 2026-10-24. None is a controlled or
-  repeated trial.
+  skill activation was measured in Claude Code on 2026-10-24. Five missed activation
+  queries were repeated. The runs do not establish reliability across installations.
 - **Legal statements.** Not established as correct or current.
 
 The figures and their limits are in

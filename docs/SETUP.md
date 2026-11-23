@@ -1,6 +1,6 @@
 # Set up and first examples
 
-The full installation steps for every host, the download and install checks, the builder command, and one short
+Installation steps for the hosts listed below, the download and install checks, the builder command, and one short
 invented example for each skill. The [README](../README.md) carries the short version.
 
 ## Set up
@@ -8,7 +8,8 @@ invented example for each skill. The [README](../README.md) carries the short ve
 For dated operating system, host and release checks, see [TESTED-COMPATIBILITY.md](TESTED-COMPATIBILITY.md).
 
 **1. Download.** From the [latest release](https://github.com/williamhorschak-dev/wisconsin-legal-ai-skills/releases/latest),
-put `SHA256SUMS.txt` and the files you want in a new empty folder.
+put `SHA256SUMS.txt` and the files you want in a new empty folder. The examples use a
+folder named `wi-release` inside Downloads. Keep the original filenames.
 
 | File | Use |
 |---|---|
@@ -25,54 +26,89 @@ For a personal installation, use the personal folder in this table. Install one 
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
 | Codex | `.agents/skills/` | `~/.agents/skills/` |
 
-**3. Verify and install the ZIP.** Save [the PowerShell installer](../scripts/install_release_skill.ps1)
-using GitHub's **Download raw file** button, or use it from a clone. It is a short script. Read it
-before you run it. If you saved the script and release files in your Downloads folder, run this
-from your project in PowerShell on Windows.
+**3. Verify and install the ZIP.** Use **By hand** below for a release download. The examples
+install `cite-check` for one Claude Code project. For another skill, substitute its exact ZIP
+and folder name. For another host or a personal install, use the folder from step 2.
+
+**By hand.** Open the new download folder. On Windows, open PowerShell in that folder and
+run **Other downloads** below. Continue only after you see `OK  cite-check.zip` for your
+chosen ZIP and the check finishes without an error. On macOS, run `shasum -a 256 cite-check.zip`;
+on Linux, run `sha256sum cite-check.zip`. Check for exactly one line for that filename in
+`SHA256SUMS.txt` and compare all 64 hash characters, ignoring case. Stop if anything differs.
+
+1. Extract the checked ZIP into a **new** folder named `wi-unpacked` in the download folder,
+   if it is on the installation drive. Otherwise create the new folder on the project's drive,
+   outside the host, and edit the source path below to match. On Windows, right-click the ZIP, choose **Extract All**,
+   and enter that folder as the destination. Open the extracted `cite-check` folder and confirm
+   it contains `SKILL.md`. Keep downloads and extraction outside any host's skills folder.
+2. On Windows, open your **project** folder in File Explorer. Type `powershell` in its address
+   bar and press Enter. Check the displayed folder before pasting the whole block below.
+   If it is wrong, run `Set-Location -LiteralPath 'C:\path to your project'` with your actual
+   project path and confirm it with `Get-Location`. If you
+   used another download location, edit the first path. The move stops if the destination exists.
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File "$HOME/Downloads/install_release_skill.ps1" -Archive "$HOME/Downloads/cite-check.zip" -SkillsDirectory ".claude/skills"
+& {
+    $ErrorActionPreference = 'Stop'
+    $source = "$HOME/Downloads/wi-release/wi-unpacked/cite-check"
+    $root = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath('.claude/skills')
+    if (-not [IO.File]::Exists([IO.Path]::Combine($source, 'SKILL.md'))) { throw "Missing extracted SKILL.md." }
+    $null = [IO.Directory]::CreateDirectory($root)
+    [IO.Directory]::Move($source, [IO.Path]::Combine($root, 'cite-check'))
+    "Installed cite-check in $root"
+}
 ```
 
-Windows does not start a downloaded script file unless it is told to. This form allows that one
-run and changes no setting on the computer. Calling the script directly stops with "running
-scripts is disabled on this system" on a Windows computer where no script policy has been set.
-If your computer is not allowed to run script files at all, use the steps under **By hand**
-below. Under PowerShell 7 on another system, start the script with `pwsh -File` and the same two
-options. The project's tests run it that way on Linux.
+3. On macOS or Linux, create the skills folder from step 2 if needed. In the file manager,
+   move the whole extracted skill folder into it only if that name is free. Cancel any merge
+   or replacement prompt. To compare versions on any system, keep the new folder outside the
+   host, alongside your existing work. Use ordinary local directories that you control throughout.
 
-The installer requires exactly one checksum for the chosen ZIP in the release's
-`SHA256SUMS.txt`. It checks the copy it will unpack and moves the complete skill into
-place. Success names the ZIP and its destination. On a repeat install it stops. To compare an
-upgrade with your existing copy, point `-SkillsDirectory` at a separate folder outside your
-host. You can then decide which personal edits to keep.
+**Optional PowerShell installer.** If you already have a reviewed repository checkout and your
+organization permits running its script, you can use [the installer](../scripts/install_release_skill.ps1)
+instead of the by-hand steps. It is unsigned and the release checksums cover the ZIPs and records.
+Read the script at the revision you intend to run. From the project folder, in your current
+PowerShell window, replace the example checkout path and run:
 
-**By hand.** From the download folder, run `shasum -a 256 cite-check.zip` on
-macOS or `sha256sum cite-check.zip` on Linux. In PowerShell on Windows, paste
-`(Get-FileHash cite-check.zip -Algorithm SHA256).Hash`. It prints the hash in capital letters, so
-compare without regard to case. Find the one line ending in two spaces and
-`cite-check.zip` in the published checksum list. Continue only if the file exists, the entry
-appears exactly once and all 64 characters of the two hashes agree. Unpack into a new,
-empty folder outside the host. In PowerShell that is
-`Expand-Archive cite-check.zip -DestinationPath` followed by the new folder's name. If the host already has a folder named `cite-check`, keep
-the unpacked copy separate. Otherwise move just the unpacked `cite-check` folder into the
-host's skills folder. Substitute the appropriate filename and folder for either other skill.
+```powershell
+& "$HOME/wisconsin-legal-ai-skills/scripts/install_release_skill.ps1" -Archive "$HOME/Downloads/wi-release/cite-check.zip" -SkillsDirectory ".claude/skills"
+```
+
+On a Windows client, the default Restricted policy permits individual commands and refuses
+script files. Under RemoteSigned, an unsigned script marked as downloaded from the internet
+can also be refused. Keep your existing policy. If it blocks the script, use the by-hand steps
+where your organization permits them. If a standard command is missing, open PowerShell from
+Start or ask your administrator. The installer verifies one staged copy of the ZIP against
+the one matching release checksum, then moves the extracted skill into a free destination.
 
 **Other downloads.** The installer takes only the three skill ZIPs. To check every file you
 downloaded against the published list, paste this into PowerShell in the download folder.
 Commands pasted into the window are not script files, so the default policy does not stop them.
 
 ```powershell
-Get-Content SHA256SUMS.txt | ForEach-Object {
-  $hash, $name = $_ -split '\s+', 2
-  if (Test-Path $name) {
-    $ok = (Get-FileHash $name -Algorithm SHA256).Hash.ToLower() -eq $hash
-    "{0}  {1}" -f ($(if ($ok) {'OK'} else {'MISMATCH'})), $name
-  }
+& {
+    $ErrorActionPreference = 'Stop'
+    $seen = @{}
+    $checked = 0
+    $folder = (Get-Location).ProviderPath
+    foreach ($line in Get-Content -LiteralPath ([IO.Path]::Combine($folder, 'SHA256SUMS.txt'))) {
+        if ($line -cnotmatch '^([0-9A-Fa-f]{64})  ([A-Za-z0-9][A-Za-z0-9._-]*)$') { throw "Invalid checksum line." }
+        $hash, $name = $Matches[1], $Matches[2]
+        if ($seen.ContainsKey($name)) { throw "Duplicate checksum for $name." }
+        $seen[$name] = $true
+        $file = [IO.Path]::Combine($folder, $name)
+        if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { "SKIPPED  $name"; continue }
+        if ((Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash -ne $hash) { throw "MISMATCH  $name" }
+        "OK  $name"
+        $checked++
+    }
+    if ($checked -eq 0) { throw "No listed downloads found. Open the folder containing the release files." }
 }
 ```
 
-It prints one line for each listed file that is in the folder. On Linux, run
+An optional file you did not download is marked SKIPPED. A missing list, an empty selection,
+a duplicate entry or a mismatch stops the check. For every file you intend to use, look for
+its exact name on an OK line and make sure the block finished without an error. On Linux, run
 `sha256sum -c SHA256SUMS.txt`. On macOS, run `shasum -a 256 -c SHA256SUMS.txt`. Both expect
 every listed file to be in the folder. A checksum shows the file matches the published one. It
 does not show the content is correct.
@@ -82,18 +118,21 @@ the files shipped with it. Run `shasum -a 256 -c MANIFEST.sha256` on macOS or
 `sha256sum -c MANIFEST.sha256` on Linux. In PowerShell, run the following from that folder.
 
 ```powershell
-$records = @(Get-Content -LiteralPath MANIFEST.sha256 -ErrorAction Stop)
+$folder = (Get-Location).ProviderPath
+$records = @(Get-Content -LiteralPath ([IO.Path]::Combine($folder, 'MANIFEST.sha256')) -ErrorAction Stop)
 if ($records.Count -eq 0) { throw "Empty skill manifest." }
 foreach ($record in $records) {
     if ($record -cnotmatch '^([0-9a-f]{64})  (.+)$') { throw "Invalid manifest line." }
     $expected, $file = $Matches[1], $Matches[2]
-    if ((Get-FileHash -LiteralPath $file -Algorithm SHA256 -ErrorAction Stop).Hash -ne $expected) {
+    if ((Get-FileHash -LiteralPath ([IO.Path]::Combine($folder, $file)) -Algorithm SHA256 -ErrorAction Stop).Hash -ne $expected) {
         throw "Checksum mismatch for $file"
     }
 }
 "Verified $($records.Count) listed files."
 ```
 
+This checks only the files listed in the local manifest. Added personal files are outside the
+check. To compare with the published files, start with a separately verified release ZIP.
 The repository's own `scripts/skill_tools.py` and `tests/` are not in the ZIPs, so the maintainer
 commands in [CONTRIBUTING.md](../CONTRIBUTING.md) do not run in an installed copy.
 
@@ -101,7 +140,7 @@ commands in [CONTRIBUTING.md](../CONTRIBUTING.md) do not run in an installed cop
 in Claude Code, `$cite-check` in Codex. On one Windows host, Claude Code desktop subagents
 selected skills from an earlier release in the [October trials](../evals/triggers/results/2026-10-24-claude-code-subagents.md).
 A [November probe](../evals/triggers/results/2026-11-10-listing-probe.md) found duplicate listings and
-missing or incomplete descriptions. Discovery on a clean installation of this release and in Codex remains unmeasured.
+entries shown by name only. Discovery on a clean installation of this release and in Codex remains unmeasured.
 
 Other hosts:
 
@@ -111,8 +150,8 @@ Other hosts:
   one profile file plus your task. `citation-audit.md` checks citations in a draft you
   supply; `draft-review.md` reviews or edits a Wisconsin filing; `interpretation-lookup.md`
   answers what a provision says; `interpretation-analysis.md` handles a contested
-  reading; `formal-memo.md` produces a full memo. The files are about 49,000 to
-  147,000 characters, and some products limit instruction or upload size; that has not
+  reading; `formal-memo.md` produces a full memo. In release 2026.11.21.1, the five profiles
+  range from about 54,000 to 149,000 characters. Some products limit instruction or upload size; that has not
   been tested. If the host has no file access or Python execution, the bundled scripts cannot
   run, so checks that need a script should be reported as not run.
 
@@ -162,7 +201,7 @@ and that no citator ran. See [the full example](../skills/cite-check/references/
 > signer. Do not research or revise substance. Text: "I request a copy of the attached
 > schedule. The copy will help me check the dates. Alex Example, self-represented."
 
-Expected shape: the same three sentences on separate lines, the signer line unchanged,
+Expected shape: the two sentences and the original signer on separate lines,
 and a note that no legal review, source check, or signing happened. See
 [the full example](../skills/wisconsin-legal-writing/references/synthetic-example.md).
 To see the template builder work, run step 6 above and open `motion-draft.docx`;

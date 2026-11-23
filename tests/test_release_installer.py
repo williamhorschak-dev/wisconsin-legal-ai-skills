@@ -1,9 +1,7 @@
 """The release installer, and the commands the setup guide prints.
 
-The installer tests start the script with a one-run policy override, on any system that has PowerShell.
-The guide tests take the commands out of docs/SETUP.md and run them as printed. On Windows the install
-command is run from a PowerShell that refuses script files, which is how a computer with no script policy
-behaves. Nothing here shows that a host finds or starts an installed skill.
+The guide tests use disposable downloads and project folders. Windows controls exercise Restricted
+and a local checkout under RemoteSigned. Host discovery is outside these tests.
 """
 import base64
 import hashlib
@@ -22,9 +20,7 @@ SCRIPT = ROOT / "scripts" / "install_release_skill.ps1"
 GUIDE = ROOT / "docs" / "SETUP.md"
 SHELL = shutil.which("pwsh") or shutil.which("powershell")
 WINDOWS_SHELLS = [shell for shell in (shutil.which("powershell"), shutil.which("pwsh")) if shell] if os.name == "nt" else []
-INSTALL_STEP = "**3. Verify and install the ZIP.**"
-INSTALL_COMMAND = ('powershell -ExecutionPolicy Bypass -File "$HOME/Downloads/install_release_skill.ps1" '
-                   '-Archive "$HOME/Downloads/cite-check.zip" -SkillsDirectory ".claude/skills"')
+INSTALL_STEP = "**Optional PowerShell installer.**"
 
 
 def guide_block(marker):
@@ -36,15 +32,10 @@ def guide_block(marker):
     return match.group(1)
 
 
-def run_text(shell, text, cwd, *options):
-    """Run command text as if it were typed into a newly opened PowerShell window in cwd.
-
-    A window a reader opens works out its own module path. A test process started from PowerShell 7 hands
-    down PowerShell 7's, and Windows PowerShell given that path cannot load its own commands, Get-FileHash
-    among them. So the inherited module path is left out, as it would be in a new window.
-    """
+def run_text(shell, text, cwd, *options, fresh=False):
+    """Preserve the parent environment unless a test explicitly requests shell defaults."""
     encoded = base64.b64encode(text.encode("utf-16-le")).decode("ascii")
-    env = {key: value for key, value in os.environ.items() if key.upper() != "PSMODULEPATH"}
+    env = {key: value for key, value in os.environ.items() if key.upper() != "PSMODULEPATH"} if fresh else None
     return subprocess.run([shell, "-NoProfile", "-NonInteractive", *options, "-EncodedCommand", encoded],
                           cwd=cwd, env=env, capture_output=True, text=True, errors="replace", timeout=120)
 
@@ -73,7 +64,7 @@ class ReleaseInstallTests(unittest.TestCase):
 
     def install(self, archive=None):
         return subprocess.run(
-            [SHELL, "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File",
+            [SHELL, "-NoProfile", "-NonInteractive", *(["-ExecutionPolicy", "RemoteSigned"] if os.name == "nt" else []), "-File",
              str(SCRIPT), "-Archive", str(archive or self.zip), "-SkillsDirectory", str(self.skills)],
             capture_output=True, text=True, errors="replace", timeout=60,
         )
@@ -82,15 +73,19 @@ class ReleaseInstallTests(unittest.TestCase):
         self.assertFalse((self.skills / "cite-check").exists())
         self.assertFalse((self.skills / "evaluation-suite").exists())
         self.assertEqual(list(self.skills.parent.glob(".wi-skill-*")), [])
+        self.assertEqual(list(self.folder.rglob(".wi-skill-*")), [])
+        self.assertFalse(self.skills.parent.exists())
 
     def test_installs_complete_selected_skill(self):
+        self.skills = self.folder / "test project [local]" / ".claude" / "skills"
+        self.skills.parent.parent.mkdir()
         result = self.install()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("Verified cite-check.zip", result.stdout)
         target = self.skills / "cite-check"
         self.assertEqual((target / "SKILL.md").read_bytes(), b"released skill")
         self.assertEqual((target / "references/example.md").read_bytes(), b"example")
-        self.assertEqual(list(self.skills.parent.glob(".wi-skill-*")), [])
+        self.assertEqual(list(self.folder.rglob(".wi-skill-*")), [])
 
     def test_existing_skill_remains_byte_for_byte_intact(self):
         target = self.skills / "cite-check"
@@ -113,8 +108,7 @@ class ReleaseInstallTests(unittest.TestCase):
             with self.subTest(record=record):
                 self.manifest.write_text(record, encoding="ascii")
                 self.assertNotEqual(self.install().returncode, 0)
-                self.assertFalse((self.skills / "cite-check").exists())
-                self.assertEqual(list(self.skills.parent.glob(".wi-skill-*")), [])
+                self.assert_nothing_installed()
 
     def test_missing_checksum_list_refused(self):
         self.manifest.unlink()
@@ -128,6 +122,7 @@ class ReleaseInstallTests(unittest.TestCase):
                 result = self.install(archive)
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("Choose one of the three individual skill ZIPs", result.stderr)
+                self.assertIn(name, result.stderr)
                 self.assert_nothing_installed()
 
     def test_a_zip_without_the_skill_file_is_refused_though_its_checksum_is_right(self):
@@ -145,7 +140,6 @@ class GuideInstallCommand(unittest.TestCase):
         self.folder = Path(temp.name)
         self.downloads = self.folder / "My Downloads"
         self.downloads.mkdir()
-        shutil.copy(SCRIPT, self.downloads / SCRIPT.name)
         write_release(self.downloads)
 
     def project(self, name):
@@ -153,32 +147,62 @@ class GuideInstallCommand(unittest.TestCase):
         path.mkdir()
         return path
 
-    def test_the_guide_prints_the_form_that_allows_one_run(self):
-        self.assertEqual(guide_block(INSTALL_STEP), INSTALL_COMMAND)
+    def command(self):
+        return (guide_block(INSTALL_STEP)
+                .replace("$HOME/wisconsin-legal-ai-skills/scripts", SCRIPT.parent.as_posix())
+                .replace("$HOME/Downloads/wi-release", self.downloads.as_posix()))
 
-    @unittest.skipUnless(WINDOWS_SHELLS, "the printed command starts Windows PowerShell")
-    def test_the_printed_command_installs_where_script_files_are_refused(self):
-        command = guide_block(INSTALL_STEP).replace("$HOME/Downloads", self.downloads.as_posix())
-        self.assertNotIn("$HOME", command)
-        for number, shell in enumerate(WINDOWS_SHELLS):
-            with self.subTest(shell=Path(shell).name):
-                project = self.project("test project %d" % number)
-                result = run_text(shell, command, project, "-ExecutionPolicy", "Restricted")
+    def test_the_guide_uses_the_current_shell_policy(self):
+        command = guide_block(INSTALL_STEP)
+        self.assertTrue(command.startswith('& "'))
+        self.assertNotIn("ExecutionPolicy", command)
+        self.assertNotIn("Bypass", GUIDE.read_text(encoding="utf-8"))
+
+    @unittest.skipUnless(SHELL, "PowerShell is required")
+    def test_optional_command_installs_in_the_current_shell(self):
+        shells = WINDOWS_SHELLS or [SHELL]
+        options = ["-ExecutionPolicy", "RemoteSigned"] if os.name == "nt" else []
+        for number, shell in enumerate(shells):
+            with self.subTest(shell=shell):
+                project = self.project("fresh project %d" % number)
+                result = run_text(shell, self.command(), project, *options, fresh=True)
                 self.assertEqual(result.returncode, 0, result.stderr)
-                self.assertIn("Verified cite-check.zip", result.stdout)
-                target = project / ".claude" / "skills" / "cite-check"
-                self.assertEqual((target / "SKILL.md").read_bytes(), b"released skill")
+                self.assertEqual((project / ".claude/skills/cite-check/SKILL.md").read_bytes(), b"released skill")
+        result = run_text(SHELL, self.command(), self.project("inherited project"), *options)
+        self.assertEqual(result.returncode, 0, result.stderr)
 
     @unittest.skipUnless(WINDOWS_SHELLS, "script policy applies on Windows only")
-    def test_calling_the_script_directly_is_refused_there(self):
-        # The control. If this stops failing, the policy is not being applied and the test above shows nothing.
-        command = '& "%s/install_release_skill.ps1" -Archive "%s/cite-check.zip" -SkillsDirectory ".claude/skills"' % (
-            self.downloads.as_posix(), self.downloads.as_posix())
-        project = self.project("test project")
-        result = run_text(WINDOWS_SHELLS[0], command, project, "-ExecutionPolicy", "Restricted")
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("UnauthorizedAccess", result.stderr)
-        self.assertFalse((project / ".claude").exists())
+    def test_optional_command_stops_under_restricted(self):
+        project = self.project("restricted project")
+        for shell in WINDOWS_SHELLS:
+            with self.subTest(shell=shell):
+                command = ("try { " + self.command() + " } catch [System.Management.Automation.PSSecurityException] "
+                           "{ 'Restricted refused the script'; exit 1 }")
+                result = run_text(shell, command, project, "-ExecutionPolicy", "Restricted", fresh=True)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("Restricted refused the script", result.stdout)
+                self.assertFalse((project / ".claude").exists())
+
+    @unittest.skipUnless(WINDOWS_SHELLS, "Windows by-hand move")
+    def test_pasted_move_under_restricted_preserves_a_personal_edit(self):
+        project = self.project("manual project")
+        unpacked = self.downloads / "wi-unpacked"
+        command = guide_block("**By hand.**").replace("$HOME/Downloads/wi-release", self.downloads.as_posix())
+        for shell in WINDOWS_SHELLS:
+            with self.subTest(shell=shell):
+                with zipfile.ZipFile(self.downloads / "cite-check.zip") as archive:
+                    archive.extractall(unpacked)
+                target = project / ".claude/skills/cite-check/SKILL.md"
+                first = run_text(shell, command, project, "-ExecutionPolicy", "Restricted", fresh=True)
+                self.assertEqual(first.returncode, 0, first.stderr)
+                self.assertEqual(target.read_bytes(), b"released skill")
+                target.write_bytes(b"personal edit")
+                with zipfile.ZipFile(self.downloads / "cite-check.zip") as archive:
+                    archive.extractall(unpacked)
+                repeat = run_text(shell, command, project, "-ExecutionPolicy", "Restricted", fresh=True)
+                self.assertNotEqual(repeat.returncode, 0)
+                self.assertEqual(target.read_bytes(), b"personal edit")
+                project = self.project("another " + Path(shell).stem)
 
 
 @unittest.skipUnless(SHELL, "PowerShell is required to run the guide's pasted commands")
@@ -188,16 +212,49 @@ class GuidePastedChecks(unittest.TestCase):
         self.addCleanup(temp.cleanup)
         self.folder = Path(temp.name)
 
-    def test_the_check_of_other_downloads_reports_each_file_that_is_present(self):
+    def test_partial_download_checks_and_mismatch(self):
         (self.folder / "good.zip").write_bytes(b"as published")
         (self.folder / "bad.zip").write_bytes(b"damaged on the way")
-        rows = ["%s  good.zip" % hashlib.sha256(b"as published").hexdigest(),
-                "%s  bad.zip" % hashlib.sha256(b"what was published").hexdigest(),
-                "%s  absent.zip" % hashlib.sha256(b"not downloaded").hexdigest()]
-        (self.folder / "SHA256SUMS.txt").write_text("\n".join(rows) + "\n", encoding="ascii")
-        result = run_text(SHELL, guide_block("**Other downloads.**"), self.folder)
+        rows = ["%s  absent.zip" % hashlib.sha256(b"not downloaded").hexdigest(),
+                "%s  good.zip" % hashlib.sha256(b"as published").hexdigest().upper(),
+                "%s  bad.zip" % hashlib.sha256(b"as published").hexdigest()]
+        manifest = self.folder / "SHA256SUMS.txt"
+        manifest.write_text("\n".join(rows[:2]) + "\n", encoding="ascii")
+        block = guide_block("**Other downloads.**")
+        result = run_text(SHELL, block, self.folder)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout.split("\n")[:3], ["OK  good.zip", "MISMATCH  bad.zip", ""])
+        self.assertEqual(result.stdout.strip().splitlines(), ["SKIPPED  absent.zip", "OK  good.zip"])
+
+        manifest.write_text("\n".join(rows) + "\n", encoding="ascii")
+        result = run_text(SHELL, block, self.folder)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("MISMATCH", result.stderr)
+
+    def test_download_check_refuses_an_unusable_list(self):
+        manifest = self.folder / "SHA256SUMS.txt"
+        block = guide_block("**Other downloads.**")
+        absent = "0" * 64 + "  absent.zip\n"
+        for content in (None, "", absent, absent * 2, "bad checksum\n"):
+            with self.subTest(content=content):
+                if content is not None:
+                    manifest.write_text(content, encoding="ascii")
+                result = run_text(SHELL, block, self.folder)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertNotIn("OK  ", result.stdout)
+
+    @unittest.skipUnless(WINDOWS_SHELLS, "Windows PowerShell path handling")
+    def test_pasted_checks_in_a_project_with_brackets(self):
+        folder = self.folder / "Workshop [65]"
+        folder.mkdir()
+        archive, row = write_release(folder)
+        (folder / "MANIFEST.sha256").write_text(row, encoding="ascii")
+        cd = "Set-Location -LiteralPath '" + str(folder).replace("'", "''") + "'\n"
+        for heading, expected in (("**Other downloads.**", "OK  " + archive.name),
+                                  ("**4. Check an installed copy.**", "Verified 1 listed files.")):
+            result = run_text(WINDOWS_SHELLS[0], cd + guide_block(heading), self.folder,
+                              "-ExecutionPolicy", "Restricted", fresh=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn(expected, result.stdout)
 
     def test_the_check_of_an_installed_copy_passes_only_when_every_listed_file_matches(self):
         skill = self.folder / "cite-check"
