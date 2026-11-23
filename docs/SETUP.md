@@ -26,12 +26,20 @@ For a personal installation, use the personal folder in this table. Install one 
 | Codex | `.agents/skills/` | `~/.agents/skills/` |
 
 **3. Verify and install the ZIP.** Save [the PowerShell installer](../scripts/install_release_skill.ps1)
-using GitHub's **Download raw file** button, or use it from a clone. If you saved the script and
-release files in your Downloads folder, run this from your project in PowerShell.
+using GitHub's **Download raw file** button, or use it from a clone. It is a short script. Read it
+before you run it. If you saved the script and release files in your Downloads folder, run this
+from your project in PowerShell on Windows.
 
 ```powershell
-& "$HOME/Downloads/install_release_skill.ps1" -Archive "$HOME/Downloads/cite-check.zip" -SkillsDirectory ".claude/skills"
+powershell -ExecutionPolicy Bypass -File "$HOME/Downloads/install_release_skill.ps1" -Archive "$HOME/Downloads/cite-check.zip" -SkillsDirectory ".claude/skills"
 ```
+
+Windows does not start a downloaded script file unless it is told to. This form allows that one
+run and changes no setting on the computer. Calling the script directly stops with "running
+scripts is disabled on this system" on a Windows computer where no script policy has been set.
+If your computer is not allowed to run script files at all, use the steps under **By hand**
+below. Under PowerShell 7 on another system, start the script with `pwsh -File` and the same two
+options. The project's tests run it that way on Linux.
 
 The installer requires exactly one checksum for the chosen ZIP in the release's
 `SHA256SUMS.txt`. It checks the copy it will unpack and moves the complete skill into
@@ -39,13 +47,35 @@ place. Success names the ZIP and its destination. On a repeat install it stops. 
 upgrade with your existing copy, point `-SkillsDirectory` at a separate folder outside your
 host. You can then decide which personal edits to keep.
 
-**Without PowerShell.** From the download folder, run `shasum -a 256 cite-check.zip` on
-macOS or `sha256sum cite-check.zip` on Linux. Find the one line ending in two spaces and
+**By hand.** From the download folder, run `shasum -a 256 cite-check.zip` on
+macOS or `sha256sum cite-check.zip` on Linux. In PowerShell on Windows, paste
+`(Get-FileHash cite-check.zip -Algorithm SHA256).Hash`. It prints the hash in capital letters, so
+compare without regard to case. Find the one line ending in two spaces and
 `cite-check.zip` in the published checksum list. Continue only if the file exists, the entry
 appears exactly once and all 64 characters of the two hashes agree. Unpack into a new,
-empty folder outside the host. If the host already has a folder named `cite-check`, keep
+empty folder outside the host. In PowerShell that is
+`Expand-Archive cite-check.zip -DestinationPath` followed by the new folder's name. If the host already has a folder named `cite-check`, keep
 the unpacked copy separate. Otherwise move just the unpacked `cite-check` folder into the
 host's skills folder. Substitute the appropriate filename and folder for either other skill.
+
+**Other downloads.** The installer takes only the three skill ZIPs. To check every file you
+downloaded against the published list, paste this into PowerShell in the download folder.
+Commands pasted into the window are not script files, so the default policy does not stop them.
+
+```powershell
+Get-Content SHA256SUMS.txt | ForEach-Object {
+  $hash, $name = $_ -split '\s+', 2
+  if (Test-Path $name) {
+    $ok = (Get-FileHash $name -Algorithm SHA256).Hash.ToLower() -eq $hash
+    "{0}  {1}" -f ($(if ($ok) {'OK'} else {'MISMATCH'})), $name
+  }
+}
+```
+
+It prints one line for each listed file that is in the folder. On Linux, run
+`sha256sum -c SHA256SUMS.txt`. On macOS, run `shasum -a 256 -c SHA256SUMS.txt`. Both expect
+every listed file to be in the folder. A checksum shows the file matches the published one. It
+does not show the content is correct.
 
 **4. Check an installed copy.** Open the individual skill folder. Its `MANIFEST.sha256` lists
 the files shipped with it. Run `shasum -a 256 -c MANIFEST.sha256` on macOS or
@@ -64,11 +94,14 @@ foreach ($record in $records) {
 "Verified $($records.Count) listed files."
 ```
 
+The repository's own `scripts/skill_tools.py` and `tests/` are not in the ZIPs, so the maintainer
+commands in [CONTRIBUTING.md](../CONTRIBUTING.md) do not run in an installed copy.
+
 **5. Use it.** Ask for the task in plain words, or name the skill: `/cite-check`
 in Claude Code, `$cite-check` in Codex. On one Windows host, Claude Code desktop subagents
 selected skills from an earlier release in the [October trials](../evals/triggers/results/2026-10-24-claude-code-subagents.md).
 A [November probe](../evals/triggers/results/2026-11-10-listing-probe.md) found duplicate listings and
-incomplete descriptions. Discovery on a clean installation of this release and in Codex remains unmeasured.
+missing or incomplete descriptions. Discovery on a clean installation of this release and in Codex remains unmeasured.
 
 Other hosts:
 
